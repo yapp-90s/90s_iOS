@@ -7,26 +7,27 @@
 
 import UIKit
 
+/*
 protocol AlbumLayout {
-    var imageName: String
-    var layoutUid: Int
-    var layoutName: String
-    var size: CGSize
-    var deviceLowSize: CGSize
-    var innerFrameLowSize: CGSize
-    var deviceHighSize: CGSize
-    var innerFrameHighSize: CGSize
-    var dateLabelFrame: CGSize
-    var cropImageName: String
+    var imageName: String { get }
+    var layoutUid: Int { get }
+    var layoutName: String { get }
+    var size: CGSize { get }
+    var deviceLowSize: CGSize { get }
+    var innerFrameLowSize: CGSize { get }
+    var deviceHighSize: CGSize { get }
+    var innerFrameHighSize: CGSize { get }
+    var dateLabelFrame: CGSize { get }
+    var cropImageName: String { get }
 }
 
 extension AlbumLayout {
     var image: UIImage {
-        return UIImage(named: imageName)
+        return UIImage(named: imageName)!
     }
     
     var cropImage: UIImage {
-        return UIImage(named: cropImageName)
+        return UIImage(named: cropImageName)!
     }
 }
 
@@ -36,7 +37,7 @@ struct Pelaroid: AlbumLayout {
     let layoutName = "Polaroid"
     let size = CGSize(width: 184, height: 213)
     let deviceLowSize = CGSize(width: 290, height: 332)
-    let deviceHighSize =
+    let deviceHighSize = CGSize(width: 338, height: 463)
     let innerFrameLowSize = CGSize(width: 263, height: 257)
     let innerFrameHighSize = CGSize(width: 314, height: 306)
     let dateLabelFrame = CGSize(width: 40, height: 90)
@@ -120,6 +121,7 @@ struct Filmroll: AlbumLayout {
     let dateLabelFrame = CGSize(width: 50, height: 16)
     let cropImageName = "cropFilmroll"
 }
+*/
 
 // ------------------
 

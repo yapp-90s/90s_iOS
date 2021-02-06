@@ -14,7 +14,7 @@ protocol AlbumCover {
 
 extension AlbumCover {
     var image: UIImage {
-        return UIImage(named: imageName)
+        return UIImage(named: imageName)!
     }
 }
 
