@@ -6,30 +6,20 @@
 //
 
 import Foundation
-
-protocol FilmsViewModelType {
-    var inputs : FilmsViewModelInputs { get }
-    var outputs : FilmsViewModelOutputs { get }
-}
-
-protocol FilmsViewModelInputs {
-    
-}
-
-protocol FilmsViewModelOutputs {
-    
-}
+import RxSwift
 
 
-
-class FilmsViewModel : FilmsViewModelType, FilmsViewModelInputs, FilmsViewModelOutputs {
+class FilmsViewModel {
     private(set) var array : [TestFilm] = []
+    var FilmObservable = BehaviorSubject<[TestFilm]>(value: [])
     
-    var inputs: FilmsViewModelInputs { return self }
-    var outputs: FilmsViewModelOutputs { return self }
+    lazy var itemCount = FilmObservable.map {
+        $0.map { $0.filmName }.count
+    }
     
     init() {
         setDefaultData()
+        setObservableDefaultData()
     }
     
     func setDefaultData(){
@@ -38,7 +28,19 @@ class FilmsViewModel : FilmsViewModelType, FilmsViewModelInputs, FilmsViewModelO
             TestFilm(filmName: "귀여운필름", filmImage: "filmimg", filmType: FilmType.Cute),
             TestFilm(filmName: "멋있는필름", filmImage: "filmimg", filmType: FilmType.Nice),
             TestFilm(filmName: "차가운필름", filmImage: "filmimg", filmType: FilmType.Cold),
-            TestFilm(filmName: "차분한필름", filmImage: "filmimg", filmType: FilmType.Dandy)
+            TestFilm(filmName: "차분한필름", filmImage: "filmimg", filmType: FilmType.Dandy),
         ]
+    }
+    
+    func setObservableDefaultData(){
+        let films = [
+            TestFilm(filmName: "필름만들기", filmImage: "newfilmimg") ,
+            TestFilm(filmName: "귀여운필름", filmImage: "filmimg", filmType: FilmType.Cute),
+            TestFilm(filmName: "멋있는필름", filmImage: "filmimg", filmType: FilmType.Nice),
+            TestFilm(filmName: "차가운필름", filmImage: "filmimg", filmType: FilmType.Cold),
+            TestFilm(filmName: "차분한필름", filmImage: "filmimg", filmType: FilmType.Dandy),
+        ]
+        
+        FilmObservable.onNext(films)
     }
 }

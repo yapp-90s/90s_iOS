@@ -7,9 +7,15 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class FilmVC : UIViewController {
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
+    
+    private let viewModel = PhotoViewModel()
+    private var disposeBag = DisposeBag()
+    
     private var photoViewModel = PhotoViewModel().array
 
     // MARK: Life Cycles
@@ -17,6 +23,7 @@ class FilmVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
+//        setupCollectionViewDataSource()
     }
 }
 
@@ -41,11 +48,18 @@ extension FilmVC {
             $0.top.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    
+    private func setupCollectionViewDataSource(){
+        
+        viewModel.photoObservable
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmPhotoCollectionViewCell.photoCellID, cellType: FilmPhotoCollectionViewCell.self)) { index, item, cell in
+                cell.photoImageView.image = UIImage(named: item.image)
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
-// 데이터를 어떻게 넣어주어야할지 모르겠다 !
-
-extension FilmVC : UICollectionViewDataSource,  UICollectionViewDelegate {
+extension FilmVC :  UICollectionViewDelegate, UICollectionViewDataSource{
     
     // MARK: Header cell setting
     
@@ -64,7 +78,7 @@ extension FilmVC : UICollectionViewDataSource,  UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmPhotoCollectionViewCell.photoCellID, for: indexPath) as? FilmPhotoCollectionViewCell else { return UICollectionViewCell() }
         cell.photoImageView.image = UIImage(named: photoViewModel[indexPath.row].image)
-            
+
         return cell
     }
 }

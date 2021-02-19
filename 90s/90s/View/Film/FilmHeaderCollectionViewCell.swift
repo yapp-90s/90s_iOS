@@ -7,10 +7,13 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 /// 필름 뷰 상단 - 헤더셀 입니다
 class FilmHeaderCollectionViewCell: UICollectionViewCell {
     static let headerCellID = "headerCell"
+    private let viewModel = FilmsViewModel()
+    private var disposeBag = DisposeBag()
     
     /// 필름을 보여주는 콜렉션 뷰입니다
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -45,13 +48,12 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
         label.textColor = .gray
         return label
     }()
-    
-    private(set) var viewModel = FilmsViewModel().array
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpCollectionView()
         setUpSubviews()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -60,9 +62,24 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
 }
 
 extension FilmHeaderCollectionViewCell {
+    func bindViewModel(){
+        /// set CollectionView DataSource
+        viewModel.FilmObservable
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.filmCellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
+                cell.filmImageView.image = UIImage(named: item.filmImage)
+                cell.filmImageLabel.text = item.filmName
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.itemCount
+            .map { "총 \($0 - 1)개" }
+            .asDriver(onErrorJustReturn: "")
+            .drive(filmCountLabel.rx.text)
+            .disposed(by: disposeBag)
+    }
+    
     func setUpCollectionView(){
         collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.backgroundColor = .white
         
         let layout = UICollectionViewFlowLayout()
@@ -107,24 +124,11 @@ extension FilmHeaderCollectionViewCell {
             $0.right.equalTo(-35)
             $0.top.equalTo(collectionView.snp.bottom).offset(44)
         }
-        
-        filmCountLabel.text = "총 \(viewModel.count - 1)개"
     }
 }
 
 
-extension FilmHeaderCollectionViewCell : UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmCollectionViewCell.filmCellID, for: indexPath) as? FilmCollectionViewCell else { return UICollectionViewCell() }
-        cell.filmImageView.image = UIImage(named: viewModel[indexPath.row].filmImage)
-        cell.filmImageLabel.text = viewModel[indexPath.row].filmName
-        return cell
-    }
-
+extension FilmHeaderCollectionViewCell : UICollectionViewDelegate  {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 18
     }

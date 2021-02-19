@@ -7,6 +7,8 @@ target '90s' do
 
   # Pods for 90s
  pod 'SnapKit', '~> 5.0.0'
- pod 'RxSwift'
+ pod 'RxSwift' 
+ pod 'RxCocoa'
+ pod 'RxDataSources', '~> 4.0'
 
 end
