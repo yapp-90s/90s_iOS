@@ -10,5 +10,6 @@ target '90s' do
  pod 'RxSwift' 
  pod 'RxCocoa'
  pod 'RxDataSources', '~> 4.0'
-
+ pod 'RxAlamofire'
+ pod 'RealmSwift'
 end
