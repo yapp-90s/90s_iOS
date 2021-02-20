@@ -15,7 +15,7 @@ class DecorateContainerViewController: UIViewController {
     // MARK: - Views
     
     private var photoDecoreateVC = PhotoDecorateViewController()
-    private var stickerPackVC = StickerPackViewController()
+    private var stickerPackVC = StickerPackListViewController()
     private lazy var subNavigationController: UINavigationController = {
         let nav = UINavigationController(rootViewController: stickerPackVC)
         return nav
