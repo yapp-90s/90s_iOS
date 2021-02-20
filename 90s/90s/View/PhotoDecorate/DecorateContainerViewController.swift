@@ -10,54 +10,54 @@ import SnapKit
 
 class DecorateContainerViewController: UIViewController {
     
+    // MARK: - Properties
+    
+    // MARK: - Views
+    
     private var photoDecoreateVC = PhotoDecorateViewController()
     private var stickerPackVC = StickerPackViewController()
-    private var stickersVC = StickersViewController()
-    private var addAlbumVC = AddAlbumViewController()
+    private lazy var subNavigationController: UINavigationController = {
+        let nav = UINavigationController(rootViewController: stickerPackVC)
+        return nav
+    }()
     
     private var photoDecorateView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
     private var supplementaryView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupLayouts()
     }
+    
+    // MARK: - Initialize
     
     private func setupViews() {
         view.addSubview(photoDecorateView)
         view.addSubview(supplementaryView)
         
         addChild(photoDecoreateVC)
-        addChild(stickerPackVC)
-        
-        stickerPackVC.tapHandler = { [unowned self] in
-            self.stickerPackVC.willMove(toParent: nil)
-            self.stickerPackVC.view.removeFromSuperview()
-            self.stickerPackVC.removeFromParent()
-            
-            addChild(stickersVC)
-            self.supplementaryView.addSubview(self.stickersVC.view)
-            self.stickersVC.didMove(toParent: self)
-            
-            self.stickersVC.view.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-        }
+        addChild(subNavigationController)
         
         photoDecorateView.addSubview(photoDecoreateVC.view)
-        supplementaryView.addSubview(stickerPackVC.view)
-        photoDecoreateVC.didMove(toParent: self)
-        stickerPackVC.didMove(toParent: self)
+        supplementaryView.addSubview(subNavigationController.view)
         
+        photoDecoreateVC.didMove(toParent: self)
+        subNavigationController.didMove(toParent: self)
+    }
+    
+    private func setupLayouts() {
         photoDecorateView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
@@ -76,7 +76,7 @@ class DecorateContainerViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        stickerPackVC.view.snp.makeConstraints {
+        subNavigationController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

@@ -12,8 +12,7 @@ class StickerPackViewController: UIViewController {
     
     lazy var button: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("HELLO", for: .normal)
+        button.setTitle("스티커팩 보여줘", for: .normal)
         button.addTarget(self, action: #selector(didTapButton(_:)), for: .touchUpInside)
         return button
     }()
@@ -25,6 +24,7 @@ class StickerPackViewController: UIViewController {
         view.backgroundColor = .systemBlue
         
         view.addSubview(button)
+        
         button.snp.makeConstraints {
             $0.center.equalTo(view.snp.center)
         }
@@ -32,10 +32,10 @@ class StickerPackViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     @objc func didTapButton(_ sender: UIButton) {
-        tapHandler?()
+        navigationController?.pushViewController(StickersViewController(), animated: true)
     }
 }

@@ -13,4 +13,9 @@ class StickersViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .green
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 }
