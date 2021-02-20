@@ -12,14 +12,13 @@ import SnapKit
 class FilmCollectionViewCell: UICollectionViewCell {
     static let filmCellID = "filmCell"
     
-    var filmImageView : UIImageView = {
+    private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.backgroundColor = .gray
         iv.layer.cornerRadius = 10
         return iv
     }()
     
-    var filmImageLabel : UILabel = {
+    private var filmImageLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = label.font.withSize(13)
         return label
@@ -53,7 +52,7 @@ class FilmCollectionViewCell: UICollectionViewCell {
     }
     
     func bindItem(film : Film){
-        filmImageView.image = UIImage(named: film.photos.first!.url)
+        filmImageView.image = UIImage(named: film.filterType.image()) 
         filmImageLabel.text = film.name
     }
 }

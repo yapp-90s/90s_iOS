@@ -42,30 +42,18 @@ enum FilmStateType : Int {
     case printing = 1
     case complete = 2
     
-    func contentTitle() -> String {
+    func image() -> String {
         switch self {
-        case .adding : return "사진 추가 중"
-        case .printing : return "인화중"
-        case .complete : return "인화완료"
+        case .adding: return "filmstateaddimg"
+        case .printing: return "filmstateprintimg"
+        case .complete: return "filmstatecompleteimg"
         }
     }
 }
 
-// MARK: 임시로 만든 필름 데이터
-
-struct TestFilm {
-    var filmName : String
-    var filmImage : String
-    var filmType : FilmFilterType?
-}
-
-extension TestFilm : Equatable {
-    static func ==(lrs : TestFilm, rls : TestFilm) -> Bool {
-        return lrs.filmName == rls.filmName
-    }
-}
-
+/// Film 필터 종류
 enum FilmFilterType {
+    case Create
     case Cold
     case Cute
     case Nice
@@ -75,5 +63,14 @@ enum FilmFilterType {
 extension FilmFilterType {
     var count: Int {
         self.hashValue
+    }
+    
+    func image() -> String {
+        switch self {
+        case .Create:
+            return "newfilmimg"
+        case .Cold, .Cute, .Nice, .Hot, .Dandy :
+            return "filmimg"
+        }
     }
 }
