@@ -18,6 +18,7 @@ struct Photo {
     }
 }
 
+
 extension Photo: Equatable {
     static func ==(lhs: Photo, rhs: Photo) -> Bool {
         return lhs.id == rhs.id
@@ -26,4 +27,11 @@ extension Photo: Equatable {
     static func ==(lhs: Photo, rhs: String) -> Bool {
         return lhs.id == rhs
     }
+}
+
+
+// MARK: 임시로 만든 사진 데이터
+
+struct TestPhoto {
+    var image: String
 }

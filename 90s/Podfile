@@ -6,13 +6,9 @@ target '90s' do
   use_frameworks!
 
   # Pods for 90s
- pod 'Alamofire'
- pod 'AlamofireImage'
- pod 'lottie-ios'
- pod 'KakaoOpenSDK'
-
- pod 'RxSwift'
+ pod 'SnapKit', '~> 5.0.0'
+ pod 'RxSwift' 
  pod 'RxCocoa'
- pod 'RxAlamofire'
- pod 'RealmSwift'
+ pod 'RxDataSources', '~> 4.0'
+
 end
