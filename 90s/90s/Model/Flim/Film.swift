@@ -10,11 +10,13 @@ import Foundation
 struct Film {
     let id: String
     var name: String
-    let createDate: String
+    let createDate: String = Date().dateToString()
     var completeDate: String?
-    let filter: String
+    var filterType : FilmFilterType
+//    let filter: String
     private(set) var photos: [Photo]
     let maxCount: Int
+    var state : FilmStateType = .adding
     
     @discardableResult
     mutating func add(_ photo: Photo) -> Bool {
@@ -34,13 +36,27 @@ extension Film {
     }
 }
 
-// MARK: 임시로 만든 필름 데이터
+/// Film 제작의 상태표
+enum FilmStateType : Int {
+    case adding = 0
+    case printing = 1
+    case complete = 2
+    
+    func contentTitle() -> String {
+        switch self {
+        case .adding : return "사진 추가 중"
+        case .printing : return "인화중"
+        case .complete : return "인화완료"
+        }
+    }
+}
 
+// MARK: 임시로 만든 필름 데이터
 
 struct TestFilm {
     var filmName : String
     var filmImage : String
-    var filmType : FilmType?
+    var filmType : FilmFilterType?
 }
 
 extension TestFilm : Equatable {
@@ -49,14 +65,14 @@ extension TestFilm : Equatable {
     }
 }
 
-enum FilmType {
+enum FilmFilterType {
     case Cold
     case Cute
     case Nice
     case Hot
     case Dandy
 }
-extension FilmType {
+extension FilmFilterType {
     var count: Int {
         self.hashValue
     }
