@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */; };
+		4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */; };
 		4CE649F625E0DEC80093D238 /* AddAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */; };
 		4CE649F725E0DEC80093D238 /* StickerPackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */; };
 		4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewController.swift; sourceTree = "<group>"; };
+		4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackCategory.swift; sourceTree = "<group>"; };
 		4C5D343625CFC06900228CFF /* PhotoDecorateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDecorateViewModel.swift; sourceTree = "<group>"; };
 		4C5D343B25CFC98900228CFF /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		4C5D346F25CFDC8800228CFF /* DecorateContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecorateContainerViewController.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 			children = (
 				653F7D812598850D002CD12A /* Sticker.swift */,
 				65B2657E25CE8E2300ED9CEA /* StickerPack.swift */,
+				4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */,
 			);
 			path = Sticker;
 			sourceTree = "<group>";
@@ -470,6 +473,7 @@
 				653F7D8425988510002CD12A /* User.swift in Sources */,
 				4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */,
 				653F7D7C2598849B002CD12A /* Album.swift in Sources */,
+				4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */,
 				654C7470259C4872007B1D4A /* AlbumCover.swift in Sources */,
 				652BC1CD25E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift in Sources */,
 				653F7D822598850D002CD12A /* Sticker.swift in Sources */,

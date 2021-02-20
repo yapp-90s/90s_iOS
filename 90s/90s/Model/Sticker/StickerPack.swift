@@ -13,10 +13,3 @@ struct StickerPack {
     let stickers: [Sticker]
     let category: StickerPackCategory
 }
-
-enum StickerPackCategory {
-    case basic
-    case brink
-    case dark
-    case cuty
-}
