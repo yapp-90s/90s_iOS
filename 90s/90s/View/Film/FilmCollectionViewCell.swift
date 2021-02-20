@@ -51,4 +51,9 @@ class FilmCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(filmImageView.snp.bottom).offset(7)
         }
     }
+    
+    func bindItem(film : Film){
+        filmImageView.image = UIImage(named: film.photos.first!.url)
+        filmImageLabel.text = film.name
+    }
 }

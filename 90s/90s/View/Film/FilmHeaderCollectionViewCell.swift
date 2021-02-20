@@ -12,6 +12,7 @@ import RxSwift
 /// 필름 뷰 상단 - 헤더셀 입니다
 class FilmHeaderCollectionViewCell: UICollectionViewCell {
     static let headerCellID = "headerCell"
+    
     private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
     
@@ -66,8 +67,7 @@ extension FilmHeaderCollectionViewCell {
         /// set CollectionView DataSource
         viewModel.FilmObservable
             .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.filmCellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
-                cell.filmImageView.image = UIImage(named: item.filmImage)
-                cell.filmImageLabel.text = item.filmName
+                cell.bindItem(film: item)
             }
             .disposed(by: disposeBag)
         
