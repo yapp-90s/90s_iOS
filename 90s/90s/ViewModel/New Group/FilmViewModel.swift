@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 
-
 class FilmsViewModel {
     private(set) var array : [TestFilm] = []
     var FilmObservable = BehaviorSubject<[TestFilm]>(value: [])
