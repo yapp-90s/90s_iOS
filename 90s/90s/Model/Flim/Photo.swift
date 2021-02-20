@@ -35,4 +35,3 @@ extension Photo: Equatable {
 struct TestPhoto {
     var image: String
 }
-
