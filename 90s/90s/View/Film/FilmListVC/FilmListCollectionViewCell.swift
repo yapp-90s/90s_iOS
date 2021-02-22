@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
 class FilmListCollectionViewCell: UICollectionViewCell {
@@ -15,6 +17,7 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleAspectFit
+        iv.backgroundColor = .white
         return iv
     }()
     
@@ -28,13 +31,15 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpSubView(){
+        self.addSubview(imageView)
+        
         imageView.snp.makeConstraints {
             $0.edges.equalTo(self)
         }
     }
     
-    func bindViewModel(item: UIImage){
-        imageView.image = item
+    func bindViewModel(item: Photo){
+        imageView.image = UIImage(named: item.url)
     }
 }
 
