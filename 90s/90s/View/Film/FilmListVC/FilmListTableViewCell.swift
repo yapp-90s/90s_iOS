@@ -42,6 +42,7 @@ class FilmListTableViewCell: UITableViewCell {
     /// 필름 상태를 보여주는 이미지 뷰
     private var FilmTypeImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
+        iv.contentMode = .scaleAspectFit
         return iv
     }()
     
