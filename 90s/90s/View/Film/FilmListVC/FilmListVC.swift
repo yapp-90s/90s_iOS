@@ -40,7 +40,7 @@ class FilmListVC: UIViewController {
         super.viewDidLoad()
         setUpTableView()
         setSection()
-        bindViewModel()
+//        bindViewModel()
     }
 }
 
@@ -61,8 +61,9 @@ extension FilmListVC : UITableViewDelegate {
     private func setSection(){
         section = [
             FilmListSectionData(header: "사진을 추가해주세요!", items: viewModel.getStateData(state: .adding)),
-            FilmListSectionData(header: "지금 인화하고 있어요", items: viewModel.getStateData(state: .adding)),
-            FilmListSectionData(header: "", items: viewModel.getStateData(state: .adding))
+            FilmListSectionData(header: "지금 인화하고 있어요", items: viewModel.getStateData(state: .printing)),
+            FilmListSectionData(header: "", items:
+                viewModel.getStateData(state: .complete))
         ]
         
         dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionData> (configureCell: { dataSource, tableView, indexPath, item in
@@ -73,6 +74,10 @@ extension FilmListVC : UITableViewDelegate {
         }, titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
         })
+        
+        Observable.just(section)
+            .bind(to: tableView.rx.items(dataSource: dataSource!))
+            .disposed(by: disposeBag)
     }
     
     private func bindViewModel(){
@@ -84,10 +89,6 @@ extension FilmListVC : UITableViewDelegate {
                 
                 return cell
             }
-            .disposed(by: disposeBag)
-        
-        Observable.just(section)
-            .bind(to: tableView.rx.items(dataSource: dataSource!))
             .disposed(by: disposeBag)
     }
     

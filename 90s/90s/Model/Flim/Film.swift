@@ -16,7 +16,7 @@ struct Film {
     var completeDate: String?
     var filterType : FilmFilterType
 //    let filter: String
-    private(set) var photos: BehaviorRelay<[Photo]>
+    private(set) var photos: [Photo]
     
     let maxCount: Int
     var state : FilmStateType = .adding
@@ -24,18 +24,18 @@ struct Film {
     @discardableResult
     mutating func add(_ photo: Photo) -> Bool {
         guard !isFull else { return false }
-        photos.accept([photo])
+        photos.append(photo)
         return true
     }
 }
 
 extension Film {
     var count: Int {
-        photos.value.count
+        photos.count
     }
     
     var isFull: Bool {
-        photos.value.count == maxCount
+        photos.count == maxCount
     }
 }
 

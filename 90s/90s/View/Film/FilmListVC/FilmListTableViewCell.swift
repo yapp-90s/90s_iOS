@@ -127,16 +127,12 @@ extension FilmListTableViewCell {
         viewModel.FilmObservable
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
                 
-                cell.bindViewModel(item: item.photos.value[index])
+                cell.bindViewModel(item: item.photos[index])
         }
         .disposed(by: disposeBag)
     }
     
-    func setUpCollectionViewDataSource(film: Film){
-        film.photos.bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
-            cell.bindViewModel(item: item)
-        }.disposed(by: disposeBag)
-    }
+   
     
     func bindViewModel(film: Film){
         FilmTitleImageView.image = UIImage(named: film.filterType.image())
