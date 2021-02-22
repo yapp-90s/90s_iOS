@@ -7,8 +7,6 @@
 
 import UIKit
 import SnapKit
-import RxSwift
-import RxCocoa
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
 class FilmListCollectionViewCell: UICollectionViewCell {

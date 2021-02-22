@@ -52,8 +52,8 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpCollectionView()
         setUpSubviews()
+        setUpCollectionView()
         bindViewModel()
     }
     
@@ -63,34 +63,7 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
 }
 
 extension FilmHeaderCollectionViewCell {
-    func bindViewModel(){
-        /// set CollectionView DataSource
-        viewModel.FilmObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.filmCellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
-                cell.bindItem(film: item)
-            }
-            .disposed(by: disposeBag)
-        
-        viewModel.itemCount
-            .map { "총 \($0 - 1)개" }
-            .asDriver(onErrorJustReturn: "")
-            .drive(filmCountLabel.rx.text)
-            .disposed(by: disposeBag)
-    }
-    
-    func setUpCollectionView(){
-        collectionView.delegate = self
-        collectionView.backgroundColor = .white
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        collectionView.collectionViewLayout = layout
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(FilmCollectionViewCell.self, forCellWithReuseIdentifier: FilmCollectionViewCell.filmCellID)
-    }
-    
-    func setUpSubviews(){
+    private func setUpSubviews(){
         contentView.isUserInteractionEnabled = true
         
         self.addSubview(collectionView)
@@ -124,6 +97,33 @@ extension FilmHeaderCollectionViewCell {
             $0.right.equalTo(-35)
             $0.top.equalTo(collectionView.snp.bottom).offset(44)
         }
+    }
+    
+    private func setUpCollectionView(){
+        collectionView.delegate = self
+        collectionView.backgroundColor = .white
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        collectionView.collectionViewLayout = layout
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(FilmCollectionViewCell.self, forCellWithReuseIdentifier: FilmCollectionViewCell.filmCellID)
+    }
+    
+    private func bindViewModel(){
+        /// set CollectionView DataSource
+        viewModel.FilmObservable
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.filmCellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
+                cell.bindItem(film: item)
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.itemCount
+            .map { "총 \($0 - 1)개" }
+            .asDriver(onErrorJustReturn: "")
+            .drive(filmCountLabel.rx.text)
+            .disposed(by: disposeBag)
     }
 }
 
