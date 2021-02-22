@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 struct Film {
     let id: String
@@ -15,6 +16,7 @@ struct Film {
     var filterType : FilmFilterType
 //    let filter: String
     private(set) var photos: [Photo]
+    
     let maxCount: Int
     var state : FilmStateType = .adding
     
