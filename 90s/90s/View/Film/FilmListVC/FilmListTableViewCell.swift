@@ -20,6 +20,7 @@ class FilmListTableViewCell: UITableViewCell {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsHorizontalScrollIndicator = false
+        cv.isUserInteractionEnabled = false
         return cv
     }()
     
@@ -50,6 +51,7 @@ class FilmListTableViewCell: UITableViewCell {
         return iv
     }()
     
+    /// 필름 배경 이미지 뷰
     private var FilmBackgroudImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
 //        iv.image = UIImage(named: "film_preview_roll")
@@ -61,7 +63,7 @@ class FilmListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
-        setUpCollectionView()
+//        setUpCollectionViewDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -70,7 +72,7 @@ class FilmListTableViewCell: UITableViewCell {
 }
 
 
-extension FilmListTableViewCell : UICollectionViewDelegate {
+extension FilmListTableViewCell {
     private func setUpSubViews(){
         self.addSubview(FilmBackgroudImageView)
         self.addSubview(FilmTitleImageView)
@@ -79,6 +81,8 @@ extension FilmListTableViewCell : UICollectionViewDelegate {
         self.addSubview(FilmCount_DateLabel)
         self.addSubview(FilmTypeImageView)
         
+        collectionView.delegate = self
+        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
        
         FilmTitleImageView.snp.makeConstraints {
             $0.width.equalTo(100)
@@ -88,14 +92,14 @@ extension FilmListTableViewCell : UICollectionViewDelegate {
         }
         
         FilmBackgroudImageView.snp.makeConstraints {
-            $0.width.equalTo(275)
+            $0.left.equalTo(FilmTitleImageView.snp.right).offset(-2)
             $0.height.equalTo(110)
             $0.right.equalTo(-28)
             $0.top.equalTo(30)
         }
         
         collectionView.snp.makeConstraints {
-            $0.left.equalTo(FilmBackgroudImageView.snp.left).offset(8)
+            $0.left.equalTo(FilmTitleImageView.snp.right).offset(10)
             $0.right.equalTo(FilmBackgroudImageView.snp.right)
             $0.top.equalTo(FilmBackgroudImageView.snp.top).offset(15)
             $0.bottom.equalTo(FilmBackgroudImageView.snp.bottom).offset(-15)
@@ -119,15 +123,19 @@ extension FilmListTableViewCell : UICollectionViewDelegate {
         }
     }
     
-    func setUpCollectionView(){
-        collectionView.delegate = self
-        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
-        
+    func setUpCollectionViewDataSource(){
         viewModel.FilmObservable
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
-            cell.bindViewModel(item: item.photos[index])
+                
+                cell.bindViewModel(item: item.photos.value[index])
         }
         .disposed(by: disposeBag)
+    }
+    
+    func setUpCollectionViewDataSource(film: Film){
+        film.photos.bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
+            cell.bindViewModel(item: item)
+        }.disposed(by: disposeBag)
     }
     
     func bindViewModel(film: Film){
@@ -139,11 +147,13 @@ extension FilmListTableViewCell : UICollectionViewDelegate {
 }
 
 
-extension FilmListTableViewCell : UICollectionViewDelegateFlowLayout {
+extension FilmListTableViewCell : UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 6
     }
-    
+}
+
+extension FilmListTableViewCell : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 80)
     }

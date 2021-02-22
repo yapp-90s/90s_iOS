@@ -17,7 +17,7 @@ extension Box {
     }
     
     mutating func add(_ film: Film) {
-        add(film.photos)
+//        add(film.photos)
     }
     
     @discardableResult

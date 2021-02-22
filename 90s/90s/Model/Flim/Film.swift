@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 struct Film {
     let id: String
@@ -15,7 +16,7 @@ struct Film {
     var completeDate: String?
     var filterType : FilmFilterType
 //    let filter: String
-    private(set) var photos: [Photo]
+    private(set) var photos: BehaviorRelay<[Photo]>
     
     let maxCount: Int
     var state : FilmStateType = .adding
@@ -23,29 +24,31 @@ struct Film {
     @discardableResult
     mutating func add(_ photo: Photo) -> Bool {
         guard !isFull else { return false }
-        photos.append(photo)
+        photos.accept([photo])
         return true
     }
 }
 
 extension Film {
     var count: Int {
-        photos.count
+        photos.value.count
     }
     
     var isFull: Bool {
-        photos.count == maxCount
+        photos.value.count == maxCount
     }
 }
 
 /// Film 제작의 상태표
 enum FilmStateType : Int {
-    case adding = 0
-    case printing = 1
-    case complete = 2
+    case create = 0
+    case adding = 1
+    case printing = 2
+    case complete = 3
     
     func image() -> String {
         switch self {
+        case .create: return ""
         case .adding: return "filmstateaddimg"
         case .printing: return "filmstateprintimg"
         case .complete: return "filmstatecompleteimg"
