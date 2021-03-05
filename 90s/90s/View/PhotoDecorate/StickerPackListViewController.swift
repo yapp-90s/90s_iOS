@@ -14,6 +14,7 @@ class StickerPackListViewController: UIViewController {
     struct Constraints {
         static let categoryLabelHeight: CGFloat = 44
         static let categoryLabelsInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: -20)
+        static let packSize: CGSize = .init(width: 92, height: 140)
     }
     
     // MARK: - Properties
@@ -131,6 +132,6 @@ extension StickerPackListViewController: UICollectionViewDelegate {
 
 extension StickerPackListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: 92, height: 140)
+        return Constraints.packSize
     }
 }
