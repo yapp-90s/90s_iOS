@@ -9,10 +9,10 @@ import RxSwift
 import RxRelay
 
 class StickerPackViewModel: ViewModelType {
-    var dependency: Dependency
-    var input = Input()
-    var output = Output()
-    var disposeBag = DisposeBag()
+    private(set) var dependency: Dependency
+    private(set) var input = Input()
+    private(set) var output = Output()
+    private(set) var disposeBag = DisposeBag()
 
     required init(dependency: Dependency) {
         self.dependency = dependency

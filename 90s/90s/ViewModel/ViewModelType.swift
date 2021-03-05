@@ -13,7 +13,7 @@ protocol ViewModelType {
     associatedtype Output
 
     var dependency: Dependency { get }
-    var disposeBag: DisposeBag { get set }
+    var disposeBag: DisposeBag { get }
     
     var input: Input { get }
     var output: Output { get }
