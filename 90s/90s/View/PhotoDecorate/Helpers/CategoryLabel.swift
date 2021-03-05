@@ -9,6 +9,10 @@ import UIKit
 
 class CategoryLabel: HighlightButton {
     
+    var text: String {
+        return titleLabel?.text ?? ""
+    }
+    
     var label: String = "" {
         didSet {
             setTitle(label, for: .normal)
