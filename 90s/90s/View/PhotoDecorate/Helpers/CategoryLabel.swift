@@ -15,10 +15,19 @@ class CategoryLabel: HighlightButton {
         }
     }
     
+    override var isSelected: Bool {
+        didSet {
+            setTitleColor(.white, for: .selected)
+            setTitleColor(.lightGray, for: .normal)
+        }
+    }
+    
     init(label: String) {
         super.init(frame: .zero)
         self.label = label
         setTitle(label, for: .normal)
+        setTitleColor(.lightGray, for: .normal)
+        setTitleColor(.white, for: .selected)
     }
     
     required init?(coder: NSCoder) {
