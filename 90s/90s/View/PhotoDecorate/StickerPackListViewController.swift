@@ -101,6 +101,12 @@ class StickerPackListViewController: UIViewController {
                 return cell
             }
             .disposed(by: disposeBag)
+        
+        viewModel.output.showStickersOfPack
+            .subscribe(onNext: { [weak self] pack in
+                self?.presentStickerPack(for: pack)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Methods
@@ -126,7 +132,7 @@ class StickerPackListViewController: UIViewController {
 
 extension StickerPackListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        viewModel.input.selectedStickerPack.onNext(indexPath.item)
     }
 }
 

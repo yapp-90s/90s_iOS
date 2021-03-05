@@ -25,6 +25,13 @@ class StickerPackViewModel: ViewModelType {
             .map { dependency.stickerFactory.stickerPackList(of: $0) }
             .bind(to: output.stickerPackList)
             .disposed(by: disposeBag)
+        
+        input.selectedStickerPack
+            .subscribe(onNext: {[unowned self] index in
+                let packs = dependency.stickerFactory.stickerPackList(of: self.output.currentCategory.value)
+                self.output.showStickersOfPack.onNext(packs[index])
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -41,5 +48,6 @@ extension StickerPackViewModel {
     struct Output {
         var currentCategory = BehaviorRelay<StickerPackCategory>(value: .basic)
         var stickerPackList = BehaviorRelay<[StickerPack]>(value: [])
+        var showStickersOfPack = PublishSubject<StickerPack>()
     }
 }
