@@ -12,6 +12,7 @@ class StickerPackListViewController: UIViewController {
     
     struct Constraints {
         static let categoryLabelHeight: CGFloat = 44
+        static let categoryLabelsInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: -20)
     }
     
     // MARK: - Views
@@ -23,6 +24,7 @@ class StickerPackListViewController: UIViewController {
             return label
         }
         let scrollStackView = ScrollStackView(views: categoryLabels)
+        scrollStackView.contentInset = Constraints.categoryLabelsInset
         
         return scrollStackView
     }()

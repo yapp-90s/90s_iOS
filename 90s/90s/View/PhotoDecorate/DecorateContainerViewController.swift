@@ -58,18 +58,18 @@ class DecorateContainerViewController: UIViewController {
     }
     
     private func setupLayouts() {
+        supplementaryView.snp.makeConstraints {
+            $0.height.equalTo(250)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+
         photoDecorateView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
-            $0.height.equalTo(view.safeAreaLayoutGuide.snp.height).multipliedBy(0.6)
-        }
-        
-        supplementaryView.snp.makeConstraints {
-            $0.top.equalTo(photoDecorateView.snp.bottom)
-            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalTo(supplementaryView.snp.top)
         }
         
         photoDecoreateVC.view.snp.makeConstraints {
