@@ -11,57 +11,17 @@ import SnapKit
 class StickerPackListViewController: UIViewController {
     
     struct Constraints {
-        static let categoryLabelHeight: CGFloat = 44 + categoryInset.bottom + categoryInset.top
-        static let categorySpacing: CGFloat = 100
-        static let categoryInset: UIEdgeInsets = .init(top: 10, left: 20, bottom: -10, right: -20)
+        static let categoryLabelHeight: CGFloat = 44
     }
     
     // MARK: - Views
-    
-    private lazy var categoryScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.addSubview(categoryView)
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        
-        return scrollView
-    }()
 
-    private var categoryView: UIView = {
-        let view = UIView()
+    private let scrollStackView: ScrollStackView = {
+        let categoryLabels = StickerPackCategory.allCases.map { CategoryLabel(label: $0.description) }
+        let scrollStackView = ScrollStackView(views: categoryLabels)
         
-        return view
+        return scrollStackView
     }()
-    
-//    private var stickerPackListCollectionView: UICollectionView = {
-//        let collectionView = UICollectionView()
-//
-//        return collectionView
-//    }()
-    
-    private lazy var categoryStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.spacing = Constraints.categorySpacing
-        categoryLabels.forEach { stackView.addArrangedSubview($0) }
-        
-        return stackView
-    }()
-    
-    private var categoryLabels: [UILabel] = {
-        return StickerPackCategory.allCases.map { category -> UILabel in
-            let label = UILabel()
-            label.text = category.description
-            
-            return label
-        }
-    }()
-    
-    private var contentSizeOfCategoryLabels: CGSize {
-        return CGSize(width: categoryLabels.reduce(0, { $0 + $1.intrinsicContentSize.width }), height: Constraints.categoryLabelHeight)
-    }
-    
     
     // MARK: - View Life Cycle
 
@@ -84,19 +44,13 @@ class StickerPackListViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.addSubview(categoryScrollView)
-        categoryScrollView.addSubview(categoryStackView)
+        view.addSubview(scrollStackView)
     }
     
     private func setupLayouts() {
-        categoryScrollView.snp.makeConstraints {
+        scrollStackView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constraints.categoryLabelHeight)
-        }
-        
-        categoryStackView.snp.makeConstraints {
-            $0.edges.equalTo(categoryScrollView.contentLayoutGuide).inset(Constraints.categoryInset)
-            $0.height.equalTo(categoryScrollView.contentLayoutGuide)
+            $0.height.equalTo(Constraints.categoryLabelHeight + scrollStackView.inset.top + scrollStackView.inset.bottom)
         }
     }
 }
