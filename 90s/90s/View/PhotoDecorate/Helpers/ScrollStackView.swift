@@ -9,14 +9,6 @@ import UIKit
 
 class ScrollStackView: UIScrollView {
     
-    var inset: UIEdgeInsets {
-        didSet {
-            contentStackView.snp.updateConstraints {
-                $0.edges.equalTo(self.contentLayoutGuide).inset(inset)
-            }
-        }
-    }
-    
     var spacing: CGFloat {
         didSet { contentStackView.spacing = spacing }
     }
@@ -24,23 +16,21 @@ class ScrollStackView: UIScrollView {
     private(set) lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
         stackView.spacing = spacing
+        stackView.alignment = .center
         
         return stackView
     }()
 
-    init(views: [UIView],
-         spacing: CGFloat = 30,
-         inset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: -20)) {
+    init(views: [UIView], spacing: CGFloat = 30) {
         self.spacing = 30
-        self.inset = inset
         super.init(frame: .zero)
         self.showsHorizontalScrollIndicator = false
         self.showsVerticalScrollIndicator = false
         addSubview(contentStackView)
         contentStackView.snp.makeConstraints {
-            $0.edges.equalTo(self.contentLayoutGuide).inset(inset)
+            $0.centerY.equalToSuperview()
+            $0.leading.trailing.equalTo(self.contentLayoutGuide)
         }
         
         views.forEach { contentStackView.addArrangedSubview($0) }
