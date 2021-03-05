@@ -16,8 +16,12 @@ class StickerPackListViewController: UIViewController {
     
     // MARK: - Views
 
-    private let scrollStackView: ScrollStackView = {
-        let categoryLabels = StickerPackCategory.allCases.map { CategoryLabel(label: $0.description) }
+    private let categoryListView: ScrollStackView = {
+        let categoryLabels = StickerPackCategory.allCases.map { category -> CategoryLabel in
+            let label = CategoryLabel(label: category.description)
+            label.addTarget(self, action: #selector(touchedCategory), for: .touchUpInside)
+            return label
+        }
         let scrollStackView = ScrollStackView(views: categoryLabels)
         
         return scrollStackView
@@ -44,13 +48,26 @@ class StickerPackListViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.addSubview(scrollStackView)
+        view.addSubview(categoryListView)
     }
     
     private func setupLayouts() {
-        scrollStackView.snp.makeConstraints {
+        categoryListView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constraints.categoryLabelHeight + scrollStackView.inset.top + scrollStackView.inset.bottom)
+            $0.height.equalTo(Constraints.categoryLabelHeight + categoryListView.inset.top + categoryListView.inset.bottom)
         }
+    }
+    
+    // MARK: - Methods
+    
+    @objc func touchedCategory(_ sender: CategoryLabel) {
+        guard let index = StickerPackCategory.allCases.firstIndex(where: { $0.description == sender.label }) else { return }
+        presentStickerPack(for: StickerPackCategory.allCases[index])
+    }
+    
+    private func presentStickerPack(for category: StickerPackCategory) {
+        let stickerPackVC = StickerPackViewController()
+        stickerPackVC.modalPresentationStyle = .currentContext
+        present(stickerPackVC, animated: true, completion: nil)
     }
 }
