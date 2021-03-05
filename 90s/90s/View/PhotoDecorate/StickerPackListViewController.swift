@@ -106,7 +106,7 @@ class StickerPackListViewController: UIViewController {
     
     @objc private func touchedCategory(_ sender: CategoryLabel) {
         guard let index = StickerPackCategory.allCases.firstIndex(where: { $0.description == sender.label }) else { return }
-        viewModel.input.selectCategory.onNext(StickerPackCategory.allCases[index])
+        viewModel.input.selectedCategory.onNext(StickerPackCategory.allCases[index])
     }
     
     private func selectCategory(to category: StickerPackCategory) {
@@ -126,7 +126,6 @@ class StickerPackListViewController: UIViewController {
 extension StickerPackListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        presentStickerPack(for: <#T##StickerPackCategory#>)
     }
 }
 

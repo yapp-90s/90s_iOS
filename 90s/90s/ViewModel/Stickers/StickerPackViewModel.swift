@@ -20,26 +20,26 @@ class StickerPackViewModel: ViewModelType {
         input.selectedCategory
             .bind(to: output.currentCategory)
             .disposed(by: disposeBag)
+        
+        input.selectedCategory
+            .map { dependency.stickerFactory.stickerPackList(of: $0) }
+            .bind(to: output.stickerPackList)
+            .disposed(by: disposeBag)
     }
 }
 
 extension StickerPackViewModel {
     struct Dependency {
-        
+        var stickerFactory = StickerFactory()
     }
 
     struct Input {
-        var selectedCategory = PublishSubject<StickerPackCategory>()
+        var selectedCategory = BehaviorSubject<StickerPackCategory>(value: .basic)
         var selectedStickerPack = PublishSubject<Int>()
     }
 
     struct Output {
         var currentCategory = BehaviorRelay<StickerPackCategory>(value: .basic)
-        var stickerPackList = BehaviorRelay<[StickerPack]>(value: [
-            StickerPack(name: "설날", thumbnailImageName: "filmimg", stickers: [], category: .basic),
-            StickerPack(name: "이름이름이름이름이름이름이름이름이름이름이름이름", thumbnailImageName: "filmimg", stickers: [], category: .basic),
-            StickerPack(name: "이름이름", thumbnailImageName: "filmimg", stickers: [], category: .basic),
-            StickerPack(name: "아름아름", thumbnailImageName: "filmimg", stickers: [], category: .basic)
-        ])
+        var stickerPackList = BehaviorRelay<[StickerPack]>(value: [])
     }
 }
