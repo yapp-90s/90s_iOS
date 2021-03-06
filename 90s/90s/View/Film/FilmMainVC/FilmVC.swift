@@ -50,7 +50,6 @@ extension FilmVC {
     }
     
     private func setupCollectionViewDataSource(){
-        
         viewModel.photoObservable
             .bind(to: collectionView.rx.items(cellIdentifier: FilmPhotoCollectionViewCell.photoCellID, cellType: FilmPhotoCollectionViewCell.self)) { index, item, cell in
                 cell.photoImageView.image = UIImage(named: item.image)
