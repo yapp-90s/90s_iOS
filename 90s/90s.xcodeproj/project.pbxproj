@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D025F337C200E98A0B /* BaseViewController.swift */; };
+		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
 		4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */; };
 		4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */; };
 		4C357AE225E1013B00B23E84 /* ScrollStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357AE125E1013B00B23E84 /* ScrollStackView.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		4C1F80D025F337C200E98A0B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackNavigationBar.swift; sourceTree = "<group>"; };
 		4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewController.swift; sourceTree = "<group>"; };
 		4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackCategory.swift; sourceTree = "<group>"; };
 		4C357AE125E1013B00B23E84 /* ScrollStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollStackView.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				4C357AE125E1013B00B23E84 /* ScrollStackView.swift */,
 				4C357AE725E10DCD00B23E84 /* CategoryLabel.swift */,
 				4CBC5A6925F24F55005D2592 /* HighlightButton.swift */,
+				4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmHeaderCollectionViewCell.swift in Sources */,
 				4CE649FA25E0DEC80093D238 /* DecorateContainerViewController.swift in Sources */,
+				4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */,
 				4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */,
 				653F7D80259884D4002CD12A /* Film.swift in Sources */,
 				9B878C0225DA7F3C0024CFAA /* FilmViewModel.swift in Sources */,
