@@ -6,15 +6,20 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 struct Film {
     let id: String
     var name: String
-    let createDate: String
+    let createDate: String = Date().dateToString()
     var completeDate: String?
-    let filter: String
+    var filterType : FilmFilterType
+//    let filter: String
     private(set) var photos: [Photo]
+    
     let maxCount: Int
+    var state : FilmStateType = .adding
     
     @discardableResult
     mutating func add(_ photo: Photo) -> Bool {
@@ -34,30 +39,43 @@ extension Film {
     }
 }
 
-// MARK: 임시로 만든 필름 데이터
-
-
-struct TestFilm {
-    var filmName : String
-    var filmImage : String
-    var filmType : FilmType?
-}
-
-extension TestFilm : Equatable {
-    static func ==(lrs : TestFilm, rls : TestFilm) -> Bool {
-        return lrs.filmName == rls.filmName
+/// Film 제작의 상태표
+enum FilmStateType : Int {
+    case create = 0
+    case adding = 1
+    case printing = 2
+    case complete = 3
+    
+    func image() -> String {
+        switch self {
+        case .create: return ""
+        case .adding: return "filmstateaddimg"
+        case .printing: return "filmstateprintimg"
+        case .complete: return "filmstatecompleteimg"
+        }
     }
 }
 
-enum FilmType {
+/// Film 필터 종류
+enum FilmFilterType {
+    case Create
     case Cold
     case Cute
     case Nice
     case Hot
     case Dandy
 }
-extension FilmType {
+extension FilmFilterType {
     var count: Int {
         self.hashValue
+    }
+    
+    func image() -> String {
+        switch self {
+        case .Create:
+            return "newfilmimg"
+        case .Cold, .Cute, .Nice, .Hot, .Dandy :
+            return "filmimg"
+        }
     }
 }

@@ -47,6 +47,12 @@
 		65AE123725CFEDF40036147F /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE123625CFEDF40036147F /* AlbumViewController.swift */; };
 		65B2657F25CE8E2300ED9CEA /* StickerPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B2657E25CE8E2300ED9CEA /* StickerPack.swift */; };
 		9B878C0225DA7F3C0024CFAA /* FilmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878C0125DA7F3C0024CFAA /* FilmViewModel.swift */; };
+		9B878C0625DA7F660024CFAA /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */; };
+		9B878D5725E0EAFD0024CFAA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5625E0EAFD0024CFAA /* Extension.swift */; };
+		9B878D5D25E0F4110024CFAA /* FilmListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5C25E0F4110024CFAA /* FilmListVC.swift */; };
+		9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */; };
+		9B878D6425E10B820024CFAA /* FilmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */; };
+		9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */; };
 		9BB76130254EACF4005B7B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7612F254EACF4005B7B5A /* AppDelegate.swift */; };
 		9BB76132254EACF4005B7B5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB76131254EACF4005B7B5A /* SceneDelegate.swift */; };
 		9BB76139254EACF6005B7B5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BB76138254EACF6005B7B5A /* Assets.xcassets */; };
@@ -104,6 +110,11 @@
 		8CF2302E5C7217CE4318D0E9 /* Pods-90s.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.debug.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.debug.xcconfig"; sourceTree = "<group>"; };
 		9B878C0125DA7F3C0024CFAA /* FilmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FilmViewModel.swift; path = "../New Group/FilmViewModel.swift"; sourceTree = "<group>"; };
 		9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
+		9B878D5625E0EAFD0024CFAA /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		9B878D5C25E0F4110024CFAA /* FilmListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListVC.swift; sourceTree = "<group>"; };
+		9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListTableViewCell.swift; sourceTree = "<group>"; };
+		9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListCollectionViewCell.swift; sourceTree = "<group>"; };
+		9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionHeaderCell.swift; sourceTree = "<group>"; };
 		9BB7612C254EACF4005B7B5A /* 90s.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 90s.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BB7612F254EACF4005B7B5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BB76131254EACF4005B7B5A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -243,21 +254,19 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		652BC1C625E0D62A00DC8E90 /* New Group */ = {
+		652BC1C625E0D62A00DC8E90 /* CollectionViewLayout */ = {
 			isa = PBXGroup;
 			children = (
 				652BC1C725E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift */,
 			);
-			path = "New Group";
+			path = CollectionViewLayout;
 			sourceTree = "<group>";
 		};
 		652BC1C825E0D62A00DC8E90 /* Film */ = {
 			isa = PBXGroup;
 			children = (
-				652BC1C925E0D62A00DC8E90 /* FilmCollectionViewCell.swift */,
-				652BC1CA25E0D62A00DC8E90 /* FilmPhotoCollectionViewCell.swift */,
-				652BC1CB25E0D62A00DC8E90 /* FilmVC.swift */,
-				652BC1CC25E0D62A00DC8E90 /* FilmHeaderCollectionViewCell.swift */,
+				9B878D5A25E0F3CB0024CFAA /* FilmMainVC */,
+				9B878D5B25E0F3E30024CFAA /* FilmListVC */,
 			);
 			path = Film;
 			sourceTree = "<group>";
@@ -298,6 +307,7 @@
 				9BB76138254EACF6005B7B5A /* Assets.xcassets */,
 				65426FC025B2FD61006124BA /* Typography.swift */,
 				65426FC425B2FD68006124BA /* Color.swift */,
+				9B878D5625E0EAFD0024CFAA /* Extension.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -308,7 +318,7 @@
 				4C1F80CF25F3379800E98A0B /* Common */,
 				4CE649F025E0DEC80093D238 /* PhotoDecorate */,
 				652BC1C825E0D62A00DC8E90 /* Film */,
-				652BC1C625E0D62A00DC8E90 /* New Group */,
+				652BC1C625E0D62A00DC8E90 /* CollectionViewLayout */,
 				65AE123525CFEDDD0036147F /* Album */,
 			);
 			path = View;
@@ -368,6 +378,28 @@
 				9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */,
 			);
 			path = Film;
+			sourceTree = "<group>";
+		};
+		9B878D5A25E0F3CB0024CFAA /* FilmMainVC */ = {
+			isa = PBXGroup;
+			children = (
+				652BC1C925E0D62A00DC8E90 /* FilmCollectionViewCell.swift */,
+				652BC1CA25E0D62A00DC8E90 /* FilmPhotoCollectionViewCell.swift */,
+				652BC1CB25E0D62A00DC8E90 /* FilmVC.swift */,
+				652BC1CC25E0D62A00DC8E90 /* FilmHeaderCollectionViewCell.swift */,
+			);
+			path = FilmMainVC;
+			sourceTree = "<group>";
+		};
+		9B878D5B25E0F3E30024CFAA /* FilmListVC */ = {
+			isa = PBXGroup;
+			children = (
+				9B878D5C25E0F4110024CFAA /* FilmListVC.swift */,
+				9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */,
+				9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */,
+				9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */,
+			);
+			path = FilmListVC;
 			sourceTree = "<group>";
 		};
 		9BB76123254EACF4005B7B5A = {
@@ -519,6 +551,8 @@
 				4CE64A0D25E0DF6F0093D238 /* PhotoViewModel.swift in Sources */,
 				4CBC5A9525F264F6005D2592 /* StickerPackCollectionViewCell.swift in Sources */,
 				4CE649F725E0DEC80093D238 /* StickerPackListViewController.swift in Sources */,
+				9B878D5D25E0F4110024CFAA /* FilmListVC.swift in Sources */,
+				9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmHeaderCollectionViewCell.swift in Sources */,
 				4CE649FA25E0DEC80093D238 /* DecorateContainerViewController.swift in Sources */,
 				4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */,
@@ -527,12 +561,14 @@
 				652BC1D025E0D62A00DC8E90 /* FilmVC.swift in Sources */,
 				654C746D259C4845007B1D4A /* AlbumLayout.swift in Sources */,
 				4C357AE825E10DCD00B23E84 /* CategoryLabel.swift in Sources */,
+				9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */,
 				9BB76130254EACF4005B7B5A /* AppDelegate.swift in Sources */,
 				4CBC5A6A25F24F55005D2592 /* HighlightButton.swift in Sources */,
 				65950D1E25DD6F3400CD94EA /* AlbumPreviewCell.swift in Sources */,
 				6521BF7C25BC273300580EB5 /* FlimService.swift in Sources */,
 				65426FC525B2FD68006124BA /* Color.swift in Sources */,
 				9BB76132254EACF4005B7B5A /* SceneDelegate.swift in Sources */,
+				9B878D6425E10B820024CFAA /* FilmListCollectionViewCell.swift in Sources */,
 				6533210E25E0D87B00E973BB /* MainTabBarController.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* FilmPhotoCollectionViewCell.swift in Sources */,
 				653F7D8425988510002CD12A /* User.swift in Sources */,
@@ -557,6 +593,7 @@
 				4CBC5A9925F283AD005D2592 /* StickerFactory.swift in Sources */,
 				6521BF8F25BC2A8900580EB5 /* BoxService.swift in Sources */,
 				65AE123725CFEDF40036147F /* AlbumViewController.swift in Sources */,
+				9B878D5725E0EAFD0024CFAA /* Extension.swift in Sources */,
 				6521BF8325BC274100580EB5 /* AlbumService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -27,7 +27,6 @@ class FilmPinterestLayout: UICollectionViewLayout {
     }
     
     override var collectionViewContentSize: CGSize {
-        
         return CGSize(width: contentWidth, height: contentHeight)
     }
     
@@ -52,7 +51,7 @@ class FilmPinterestLayout: UICollectionViewLayout {
         headerAttribute.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 300)
         cache.append(headerAttribute)
       
-        for item in 1..<collectionView.numberOfItems(inSection: 0) {
+        for item in 0..<collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
             
             let photoHeight = delegate?.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath) ?? 200
