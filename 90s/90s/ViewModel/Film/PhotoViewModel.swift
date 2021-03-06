@@ -7,10 +7,11 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class PhotoViewModel {
     var array : [TestPhoto] = []
-    var photoObservable = BehaviorSubject<[TestPhoto]>(value: [])
+    var photoObservable = BehaviorRelay<[TestPhoto]>(value: [])
     
     init() {
         setDefaultData()
@@ -40,7 +41,7 @@ class PhotoViewModel {
             TestPhoto(image: "picture3"),
         ]
         
-        photoObservable.onNext(photos)
+        photoObservable.accept(photos)
     }
 }
 
