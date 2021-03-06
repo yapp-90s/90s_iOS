@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StickerPackViewController: UIViewController {
+class StickerPackViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

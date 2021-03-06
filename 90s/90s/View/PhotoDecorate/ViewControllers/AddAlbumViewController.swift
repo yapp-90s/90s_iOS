@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddAlbumViewController: UIViewController {
+class AddAlbumViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

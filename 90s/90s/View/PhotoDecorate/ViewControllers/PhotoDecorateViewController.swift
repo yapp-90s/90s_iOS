@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotoDecorateViewController: UIViewController {
+class PhotoDecorateViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
