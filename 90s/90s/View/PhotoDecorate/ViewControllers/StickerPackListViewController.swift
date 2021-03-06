@@ -123,6 +123,7 @@ class StickerPackListViewController: BaseViewController {
     }
     
     private func presentStickerPack(for stickerPack: StickerPack) {
+        self.definesPresentationContext = true
         let stickerPackVC = StickerPackViewController(viewModel: StickerPackViewModel(dependency: .init(stickerPack: stickerPack)))
         stickerPackVC.modalPresentationStyle = .currentContext
         present(stickerPackVC, animated: true, completion: nil)

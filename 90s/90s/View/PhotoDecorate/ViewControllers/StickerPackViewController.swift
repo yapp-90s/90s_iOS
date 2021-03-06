@@ -67,6 +67,12 @@ class StickerPackViewController: BaseViewController {
         
         stickerCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
+        backButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                self.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.output.packName
             .bind(to: navigationBar.titleLabel.rx.text)
             .disposed(by: disposeBag)
