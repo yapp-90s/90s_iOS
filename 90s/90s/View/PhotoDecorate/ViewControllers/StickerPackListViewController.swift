@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class StickerPackListViewController: UIViewController {
+class StickerPackListViewController: BaseViewController {
     
     struct Constraints {
         static let categoryLabelHeight: CGFloat = 44
@@ -20,7 +20,6 @@ class StickerPackListViewController: UIViewController {
     // MARK: - Properties
     
     var viewModel = StickerPackViewModel(dependency: .init())
-    var disposeBag = DisposeBag()
     
     // MARK: - Views
     

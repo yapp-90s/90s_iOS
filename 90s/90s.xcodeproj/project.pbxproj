@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D025F337C200E98A0B /* BaseViewController.swift */; };
 		4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */; };
 		4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */; };
 		4C357AE225E1013B00B23E84 /* ScrollStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357AE125E1013B00B23E84 /* ScrollStackView.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4C1F80D025F337C200E98A0B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewController.swift; sourceTree = "<group>"; };
 		4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackCategory.swift; sourceTree = "<group>"; };
 		4C357AE125E1013B00B23E84 /* ScrollStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollStackView.swift; sourceTree = "<group>"; };
@@ -123,6 +125,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C1F80CF25F3379800E98A0B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6533210D25E0D87B00E973BB /* MainTabBarController.swift */,
+				4C1F80D025F337C200E98A0B /* BaseViewController.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		4C1F80D325F3384500E98A0B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4CBC5A9425F264F6005D2592 /* StickerPackCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		4C1F80D425F3385600E98A0B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4CE649F525E0DEC80093D238 /* DecorateContainerViewController.swift */,
+				4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */,
+				4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */,
+				4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */,
+				4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		4CBC5A6E25F2523A005D2592 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,13 +189,9 @@
 		4CE649F025E0DEC80093D238 /* PhotoDecorate */ = {
 			isa = PBXGroup;
 			children = (
+				4C1F80D425F3385600E98A0B /* ViewControllers */,
+				4C1F80D325F3384500E98A0B /* Cells */,
 				4CBC5A6E25F2523A005D2592 /* Helpers */,
-				4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */,
-				4CE649F525E0DEC80093D238 /* DecorateContainerViewController.swift */,
-				4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */,
-				4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */,
-				4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */,
-				4CBC5A9425F264F6005D2592 /* StickerPackCollectionViewCell.swift */,
 			);
 			path = PhotoDecorate;
 			sourceTree = "<group>";
@@ -278,11 +305,11 @@
 		65AE123425CFEDAA0036147F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4C1F80CF25F3379800E98A0B /* Common */,
 				4CE649F025E0DEC80093D238 /* PhotoDecorate */,
 				652BC1C825E0D62A00DC8E90 /* Film */,
 				652BC1C625E0D62A00DC8E90 /* New Group */,
 				65AE123525CFEDDD0036147F /* Album */,
-				6533210D25E0D87B00E973BB /* MainTabBarController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -494,6 +521,7 @@
 				4CE649F725E0DEC80093D238 /* StickerPackListViewController.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmHeaderCollectionViewCell.swift in Sources */,
 				4CE649FA25E0DEC80093D238 /* DecorateContainerViewController.swift in Sources */,
+				4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */,
 				653F7D80259884D4002CD12A /* Film.swift in Sources */,
 				9B878C0225DA7F3C0024CFAA /* FilmViewModel.swift in Sources */,
 				652BC1D025E0D62A00DC8E90 /* FilmVC.swift in Sources */,
