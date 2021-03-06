@@ -11,7 +11,10 @@ struct StickerFactory {
     func stickerPackList(of category: StickerPackCategory) -> [StickerPack] {
         switch category {
             case .basic: return [
-                StickerPack(name: "설날", thumbnailImageName: "filmimg", stickers: [], category: .basic),
+                StickerPack(name: "설날",
+                            thumbnailImageName: "filmimg",
+                            stickers: (0...10).map { _ in Sticker(imageName: "filmimg") },
+                            category: .basic),
                 StickerPack(name: "이름이름이름이름이름이름이름이름이름이름이름이름", thumbnailImageName: "filmimg", stickers: [], category: .basic),
                 StickerPack(name: "이름이름", thumbnailImageName: "filmimg", stickers: [], category: .basic),
                 StickerPack(name: "아름아름", thumbnailImageName: "filmimg", stickers: [], category: .basic)
