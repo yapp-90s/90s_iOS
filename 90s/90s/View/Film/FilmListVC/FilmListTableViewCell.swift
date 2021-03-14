@@ -14,8 +14,8 @@ import RxCocoa
 class FilmListTableViewCell: UITableViewCell {
     static let FilmListCellId = "filmListCell"
     
-    private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
+    private var testFilmValue : Film?
     
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -73,14 +73,16 @@ class FilmListTableViewCell: UITableViewCell {
 
 extension FilmListTableViewCell {
     private func setUpSubViews(){
-        self.addSubview(FilmBackgroudImageView)
-        self.addSubview(FilmTitleImageView)
-        self.addSubview(collectionView)
-        self.addSubview(FilmTitleLabel)
-        self.addSubview(FilmCount_DateLabel)
-        self.addSubview(FilmTypeImageView)
+        addSubview(FilmBackgroudImageView)
+        addSubview(FilmTitleImageView)
+        addSubview(collectionView)
+        addSubview(FilmTitleLabel)
+        addSubview(FilmCount_DateLabel)
+        addSubview(FilmTypeImageView)
         
-        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
        
         FilmTitleImageView.snp.makeConstraints {
@@ -123,15 +125,37 @@ extension FilmListTableViewCell {
     }
     
     func bindViewModel(film: Film){
+        testFilmValue = film
+        
         FilmTitleImageView.image = UIImage(named: film.filterType.image())
         FilmTitleLabel.text = film.name
         FilmCount_DateLabel.text = film.createDate // 전체 개수 리턴하는 함수 필요
         FilmTypeImageView.image = UIImage(named: film.state.image())
+        collectionView.reloadData()
         
-        BehaviorRelay(value: film.photos).bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
-            cell.bindViewModel(item: item)
+        //MARK: TODO - Rx로 아래대로 하면 스크롤 시 멈춤
+//        BehaviorRelay(value: film.photos).bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
+//            cell.bindViewModel(item: item)
+//        }
+//        .disposed(by: disposeBag)
+    }
+}
+
+extension FilmListTableViewCell : UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let item = testFilmValue {
+            return item.photos.count
         }
-        .disposed(by: disposeBag)
+        return  0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.filmListCCellId, for: indexPath) as! FilmListCollectionViewCell
+        
+        if let item = testFilmValue {
+            cell.bindViewModel(item: item.photos[indexPath.row])
+        }
+        return cell
     }
 }
 

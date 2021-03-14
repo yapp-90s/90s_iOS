@@ -62,10 +62,14 @@ extension FilmListVC : UITableViewDelegate {
             return dataSource[sectionIndex].header
         })
         
-        
         Observable.just(section)
             .bind(to: tableView.rx.items(dataSource: dataSource!))
             .disposed(by: disposeBag)
+//
+//        tableView.rx.modelSelected(Film.self)
+//            .subscribe(onNext: { [weak self] item in
+//
+//            }).disposed(by: disposeBag)
     }
 }
 
