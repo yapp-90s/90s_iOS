@@ -12,20 +12,6 @@ import RxCocoa
 import RxDataSources
 
 
-struct FilmListSectionData {
-    var header : String
-    var items: [Item]
-}
-
-extension FilmListSectionData : SectionModelType {
-    typealias Item = Film
-    
-    init(original: FilmListSectionData, items: [Film]) {
-        self = original
-        self.items = items
-    }
-}
-
 /// 필름 리스트
 class FilmListVC: UIViewController {
     private var tableView = UITableView(frame: .zero, style: .grouped)
@@ -70,6 +56,7 @@ extension FilmListVC : UITableViewDelegate {
         dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionData> (configureCell: { dataSource, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmListTableViewCell.FilmListCellId) as! FilmListTableViewCell
             cell.bindViewModel(film: item)
+            cell.selectionStyle = .none
             return cell
         }, titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
@@ -85,23 +72,22 @@ extension FilmListVC : UITableViewDelegate {
 extension FilmListVC {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.FilmListSectionHeaderCellID) as! FilmListSectionHeaderCell
-        
+        var value : (String, Bool) = ("", false)
+
         header.backgroundView = UIView(frame: header.bounds)
         header.backgroundView?.backgroundColor = .white
-        
+            
         switch section {
         case 0:
-            header.bindViewModel(text: "사진을 추가해보세요!")
-            header.bindBlackView(hidden: true)
+            value = ("사진을 추가해보세요!", true)
         case 1:
-            header.bindViewModel(text: "지금 인화하고 있어요")
-            header.bindBlackView(hidden: true)
-        case 2:
-            header.bindViewModel(text: "")
-            header.bindBlackView(hidden: false)
+            value = ("지금 인화하고 있어요", true)
         default:
-            header.bindViewModel(text: "")
+            value = ("", false)
         }
+        
+        header.bindViewModel(text: value.0)
+        header.bindBlackView(hidden: value.1)
         
         return header
     }
@@ -112,8 +98,6 @@ extension FilmListVC {
             return 50.0
         case 1:
             return 70.0
-        case 2:
-            return 40.0
         default :
             return 40.0
         }

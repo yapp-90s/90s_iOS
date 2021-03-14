@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 struct Film {
     let id: String
@@ -77,5 +78,20 @@ extension FilmFilterType {
         case .Cold, .Cute, .Nice, .Hot, .Dandy :
             return "filmimg"
         }
+    }
+}
+
+
+struct FilmListSectionData {
+    var header : String
+    var items: [Item]
+}
+
+extension FilmListSectionData : SectionModelType {
+    typealias Item = Film
+    
+    init(original: FilmListSectionData, items: [Film]) {
+        self = original
+        self.items = items
     }
 }

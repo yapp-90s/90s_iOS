@@ -15,7 +15,7 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .white
+        iv.backgroundColor = .clear
         return iv
     }()
     
@@ -29,7 +29,7 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpSubView(){
-        self.addSubview(imageView)
+        addSubview(imageView)
         
         imageView.snp.makeConstraints {
             $0.edges.equalTo(self)

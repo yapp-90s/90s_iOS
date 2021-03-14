@@ -18,7 +18,7 @@ class FilmListTableViewCell: UITableViewCell {
     private var disposeBag = DisposeBag()
     
     private var collectionView : UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.showsHorizontalScrollIndicator = false
         cv.isUserInteractionEnabled = false
         return cv
@@ -55,7 +55,6 @@ class FilmListTableViewCell: UITableViewCell {
     /// 필름 배경 이미지 뷰
     private var FilmBackgroudImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-//        iv.image = UIImage(named: "film_preview_roll")
         iv.image = UIImage(named: "filmbackgroundimg")
         return iv
     }()
@@ -64,7 +63,6 @@ class FilmListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
-//        setUpCollectionViewDataSource()
     }
     
     required init?(coder: NSCoder) {
@@ -124,22 +122,16 @@ extension FilmListTableViewCell {
         }
     }
     
-    func setUpCollectionViewDataSource(){
-        viewModel.FilmObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
-                
-                cell.bindViewModel(item: item.photos[index])
-        }
-        .disposed(by: disposeBag)
-    }
-    
-   
-    
     func bindViewModel(film: Film){
         FilmTitleImageView.image = UIImage(named: film.filterType.image())
         FilmTitleLabel.text = film.name
         FilmCount_DateLabel.text = film.createDate // 전체 개수 리턴하는 함수 필요
         FilmTypeImageView.image = UIImage(named: film.state.image())
+        
+        BehaviorRelay(value: film.photos).bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
+            cell.bindViewModel(item: item)
+        }
+        .disposed(by: disposeBag)
     }
 }
 
