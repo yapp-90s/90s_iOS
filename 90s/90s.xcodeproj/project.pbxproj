@@ -49,12 +49,14 @@
 		65950D2525DD6F6100CD94EA /* AlbumListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65950D2425DD6F6100CD94EA /* AlbumListCell.swift */; };
 		65AE123725CFEDF40036147F /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AE123625CFEDF40036147F /* AlbumViewController.swift */; };
 		65B2657F25CE8E2300ED9CEA /* StickerPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B2657E25CE8E2300ED9CEA /* StickerPack.swift */; };
+		9B7C35F825FE3F7000FE4C33 /* FilmListDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7C35F725FE3F7000FE4C33 /* FilmListDetailCollectionViewCell.swift */; };
 		9B878D5725E0EAFD0024CFAA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5625E0EAFD0024CFAA /* Extension.swift */; };
 		9B878D5D25E0F4110024CFAA /* FilmListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5C25E0F4110024CFAA /* FilmListVC.swift */; };
 		9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */; };
 		9B878D6425E10B820024CFAA /* FilmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */; };
 		9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */; };
 		9BA3FF5625FDF4B5000D2A2E /* FilmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3FF5525FDF4B5000D2A2E /* FilmViewModel.swift */; };
+		9BA3FF5F25FE13E1000D2A2E /* FilmListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3FF5E25FE13E1000D2A2E /* FilmListDetailViewController.swift */; };
 		9BB76130254EACF4005B7B5A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB7612F254EACF4005B7B5A /* AppDelegate.swift */; };
 		9BB76132254EACF4005B7B5A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BB76131254EACF4005B7B5A /* SceneDelegate.swift */; };
 		9BB76139254EACF6005B7B5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BB76138254EACF6005B7B5A /* Assets.xcassets */; };
@@ -113,6 +115,7 @@
 		65AE123625CFEDF40036147F /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		65B2657E25CE8E2300ED9CEA /* StickerPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPack.swift; sourceTree = "<group>"; };
 		8CF2302E5C7217CE4318D0E9 /* Pods-90s.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.debug.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.debug.xcconfig"; sourceTree = "<group>"; };
+		9B7C35F725FE3F7000FE4C33 /* FilmListDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		9B878D5625E0EAFD0024CFAA /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		9B878D5C25E0F4110024CFAA /* FilmListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListVC.swift; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionHeaderCell.swift; sourceTree = "<group>"; };
 		9BA3FF5525FDF4B5000D2A2E /* FilmViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmViewModel.swift; sourceTree = "<group>"; };
+		9BA3FF5E25FE13E1000D2A2E /* FilmListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListDetailViewController.swift; sourceTree = "<group>"; };
 		9BB7612C254EACF4005B7B5A /* 90s.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 90s.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BB7612F254EACF4005B7B5A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9BB76131254EACF4005B7B5A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -275,6 +279,7 @@
 			children = (
 				9B878D5A25E0F3CB0024CFAA /* FilmMainVC */,
 				9B878D5B25E0F3E30024CFAA /* FilmListVC */,
+				9BA3FF5D25FE137F000D2A2E /* FilmListDetailVC */,
 			);
 			path = Film;
 			sourceTree = "<group>";
@@ -391,9 +396,9 @@
 		9B878D5A25E0F3CB0024CFAA /* FilmMainVC */ = {
 			isa = PBXGroup;
 			children = (
+				652BC1CB25E0D62A00DC8E90 /* FilmVC.swift */,
 				652BC1C925E0D62A00DC8E90 /* FilmCollectionViewCell.swift */,
 				652BC1CA25E0D62A00DC8E90 /* FilmPhotoCollectionViewCell.swift */,
-				652BC1CB25E0D62A00DC8E90 /* FilmVC.swift */,
 				652BC1CC25E0D62A00DC8E90 /* FilmHeaderCollectionViewCell.swift */,
 			);
 			path = FilmMainVC;
@@ -408,6 +413,15 @@
 				9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */,
 			);
 			path = FilmListVC;
+			sourceTree = "<group>";
+		};
+		9BA3FF5D25FE137F000D2A2E /* FilmListDetailVC */ = {
+			isa = PBXGroup;
+			children = (
+				9BA3FF5E25FE13E1000D2A2E /* FilmListDetailViewController.swift */,
+				9B7C35F725FE3F7000FE4C33 /* FilmListDetailCollectionViewCell.swift */,
+			);
+			path = FilmListDetailVC;
 			sourceTree = "<group>";
 		};
 		9BB76123254EACF4005B7B5A = {
@@ -565,6 +579,7 @@
 				4CE649FA25E0DEC80093D238 /* DecorateContainerViewController.swift in Sources */,
 				4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */,
 				4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */,
+				9BA3FF5F25FE13E1000D2A2E /* FilmListDetailViewController.swift in Sources */,
 				653F7D80259884D4002CD12A /* Film.swift in Sources */,
 				652BC1D025E0D62A00DC8E90 /* FilmVC.swift in Sources */,
 				654C746D259C4845007B1D4A /* AlbumLayout.swift in Sources */,
@@ -598,6 +613,7 @@
 				653F7D7E259884A3002CD12A /* Photo.swift in Sources */,
 				65950D2525DD6F6100CD94EA /* AlbumListCell.swift in Sources */,
 				4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */,
+				9B7C35F825FE3F7000FE4C33 /* FilmListDetailCollectionViewCell.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmCollectionViewCell.swift in Sources */,
 				4C357AE225E1013B00B23E84 /* ScrollStackView.swift in Sources */,
 				4CBC5A9925F283AD005D2592 /* StickerFactory.swift in Sources */,

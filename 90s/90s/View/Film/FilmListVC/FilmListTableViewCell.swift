@@ -25,18 +25,11 @@ class FilmListTableViewCell: UITableViewCell {
     }()
     
     private var FilmTitleLabel : UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.text = "필름 이름"
-        return label
+        return LabelType.bold_16.create()
     }()
     
     private var FilmCount_DateLabel : UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = label.font.withSize(13)
-        label.text = "ㅁ/ㅁ장  -  0000.00.00"
-        label.textColor = .gray
-        return label
+        return LabelType.normal_gray_13.create()
     }()
     
     /// 필름 상태를 보여주는 이미지 뷰
@@ -127,10 +120,13 @@ extension FilmListTableViewCell {
     func bindViewModel(film: Film){
         testFilmValue = film
         
-        FilmTitleImageView.image = UIImage(named: film.filterType.image())
+        DispatchQueue.main.async { [weak self] in
+            self?.FilmTitleImageView.image = UIImage(named: film.filterType.image())
+            self?.FilmTypeImageView.image = UIImage(named: film.state.image())
+        }
+        
         FilmTitleLabel.text = film.name
         FilmCount_DateLabel.text = film.createDate // 전체 개수 리턴하는 함수 필요
-        FilmTypeImageView.image = UIImage(named: film.state.image())
         collectionView.reloadData()
         
         //MARK: TODO - Rx로 아래대로 하면 스크롤 시 멈춤

@@ -55,6 +55,15 @@ enum FilmStateType : Int {
         case .complete: return "filmstatecompleteimg"
         }
     }
+    
+    func text() -> String {
+        switch self {
+        case .create, .adding:
+            return "사진 추가 중"
+        case .printing, .complete:
+            return "인화완료"
+        }
+    }
 }
 
 /// Film 필터 종류

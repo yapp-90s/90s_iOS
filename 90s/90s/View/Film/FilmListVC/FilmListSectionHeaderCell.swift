@@ -12,15 +12,11 @@ class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
     static let FilmListSectionHeaderCellID = "FilmListSectionHeaderCell"
     
     private var headerTitle : UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "제목"
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        return label
+        return LabelType.bold_21.create()
     }()
     
     private var blackView : UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = ""
         label.backgroundColor = .gray
         label.isHidden = true
         return label

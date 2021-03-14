@@ -14,7 +14,13 @@ import RxDataSources
 
 /// 필름 리스트
 class FilmListVC: UIViewController {
-    private var tableView = UITableView(frame: .zero, style: .grouped)
+    private var tableView : UITableView = {
+        let tv = UITableView(frame: .zero, style: .grouped)
+        tv.showsVerticalScrollIndicator = false
+        tv.separatorStyle = .none
+        tv.backgroundColor = .white
+        return tv
+    }()
     
     private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
@@ -30,14 +36,11 @@ class FilmListVC: UIViewController {
 }
 
 
-extension FilmListVC : UITableViewDelegate {
+extension FilmListVC {
     private func setUpTableView(){
         view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
         
+        tableView.delegate = self
         tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.FilmListCellId)
         tableView.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.FilmListSectionHeaderCellID)
         
@@ -65,15 +68,19 @@ extension FilmListVC : UITableViewDelegate {
         Observable.just(section)
             .bind(to: tableView.rx.items(dataSource: dataSource!))
             .disposed(by: disposeBag)
-//
-//        tableView.rx.modelSelected(Film.self)
-//            .subscribe(onNext: { [weak self] item in
-//
-//            }).disposed(by: disposeBag)
+        
+        
+        tableView.rx.modelSelected(Film.self)
+            .subscribe(onNext: { [weak self] item in
+                let nextVC = FilmListDetailViewController()
+                nextVC.bindViewModel(film: item)
+                self?.navigationController?.pushViewController(nextVC, animated: true)
+            }).disposed(by: disposeBag)
     }
 }
 
-extension FilmListVC {
+
+extension FilmListVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.FilmListSectionHeaderCellID) as! FilmListSectionHeaderCell
         var value : (String, Bool) = ("", false)

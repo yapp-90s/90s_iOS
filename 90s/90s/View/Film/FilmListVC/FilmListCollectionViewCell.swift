@@ -37,7 +37,9 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     }
     
     func bindViewModel(item: Photo){
-        imageView.image = UIImage(named: item.url)
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = UIImage(named: item.url)
+        }
     }
 }
 

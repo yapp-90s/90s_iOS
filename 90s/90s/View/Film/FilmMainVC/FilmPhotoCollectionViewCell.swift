@@ -12,7 +12,7 @@ import SnapKit
 class FilmPhotoCollectionViewCell: UICollectionViewCell {
     static let photoCellID = "photoCell"
     
-    var photoImageView : UIImageView = {
+    private var photoImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
@@ -29,10 +29,16 @@ class FilmPhotoCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpSubviews(){
-        self.addSubview(self.photoImageView)
+        addSubview(photoImageView)
         
         photoImageView.snp.makeConstraints {
             $0.edges.equalTo(self)
+        }
+    }
+    
+    func bindViewModel(image: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.photoImageView.image = UIImage(named: image)
         }
     }
 }
