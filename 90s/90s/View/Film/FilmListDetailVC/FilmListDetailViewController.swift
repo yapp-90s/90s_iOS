@@ -41,7 +41,9 @@ class FilmListDetailViewController: UIViewController {
     }()
     
     private var collectionView : UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .white
         return cv
     }()
@@ -73,6 +75,8 @@ class FilmListDetailViewController: UIViewController {
         btn.backgroundColor = ColorType.Retro_Orange.create()
         return btn
     }()
+    
+    private var films : Film?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +101,9 @@ extension FilmListDetailViewController {
         view.addSubview(emptyAddMoreBtn)
         
         let safe = view.safeAreaLayoutGuide
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
         
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(134)
@@ -164,6 +171,13 @@ extension FilmListDetailViewController {
         filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
         filmTypeLabel.text = film.state.text()
         
+        films = film
+        
+        if film.maxCount != film.photos.count && film.photos.count > 0 {
+            let photo = Photo(id: "0000", url: "filmaddimg", date: "")
+            films?.addAtFirst(photo)
+        }
+        
         if film.count == 0 {
             emptyImageView.isHidden = false
             emptyAddMoreBtn.isHidden = false
@@ -173,13 +187,31 @@ extension FilmListDetailViewController {
             emptyAddMoreBtn.isHidden = true
             printBtn.isHidden = false
         }
+        collectionView.reloadData()
     }
 }
 
 
+extension FilmListDetailViewController : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width / 2 - 24, height: 166)
+    }
+}
 
 
-
-//extension FilmListDetailViewController : UICollectionViewDelegate {
-//
-//}
+extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let f = films {
+            return f.photos.count
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.filmListCCellId, for: indexPath) as! FilmListCollectionViewCell
+        if let f = films {
+            cell.bindViewModel_scaleFill(item: f.photos[indexPath.row])
+        }
+        return cell
+    }
+}

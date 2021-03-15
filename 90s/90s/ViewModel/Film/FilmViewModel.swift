@@ -72,12 +72,7 @@ class FilmsViewModel {
                         Photo(id: "0015", url: "picture1", date: "\(Date())")
                     ]
                  , maxCount: 36, state: .complete),
-            Film(id: "6", name: "귀여운 필름", completeDate: "2021.10.10", filterType: .Cute, photos: [
-                        Photo(id: "0016", url: "picture2", date: "\(Date())"),
-                        Photo(id: "0017", url: "picture2", date: "\(Date())"),
-                        Photo(id: "0018", url: "picture2", date: "\(Date())")
-                    ]
-                 , maxCount: 36, state: .adding),
+            Film(id: "6", name: "귀여운 필름", completeDate: "2021.10.10", filterType: .Cute, photos: [], maxCount: 36, state: .adding),
         ]
         
         FilmObservable.accept(filmArray)

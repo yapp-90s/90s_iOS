@@ -28,6 +28,13 @@ struct Film {
         photos.append(photo)
         return true
     }
+    
+    @discardableResult
+    mutating func addAtFirst(_ photo : Photo) -> Bool {
+        guard !isFull else { return false }
+        photos.insert(photo, at: 0)
+        return true
+    }
 }
 
 extension Film {

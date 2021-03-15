@@ -41,5 +41,12 @@ class FilmListCollectionViewCell: UICollectionViewCell {
             self?.imageView.image = UIImage(named: item.url)
         }
     }
+    
+    func bindViewModel_scaleFill(item: Photo){
+        imageView.contentMode = .scaleToFill
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = UIImage(named: item.url)
+        }
+    }
 }
 
