@@ -14,7 +14,7 @@ class FilmPhotoCollectionViewCell: UICollectionViewCell {
     
     private var photoImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
     }()

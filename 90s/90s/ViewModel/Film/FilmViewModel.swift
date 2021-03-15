@@ -23,10 +23,8 @@ class FilmsViewModel {
     func getStateData(state : FilmStateType) -> [Film]{
         var array : [Film] = []
         
-        FilmObservable
-            .map {
-                $0.filter { $0.state == state }
-            }.subscribe(onNext: {
+        FilmObservable.map { $0.filter { $0.state == state }}
+            .subscribe(onNext: {
                 array.append(contentsOf: $0)
             })
             .dispose()

@@ -58,7 +58,7 @@ extension FilmVC {
         collectionView.register(FilmPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmPhotoCollectionViewCell.photoCellID)
         
         collectionView.snp.makeConstraints {
-            $0.top.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.bottom.right.left.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
