@@ -18,8 +18,6 @@ class FilmListVC: UIViewController {
         let navBar = NavigationBar(frame: .zero)
         navBar.titleLabel.text = "내 필름"
         navBar.rightBtn.setUpNavBarRightBtn(type: .text_edit)
-        navBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
-        navBar.rightBtn.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
         return navBar
     }()
     
@@ -33,6 +31,7 @@ class FilmListVC: UIViewController {
     
     private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
+    private var isEditingMode = false
     
     var section : [FilmListSectionData] = []
     var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionData>?
@@ -63,6 +62,9 @@ extension FilmListVC {
             $0.top.equalTo(navigationBar.snp.bottom)
             $0.left.right.bottom.equalTo(view)
         }
+        
+        navigationBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
+        navigationBar.rightBtn.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
     }
 
     private func setUpTableViewSection(){
@@ -75,6 +77,7 @@ extension FilmListVC {
         dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionData> (configureCell: { dataSource, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmListTableViewCell.FilmListCellId) as! FilmListTableViewCell
             cell.bindViewModel(film: item)
+            cell.isEditStarted(value: self.isEditingMode)
             cell.selectionStyle = .none
             return cell
         }, titleForHeaderInSection: { dataSource, sectionIndex in
@@ -88,9 +91,23 @@ extension FilmListVC {
         
         tableView.rx.modelSelected(Film.self)
             .subscribe(onNext: { [weak self] item in
-                let nextVC = FilmListDetailViewController()
-                nextVC.bindViewModel(film: item)
-                self?.navigationController?.pushViewController(nextVC, animated: true)
+                if let bool = self?.isEditingMode {
+                    if !bool {
+                        let nextVC = FilmListDetailViewController()
+                        nextVC.bindViewModel(film: item)
+                        self?.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                }
+            }).disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                if let bool = self?.isEditingMode {
+                    if bool {
+                        let cell = self?.tableView.cellForRow(at: indexPath) as? FilmListTableViewCell
+                        cell?.isEditCellSelected(value: bool)
+                    }
+                }
             }).disposed(by: disposeBag)
     }
     
@@ -98,7 +115,9 @@ extension FilmListVC {
         navigationController?.popViewController(animated: true)
     }
     @objc private func editTableView(){
-        
+        isEditingMode = true
+        navigationBar.rightBtn.isHidden = true
+        tableView.reloadData()
     }
 }
 
@@ -113,7 +132,7 @@ extension FilmListVC : UITableViewDelegate {
             
         switch section {
         case 0:
-            value = ("사진을 추가해보세요!", true)
+            value = ("사진을 추가하고 있어요", true)
         case 1:
             value = ("지금 인화하고 있어요", true)
         default:
