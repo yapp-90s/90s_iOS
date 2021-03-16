@@ -48,7 +48,7 @@ extension Film {
 }
 
 /// Film 제작의 상태표
-enum FilmStateType : Int {
+enum FilmStateType : Int, Hashable {
     case create = 0
     case adding = 1
     case printing = 2

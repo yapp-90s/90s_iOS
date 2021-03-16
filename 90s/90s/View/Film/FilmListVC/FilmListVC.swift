@@ -29,12 +29,24 @@ class FilmListVC: UIViewController {
         return tv
     }()
     
+    private var filmDeleteBtn : UIButton = {
+        let btn = UIButton(frame: .zero)
+        btn.backgroundColor = ColorType.Retro_Orange.create()
+        btn.titleLabel?.font = .boldSystemFont(ofSize: 15)
+        btn.setTitle("필름을 선택해주세요", for: .normal)
+        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
+        btn.isHidden = true
+        btn.addTarget(self, action: #selector(selectDeleteBtn), for: .touchUpInside)
+        return btn
+    }()
+    
     private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
     private var isEditingMode = false
-    
-    var section : [FilmListSectionData] = []
-    var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionData>?
+    private var deleteFilmIndexPath : Set<IndexPath> = []
+
+    private var section : [FilmListSectionData] = []
+    private var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionData>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +58,11 @@ class FilmListVC: UIViewController {
 
 extension FilmListVC {
     private func setUpSubViews(){
+        tabBarController?.tabBar.isHidden = true
+        
         view.addSubview(tableView)
         view.addSubview(navigationBar)
+        view.addSubview(filmDeleteBtn)
         
         tableView.delegate = self
         tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.FilmListCellId)
@@ -60,6 +75,11 @@ extension FilmListVC {
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(navigationBar.snp.bottom)
+            $0.left.right.bottom.equalTo(view)
+        }
+        
+        filmDeleteBtn.snp.makeConstraints {
+            $0.height.equalTo(94)
             $0.left.right.bottom.equalTo(view)
         }
         
@@ -76,8 +96,11 @@ extension FilmListVC {
         
         dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionData> (configureCell: { dataSource, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmListTableViewCell.FilmListCellId) as! FilmListTableViewCell
+            let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
+            
             cell.bindViewModel(film: item)
             cell.isEditStarted(value: self.isEditingMode)
+            cell.isEditCellSelected(value: value)
             cell.selectionStyle = .none
             return cell
         }, titleForHeaderInSection: { dataSource, sectionIndex in
@@ -96,6 +119,8 @@ extension FilmListVC {
                         let nextVC = FilmListDetailViewController()
                         nextVC.bindViewModel(film: item)
                         self?.navigationController?.pushViewController(nextVC, animated: true)
+                    } else {
+                       
                     }
                 }
             }).disposed(by: disposeBag)
@@ -103,20 +128,52 @@ extension FilmListVC {
         tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 if let bool = self?.isEditingMode {
+                    let cell = self?.tableView.cellForRow(at: indexPath) as? FilmListTableViewCell
+                    
                     if bool {
-                        let cell = self?.tableView.cellForRow(at: indexPath) as? FilmListTableViewCell
-                        cell?.isEditCellSelected(value: bool)
+                        if let array = self?.deleteFilmIndexPath {
+                            if array.contains(indexPath) {
+                                cell?.isEditCellSelected(value: !bool)
+                                self?.deleteFilmIndexPath.remove(indexPath)
+                            } else {
+                                cell?.isEditCellSelected(value: bool)
+                                self?.deleteFilmIndexPath.update(with: indexPath)
+                            }
+                        }
+                        
+                        if let count = self?.deleteFilmIndexPath.count {
+                            let text = count > 0 ? "\(count)개 필름 삭제" : "필름을 선택하세요"
+                            self?.filmDeleteBtn.setTitle(text, for: .normal)
+                        }
                     }
                 }
             }).disposed(by: disposeBag)
     }
     
+    
+    
     @objc private func popUp(){
         navigationController?.popViewController(animated: true)
     }
+    
     @objc private func editTableView(){
         isEditingMode = true
+        filmDeleteBtn.isHidden = false
         navigationBar.rightBtn.isHidden = true
+        tableView.reloadData()
+    }
+    
+    @objc private func selectDeleteBtn(){
+//        var deleteFilmArray : [Film] = []
+//        deleteFilmIndexPath.forEach { index in
+//            let item = section[index.section].items[index.row]
+//            deleteFilmArray.append(item)
+//        }
+//
+//
+        isEditingMode = false
+        navigationBar.rightBtn.isHidden = false
+        filmDeleteBtn.isHidden = true
         tableView.reloadData()
     }
 }

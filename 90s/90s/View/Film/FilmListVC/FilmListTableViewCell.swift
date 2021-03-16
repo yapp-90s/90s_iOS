@@ -57,7 +57,6 @@ class FilmListTableViewCell: UITableViewCell {
         btn.backgroundColor = .white
         btn.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
         btn.isHidden = true
-//        btn.addTarget(self, action: #selector(deleteBtnClicked), for: .touchUpInside)
         return btn
     }()
     
@@ -70,6 +69,10 @@ class FilmListTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        FilmDeleteBtn.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
     }
 }
 
