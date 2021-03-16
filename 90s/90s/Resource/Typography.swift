@@ -18,6 +18,7 @@ enum LabelType {
     case bold_16
     case bold_18
     case normal_21
+    case normal_16
     case normal_gray_16
     case normal_gray_13
     
@@ -34,6 +35,8 @@ enum LabelType {
             label.font = UIFont.boldSystemFont(ofSize: 18)
         case .normal_21:
             label.font = label.font.withSize(21)
+        case .normal_16:
+            label.font = label.font.withSize(16)
         case .normal_gray_16:
             label.font = label.font.withSize(16)
             label.textColor = .gray

@@ -48,7 +48,7 @@ class FilmListTableViewCell: UITableViewCell {
     /// 필름 배경 이미지 뷰
     private var FilmBackgroudImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.image = UIImage(named: "filmbackgroundimg")
+        iv.image = UIImage(named: "film_table_background")
         return iv
     }()
     

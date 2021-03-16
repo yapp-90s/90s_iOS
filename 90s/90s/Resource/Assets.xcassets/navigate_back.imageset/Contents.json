@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "filmstatecompleteimg.png",
+      "filename" : "backbtnimg.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "filmstatecompleteimg@2x.png",
+      "filename" : "backbtnimg@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "filmstatecompleteimg@3x.png",
+      "filename" : "backbtnimg@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

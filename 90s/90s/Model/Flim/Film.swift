@@ -57,9 +57,9 @@ enum FilmStateType : Int {
     func image() -> String {
         switch self {
         case .create: return ""
-        case .adding: return "filmstateaddimg"
-        case .printing: return "filmstateprintimg"
-        case .complete: return "filmstatecompleteimg"
+        case .adding: return "film_state_adding"
+        case .printing: return "film_state_print"
+        case .complete: return "film_state_complete"
         }
     }
     
@@ -90,9 +90,9 @@ extension FilmFilterType {
     func image() -> String {
         switch self {
         case .Create:
-            return "newfilmimg"
+            return "film_create"
         case .Cold, .Cute, .Nice, .Hot, .Dandy :
-            return "filmimg"
+            return "film_default"
         }
     }
 }

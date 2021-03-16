@@ -31,13 +31,14 @@ class FilmVC : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
+        view.backgroundColor = .white
         setUpCollectionView()
 //        setupCollectionViewDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
     }
 }
 
@@ -45,7 +46,6 @@ class FilmVC : UIViewController {
 extension FilmVC {
     private func setUpCollectionView(){
         view.addSubview(collectionView)
-        view.backgroundColor = .white
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -98,7 +98,6 @@ extension FilmVC :  UICollectionViewDelegate, UICollectionViewDataSource{
 extension FilmVC : FilmVCDelegate {
     func presentListVC() {
         navigationController?.pushViewController(FilmListVC(), animated: true)
-        navigationController?.navigationBar.isHidden = false
     }
 }
 

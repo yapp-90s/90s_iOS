@@ -12,7 +12,7 @@ import SnapKit
 class FilmListDetailViewController: UIViewController {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.image = UIImage(named: "filmimg")
+        iv.image = UIImage(named: "film_default")
         return iv
     }()
     
@@ -61,7 +61,7 @@ class FilmListDetailViewController: UIViewController {
     
     private var emptyImageView: UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.image = UIImage(named: "nofilmimg")
+        iv.image = UIImage(named: "film_photo_empty")
         return iv
     }()
     
@@ -174,7 +174,7 @@ extension FilmListDetailViewController {
         films = film
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
-            let photo = Photo(id: "0000", url: "filmaddimg", date: "")
+            let photo = Photo(id: "0000", url: "film_add_photo", date: "")
             films?.addAtFirst(photo)
         }
         
