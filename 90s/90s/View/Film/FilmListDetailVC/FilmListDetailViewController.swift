@@ -10,6 +10,14 @@ import SnapKit
 
 /// 필름 정보와 사진을 보여주는 VC
 class FilmListDetailViewController: UIViewController {
+    private var navigationBar : NavigationBar = {
+        let navBar = NavigationBar(frame: .zero)
+        navBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
+        navBar.titleLabel.isHidden = true
+        navBar.rightEditBtn.isHidden = true
+        return navBar
+    }()
+    
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -88,6 +96,7 @@ class FilmListDetailViewController: UIViewController {
 extension FilmListDetailViewController {
     private func setUpSubViews(){
         view.backgroundColor = .white
+        view.addSubview(navigationBar)
         
         view.addSubview(collectionView)
         view.addSubview(filmImageView)
@@ -105,15 +114,20 @@ extension FilmListDetailViewController {
         collectionView.dataSource = self
         collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
         
+        navigationBar.snp.makeConstraints {
+            $0.height.equalTo(52)
+            $0.top.left.right.equalTo(safe)
+        }
+        
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(134)
             $0.width.equalTo(100)
             $0.left.equalTo(safe).offset(18)
-            $0.top.equalTo(safe).offset(20)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
         }
         
         filmTypeLabel.snp.makeConstraints {
-            $0.top.equalTo(safe).offset(20)
+            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
             $0.left.equalTo(filmImageView.snp.right).offset(18)
         }
         
@@ -137,11 +151,11 @@ extension FilmListDetailViewController {
             $0.height.equalTo(32)
             $0.width.equalTo(78)
             $0.right.equalTo(safe).offset(-18)
-            $0.top.equalTo(safe).offset(120)
+            $0.top.equalTo(filmDateLabel.snp.bottom).offset(24)
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(safe).offset(190)
+            $0.top.equalTo(filmCountLabel.snp.bottom).offset(55)
             $0.left.equalTo(safe).offset(18)
             $0.right.equalTo(safe).offset(-18)
             $0.bottom.equalTo(safe)
@@ -188,6 +202,10 @@ extension FilmListDetailViewController {
             printBtn.isHidden = false
         }
         collectionView.reloadData()
+    }
+    
+    @objc private func popUp(){
+        navigationController?.popViewController(animated: true)
     }
 }
 

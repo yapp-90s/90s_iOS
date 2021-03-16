@@ -16,14 +16,20 @@ class NavigationBar: UIView {
     }()
     
     var titleLabel : UILabel = {
-        return LabelType.normal_16.create()
+        let label = LabelType.normal_16.create()
+        label.text = "Title"
+        return label
     }()
     
-    var rightBtn: UIButton = {
+    var rightEditBtn: UIButton = {
         let btn = UIButton(frame: .zero)
+        btn.setTitle("편집", for: .normal)
+        btn.setTitleColor( .black, for: .normal)
+        btn.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
         return btn
     }()
-   
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setSubViews()
@@ -33,9 +39,25 @@ class NavigationBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setSubViews(){
+    private func setSubViews(){
+        addSubview(leftBtn)
+        addSubview(titleLabel)
+        addSubview(rightEditBtn)
+        backgroundColor = .white
+        
         leftBtn.snp.makeConstraints {
-            $0
+            $0.height.width.equalTo(52)
+            $0.left.top.equalTo(self)
+        }
+        
+        rightEditBtn.snp.makeConstraints {
+            $0.height.equalTo(52)
+            $0.width.equalTo(70)
+            $0.top.right.equalTo(self)
+        }
+        
+        titleLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(self)
         }
     }
 }

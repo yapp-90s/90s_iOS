@@ -14,6 +14,14 @@ import RxDataSources
 
 /// 필름 리스트
 class FilmListVC: UIViewController {
+    private var navigationBar: NavigationBar = {
+        let navBar = NavigationBar(frame: .zero)
+        navBar.titleLabel.text = "내 필름"
+        navBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
+        navBar.rightEditBtn.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
+        return navBar
+    }()
+    
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.showsVerticalScrollIndicator = false
@@ -30,25 +38,32 @@ class FilmListVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTableView()
+        setUpSubViews()
         setUpTableViewSection()
     }
 }
 
 
 extension FilmListVC {
-    private func setUpTableView(){
+    private func setUpSubViews(){
         view.addSubview(tableView)
+        view.addSubview(navigationBar)
         
         tableView.delegate = self
         tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.FilmListCellId)
         tableView.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.FilmListSectionHeaderCellID)
         
+        navigationBar.snp.makeConstraints {
+            $0.height.equalTo(52)
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+        }
+        
         tableView.snp.makeConstraints {
-            $0.edges.equalTo(view)
+            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.left.right.bottom.equalTo(view)
         }
     }
-    
+
     private func setUpTableViewSection(){
         section = [
             FilmListSectionData(header: "", items: viewModel.getStateData(state: .adding)),
@@ -76,6 +91,13 @@ extension FilmListVC {
                 nextVC.bindViewModel(film: item)
                 self?.navigationController?.pushViewController(nextVC, animated: true)
             }).disposed(by: disposeBag)
+    }
+    
+    @objc private func popUp(){
+        navigationController?.popViewController(animated: true)
+    }
+    @objc private func editTableView(){
+        
     }
 }
 
