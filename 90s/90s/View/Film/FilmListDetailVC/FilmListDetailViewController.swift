@@ -14,7 +14,7 @@ class FilmListDetailViewController: UIViewController {
         let navBar = NavigationBar(frame: .zero)
         navBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
         navBar.titleLabel.isHidden = true
-        navBar.rightEditBtn.isHidden = true
+        navBar.rightBtn.isHidden = true
         return navBar
     }()
     

@@ -21,13 +21,9 @@ class NavigationBar: UIView {
         return label
     }()
     
-    var rightEditBtn: UIButton = {
-        let btn = UIButton(frame: .zero)
-        btn.setTitle("편집", for: .normal)
-        btn.setTitleColor( .black, for: .normal)
-        btn.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        btn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
-        return btn
+    /// rightBtn.setUpNavBarRightBtn(type: NavBarRightBtn) 로 설정하세요!
+    var rightBtn: UIButton = {
+        return UIButton(frame: .zero)
     }()
     
     override init(frame: CGRect) {
@@ -42,7 +38,7 @@ class NavigationBar: UIView {
     private func setSubViews(){
         addSubview(leftBtn)
         addSubview(titleLabel)
-        addSubview(rightEditBtn)
+        addSubview(rightBtn)
         backgroundColor = .white
         
         leftBtn.snp.makeConstraints {
@@ -50,7 +46,7 @@ class NavigationBar: UIView {
             $0.left.top.equalTo(self)
         }
         
-        rightEditBtn.snp.makeConstraints {
+        rightBtn.snp.makeConstraints {
             $0.height.equalTo(52)
             $0.width.equalTo(70)
             $0.top.right.equalTo(self)

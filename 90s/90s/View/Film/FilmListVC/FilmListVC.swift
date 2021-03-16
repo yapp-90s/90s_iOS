@@ -17,8 +17,9 @@ class FilmListVC: UIViewController {
     private var navigationBar: NavigationBar = {
         let navBar = NavigationBar(frame: .zero)
         navBar.titleLabel.text = "내 필름"
+        navBar.rightBtn.setUpNavBarRightBtn(type: .text_edit)
         navBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
-        navBar.rightEditBtn.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
+        navBar.rightBtn.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
         return navBar
     }()
     

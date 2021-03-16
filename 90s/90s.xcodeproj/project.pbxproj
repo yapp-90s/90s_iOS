@@ -61,6 +61,7 @@
 		9BB76139254EACF6005B7B5A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9BB76138254EACF6005B7B5A /* Assets.xcassets */; };
 		9BB7613C254EACF6005B7B5A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BB7613A254EACF6005B7B5A /* LaunchScreen.storyboard */; };
 		9BD15EA0260093710038C968 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD15E9F260093710038C968 /* NavigationBar.swift */; };
+		9BD15EA32600AA870038C968 /* NavBarRightBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */; };
 		E4B60D4131FF821707057C40 /* Pods_90s.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52979F365D500589FC378088 /* Pods_90s.framework */; };
 /* End PBXBuildFile section */
 
@@ -130,6 +131,7 @@
 		9BB7613B254EACF6005B7B5A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9BB7613D254EACF6005B7B5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9BD15E9F260093710038C968 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
+		9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarRightBtn.swift; sourceTree = "<group>"; };
 		CF8B31A11BC38AEA19A36948 /* Pods-90s.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.release.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -322,6 +324,7 @@
 				65426FC025B2FD61006124BA /* Typography.swift */,
 				65426FC425B2FD68006124BA /* Color.swift */,
 				9B878D5625E0EAFD0024CFAA /* Extension.swift */,
+				9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -597,6 +600,7 @@
 				652BC1CF25E0D62A00DC8E90 /* FilmPhotoCollectionViewCell.swift in Sources */,
 				653F7D8425988510002CD12A /* User.swift in Sources */,
 				4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */,
+				9BD15EA32600AA870038C968 /* NavBarRightBtn.swift in Sources */,
 				653F7D7C2598849B002CD12A /* Album.swift in Sources */,
 				4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */,
 				654C7470259C4872007B1D4A /* AlbumCover.swift in Sources */,
