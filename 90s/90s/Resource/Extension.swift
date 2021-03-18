@@ -16,7 +16,6 @@ extension Date {
     }
 }
 
-
 extension UIColor {
     class func colorRGBHex(hex:Int, alpha: Float = 1.0) -> UIColor {
         let r = Float((hex >> 16) & 0xFF)

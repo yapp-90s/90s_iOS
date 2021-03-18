@@ -25,7 +25,6 @@ class FilmListVC: UIViewController {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.showsVerticalScrollIndicator = false
         tv.separatorStyle = .none
-        tv.backgroundColor = .white
         return tv
     }()
     
@@ -127,22 +126,21 @@ extension FilmListVC {
         
         tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
-                if let bool = self?.isEditingMode {
-                    let cell = self?.tableView.cellForRow(at: indexPath) as? FilmListTableViewCell
+                if let bool = self?.isEditingMode,
+                   let array = self?.deleteFilmIndexPath,
+                   let cell = self?.tableView.cellForRow(at: indexPath) as? FilmListTableViewCell {
                     
                     if bool {
-                        if let array = self?.deleteFilmIndexPath {
-                            if array.contains(indexPath) {
-                                cell?.isEditCellSelected(value: !bool)
-                                self?.deleteFilmIndexPath.remove(indexPath)
-                            } else {
-                                cell?.isEditCellSelected(value: bool)
-                                self?.deleteFilmIndexPath.update(with: indexPath)
-                            }
+                        if array.contains(indexPath) {
+                            cell.isEditCellSelected(value: !bool)
+                            self?.deleteFilmIndexPath.remove(indexPath)
+                        } else {
+                            cell.isEditCellSelected(value: bool)
+                            self?.deleteFilmIndexPath.update(with: indexPath)
                         }
-                        
+                    
                         if let count = self?.deleteFilmIndexPath.count {
-                            let text = count > 0 ? "\(count)개 필름 삭제" : "필름을 선택하세요"
+                            let text = count > 0 ? "\(count)개 필름 삭제" : "필름을 선택해주세요"
                             self?.filmDeleteBtn.setTitle(text, for: .normal)
                         }
                     }
@@ -185,7 +183,6 @@ extension FilmListVC : UITableViewDelegate {
         var value : (String, Bool) = ("", false)
 
         header.backgroundView = UIView(frame: header.bounds)
-        header.backgroundView?.backgroundColor = .white
             
         switch section {
         case 0:
@@ -193,7 +190,7 @@ extension FilmListVC : UITableViewDelegate {
         case 1:
             value = ("지금 인화하고 있어요", true)
         default:
-            value = ("", false)
+            value = ("인화를 완료했어요", false)
         }
         
         header.bindViewModel(text: value.0)
@@ -205,11 +202,11 @@ extension FilmListVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch section {
         case 0:
-            return 50.0
+            return 60.0
         case 1:
             return 70.0
         default :
-            return 40.0
+            return 70.0
         }
     }
     

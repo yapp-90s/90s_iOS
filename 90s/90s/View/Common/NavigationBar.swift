@@ -12,6 +12,7 @@ class NavigationBar: UIView {
     var leftBtn : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setImage(UIImage(named: "navigate_back"), for: .normal)
+        btn.imageEdgeInsets = UIEdgeInsets(top: 9, left: 9, bottom: 9, right: 9)
         return btn
     }()
     
@@ -39,7 +40,6 @@ class NavigationBar: UIView {
         addSubview(leftBtn)
         addSubview(titleLabel)
         addSubview(rightBtn)
-        backgroundColor = .white
         
         leftBtn.snp.makeConstraints {
             $0.height.width.equalTo(52)

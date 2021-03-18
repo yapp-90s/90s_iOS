@@ -14,13 +14,11 @@ import RxCocoa
 class FilmListTableViewCell: UITableViewCell {
     static let FilmListCellId = "filmListCell"
     
-    private var disposeBag = DisposeBag()
-    private var testFilmValue : Film?
-    
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.showsHorizontalScrollIndicator = false
         cv.isUserInteractionEnabled = false
+        cv.backgroundColor = UIColor.colorRGBHex(hex: 0x2B2B2E)
         return cv
     }()
     
@@ -48,18 +46,20 @@ class FilmListTableViewCell: UITableViewCell {
     /// 필름 배경 이미지 뷰
     private var FilmBackgroudImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.image = UIImage(named: "film_table_background")
+        iv.image = UIImage(named: "film_preview_roll")
         return iv
     }()
     
     private var FilmDeleteBtn : UIButton = {
         let btn = UIButton(frame: .zero)
-        btn.backgroundColor = .white
         btn.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
+        btn.backgroundColor = .black
         btn.isHidden = true
         return btn
     }()
     
+    private var disposeBag = DisposeBag()
+    private var testFilmValue : Film?
     var isDeleteBtnClicked : Bool = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -87,6 +87,7 @@ extension FilmListTableViewCell {
         addSubview(FilmTypeImageView)
         addSubview(FilmDeleteBtn)
         
+        backgroundColor = .clear
         collectionView.dataSource = self
         
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -124,8 +125,8 @@ extension FilmListTableViewCell {
         }
         
         FilmTypeImageView.snp.makeConstraints {
-            $0.height.equalTo(21)
-            $0.width.equalTo(84)
+            $0.height.equalTo(29)
+            $0.width.equalTo(110)
             $0.bottom.equalTo(-22)
             $0.right.equalTo(-18)
         }
@@ -147,7 +148,7 @@ extension FilmListTableViewCell {
         }
         
         FilmTitleLabel.text = film.name
-        FilmCount_DateLabel.text = film.createDate // 전체 개수 리턴하는 함수 필요
+        FilmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createDate)" // 전체 개수 리턴하는 함수 필요
         collectionView.reloadData()
         
         //MARK: TODO - Rx로 아래대로 하면 스크롤 시 멈춤

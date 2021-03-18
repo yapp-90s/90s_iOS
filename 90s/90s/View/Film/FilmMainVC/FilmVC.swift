@@ -17,7 +17,6 @@ protocol FilmVCDelegate {
 class FilmVC : UIViewController {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
-        cv.backgroundColor = .white
         cv.showsVerticalScrollIndicator = false
         return cv
     }()

@@ -19,12 +19,12 @@ extension UIButton {
     func setUpNavBarRightBtn(type: NavBarRightBtn){
         switch type {
         case .text_cancle:
-            setTitleColor( .black, for: .normal)
+            setTitleColor( .white, for: .normal)
             titleLabel?.font = .boldSystemFont(ofSize: 16)
             contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
             setTitle("취소", for: .normal)
         case .text_edit:
-            setTitleColor( .black, for: .normal)
+            setTitleColor( .white, for: .normal)
             titleLabel?.font = .boldSystemFont(ofSize: 16)
             contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 5)
             setTitle("편집", for: .normal)

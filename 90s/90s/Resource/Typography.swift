@@ -19,12 +19,12 @@ enum LabelType {
     case bold_18
     case normal_21
     case normal_16
+    case normal_13
     case normal_gray_16
     case normal_gray_13
     
     func create() -> UILabel {
         let label = UILabel(frame: .zero)
-//        label.textColor = white ? .black : .white
         
         switch self {
         case .bold_21:
@@ -37,12 +37,14 @@ enum LabelType {
             label.font = label.font.withSize(21)
         case .normal_16:
             label.font = label.font.withSize(16)
+        case .normal_13:
+            label.font = label.font.withSize(13)
         case .normal_gray_16:
             label.font = label.font.withSize(16)
-            label.textColor = .gray
+            label.textColor = .lightGray
         case .normal_gray_13:
             label.font = label.font.withSize(13)
-            label.textColor = .gray
+            label.textColor = .lightGray
         }
         return label
     }

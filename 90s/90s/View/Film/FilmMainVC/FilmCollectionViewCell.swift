@@ -21,7 +21,7 @@ class FilmCollectionViewCell: UICollectionViewCell {
     }()
     
     private var filmImageLabel : UILabel = {
-        return LabelType.normal_gray_13.create()
+        return LabelType.normal_13.create()
     }()
     
     override init(frame: CGRect) {

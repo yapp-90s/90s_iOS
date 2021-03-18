@@ -24,7 +24,6 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
         cv.showsHorizontalScrollIndicator = false
-        cv.backgroundColor = .white
         return cv
     }()
     
@@ -44,13 +43,6 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
     private let printedTitleLabel : UILabel = {
         let label = LabelType.bold_21.create()
         label.text = "인화된 사진"
-        return label
-    }()
-    
-    
-    private let goToPrintedAlbumLabel : UILabel = {
-        let label = LabelType.normal_gray_16.create()
-        label.text = "모두보기"
         return label
     }()
 
@@ -74,7 +66,6 @@ extension FilmHeaderCollectionViewCell {
         addSubview(filmTitleLabel)
         addSubview(filmCountBtn)
         addSubview(printedTitleLabel)
-        addSubview(goToPrintedAlbumLabel)
         
         filmTitleLabel.snp.makeConstraints {
             $0.left.equalTo(18)
@@ -97,11 +88,6 @@ extension FilmHeaderCollectionViewCell {
         printedTitleLabel.snp.makeConstraints {
             $0.left.equalTo(18)
             $0.top.equalTo(collectionView.snp.bottom).offset(42)
-        }
-        
-        goToPrintedAlbumLabel.snp.makeConstraints {
-            $0.right.equalTo(-35)
-            $0.top.equalTo(collectionView.snp.bottom).offset(44)
         }
     }
     

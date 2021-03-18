@@ -14,8 +14,7 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .clear
+        iv.contentMode = .scaleToFill
         return iv
     }()
     

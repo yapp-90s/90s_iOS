@@ -37,14 +37,13 @@ class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
         
         headerTitle.snp.makeConstraints {
             $0.left.equalTo(18)
-            $0.bottom.equalTo(-10)
+            $0.top.equalTo(32)
         }
         
         blackView.snp.makeConstraints {
-            $0.height.equalTo(1)
+            $0.height.top.equalTo(1)
             $0.left.equalTo(18)
             $0.right.equalTo(-18)
-            $0.bottom.equalTo(-16)
         }
     }
     
