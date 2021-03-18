@@ -74,14 +74,15 @@ enum FilmStateType : Int, Hashable {
 }
 
 /// Film 필터 종류
-enum FilmFilterType {
-    case Create
-    case Cold
-    case Cute
-    case Nice
-    case Hot
-    case Dandy
+enum FilmFilterType : String {
+    case Create = ""
+    case Cold = "차가운 필름"
+    case Cute = "귀여운 필름"
+    case Nice = "멋진 필름"
+    case Hot = "강렬한 필름"
+    case Dandy = "진지한 필름"
 }
+
 extension FilmFilterType {
     var count: Int {
         self.hashValue

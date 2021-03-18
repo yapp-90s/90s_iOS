@@ -10,7 +10,7 @@ import SnapKit
 
 /// 필름 뷰 하단 - 인하된 사진들을 보여주는 콜렉션 셀입니다
 class FilmPhotoCollectionViewCell: UICollectionViewCell {
-    static let photoCellID = "photoCell"
+    static let cellID = "photoCell"
     
     private var photoImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)

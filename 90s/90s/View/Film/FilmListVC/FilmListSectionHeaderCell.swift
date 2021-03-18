@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
-    static let FilmListSectionHeaderCellID = "FilmListSectionHeaderCell"
+    static let cellID = "FilmListSectionHeaderCell"
     
     private var headerTitle : UILabel = {
         return LabelType.bold_21.create()
@@ -37,7 +37,7 @@ class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
         
         headerTitle.snp.makeConstraints {
             $0.left.equalTo(18)
-            $0.top.equalTo(32)
+            $0.bottom.equalTo(-12)
         }
         
         blackView.snp.makeConstraints {

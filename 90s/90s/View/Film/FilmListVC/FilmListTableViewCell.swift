@@ -12,7 +12,7 @@ import RxCocoa
 
 /// 필름 리스트를 보여주는 테이블 셀
 class FilmListTableViewCell: UITableViewCell {
-    static let FilmListCellId = "filmListCell"
+    static let cellId = "filmListCell"
     
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -50,6 +50,7 @@ class FilmListTableViewCell: UITableViewCell {
         return iv
     }()
     
+    /// 필름 삭제 선택 버튼
     private var FilmDeleteBtn : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
@@ -91,7 +92,7 @@ extension FilmListTableViewCell {
         collectionView.dataSource = self
         
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
+        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
        
         FilmTitleImageView.snp.makeConstraints {
             $0.width.equalTo(100)
@@ -135,7 +136,7 @@ extension FilmListTableViewCell {
             $0.width.equalTo(60)
             $0.height.equalTo(140)
             $0.centerY.equalTo(FilmBackgroudImageView.snp.centerY)
-            $0.right.equalTo(self)
+            $0.right.equalTo(0)
         }
     }
     
@@ -159,8 +160,8 @@ extension FilmListTableViewCell {
     }
     
     func isEditStarted(value: Bool){
-        FilmDeleteBtn.isHidden = !value
         FilmTypeImageView.isHidden = value
+        FilmDeleteBtn.isHidden = !value
     }
     
     func isEditCellSelected(value: Bool) {
@@ -178,7 +179,7 @@ extension FilmListTableViewCell : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.filmListCCellId, for: indexPath) as! FilmListCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
         
         if let item = testFilmValue {
             cell.bindViewModel(item: item.photos[indexPath.row])

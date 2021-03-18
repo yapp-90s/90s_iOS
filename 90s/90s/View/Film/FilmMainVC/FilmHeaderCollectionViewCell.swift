@@ -11,7 +11,7 @@ import RxSwift
 
 /// 필름 뷰 상단 - 헤더셀 입니다
 class FilmHeaderCollectionViewCell: UICollectionViewCell {
-    static let headerCellID = "headerCell"
+    static let cellID = "headerCell"
     
     private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
@@ -37,6 +37,9 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
         let btn = UIButton(frame: .zero)
         btn.titleLabel?.font = .systemFont(ofSize: 16)
         btn.setTitleColor(.gray, for: .normal)
+        btn.setImage(UIImage(named: "point"), for: .normal)
+        btn.semanticContentAttribute = .forceRightToLeft
+        btn.imageEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 3, right: 0)
         return btn
     }()
     
@@ -93,13 +96,18 @@ extension FilmHeaderCollectionViewCell {
     
     private func setUpCollectionView(){
         collectionView.delegate = self
-        collectionView.register(FilmCollectionViewCell.self, forCellWithReuseIdentifier: FilmCollectionViewCell.filmCellID)
+        collectionView.register(FilmCollectionViewCell.self, forCellWithReuseIdentifier: FilmCollectionViewCell.cellID)
     }
     
     private func bindViewModel(){
+        let attribute = NSMutableAttributedString(string: "")
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = UIImage(named: "point")
+        attribute.append(attribute)
+        
         /// set CollectionView DataSource
         viewModel.FilmObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.filmCellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.cellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
                 cell.bindItem(film: item)
             }
             .disposed(by: disposeBag)

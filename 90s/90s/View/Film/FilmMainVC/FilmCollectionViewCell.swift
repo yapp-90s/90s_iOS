@@ -10,7 +10,7 @@ import SnapKit
 
 /// 필름 뷰 상단 - 헤더 셀에서 "내 필름 목록" 을 보여주는 콜렉션 셀입니다
 class FilmCollectionViewCell: UICollectionViewCell {
-    static let filmCellID = "filmCell"
+    static let cellID = "filmCell"
     
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)

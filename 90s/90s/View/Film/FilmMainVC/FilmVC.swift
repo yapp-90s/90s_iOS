@@ -53,8 +53,8 @@ extension FilmVC {
             layouts.delegate = self
         }
         
-        collectionView.register(FilmHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmHeaderCollectionViewCell.headerCellID)
-        collectionView.register(FilmPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmPhotoCollectionViewCell.photoCellID)
+        collectionView.register(FilmHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmHeaderCollectionViewCell.cellID)
+        collectionView.register(FilmPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmPhotoCollectionViewCell.cellID)
         
         collectionView.snp.makeConstraints {
             $0.top.bottom.right.left.equalTo(view.safeAreaLayoutGuide)
@@ -63,7 +63,7 @@ extension FilmVC {
     
     private func setupCollectionViewDataSource(){
         viewModel.photoObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmPhotoCollectionViewCell.photoCellID, cellType: FilmPhotoCollectionViewCell.self)) { index, item, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmPhotoCollectionViewCell.cellID, cellType: FilmPhotoCollectionViewCell.self)) { index, item, cell in
                 cell.bindViewModel(image: item.image)
             }
             .disposed(by: disposeBag)
@@ -75,7 +75,7 @@ extension FilmVC :  UICollectionViewDelegate, UICollectionViewDataSource{
     // MARK: Header cell setting
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmHeaderCollectionViewCell.headerCellID, for: indexPath) as? FilmHeaderCollectionViewCell else { return UICollectionReusableView() }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmHeaderCollectionViewCell.cellID, for: indexPath) as? FilmHeaderCollectionViewCell else { return UICollectionReusableView() }
         header.delegate = self
         return header
     }
@@ -87,7 +87,7 @@ extension FilmVC :  UICollectionViewDelegate, UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmPhotoCollectionViewCell.photoCellID, for: indexPath) as? FilmPhotoCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmPhotoCollectionViewCell.cellID, for: indexPath) as? FilmPhotoCollectionViewCell else { return UICollectionViewCell() }
         cell.bindViewModel(image: photoViewModel[indexPath.row].image)
         return cell
     }

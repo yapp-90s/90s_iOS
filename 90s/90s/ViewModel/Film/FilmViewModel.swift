@@ -51,7 +51,7 @@ class FilmsViewModel {
                         Photo(id: "0005", url: "test_pic2", date: "\(Date())"),
                         Photo(id: "0006", url: "test_pic2", date: "\(Date())")
                     ]
-                 , maxCount: 36, state: .adding),
+                 , maxCount: 3, state: .adding),
             Film(id: "3", name: "차가운 필름", completeDate: "2021.10.10", filterType: .Cold, photos: [
                         Photo(id: "0007", url: "test_pic4", date: "\(Date())"),
                         Photo(id: "0008", url: "test_pic4", date: "\(Date())"),

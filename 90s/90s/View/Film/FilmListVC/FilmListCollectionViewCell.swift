@@ -10,7 +10,7 @@ import SnapKit
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
 class FilmListCollectionViewCell: UICollectionViewCell {
-    static let filmListCCellId = "filmListCCell"
+    static let cellId = "filmListCCell"
     
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)

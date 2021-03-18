@@ -112,7 +112,7 @@ extension FilmListDetailViewController {
         let safe = view.safeAreaLayoutGuide
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.filmListCCellId)
+        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         
         navigationBar.snp.makeConstraints {
             $0.height.equalTo(52)
@@ -226,7 +226,7 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.filmListCCellId, for: indexPath) as! FilmListCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
         if let f = films {
             cell.bindViewModel_scaleFill(item: f.photos[indexPath.row])
         }
