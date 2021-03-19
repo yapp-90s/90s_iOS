@@ -9,18 +9,14 @@ import UIKit
 import SnapKit
 
 class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
-    static let FilmListSectionHeaderCellID = "FilmListSectionHeaderCell"
+    static let cellID = "FilmListSectionHeaderCell"
     
     private var headerTitle : UILabel = {
-        let label = UILabel(frame: .zero)
-        label.text = "제목"
-        label.font = UIFont.boldSystemFont(ofSize: 22)
-        return label
+        return LabelType.bold_21.create()
     }()
     
     private var blackView : UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = ""
         label.backgroundColor = .gray
         label.isHidden = true
         return label
@@ -41,14 +37,13 @@ class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
         
         headerTitle.snp.makeConstraints {
             $0.left.equalTo(18)
-            $0.bottom.equalTo(-10)
+            $0.bottom.equalTo(-12)
         }
         
         blackView.snp.makeConstraints {
-            $0.height.equalTo(1)
+            $0.height.top.equalTo(1)
             $0.left.equalTo(18)
             $0.right.equalTo(-18)
-            $0.bottom.equalTo(-16)
         }
     }
     

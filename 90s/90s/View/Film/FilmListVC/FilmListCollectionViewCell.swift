@@ -10,12 +10,11 @@ import SnapKit
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
 class FilmListCollectionViewCell: UICollectionViewCell {
-    static let filmListCCellId = "filmListCCell"
+    static let cellId = "filmListCCell"
     
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .white
+        iv.contentMode = .scaleToFill
         return iv
     }()
     
@@ -29,7 +28,7 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpSubView(){
-        self.addSubview(imageView)
+        addSubview(imageView)
         
         imageView.snp.makeConstraints {
             $0.edges.equalTo(self)
@@ -37,7 +36,16 @@ class FilmListCollectionViewCell: UICollectionViewCell {
     }
     
     func bindViewModel(item: Photo){
-        imageView.image = UIImage(named: item.url)
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = UIImage(named: item.url)
+        }
+    }
+    
+    func bindViewModel_scaleFill(item: Photo){
+        imageView.contentMode = .scaleToFill
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = UIImage(named: item.url)
+        }
     }
 }
 

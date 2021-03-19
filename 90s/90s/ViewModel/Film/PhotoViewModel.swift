@@ -19,27 +19,25 @@ class PhotoViewModel {
     }
     
     func setDefaultData(){
-        self.array = [TestPhoto(image: "picture1"),
-                      TestPhoto(image: "picture2"),
-                      TestPhoto(image: "picture3"),
-                      TestPhoto(image: "picture4"),
-                      TestPhoto(image: "picture2"),
-                      TestPhoto(image: "picture1"),
-                      TestPhoto(image: "picture4"),
-                      TestPhoto(image: "picture3")]
+        self.array = [TestPhoto(image: "test_pic1"),
+                      TestPhoto(image: "test_pic2"),
+                      TestPhoto(image: "test_pic3"),
+                      TestPhoto(image: "test_pic4"),
+                      TestPhoto(image: "test_pic2"),
+                      TestPhoto(image: "test_pic2"),
+                      TestPhoto(image: "test_pic3"),
+                      TestPhoto(image: "test_pic4")]
     }
     
     func setObservableDefaultData(){
-        let photos : [TestPhoto] = [
-            TestPhoto(image: "picture1"),
-            TestPhoto(image: "picture2"),
-            TestPhoto(image: "picture3"),
-            TestPhoto(image: "picture4"),
-            TestPhoto(image: "picture2"),
-            TestPhoto(image: "picture1"),
-            TestPhoto(image: "picture4"),
-            TestPhoto(image: "picture3"),
-        ]
+        let photos : [TestPhoto] = [TestPhoto(image: "test_pic1"),
+                                    TestPhoto(image: "test_pic2"),
+                                    TestPhoto(image: "test_pic3"),
+                                    TestPhoto(image: "test_pic4"),
+                                    TestPhoto(image: "test_pic2"),
+                                    TestPhoto(image: "test_pic2"),
+                                    TestPhoto(image: "test_pic3"),
+                                    TestPhoto(image: "test_pic4")]
         
         photoObservable.accept(photos)
     }

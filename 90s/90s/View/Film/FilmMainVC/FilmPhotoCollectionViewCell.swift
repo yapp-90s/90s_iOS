@@ -10,11 +10,11 @@ import SnapKit
 
 /// 필름 뷰 하단 - 인하된 사진들을 보여주는 콜렉션 셀입니다
 class FilmPhotoCollectionViewCell: UICollectionViewCell {
-    static let photoCellID = "photoCell"
+    static let cellID = "photoCell"
     
-    var photoImageView : UIImageView = {
+    private var photoImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
     }()
@@ -29,10 +29,16 @@ class FilmPhotoCollectionViewCell: UICollectionViewCell {
     }
     
     private func setUpSubviews(){
-        self.addSubview(self.photoImageView)
+        addSubview(photoImageView)
         
         photoImageView.snp.makeConstraints {
             $0.edges.equalTo(self)
+        }
+    }
+    
+    func bindViewModel(image: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.photoImageView.image = UIImage(named: image)
         }
     }
 }

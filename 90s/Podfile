@@ -12,4 +12,6 @@ target '90s' do
  pod 'RxDataSources', '~> 4.0'
  pod 'RxAlamofire'
  pod 'RealmSwift'
+ pod 'SwiftLint'
+ 
 end

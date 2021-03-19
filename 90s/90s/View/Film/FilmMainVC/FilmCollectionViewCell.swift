@@ -10,18 +10,18 @@ import SnapKit
 
 /// 필름 뷰 상단 - 헤더 셀에서 "내 필름 목록" 을 보여주는 콜렉션 셀입니다
 class FilmCollectionViewCell: UICollectionViewCell {
-    static let filmCellID = "filmCell"
+    static let cellID = "filmCell"
     
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.layer.cornerRadius = 10
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFit
         return iv
     }()
     
     private var filmImageLabel : UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = label.font.withSize(13)
-        return label
+        return LabelType.normal_13.create()
     }()
     
     override init(frame: CGRect) {
@@ -33,12 +33,10 @@ class FilmCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     private func setUpSubviews(){
-        self.addSubview(filmImageView)
-        self.addSubview(filmImageLabel)
-        
-        filmImageView.contentMode = .scaleAspectFit
-        filmImageView.clipsToBounds = true
+        addSubview(filmImageView)
+        addSubview(filmImageLabel)
         
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(113)
@@ -52,7 +50,9 @@ class FilmCollectionViewCell: UICollectionViewCell {
     }
     
     func bindItem(film : Film){
-        filmImageView.image = UIImage(named: film.filterType.image()) 
+        DispatchQueue.main.async { [weak self] in
+            self?.filmImageView.image = UIImage(named: film.filterType.image()) 
+        }
         filmImageLabel.text = film.name
     }
 }
