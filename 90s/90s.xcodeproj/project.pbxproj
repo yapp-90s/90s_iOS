@@ -171,8 +171,8 @@
 			isa = PBXGroup;
 			children = (
 				4CE649F525E0DEC80093D238 /* DecorateContainerViewController.swift */,
-				4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */,
 				4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */,
+				4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */,
 				4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */,
 				4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */,
 			);
