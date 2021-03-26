@@ -11,6 +11,7 @@
 		4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */; };
 		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
 		4C1F80E425F34A5100E98A0B /* StickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E325F34A5100E98A0B /* StickerCollectionViewCell.swift */; };
+		4C1F80F525F3692E00E98A0B /* DecoratingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80F425F3692E00E98A0B /* DecoratingView.swift */; };
 		4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */; };
 		4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */; };
 		4C357AE225E1013B00B23E84 /* ScrollStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357AE125E1013B00B23E84 /* ScrollStackView.swift */; };
@@ -67,6 +68,7 @@
 		4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewModel.swift; sourceTree = "<group>"; };
 		4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackNavigationBar.swift; sourceTree = "<group>"; };
 		4C1F80E325F34A5100E98A0B /* StickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		4C1F80F425F3692E00E98A0B /* DecoratingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoratingView.swift; sourceTree = "<group>"; };
 		4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewController.swift; sourceTree = "<group>"; };
 		4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackCategory.swift; sourceTree = "<group>"; };
 		4C357AE125E1013B00B23E84 /* ScrollStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollStackView.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				4C357AE725E10DCD00B23E84 /* CategoryLabel.swift */,
 				4CBC5A6925F24F55005D2592 /* HighlightButton.swift */,
 				4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */,
+				4C1F80F425F3692E00E98A0B /* DecoratingView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				4CBC5A9925F283AD005D2592 /* StickerFactory.swift in Sources */,
 				6521BF8F25BC2A8900580EB5 /* BoxService.swift in Sources */,
 				65AE123725CFEDF40036147F /* AlbumViewController.swift in Sources */,
+				4C1F80F525F3692E00E98A0B /* DecoratingView.swift in Sources */,
 				9B878D5725E0EAFD0024CFAA /* Extension.swift in Sources */,
 				6521BF8325BC274100580EB5 /* AlbumService.swift in Sources */,
 				4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */,
