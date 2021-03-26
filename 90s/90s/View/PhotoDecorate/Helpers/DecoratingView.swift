@@ -12,7 +12,7 @@ class DecoratingView: UIView {
     
     var disposeBag = DisposeBag()
     
-    func attachStickerView(_ sticker: AttachStickerView, at position: CGPoint? = nil) {
+    func attachStickerView(_ sticker: ResizableStickerView, at position: CGPoint? = nil) {
         addSubview(sticker)
         sticker.center = position ?? center
         sticker.removeButton.rx.tap
@@ -26,13 +26,13 @@ class DecoratingView: UIView {
         addResizingGesture(sticker)
     }
     
-    private func addMovingGesture(_ sticker: AttachStickerView) {
+    private func addMovingGesture(_ sticker: ResizableStickerView) {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(moveSticker(_:)))
         
         sticker.addGestureRecognizer(panGesture)
     }
     
-    private func addResizingGesture(_ sticker: AttachStickerView) {
+    private func addResizingGesture(_ sticker: ResizableStickerView) {
         sticker.resizeHandler = { [weak self] gesture, sticker in
             self?.panGestureResizing(sticker, with: gesture)
         }
@@ -41,7 +41,7 @@ class DecoratingView: UIView {
     @objc private func moveSticker(_ gesture: UIPanGestureRecognizer) {
         switch gesture.state {
             case .changed:
-                guard let sticker = gesture.view as? AttachStickerView else { return }
+                guard let sticker = gesture.view as? ResizableStickerView else { return }
                 let location = gesture.location(in: self)
                 if self.bounds.contains(sticker.bounds) {
                     sticker.center = location
@@ -53,7 +53,7 @@ class DecoratingView: UIView {
     private var startPoint: CGPoint = .zero
     private var startAngle: CGFloat = .zero
     
-    @IBAction func panGestureResizing(_ sticker: AttachStickerView, with gesture: UIPanGestureRecognizer) {
+    @IBAction func panGestureResizing(_ sticker: ResizableStickerView, with gesture: UIPanGestureRecognizer) {
 
         switch gesture.state {
             case .began:

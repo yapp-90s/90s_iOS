@@ -7,9 +7,9 @@
 
 import UIKit
 
-class AttachStickerView: UIView {
+class ResizableStickerView: UIView {
     
-    var resizeHandler: ((UIPanGestureRecognizer, AttachStickerView) -> Void)?
+    var resizeHandler: ((UIPanGestureRecognizer, ResizableStickerView) -> Void)?
     
     let removeButton: UIButton = {
         let button = UIButton()

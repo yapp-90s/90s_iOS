@@ -52,7 +52,7 @@ class PhotoDecorateViewController: BaseViewController {
     private func bindViewModel() {
         
         viewModel.input.addSticker
-            .map { AttachStickerView(image: UIImage(named: $0.imageName)) }
+            .map { ResizableStickerView(image: UIImage(named: $0.imageName)) }
             .subscribe(onNext: { [weak self] stickerView in
                 guard let self = self else { return }
                 self.decoratingView.attachStickerView(stickerView)
@@ -82,7 +82,7 @@ class PhotoDecorateViewController: BaseViewController {
     
     // MARK: - Methods
     
-    func attachStickerView(_ sticker: AttachStickerView, at position: CGPoint) {
+    func attachStickerView(_ sticker: ResizableStickerView, at position: CGPoint) {
         view.addSubview(sticker)
         sticker.center = position
     }
