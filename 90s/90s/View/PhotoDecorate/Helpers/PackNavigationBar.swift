@@ -17,7 +17,7 @@ class PackNavigationBar: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "스티커팩이름"
-        
+        label.textAlignment = .center
         return label
     }()
     
@@ -60,6 +60,7 @@ class PackNavigationBar: UIView {
         
         titleLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
+            $0.width.equalTo(150)
         }
         
         leftStackView.snp.makeConstraints {
