@@ -49,7 +49,7 @@ class StickerPackViewController: BaseViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
-        binding()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -63,7 +63,7 @@ class StickerPackViewController: BaseViewController {
         setupViews()
     }
     
-    private func binding() {
+    private func bindViewModel() {
         
         stickerCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         

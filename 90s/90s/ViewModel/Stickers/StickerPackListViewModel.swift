@@ -37,6 +37,7 @@ class StickerPackListViewModel: ViewModelType {
 
 extension StickerPackListViewModel {
     struct Dependency {
+        weak var photoDecorateViewModel: PhotoDecorateViewModel?
         var stickerFactory = StickerFactory()
     }
 
