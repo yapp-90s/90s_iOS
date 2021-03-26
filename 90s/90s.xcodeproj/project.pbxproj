@@ -11,6 +11,7 @@
 		4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */; };
 		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
 		4C1F80E425F34A5100E98A0B /* StickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E325F34A5100E98A0B /* StickerCollectionViewCell.swift */; };
+		4C1F80E725F354F300E98A0B /* PhotoDecorateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E625F354F300E98A0B /* PhotoDecorateViewModel.swift */; };
 		4C1F80ED25F35D1800E98A0B /* DecoratePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80EC25F35D1800E98A0B /* DecoratePhotoView.swift */; };
 		4C1F80F125F3663900E98A0B /* AttachStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80F025F3663900E98A0B /* AttachStickerView.swift */; };
 		4C1F80F525F3692E00E98A0B /* DecoratingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80F425F3692E00E98A0B /* DecoratingView.swift */; };
@@ -70,6 +71,7 @@
 		4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewModel.swift; sourceTree = "<group>"; };
 		4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackNavigationBar.swift; sourceTree = "<group>"; };
 		4C1F80E325F34A5100E98A0B /* StickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		4C1F80E625F354F300E98A0B /* PhotoDecorateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDecorateViewModel.swift; sourceTree = "<group>"; };
 		4C1F80EC25F35D1800E98A0B /* DecoratePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoratePhotoView.swift; sourceTree = "<group>"; };
 		4C1F80F025F3663900E98A0B /* AttachStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachStickerView.swift; sourceTree = "<group>"; };
 		4C1F80F425F3692E00E98A0B /* DecoratingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoratingView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			children = (
 				4CBC5A9025F25CA3005D2592 /* StickerPackListViewModel.swift */,
 				4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */,
+				4C1F80E625F354F300E98A0B /* PhotoDecorateViewModel.swift */,
 			);
 			path = Stickers;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				4C357AE825E10DCD00B23E84 /* CategoryLabel.swift in Sources */,
 				9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */,
 				9BB76130254EACF4005B7B5A /* AppDelegate.swift in Sources */,
+				4C1F80E725F354F300E98A0B /* PhotoDecorateViewModel.swift in Sources */,
 				4CBC5A6A25F24F55005D2592 /* HighlightButton.swift in Sources */,
 				65950D1E25DD6F3400CD94EA /* AlbumPreviewCell.swift in Sources */,
 				6521BF7C25BC273300580EB5 /* FlimService.swift in Sources */,
