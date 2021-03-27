@@ -57,7 +57,10 @@ class FilmPinterestLayout: UICollectionViewLayout {
             let photoHeight = delegate?.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath) ?? 200
             let height = 12 + photoHeight
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
-            let insetFrame = frame.insetBy(dx: 6, dy: 6)
+           
+            let insetFrame = item % 2 == 0 ?
+                frame.inset(by: UIEdgeInsets(top: 4, left: 18, bottom: 4, right: 4)) :
+                frame.inset(by: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 18))
             
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = insetFrame

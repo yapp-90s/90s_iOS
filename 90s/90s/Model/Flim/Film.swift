@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 struct Film {
     let id: String
@@ -27,6 +28,13 @@ struct Film {
         photos.append(photo)
         return true
     }
+    
+    @discardableResult
+    mutating func addAtFirst(_ photo : Photo) -> Bool {
+        guard !isFull else { return false }
+        photos.insert(photo, at: 0)
+        return true
+    }
 }
 
 extension Film {
@@ -40,7 +48,7 @@ extension Film {
 }
 
 /// Film 제작의 상태표
-enum FilmStateType : Int {
+enum FilmStateType : Int, Hashable {
     case create = 0
     case adding = 1
     case printing = 2
@@ -49,22 +57,32 @@ enum FilmStateType : Int {
     func image() -> String {
         switch self {
         case .create: return ""
-        case .adding: return "filmstateaddimg"
-        case .printing: return "filmstateprintimg"
-        case .complete: return "filmstatecompleteimg"
+        case .adding: return "film_state_adding"
+        case .printing: return "film_state_print"
+        case .complete: return "film_state_complete"
+        }
+    }
+    
+    func text() -> String {
+        switch self {
+        case .create, .adding:
+            return "사진 추가 중"
+        case .printing, .complete:
+            return "인화완료"
         }
     }
 }
 
 /// Film 필터 종류
-enum FilmFilterType {
-    case Create
-    case Cold
-    case Cute
-    case Nice
-    case Hot
-    case Dandy
+enum FilmFilterType : String {
+    case Create = ""
+    case Cold = "차가운 필름"
+    case Cute = "귀여운 필름"
+    case Nice = "멋진 필름"
+    case Hot = "강렬한 필름"
+    case Dandy = "진지한 필름"
 }
+
 extension FilmFilterType {
     var count: Int {
         self.hashValue
@@ -73,9 +91,24 @@ extension FilmFilterType {
     func image() -> String {
         switch self {
         case .Create:
-            return "newfilmimg"
+            return "film_create"
         case .Cold, .Cute, .Nice, .Hot, .Dandy :
-            return "filmimg"
+            return "film_default"
         }
+    }
+}
+
+
+struct FilmListSectionData {
+    var header : String
+    var items: [Item]
+}
+
+extension FilmListSectionData : SectionModelType {
+    typealias Item = Film
+    
+    init(original: FilmListSectionData, items: [Film]) {
+        self = original
+        self.items = items
     }
 }
