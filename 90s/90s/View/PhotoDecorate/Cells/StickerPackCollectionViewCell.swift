@@ -8,6 +8,7 @@
 import UIKit
 
 class StickerPackCollectionViewCell: UICollectionViewCell {
+    
     static let identifier = "StickerPackCollectionViewCell"
     
     struct Constraints {
@@ -42,7 +43,7 @@ class StickerPackCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupViews() {
+    private func setupViews() {
         addSubview(nameLabel)
         addSubview(imageView)
         

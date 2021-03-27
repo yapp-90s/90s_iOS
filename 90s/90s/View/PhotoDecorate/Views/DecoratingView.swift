@@ -10,9 +10,11 @@ import RxSwift
 
 class DecoratingView: UIView {
     
-    var disposeBag = DisposeBag()
+    // MARK: Properties
     
-    var decorator = StickerDecorator()
+    private var decorator = StickerDecorator()
+    
+    // MARK: - Methods
     
     func attachStickerView(_ sticker: ResizableStickerView, at position: CGPoint? = nil) {
         addSubview(sticker)
@@ -20,6 +22,8 @@ class DecoratingView: UIView {
         addMovingGesture(sticker)
         addResizingGesture(sticker)
     }
+    
+    // MARK: Private
     
     private func addMovingGesture(_ sticker: ResizableStickerView) {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(moveSticker(_:)))

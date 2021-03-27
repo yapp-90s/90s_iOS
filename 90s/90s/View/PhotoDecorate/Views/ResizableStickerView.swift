@@ -90,6 +90,8 @@ class ResizableStickerView: UIView {
         }
     }
     
+    // MARK: Selectors
+    
     @objc private func resizePanGesture(_ sender: UIPanGestureRecognizer) {
         resizeHandler?(sender, self)
     }

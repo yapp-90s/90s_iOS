@@ -7,11 +7,7 @@
 
 import UIKit
 
-class ScrollStackView: UIScrollView {
-    
-    var spacing: CGFloat {
-        didSet { contentStackView.spacing = spacing }
-    }
+class ScrollingHorizontalStackView: UIScrollView {
     
     private(set) lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -21,7 +17,11 @@ class ScrollStackView: UIScrollView {
         
         return stackView
     }()
-
+    
+    var spacing: CGFloat {
+        didSet { contentStackView.spacing = spacing }
+    }
+    
     init(views: [UIView], spacing: CGFloat = 30) {
         self.spacing = 30
         super.init(frame: .zero)

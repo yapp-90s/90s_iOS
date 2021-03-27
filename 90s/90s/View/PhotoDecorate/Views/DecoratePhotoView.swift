@@ -9,15 +9,7 @@ import UIKit
 
 class DecoratePhotoView: UIView {
     
-    var photoInset: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
-    var image: UIImage? {
-        get {
-            return imageView.image
-        }
-        set {
-            imageView.image = newValue
-        }
-    }
+    // MARK: - Views
     
     var photoBackgroundView: UIView = {
         let view = UIView()
@@ -31,6 +23,20 @@ class DecoratePhotoView: UIView {
         
         return imageView
     }()
+    
+    // MARK: - Properties
+    
+    var photoInset: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+    var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set {
+            imageView.image = newValue
+        }
+    }
+    
+    // MARK: Initialize
     
     init(image: UIImage?) {
         super.init(frame: .zero)
