@@ -1,7 +1,43 @@
+# 기본 활성화 된 룰 중 비활성화할 룰 지정
 disabled_rules:
 - line_length
 
+# 린트를 포함할 파일 경로
 included:
 
+# 린트를 포함하지 않을 파일 경로
 excluded:
 - Pods
+
+# 일부 룰을 opt_in 형태로 제공
+opt_in_rules:
+- empty_count
+- missing_docs
+
+line_length:
+    warning: 100
+    error: 120
+
+type_body_length:
+    warning: 300
+    error: 400
+
+file_length:
+    warning: 500
+    error: 1200
+
+type_name:
+    min_length: 4
+    max_length:
+        warning: 40
+        error: 50
+    excluded: iPhone # 제외할 문자열 값 사용
+    
+identifier_name:
+    min_length:
+        error: 4
+    excluded:
+        - id
+        - URL
+
+reporter: "xcode" # 보고 유형

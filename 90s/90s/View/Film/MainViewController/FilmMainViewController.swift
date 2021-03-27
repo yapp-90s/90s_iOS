@@ -14,7 +14,7 @@ protocol FilmVCDelegate {
     func presentListVC()
 }
 
-class FilmVC : UIViewController {
+class FilmMainViewController : UIViewController {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
         cv.showsVerticalScrollIndicator = false
@@ -39,10 +39,7 @@ class FilmVC : UIViewController {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
     }
-}
 
-
-extension FilmVC {
     private func setUpCollectionView(){
         view.addSubview(collectionView)
         
@@ -53,8 +50,8 @@ extension FilmVC {
             layouts.delegate = self
         }
         
-        collectionView.register(FilmHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmHeaderCollectionViewCell.cellID)
-        collectionView.register(FilmPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmPhotoCollectionViewCell.cellID)
+        collectionView.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
+        collectionView.register(FilmMainPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID)
         
         collectionView.snp.makeConstraints {
             $0.top.bottom.right.left.equalTo(view.safeAreaLayoutGuide)
@@ -63,19 +60,19 @@ extension FilmVC {
     
     private func setupCollectionViewDataSource(){
         viewModel.photoObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmPhotoCollectionViewCell.cellID, cellType: FilmPhotoCollectionViewCell.self)) { index, item, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmMainPhotoCollectionViewCell.cellID, cellType: FilmMainPhotoCollectionViewCell.self)) { index, item, cell in
                 cell.bindViewModel(image: item.image)
             }
             .disposed(by: disposeBag)
     }
 }
 
-extension FilmVC :  UICollectionViewDelegate, UICollectionViewDataSource{
+extension FilmMainViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     
     // MARK: Header cell setting
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmHeaderCollectionViewCell.cellID, for: indexPath) as? FilmHeaderCollectionViewCell else { return UICollectionReusableView() }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as? FilmMainHeaderCollectionViewCell else { return UICollectionReusableView() }
         header.delegate = self
         return header
     }
@@ -87,21 +84,21 @@ extension FilmVC :  UICollectionViewDelegate, UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmPhotoCollectionViewCell.cellID, for: indexPath) as? FilmPhotoCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as? FilmMainPhotoCollectionViewCell else { return UICollectionViewCell() }
         cell.bindViewModel(image: photoViewModel[indexPath.row].image)
         return cell
     }
 }
 
 
-extension FilmVC : FilmVCDelegate {
+extension FilmMainViewController : FilmVCDelegate {
     func presentListVC() {
-        navigationController?.pushViewController(FilmListVC(), animated: true)
+        navigationController?.pushViewController(FilmListViewController(), animated: true)
     }
 }
 
 
-extension FilmVC : FilmPinterestLayoutDelegate {
+extension FilmMainViewController : FilmPinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         if let image = UIImage(named: photoViewModel[indexPath.item].image) {
             return image.size.height
