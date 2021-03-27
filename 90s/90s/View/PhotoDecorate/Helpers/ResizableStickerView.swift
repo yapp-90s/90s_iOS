@@ -9,7 +9,7 @@ import UIKit
 
 class ResizableStickerView: UIView {
     
-    var resizeHandler: ((UIPanGestureRecognizer, ResizableStickerView) -> Void)?
+    // MARK: - Views
     
     let removeButton: UIButton = {
         let button = UIButton()
@@ -32,6 +32,23 @@ class ResizableStickerView: UIView {
         
         return imageView
     }()
+    
+    // MARK: - Properties
+    
+    var resizeHandler: ((UIPanGestureRecognizer, ResizableStickerView) -> Void)?
+    var isEditing: Bool = false {
+        willSet {
+            if newValue {
+                resizeButton.isHighlighted = true
+                removeButton.isHidden = true
+            } else {
+                resizeButton.isHighlighted = false
+                removeButton.isHidden = false
+            }
+        }
+    }
+    
+    // MARK: - Intialize
     
     init(image: UIImage?) {
         super.init(frame: .init(x: 0, y: 0, width: 100, height: 100))

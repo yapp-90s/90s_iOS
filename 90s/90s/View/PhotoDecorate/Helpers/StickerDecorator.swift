@@ -32,8 +32,6 @@ class StickerDecorator {
                 startTransform = sticker.transform
                 buttonTransform = sticker.resizeButton.transform
                 sticker.isEditing = true
-//                sticker.resizeButton.isHighlighted = true
-//                sticker.removeButton.isHidden = true
             case .changed:
                 sticker.resizeButton.isHighlighted = true
                 let current = gesture.location(in: backgroundView)
@@ -47,8 +45,6 @@ class StickerDecorator {
                 resizeStickerAndButtons(sticker: sticker, scale: scale, angle: angle)
             case .ended, .cancelled:
                 sticker.isEditing = false
-//                sticker.resizeButton.isHighlighted = false
-//                sticker.removeButton.isHidden = false
             default: break
         }
     }
