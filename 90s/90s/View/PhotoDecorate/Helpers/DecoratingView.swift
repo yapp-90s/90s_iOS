@@ -12,6 +12,8 @@ class DecoratingView: UIView {
     
     var disposeBag = DisposeBag()
     
+    var decorator = StickerDecorator()
+    
     func attachStickerView(_ sticker: ResizableStickerView, at position: CGPoint? = nil) {
         addSubview(sticker)
         sticker.center = position ?? center
@@ -32,58 +34,10 @@ class DecoratingView: UIView {
     }
     
     @objc private func moveSticker(_ gesture: UIPanGestureRecognizer) {
-        switch gesture.state {
-            case .changed:
-                guard let sticker = gesture.view as? ResizableStickerView else { return }
-                let location = gesture.location(in: self)
-                if self.bounds.contains(sticker.bounds) {
-                    sticker.center = location
-                }
-            default: break
-        }
+        decorator.moveSticker(with: gesture, in: self)
     }
     
-    private var startPoint: CGPoint = .zero
-    private var startTransform: CGAffineTransform = .init()
-    private var buttonTransform: CGAffineTransform = .init()
-    
-    @IBAction private func panGestureResizing(_ sticker: ResizableStickerView, with gesture: UIPanGestureRecognizer) {
-        
-        switch gesture.state {
-            case .began:
-                startPoint = gesture.location(in: self)
-                startTransform = sticker.transform
-                buttonTransform = sticker.resizeButton.transform
-                sticker.resizeButton.isHighlighted = true
-                sticker.removeButton.isHidden = true
-            case .changed:
-                sticker.resizeButton.isHighlighted = true
-                let current = gesture.location(in: self)
-                let distCurr = sticker.center.distance(to: current)
-                let distStart = sticker.center.distance(to: startPoint)
-                let scale = distCurr / distStart
-                
-                let currentAngle = sticker.center.absoulteAngle(to: current)
-                let startAngle = sticker.center.absoulteAngle(to: startPoint)
-                let angle = currentAngle - startAngle
-                
-                sticker.resize(scale: scale, angle: angle, startTransform: startTransform, re: buttonTransform)
-            case .ended, .cancelled:
-                sticker.resizeButton.isHighlighted = false
-                sticker.removeButton.isHidden = false
-            default: break
-        }
-    }
-}
-
-extension CGPoint {
-    func distance(to point: CGPoint) -> CGFloat {
-        let distX = x - point.x
-        let distY = y - point.y
-        return (distX * distX + distY * distY).squareRoot()
-    }
-    
-    func absoulteAngle(to point: CGPoint) -> CGFloat {
-        return atan2(y - point.y, x - point.x)
+    private func panGestureResizing(_ sticker: ResizableStickerView, with gesture: UIPanGestureRecognizer) {
+        decorator.resizingSticker(sticker, with: gesture, in: self)
     }
 }

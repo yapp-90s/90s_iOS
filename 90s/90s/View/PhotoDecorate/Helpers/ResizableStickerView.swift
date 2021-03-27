@@ -80,14 +80,4 @@ class ResizableStickerView: UIView {
     @objc private func tappedRemoveButton(_ sender: UIButton) {
         removeFromSuperview()
     }
-    
-    func resize(scale: CGFloat, angle: CGFloat, startTransform: CGAffineTransform, re: CGAffineTransform) {
-        let newTransform = CGAffineTransform(scaleX: scale, y: scale).concatenating(CGAffineTransform(rotationAngle: angle))
-        
-        transform = startTransform.concatenating(newTransform)
-        
-        let reScale = 1 / scale
-        removeButton.transform = re.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
-        resizeButton.transform = re.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
-    }
 }
