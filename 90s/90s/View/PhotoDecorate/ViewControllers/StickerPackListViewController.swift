@@ -23,13 +23,13 @@ class StickerPackListViewController: BaseViewController {
     
     // MARK: - Views
     
-    private let categoryListView: ScrollStackView = {
+    private let categoryListView: ScrollingHorizontalStackView = {
         let categoryLabels = StickerPackCategory.allCases.map { category -> CategoryLabel in
             let label = CategoryLabel(label: category.description)
             label.addTarget(self, action: #selector(touchedCategory), for: .touchUpInside)
             return label
         }
-        let scrollStackView = ScrollStackView(views: categoryLabels)
+        let scrollStackView = ScrollingHorizontalStackView(views: categoryLabels)
         scrollStackView.contentInset = Constraints.categoryLabelsInset
         
         return scrollStackView

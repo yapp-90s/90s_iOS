@@ -14,8 +14,6 @@ class DecorateContainerViewController: BaseViewController {
         static let supplementaryHeight: CGFloat = 215
     }
     
-    // MARK: - Properties
-    
     // MARK: - Views
     
     private var photoDecoreateVC = PhotoDecorateViewController(viewModel: .init(dependency: .init(selectedPhoto: Photo(id: "", url: "picture1", date: ""))))

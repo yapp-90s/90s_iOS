@@ -15,10 +15,6 @@ class StickerPackViewController: BaseViewController {
         static let stickerSize: CGSize = .init(width: 50, height: 50)
     }
     
-    // MARK: - Properties
-    
-    var viewModel: StickerPackViewModel
-    
     // MARK: - Views
     
     private let backButton: HighlightButton = {
@@ -42,7 +38,11 @@ class StickerPackViewController: BaseViewController {
         
         return collectionView
     }()
-
+    
+    // MARK: - Properties
+    
+    var viewModel: StickerPackViewModel
+    
     // MARK: - Initialize
     
     init(viewModel: StickerPackViewModel) {
@@ -64,7 +64,6 @@ class StickerPackViewController: BaseViewController {
     }
     
     private func bindViewModel() {
-        
         stickerCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         backButton.rx.tap
@@ -85,7 +84,6 @@ class StickerPackViewController: BaseViewController {
                 return cell
             }
             .disposed(by: disposeBag)
-        
     }
     
     private func setup() {
@@ -108,11 +106,15 @@ class StickerPackViewController: BaseViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension StickerPackViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.input.addSticker.onNext(indexPath.item)
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension StickerPackViewController: UICollectionViewDelegateFlowLayout {
     
