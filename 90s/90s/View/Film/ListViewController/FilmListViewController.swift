@@ -17,7 +17,7 @@ class FilmListViewController: UIViewController {
     private var navigationBar: NavigationBar = {
         let navBar = NavigationBar(frame: .zero)
         navBar.titleLabel.text = "내 필름"
-        navBar.rightButton.setUpNavBarRightBtn(type: .text_edit)
+        navBar.rightButton.setUpNavBarRightBtn(type: .textEdit)
         return navBar
     }()
     
@@ -36,7 +36,7 @@ class FilmListViewController: UIViewController {
     
     private var selectedFilmDeleteButton : UIButton = {
         let btn = UIButton(frame: .zero)
-        btn.backgroundColor = ColorType.retro_Orange.create()
+        btn.backgroundColor = .retroOrange
         btn.titleLabel?.font = .boldSystemFont(ofSize: 15)
         btn.setTitle("필름을 선택해주세요", for: .normal)
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)

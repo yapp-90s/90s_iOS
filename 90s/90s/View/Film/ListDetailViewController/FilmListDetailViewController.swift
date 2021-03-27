@@ -62,7 +62,7 @@ class FilmListDetailViewController: UIViewController {
         btn.titleLabel?.font = .systemFont(ofSize: 12)
         btn.setTitle("인화하기", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = ColorType.warm_Lightgray.create()
+        btn.backgroundColor = .warmLightgray
         return btn
     }()
     
@@ -79,7 +79,7 @@ class FilmListDetailViewController: UIViewController {
         btn.titleLabel?.font = .boldSystemFont(ofSize: 16)
         btn.setTitle("사진 추가하기", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = ColorType.retro_Orange.create()
+        btn.backgroundColor = .retroOrange
         return btn
     }()
     

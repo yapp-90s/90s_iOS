@@ -15,7 +15,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
-        view.backgroundColor = ColorType.warm_Gray.create()
+        view.backgroundColor = .warmGray
         return view
     }()
     
@@ -42,7 +42,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
     
     var printButton : UIButton = {
         let btn = UIButton(frame: .zero)
-        btn.backgroundColor = ColorType.retro_Orange.create()
+        btn.backgroundColor = .retroOrange
         btn.setTitle("바로 인화하기", for: .normal)
         btn.titleLabel?.font = .boldSystemFont(ofSize: 14)
         btn.tintColor = .white
