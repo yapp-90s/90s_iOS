@@ -14,11 +14,12 @@ class ResizableStickerView: UIView {
     let removeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "cancelButtonWhite"), for: .normal)
-
+        button.addTarget(self, action: #selector(tappedRemoveButton(_:)), for: .touchUpInside)
+        
         return button
     }()
     
-    lazy var resizeButton: UIButton = {
+    lazy private(set) var resizeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "stckerControlSize"), for: .normal)
         button.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(resizePanGesture(_:))))
@@ -69,6 +70,8 @@ class ResizableStickerView: UIView {
             $0.trailing.equalTo(resizeButton.snp.leading)
             $0.bottom.equalTo(resizeButton.snp.top)
         }
+    @objc private func tappedRemoveButton(_ sender: UIButton) {
+        removeFromSuperview()
     }
     
     @objc private func resizePanGesture(_ sender: UIPanGestureRecognizer) {

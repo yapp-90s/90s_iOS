@@ -15,13 +15,6 @@ class DecoratingView: UIView {
     func attachStickerView(_ sticker: ResizableStickerView, at position: CGPoint? = nil) {
         addSubview(sticker)
         sticker.center = position ?? center
-        sticker.removeButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                sticker.removeFromSuperview()
-                self?.disposeBag = DisposeBag()
-            })
-            .disposed(by: disposeBag)
-        
         addMovingGesture(sticker)
         addResizingGesture(sticker)
     }
