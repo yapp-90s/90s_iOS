@@ -9,7 +9,7 @@ import UIKit
 
 class PhotoDecorateViewController: BaseViewController {
     
-    struct Constraints {
+    private struct Constraints {
         static let photoInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: 20)
     }
     
@@ -19,7 +19,7 @@ class PhotoDecorateViewController: BaseViewController {
     
     // MARK: - Views
     
-    var decoratingView: DecoratingView = {
+    private(set) var decoratingView: DecoratingView = {
         let view = DecoratingView()
         
         return view
