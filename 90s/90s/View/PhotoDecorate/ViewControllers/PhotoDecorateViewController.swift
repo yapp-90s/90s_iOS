@@ -13,10 +13,6 @@ class PhotoDecorateViewController: BaseViewController {
         static let photoInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: 20)
     }
     
-    // MARK: - Properties
-    
-    let viewModel: PhotoDecorateViewModel
-    
     // MARK: - Views
     
     private(set) var decoratingView: DecoratingView = {
@@ -30,6 +26,10 @@ class PhotoDecorateViewController: BaseViewController {
         
         return photoView
     }()
+    
+    // MARK: - Properties
+    
+    let viewModel: PhotoDecorateViewModel
     
     // MARK: - Initialize
     
