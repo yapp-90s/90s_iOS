@@ -14,26 +14,26 @@ enum Color {
 
 
 enum ColorType {
-    case Retro_Orange
-    case Retro_Black
-    case Retro_Lightgray
-    case Retro_Gray
-    case Warm_Lightgray
-    case Warm_Gray
+    case retro_Orange
+    case retro_Black
+    case retro_Lightgray
+    case retro_Gray
+    case warm_Lightgray
+    case warm_Gray
     
     func create() -> UIColor {
         switch self {
-        case .Retro_Orange:
+        case .retro_Orange:
             return UIColor.colorRGBHex(hex: 0xF65D48)
-        case .Retro_Black:
+        case .retro_Black:
             return UIColor.colorRGBHex(hex: 0x18171D)
-        case .Retro_Lightgray:
+        case .retro_Lightgray:
             return UIColor.colorRGBHex(hex: 0xBEBEBE)
-        case .Retro_Gray:
+        case .retro_Gray:
             return UIColor.colorRGBHex(hex: 0x9D9D9D)
-        case .Warm_Lightgray:
+        case .warm_Lightgray:
             return UIColor.colorRGBHex(hex: 0x575252)
-        case .Warm_Gray:
+        case .warm_Gray:
             return UIColor.colorRGBHex(hex: 0x363333)
         }
     }

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class NavigationBar: UIView {
-    var leftBtn : UIButton = {
+    var leftButton : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setImage(UIImage(named: "navigate_back"), for: .normal)
         btn.imageEdgeInsets = UIEdgeInsets(top: 9, left: 9, bottom: 9, right: 9)
@@ -23,7 +23,7 @@ class NavigationBar: UIView {
     }()
     
     /// rightBtn.setUpNavBarRightBtn(type: NavBarRightBtn) 로 설정하세요!
-    var rightBtn: UIButton = {
+    var rightButton: UIButton = {
         return UIButton(frame: .zero)
     }()
     
@@ -37,16 +37,16 @@ class NavigationBar: UIView {
     }
     
     private func setSubViews(){
-        addSubview(leftBtn)
+        addSubview(leftButton)
         addSubview(titleLabel)
-        addSubview(rightBtn)
+        addSubview(rightButton)
         
-        leftBtn.snp.makeConstraints {
+        leftButton.snp.makeConstraints {
             $0.height.width.equalTo(52)
             $0.left.top.equalTo(self)
         }
         
-        rightBtn.snp.makeConstraints {
+        rightButton.snp.makeConstraints {
             $0.height.equalTo(52)
             $0.width.equalTo(70)
             $0.top.right.equalTo(self)

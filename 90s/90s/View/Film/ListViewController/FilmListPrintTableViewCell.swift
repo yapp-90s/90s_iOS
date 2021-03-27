@@ -15,7 +15,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
-        view.backgroundColor = ColorType.Warm_Gray.create()
+        view.backgroundColor = ColorType.warm_Gray.create()
         return view
     }()
     
@@ -40,9 +40,9 @@ class FilmListPrintTableViewCell: UITableViewCell {
         return label
     }()
     
-    var printBtn : UIButton = {
+    var printButton : UIButton = {
         let btn = UIButton(frame: .zero)
-        btn.backgroundColor = ColorType.Retro_Orange.create()
+        btn.backgroundColor = ColorType.retro_Orange.create()
         btn.setTitle("바로 인화하기", for: .normal)
         btn.titleLabel?.font = .boldSystemFont(ofSize: 14)
         btn.tintColor = .white
@@ -65,7 +65,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
         addSubview(filmImageView)
         addSubview(filmTypeLabel)
         addSubview(printInfoLabel)
-        addSubview(printBtn)
+        addSubview(printButton)
         
         backgroundColor = .black
         
@@ -91,7 +91,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
             $0.top.equalTo(filmTypeLabel.snp.bottom).offset(10)
         }
         
-        printBtn.snp.makeConstraints {
+        printButton.snp.makeConstraints {
             $0.height.equalTo(57)
             $0.left.equalTo(printBackgroundView.snp.left).offset(40)
             $0.right.equalTo(printBackgroundView.snp.right).offset(-40)

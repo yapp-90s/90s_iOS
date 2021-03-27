@@ -51,7 +51,7 @@ class FilmListTableViewCell: UITableViewCell {
     }()
     
     /// 필름 삭제 선택 버튼
-    private var FilmDeleteBtn : UIButton = {
+    private var FilmDeleteButton : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
         btn.backgroundColor = .black
@@ -73,12 +73,9 @@ class FilmListTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        FilmDeleteBtn.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
+        FilmDeleteButton.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
     }
-}
 
-
-extension FilmListTableViewCell {
     private func setUpSubViews(){
         addSubview(FilmBackgroudImageView)
         addSubview(FilmTitleImageView)
@@ -86,7 +83,7 @@ extension FilmListTableViewCell {
         addSubview(FilmTitleLabel)
         addSubview(FilmCount_DateLabel)
         addSubview(FilmTypeImageView)
-        addSubview(FilmDeleteBtn)
+        addSubview(FilmDeleteButton)
         
         backgroundColor = .clear
         collectionView.dataSource = self
@@ -132,7 +129,7 @@ extension FilmListTableViewCell {
             $0.right.equalTo(-18)
         }
         
-        FilmDeleteBtn.snp.makeConstraints {
+        FilmDeleteButton.snp.makeConstraints {
             $0.width.equalTo(60)
             $0.height.equalTo(140)
             $0.centerY.equalTo(FilmBackgroudImageView.snp.centerY)
@@ -161,12 +158,12 @@ extension FilmListTableViewCell {
     
     func isEditStarted(value: Bool){
         FilmTypeImageView.isHidden = value
-        FilmDeleteBtn.isHidden = !value
+        FilmDeleteButton.isHidden = !value
     }
     
     func isEditCellSelected(value: Bool) {
         let image = value ? UIImage(named: "film_edit_select") : UIImage(named: "film_edit_unselect")
-        FilmDeleteBtn.setImage(image, for: .normal)
+        FilmDeleteButton.setImage(image, for: .normal)
     }
 }
 
