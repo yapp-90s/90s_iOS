@@ -44,30 +44,46 @@ class DecoratingView: UIView {
     }
     
     private var startPoint: CGPoint = .zero
-    private var startAngle: CGFloat = .zero
+    private var startTransform: CGAffineTransform = .init()
+    private var buttonTransform: CGAffineTransform = .init()
     
-    @IBAction func panGestureResizing(_ sticker: ResizableStickerView, with gesture: UIPanGestureRecognizer) {
-
+    @IBAction private func panGestureResizing(_ sticker: ResizableStickerView, with gesture: UIPanGestureRecognizer) {
+        
         switch gesture.state {
             case .began:
                 startPoint = gesture.location(in: self)
+                startTransform = sticker.transform
+                buttonTransform = sticker.resizeButton.transform
                 sticker.resizeButton.isHighlighted = true
+                sticker.removeButton.isHidden = true
             case .changed:
                 sticker.resizeButton.isHighlighted = true
                 let current = gesture.location(in: self)
-
-                let scale = current.x / startPoint.x
-                let scaleAffine = CGAffineTransform(scaleX: scale, y: scale)
+                let distCurr = sticker.center.distance(to: current)
+                let distStart = sticker.center.distance(to: startPoint)
+                let scale = distCurr / distStart
                 
-                let startAngle = atan2(startPoint.y - sticker.center.y, startPoint.x - sticker.center.x)
-                let currentAngle = atan2(current.y - sticker.center.y, current.x - sticker.center.x)
+                let currentAngle = sticker.center.absoulteAngle(to: current)
+                let startAngle = sticker.center.absoulteAngle(to: startPoint)
                 let angle = currentAngle - startAngle
-                let rotationAffine = CGAffineTransform(rotationAngle: angle)
-                sticker.transform = scaleAffine.concatenating(rotationAffine)
-            
+                
+                sticker.resize(scale: scale, angle: angle, startTransform: startTransform, re: buttonTransform)
             case .ended, .cancelled:
                 sticker.resizeButton.isHighlighted = false
+                sticker.removeButton.isHidden = false
             default: break
         }
+    }
+}
+
+extension CGPoint {
+    func distance(to point: CGPoint) -> CGFloat {
+        let distX = x - point.x
+        let distY = y - point.y
+        return (distX * distX + distY * distY).squareRoot()
+    }
+    
+    func absoulteAngle(to point: CGPoint) -> CGFloat {
+        return atan2(y - point.y, x - point.x)
     }
 }

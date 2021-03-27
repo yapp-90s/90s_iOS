@@ -40,7 +40,9 @@ class ResizableStickerView: UIView {
     }
     
     deinit {
-        print("removed")
+        #if DEBUG
+        print("sticker removed")
+        #endif
     }
     
     required init?(coder: NSCoder) {
@@ -52,29 +54,40 @@ class ResizableStickerView: UIView {
         addSubview(removeButton)
         addSubview(resizeButton)
         
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(20)
+        }
+        
         removeButton.snp.makeConstraints {
-            $0.top.leading.equalToSuperview()
+            $0.centerX.equalTo(imageView.snp.leading)
+            $0.centerY.equalTo(imageView.snp.top)
             $0.width.equalTo(19)
             $0.height.equalTo(removeButton.snp.width)
         }
         
         resizeButton.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview()
+            $0.centerX.equalTo(imageView.snp.trailing)
+            $0.centerY.equalTo(imageView.snp.bottom)
             $0.width.equalTo(19)
             $0.height.equalTo(resizeButton.snp.width)
         }
-        
-        imageView.snp.makeConstraints {
-            $0.top.equalTo(removeButton.snp.bottom)
-            $0.leading.equalTo(removeButton.snp.trailing)
-            $0.trailing.equalTo(resizeButton.snp.leading)
-            $0.bottom.equalTo(resizeButton.snp.top)
-        }
-    @objc private func tappedRemoveButton(_ sender: UIButton) {
-        removeFromSuperview()
     }
     
     @objc private func resizePanGesture(_ sender: UIPanGestureRecognizer) {
         resizeHandler?(sender, self)
+    }
+    
+    @objc private func tappedRemoveButton(_ sender: UIButton) {
+        removeFromSuperview()
+    }
+    
+    func resize(scale: CGFloat, angle: CGFloat, startTransform: CGAffineTransform, re: CGAffineTransform) {
+        let newTransform = CGAffineTransform(scaleX: scale, y: scale).concatenating(CGAffineTransform(rotationAngle: angle))
+        
+        transform = startTransform.concatenating(newTransform)
+        
+        let reScale = 1 / scale
+        removeButton.transform = re.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
+        resizeButton.transform = re.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
     }
 }
