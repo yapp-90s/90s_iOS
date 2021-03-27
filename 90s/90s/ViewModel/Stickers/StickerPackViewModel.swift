@@ -33,7 +33,7 @@ class StickerPackViewModel: ViewModelType {
         input.addSticker
             .map { [unowned self] in self.output.stickers.value[$0] }
             .subscribe(onNext: { sticker in
-                print(sticker)
+                dependency.photoDecorateViewModel?.input.addSticker.onNext(sticker)
             })
             .disposed(by: disposeBag)
     }
@@ -41,6 +41,7 @@ class StickerPackViewModel: ViewModelType {
 
 extension StickerPackViewModel {
     struct Dependency {
+        weak var photoDecorateViewModel: PhotoDecorateViewModel?
         var stickerPack: StickerPack
     }
     

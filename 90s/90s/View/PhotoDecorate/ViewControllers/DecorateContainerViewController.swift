@@ -10,11 +10,15 @@ import SnapKit
 
 class DecorateContainerViewController: BaseViewController {
     
+    struct Constraints {
+        static let supplementaryHeight: CGFloat = 215
+    }
+    
     // MARK: - Properties
     
     // MARK: - Views
     
-    private var photoDecoreateVC = PhotoDecorateViewController()
+    private var photoDecoreateVC = PhotoDecorateViewController(viewModel: .init(dependency: .init(selectedPhoto: Photo(id: "", url: "picture1", date: ""))))
     private var stickerPackVC = StickerPackListViewController()
     private lazy var subNavigationController: UINavigationController = {
         let nav = UINavigationController(rootViewController: stickerPackVC)
@@ -37,6 +41,7 @@ class DecorateContainerViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        stickerPackVC.viewModel = StickerPackListViewModel(dependency: .init(photoDecorateViewModel: photoDecoreateVC.viewModel))
         setupViews()
         setupLayouts()
     }
@@ -59,7 +64,7 @@ class DecorateContainerViewController: BaseViewController {
     
     private func setupLayouts() {
         supplementaryView.snp.makeConstraints {
-            $0.height.equalTo(250)
+            $0.height.equalTo(Constraints.supplementaryHeight)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)

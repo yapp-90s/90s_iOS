@@ -11,6 +11,10 @@
 		4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */; };
 		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
 		4C1F80E425F34A5100E98A0B /* StickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E325F34A5100E98A0B /* StickerCollectionViewCell.swift */; };
+		4C1F80E725F354F300E98A0B /* PhotoDecorateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E625F354F300E98A0B /* PhotoDecorateViewModel.swift */; };
+		4C1F80ED25F35D1800E98A0B /* DecoratePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80EC25F35D1800E98A0B /* DecoratePhotoView.swift */; };
+		4C1F80F125F3663900E98A0B /* ResizableStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80F025F3663900E98A0B /* ResizableStickerView.swift */; };
+		4C1F80F525F3692E00E98A0B /* DecoratingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80F425F3692E00E98A0B /* DecoratingView.swift */; };
 		4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */; };
 		4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */; };
 		4C357AE225E1013B00B23E84 /* ScrollStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C357AE125E1013B00B23E84 /* ScrollStackView.swift */; };
@@ -73,6 +77,10 @@
 		4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewModel.swift; sourceTree = "<group>"; };
 		4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackNavigationBar.swift; sourceTree = "<group>"; };
 		4C1F80E325F34A5100E98A0B /* StickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		4C1F80E625F354F300E98A0B /* PhotoDecorateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDecorateViewModel.swift; sourceTree = "<group>"; };
+		4C1F80EC25F35D1800E98A0B /* DecoratePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoratePhotoView.swift; sourceTree = "<group>"; };
+		4C1F80F025F3663900E98A0B /* ResizableStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableStickerView.swift; sourceTree = "<group>"; };
+		4C1F80F425F3692E00E98A0B /* DecoratingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoratingView.swift; sourceTree = "<group>"; };
 		4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewController.swift; sourceTree = "<group>"; };
 		4C357ADE25E0F03B00B23E84 /* StickerPackCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackCategory.swift; sourceTree = "<group>"; };
 		4C357AE125E1013B00B23E84 /* ScrollStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollStackView.swift; sourceTree = "<group>"; };
@@ -176,8 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				4CE649F525E0DEC80093D238 /* DecorateContainerViewController.swift */,
-				4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */,
 				4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */,
+				4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */,
 				4C357ADA25E0EC2500B23E84 /* StickerPackViewController.swift */,
 				4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */,
 			);
@@ -191,6 +199,9 @@
 				4C357AE725E10DCD00B23E84 /* CategoryLabel.swift */,
 				4CBC5A6925F24F55005D2592 /* HighlightButton.swift */,
 				4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */,
+				4C1F80EC25F35D1800E98A0B /* DecoratePhotoView.swift */,
+				4C1F80F025F3663900E98A0B /* ResizableStickerView.swift */,
+				4C1F80F425F3692E00E98A0B /* DecoratingView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -200,6 +211,7 @@
 			children = (
 				4CBC5A9025F25CA3005D2592 /* StickerPackListViewModel.swift */,
 				4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */,
+				4C1F80E625F354F300E98A0B /* PhotoDecorateViewModel.swift */,
 			);
 			path = Stickers;
 			sourceTree = "<group>";
@@ -619,6 +631,7 @@
 				4C357AE825E10DCD00B23E84 /* CategoryLabel.swift in Sources */,
 				9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */,
 				9BB76130254EACF4005B7B5A /* AppDelegate.swift in Sources */,
+				4C1F80E725F354F300E98A0B /* PhotoDecorateViewModel.swift in Sources */,
 				4CBC5A6A25F24F55005D2592 /* HighlightButton.swift in Sources */,
 				65950D1E25DD6F3400CD94EA /* AlbumPreviewCell.swift in Sources */,
 				6521BF7C25BC273300580EB5 /* FlimService.swift in Sources */,
@@ -630,6 +643,8 @@
 				652BC1CF25E0D62A00DC8E90 /* FilmPhotoCollectionViewCell.swift in Sources */,
 				653F7D8425988510002CD12A /* User.swift in Sources */,
 				4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */,
+				4C1F80ED25F35D1800E98A0B /* DecoratePhotoView.swift in Sources */,
+				4C1F80F125F3663900E98A0B /* ResizableStickerView.swift in Sources */,
 				9BD15EA32600AA870038C968 /* NavBarRightBtn.swift in Sources */,
 				653F7D7C2598849B002CD12A /* Album.swift in Sources */,
 				4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */,
@@ -653,6 +668,7 @@
 				4CBC5A9925F283AD005D2592 /* StickerFactory.swift in Sources */,
 				6521BF8F25BC2A8900580EB5 /* BoxService.swift in Sources */,
 				65AE123725CFEDF40036147F /* AlbumViewController.swift in Sources */,
+				4C1F80F525F3692E00E98A0B /* DecoratingView.swift in Sources */,
 				9B878D5725E0EAFD0024CFAA /* Extension.swift in Sources */,
 				6521BF8325BC274100580EB5 /* AlbumService.swift in Sources */,
 				4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */,
