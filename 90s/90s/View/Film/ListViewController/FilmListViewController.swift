@@ -121,7 +121,7 @@ class FilmListViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmListTableViewCell.cellId) as! FilmListTableViewCell
             let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
             
-            cell.bindViewModel(film: item)
+            cell.bindViewModel(film: item, isCreate: false)
             cell.isEditStarted(value: self.isEditingMode)
             cell.isEditCellSelected(value: value)
             cell.selectionStyle = .none

@@ -84,8 +84,19 @@ enum FilmFilterType : String {
 }
 
 extension FilmFilterType {
-    var count: Int {
+    var id: Int {
         self.hashValue
+    }
+    
+    func printDay() -> Int {
+        switch self {
+        case .Cold, .Cute, .Nice, .Hot:
+            return 6
+        case .Dandy:
+            return 12
+        default:
+            return 0
+        }
     }
     
     func image() -> String {

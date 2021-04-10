@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol FilmVCDelegate {
     func presentListVC()
+    func presentCreateVC()
 }
 
 class FilmMainViewController : UIViewController {
@@ -94,6 +95,9 @@ extension FilmMainViewController : UICollectionViewDelegate, UICollectionViewDat
 extension FilmMainViewController : FilmVCDelegate {
     func presentListVC() {
         navigationController?.pushViewController(FilmListViewController(), animated: true)
+    }
+    func presentCreateVC() {
+        navigationController?.pushViewController(FilmCreateViewController(), animated: true)
     }
 }
 

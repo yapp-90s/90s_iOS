@@ -225,7 +225,7 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
         if let f = films {
-            cell.bindViewModel_scaleFill(item: f.photos[indexPath.row])
+            cell.bindViewModel(item: f.photos[indexPath.row], isScaleFill: true)
         }
         return cell
     }

@@ -116,6 +116,12 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
             .drive(filmCountButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
+        collectionView.rx.itemSelected.subscribe(onNext: { indexPath in
+            if indexPath.row == 0 {
+                self.delegate?.presentCreateVC()
+            }
+        }).disposed(by: disposeBag)
+        
         filmCountButton.rx.tap.bind { [weak self] in
             self?.delegate?.presentListVC()
         }.disposed(by: disposeBag)
