@@ -34,7 +34,16 @@ class StickerCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        
+    }
+    
     private func setupViews() {
+        layer.cornerRadius = 11
+        layer.masksToBounds = true
+        
         addSubview(stickerImageView)
         
         stickerImageView.snp.makeConstraints {

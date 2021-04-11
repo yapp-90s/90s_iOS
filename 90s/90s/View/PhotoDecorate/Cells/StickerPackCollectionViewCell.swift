@@ -16,18 +16,20 @@ class StickerPackCollectionViewCell: UICollectionViewCell {
     }
     
     var imageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleToFill
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.layer.cornerRadius = 4
+        imageView.layer.masksToBounds = true
         
-        return view
+        return imageView
     }()
     
     var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.text = "스티커팩이름"
-        label.textColor = .white
+        label.textColor = .lightGray
         
         return label
     }()

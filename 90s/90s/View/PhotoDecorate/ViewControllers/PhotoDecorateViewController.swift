@@ -10,7 +10,7 @@ import UIKit
 class PhotoDecorateViewController: BaseViewController {
     
     private struct Constraints {
-        static let photoInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: 20)
+        static let photoInset: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
     }
     
     // MARK: - Views

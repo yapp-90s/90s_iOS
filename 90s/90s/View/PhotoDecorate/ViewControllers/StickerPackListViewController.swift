@@ -15,6 +15,7 @@ class StickerPackListViewController: BaseViewController {
         static let categoryLabelHeight: CGFloat = 44
         static let categoryLabelsInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: -20)
         static let packSize: CGSize = .init(width: 92, height: 140)
+        static let sectionInset: UIEdgeInsets = .init(top: 0, left: 20, bottom: 0, right: 20)
     }
     
     // MARK: - Properties
@@ -39,7 +40,9 @@ class StickerPackListViewController: BaseViewController {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 8
         layout.scrollDirection = .horizontal
+        layout.sectionInset = Constraints.sectionInset
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }()
