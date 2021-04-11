@@ -6,55 +6,57 @@
 //
 
 import UIKit
+import SnapKit
 
 class DecoratePhotoView: UIView {
-    
+
     // MARK: - Views
-    
-    var photoBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        
-        return view
-    }()
-    
+
     var imageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.contentMode = .scaleAspectFill
+
         return imageView
     }()
-    
+
     // MARK: - Properties
     
     var photoInset: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+    private var imageHeightRatio: CGFloat = 1.0
+    var heightConstarint: SnapKit.ConstraintItem?
+    
     var image: UIImage? {
         get {
             return imageView.image
         }
         set {
+            guard let image = newValue else { return }
+            
+            let heightRatio = image.size.height / image.size.width
+            print(heightRatio)
             imageView.image = newValue
+            // photoBackgroundView.snp.remakeConstraints({ $0.height.equalTo(photoBackgroundView.snp.width).multipliedBy(heightRatio) })
+//            let newSize = CGSize(width: <#T##CGFloat#>, height: <#T##CGFloat#>)
+            
+            // imageView.snp.remakeConstraints({ $0.height.equalTo(imageView.snp.width).multipliedBy(ratio) })
+             // imageView.image = newValue
         }
     }
-    
+
     // MARK: Initialize
-    
-    init(image: UIImage?) {
+
+    init() {
         super.init(frame: .zero)
-        imageView.image = image
         setupViews()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupViews() {
-        addSubview(photoBackgroundView)
-        photoBackgroundView.addSubview(imageView)
-        
-        photoBackgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+        backgroundColor = .white
+        addSubview(imageView)
         
         imageView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(photoInset)
