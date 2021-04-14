@@ -36,15 +36,18 @@ class ResizableStickerView: UIView {
     // MARK: - Properties
     
     var resizeHandler: ((UIPanGestureRecognizer, ResizableStickerView) -> Void)?
+    
+    var isSelected: Bool = true {
+        willSet {
+            resizeButton.isHidden = !newValue
+            removeButton.isHidden = !newValue
+        }
+    }
+    
     var isEditing: Bool = false {
         willSet {
-            if newValue {
-                resizeButton.isHighlighted = true
-                removeButton.isHidden = true
-            } else {
-                resizeButton.isHighlighted = false
-                removeButton.isHidden = false
-            }
+            resizeButton.isHighlighted = newValue
+            removeButton.isHidden = newValue
         }
     }
     

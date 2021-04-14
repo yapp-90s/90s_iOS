@@ -59,15 +59,3 @@ class StickerDecorator {
         sticker.resizeButton.transform = buttonTransform.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
     }
 }
-
-extension CGPoint {
-    func distance(to point: CGPoint) -> CGFloat {
-        let distX = x - point.x
-        let distY = y - point.y
-        return (distX * distX + distY * distY).squareRoot()
-    }
-    
-    func absoulteAngle(to point: CGPoint) -> CGFloat {
-        return atan2(y - point.y, x - point.x)
-    }
-}

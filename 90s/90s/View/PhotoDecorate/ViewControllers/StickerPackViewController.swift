@@ -11,8 +11,11 @@ import RxSwift
 class StickerPackViewController: BaseViewController {
     
     private struct Constraints {
-        static let navBarHeight: CGFloat = 44
+        static let navBarHeight: CGFloat = 65
         static let stickerSize: CGSize = .init(width: 50, height: 50)
+        static let sectionInset: UIEdgeInsets = .init(top: 0, left: 19, bottom: 0, right: 18)
+        static let interItemSpacing: CGFloat = 22
+        static let lineSpacing: CGFloat = 20
     }
     
     // MARK: - Views
@@ -28,13 +31,18 @@ class StickerPackViewController: BaseViewController {
         let navBar = PackNavigationBar()
         navBar.addSideView(backButton, to: .left)
         navBar.titleLabel.textColor = .white
+        navBar.titleLabel.font = .boldSystemFont(ofSize: 14)
         
         return navBar
     }()
     
     let stickerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = Constraints.sectionInset
+        layout.minimumInteritemSpacing = Constraints.interItemSpacing
+        layout.minimumLineSpacing = Constraints.lineSpacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }()
@@ -91,6 +99,8 @@ class StickerPackViewController: BaseViewController {
     }
     
     private func setupViews() {
+        view.backgroundColor = .warmGray
+        
         view.addSubview(navigationBar)
         view.addSubview(stickerCollectionView)
         
