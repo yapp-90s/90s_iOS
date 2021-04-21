@@ -9,15 +9,7 @@ import UIKit
 import SnapKit
 
 /// 필름 정보와 사진을 보여주는 VC
-class FilmListDetailViewController: UIViewController {
-    private var navigationBar : NavigationBar = {
-        let navBar = NavigationBar(frame: .zero)
-        navBar.leftButton.addTarget(self, action: #selector(popUp), for: .touchUpInside)
-        navBar.titleLabel.isHidden = true
-        navBar.rightButton.isHidden = true
-        return navBar
-    }()
-    
+class FilmListDetailViewController: BaseViewController {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -92,8 +84,8 @@ class FilmListDetailViewController: UIViewController {
 
     private func setUpSubViews() {
         view.backgroundColor = .black
-        
-        view.addSubview(navigationBar)
+        navigationController?.navigationBar.isHidden = false
+        setBarButtonItem(type: .imgClose, position: .left, action: #selector(handleNavigationLeftButton))
         
         view.addSubview(collectionView)
         view.addSubview(filmImageView)
@@ -111,20 +103,15 @@ class FilmListDetailViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         
-        navigationBar.snp.makeConstraints {
-            $0.height.equalTo(52)
-            $0.top.left.right.equalTo(safe)
-        }
-        
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(134)
             $0.width.equalTo(100)
             $0.left.equalTo(safe).offset(18)
-            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(safe).offset(20)
         }
         
         filmTypeLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(safe).offset(20)
             $0.left.equalTo(filmImageView.snp.right).offset(18)
         }
         
@@ -201,7 +188,7 @@ class FilmListDetailViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @objc private func popUp(){
+    @objc private func handleNavigationLeftButton(){
         navigationController?.popViewController(animated: true)
     }
 }

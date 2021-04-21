@@ -15,7 +15,7 @@ protocol FilmVCDelegate {
     func presentCreateVC()
 }
 
-class FilmMainViewController : UIViewController {
+class FilmMainViewController : BaseViewController {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
         cv.showsVerticalScrollIndicator = false
@@ -23,21 +23,19 @@ class FilmMainViewController : UIViewController {
     }()
     
     private let viewModel = PhotoViewModel()
-    private var disposeBag = DisposeBag()
-    
     private var photoViewModel = PhotoViewModel().array
 
     // MARK: Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
         setUpCollectionView()
 //        setupCollectionViewDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
     }
 

@@ -13,14 +13,7 @@ import RxDataSources
 
 
 /// 필름 리스트
-class FilmListViewController: UIViewController {
-    private var navigationBar: NavigationBar = {
-        let navBar = NavigationBar(frame: .zero)
-        navBar.titleLabel.text = "내 필름"
-        navBar.rightButton.setUpNavBarRightBtn(type: .textEdit)
-        return navBar
-    }()
-    
+class FilmListViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.showsVerticalScrollIndicator = false
@@ -46,7 +39,6 @@ class FilmListViewController: UIViewController {
     }()
     
     private let viewModel = FilmsViewModel()
-    private var disposeBag = DisposeBag()
     private var isEditingMode = false
     private var deleteFilmIndexPath : Set<IndexPath> = []
 
@@ -55,16 +47,23 @@ class FilmListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationBar()
         setUpSubViews()
         setUpTableViewSection()
+    }
+    
+    private func setUpNavigationBar() {
+        setBarButtonItem(type: .imgClose, position: .left, action: #selector(handleNavigationLeftButton))
+        setBarButtonItem(type: .textEdit, position: .right, action: #selector(handleNavigationRightButtonEdit))
+        navigationItem.title = "내 필름"
     }
 
     private func setUpSubViews(){
         tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
         view.backgroundColor = .black
         
         view.addSubview(tableView)
-        view.addSubview(navigationBar)
         view.addSubview(selectedFilmDeleteButton)
         view.addSubview(popUpView)
         
@@ -73,14 +72,9 @@ class FilmListViewController: UIViewController {
         tableView.register(FilmListPrintTableViewCell.self, forCellReuseIdentifier: FilmListPrintTableViewCell.cellID)
         tableView.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.cellID)
         
-        navigationBar.snp.makeConstraints {
-            $0.height.equalTo(52)
-            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
-        }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
-            $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         selectedFilmDeleteButton.snp.makeConstraints {
@@ -91,9 +85,7 @@ class FilmListViewController: UIViewController {
         popUpView.snp.makeConstraints {
             $0.edges.equalTo(view)
         }
-        
-        navigationBar.leftButton.addTarget(self, action: #selector(popUp), for: .touchUpInside)
-        navigationBar.rightButton.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
+      
         popUpView.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
         popUpView.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
     }
@@ -172,18 +164,29 @@ class FilmListViewController: UIViewController {
             }).disposed(by: disposeBag)
     }
     
-    @objc private func popUp(){
+    @objc private func handleNavigationLeftButton() {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func editTableView(){
-        selectedFilmDeleteButton.setTitle("필름을 선택해주세요", for: .normal)
-        selectedFilmDeleteButton.isHidden = isEditingMode
-        navigationBar.rightButton.setTitle(isEditingMode ? "편집" : "취소", for: .normal)
-        deleteFilmIndexPath.removeAll()
+    // 개선할 곳 start ~
+    @objc private func handleNavigationRightButtonEdit(){
+       handleNavigationRightButton()
+        setBarButtonItem(type: .textCancle, position: .right, action: #selector(handleNavigationRightButtonCancle))
+    }
+    
+    @objc private func handleNavigationRightButtonCancle(){
+        handleNavigationRightButton()
+        setBarButtonItem(type: .textEdit, position: .right, action: #selector(handleNavigationRightButtonEdit))
+    }
+   
+    @objc private func handleNavigationRightButton() {
         isEditingMode = !isEditingMode
+        selectedFilmDeleteButton.setTitle("필름을 선택해주세요", for: .normal)
+        selectedFilmDeleteButton.isHidden = !isEditingMode
+        deleteFilmIndexPath.removeAll()
         tableView.reloadData()
     }
+    // ~ end
     
     @objc private func selectDeleteBtn(){
         popUpView.isHidden = false
@@ -201,7 +204,7 @@ class FilmListViewController: UIViewController {
             self.popUpView.isHidden = true
             self.popUpView.popupView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
-        editTableView()
+        handleNavigationRightButton()
     }
     @objc private func popUpRightBtn(){
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
@@ -210,7 +213,7 @@ class FilmListViewController: UIViewController {
             self.popUpView.isHidden = true
             self.popUpView.popupView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         })
-        editTableView()
+        handleNavigationRightButton()
         print("need delete code")
     }
 }

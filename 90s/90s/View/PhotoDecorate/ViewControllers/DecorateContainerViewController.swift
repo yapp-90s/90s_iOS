@@ -99,8 +99,8 @@ class DecorateContainerViewController: BaseViewController {
             context.stroke(renderer.format.bounds)
             photoDecoreateVC.photoView.drawHierarchy(in: photoDecoreateVC.decoratingView.bounds, afterScreenUpdates: true)
         }
-        let testVC = TestViewController()
-        testVC.imageView.image = image
-        present(testVC, animated: true, completion: nil)
+//        let testVC = TestViewController()
+//        testVC.imageView.image = image
+//        present(testVC, animated: true, completion: nil)
     }
 }

@@ -147,7 +147,7 @@ class FilmListTableViewCell: UITableViewCell {
         filmTypeImageView.snp.makeConstraints {
             $0.height.equalTo(29)
             $0.width.equalTo(110)
-            $0.bottom.equalTo(-22)
+            $0.top.equalTo(filmBackgroudImageView.snp.bottom).offset(23)
             $0.right.equalTo(-18)
         }
         
@@ -160,7 +160,7 @@ class FilmListTableViewCell: UITableViewCell {
         
         separateLine.snp.makeConstraints {
             $0.height.equalTo(1)
-            $0.top.equalTo(filmCount_DateLabel.snp.bottom).offset(28)
+            $0.top.equalTo(filmCount_DateLabel.snp.bottom).offset(20)
             $0.left.equalTo(18)
             $0.right.equalTo(-18)
         }
@@ -182,9 +182,10 @@ class FilmListTableViewCell: UITableViewCell {
         }
         filmTitleLabel.text = film.name
         
-        switch testFilmValue!.1 {
+        switch isCreate {
         case true:
             filmTypeImageView.isHidden = true
+            filmNewLabel.isHidden = true
             filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filterType.printDay())시간 소요"
         case false:
             filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createDate)" // 전체 개수 리턴하는 함수 필요
@@ -210,8 +211,10 @@ class FilmListTableViewCell: UITableViewCell {
     }
     
     func isEditCellSelected(value: Bool) {
-        let image = value ? UIImage(named: "film_edit_select") : UIImage(named: "film_edit_unselect")
-        filmDeleteButton.setImage(image, for: .normal)
+        let image = value ? "film_edit_select" : "film_edit_unselect"
+        DispatchQueue.main.async { [weak self] in
+            self?.filmDeleteButton.setImage(UIImage(named: image), for: .normal)
+        }
     }
 }
 

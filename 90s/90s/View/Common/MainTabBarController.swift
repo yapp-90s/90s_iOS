@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
         let albumVC = AlbumViewController()
         albumVC.tabBarItem = UITabBarItem(title: "Album", image: nil, tag: 0)
         
-        let filmVC = UINavigationController(rootViewController: FilmMainViewController())
+        let filmVC = BaseNavigationControllerViewController(rootViewController: FilmMainViewController()) 
         filmVC.tabBarItem = UITabBarItem(title: "Film", image: nil, tag: 1)
         
         let tabList = [

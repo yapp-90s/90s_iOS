@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class FilmCreateViewController: UIViewController {
+class FilmCreateViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero)
         tv.showsHorizontalScrollIndicator = false
@@ -18,21 +18,22 @@ class FilmCreateViewController: UIViewController {
     
     private let filmCreateInfoLabel : UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = "필름을 선택해주세요"
-//        let style = NSMutableParagraphStyle()
-//        style.lineSpacing = 5
-//        let string = NSMutableAttributedString(string:  "필름을 선택해주세요")
-//        string.addAttributes(style, range: NSMakeRange(0, string.length))
-//        label.attributedText = string
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 5
+        let attributes : [NSAttributedString.Key : Any] = [.paragraphStyle : style ]
+        let attrString = NSAttributedString(string: "필름을\n선택해주세요", attributes: attributes)
+        label.font = label.font.withSize(17)
+        label.attributedText = attrString
         label.numberOfLines = 2
         return label
     }()
     
     private let viewModel = FilmsViewModel()
-    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = false
+        setBarButtonItem(type: .imgClose, position: .left, action: #selector(handleNavLeftButton))
         setUpSubViews()
     }
     
@@ -44,10 +45,12 @@ class FilmCreateViewController: UIViewController {
     private func setUpSubViews() {
         view.addSubview(tableView)
         view.addSubview(filmCreateInfoLabel)
+        view.backgroundColor = .black
         
         filmCreateInfoLabel.snp.makeConstraints {
             $0.height.equalTo(105)
-            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.left.equalTo(view.safeAreaLayoutGuide).offset(18)
+            $0.top.right.equalTo(view.safeAreaLayoutGuide)
         }
         
         tableView.snp.makeConstraints {
@@ -62,8 +65,13 @@ class FilmCreateViewController: UIViewController {
         tableView.delegate = self
         
         viewModel.FilmObservable.bind(to: tableView.rx.items(cellIdentifier: FilmListTableViewCell.cellId, cellType: FilmListTableViewCell.self)) { index, element, cell in
-            cell.bindViewModel(film: element, isCreate: false)
+            cell.selectionStyle = .none
+            cell.bindViewModel(film: element, isCreate: true)
         }.disposed(by: disposeBag)
+    }
+    
+    @objc private func handleNavLeftButton(){
+        navigationController?.popViewController(animated: true)
     }
 }
 
