@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-protocol FilmVCDelegate {
+protocol FilmMainViewControllerDelegate {
     func presentListVC()
     func presentCreateVC()
 }
@@ -90,7 +90,7 @@ extension FilmMainViewController : UICollectionViewDelegate, UICollectionViewDat
 }
 
 
-extension FilmMainViewController : FilmVCDelegate {
+extension FilmMainViewController : FilmMainViewControllerDelegate {
     func presentListVC() {
         navigationController?.pushViewController(FilmListViewController(), animated: true)
     }

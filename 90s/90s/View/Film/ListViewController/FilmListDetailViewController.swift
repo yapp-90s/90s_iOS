@@ -85,8 +85,7 @@ class FilmListDetailViewController: BaseViewController {
     private func setUpSubViews() {
         view.backgroundColor = .black
         navigationController?.navigationBar.isHidden = false
-        setBarButtonItem(type: .imgClose, position: .left, action: #selector(handleNavigationLeftButton))
-        
+       
         view.addSubview(collectionView)
         view.addSubview(filmImageView)
         view.addSubview(filmNameLabel)
@@ -186,10 +185,6 @@ class FilmListDetailViewController: BaseViewController {
             printButton.isHidden = false
         }
         collectionView.reloadData()
-    }
-    
-    @objc private func handleNavigationLeftButton(){
-        navigationController?.popViewController(animated: true)
     }
 }
 

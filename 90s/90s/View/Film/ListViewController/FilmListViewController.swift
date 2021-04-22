@@ -53,7 +53,6 @@ class FilmListViewController: BaseViewController {
     }
     
     private func setUpNavigationBar() {
-        setBarButtonItem(type: .imgClose, position: .left, action: #selector(handleNavigationLeftButton))
         setBarButtonItem(type: .textEdit, position: .right, action: #selector(handleNavigationRightButtonEdit))
         navigationItem.title = "내 필름"
     }
@@ -112,7 +111,6 @@ class FilmListViewController: BaseViewController {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmListTableViewCell.cellId) as! FilmListTableViewCell
             let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
-            
             cell.bindViewModel(film: item, isCreate: false)
             cell.isEditStarted(value: self.isEditingMode)
             cell.isEditCellSelected(value: value)
@@ -162,10 +160,6 @@ class FilmListViewController: BaseViewController {
                     }
                 }
             }).disposed(by: disposeBag)
-    }
-    
-    @objc private func handleNavigationLeftButton() {
-        navigationController?.popViewController(animated: true)
     }
     
     // 개선할 곳 start ~

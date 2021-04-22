@@ -9,6 +9,11 @@ import UIKit
 import SnapKit
 import RxSwift
 
+protocol FilmCreateViewControllerDelegate {
+    func presentFilmCreateVC(film: Film)
+    func popupToFilmCreateVC()
+}
+
 class FilmCreateViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero)
@@ -17,14 +22,7 @@ class FilmCreateViewController: BaseViewController {
     }()
     
     private let filmCreateInfoLabel : UILabel = {
-        let label = UILabel(frame: .zero)
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 5
-        let attributes : [NSAttributedString.Key : Any] = [.paragraphStyle : style ]
-        let attrString = NSAttributedString(string: "필름을\n선택해주세요", attributes: attributes)
-        label.font = label.font.withSize(17)
-        label.attributedText = attrString
-        label.numberOfLines = 2
+        let label = UILabel.createSpacingLabel(text: "필름을\n선택해주세요")
         return label
     }()
     
@@ -32,20 +30,20 @@ class FilmCreateViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = false
-        setBarButtonItem(type: .imgClose, position: .left, action: #selector(handleNavLeftButton))
         setUpSubViews()
+        setUpTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setUpTableView()
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func setUpSubViews() {
+        navigationController?.navigationBar.isHidden = false
+        view.backgroundColor = .black
         view.addSubview(tableView)
         view.addSubview(filmCreateInfoLabel)
-        view.backgroundColor = .black
         
         filmCreateInfoLabel.snp.makeConstraints {
             $0.height.equalTo(105)
@@ -57,27 +55,39 @@ class FilmCreateViewController: BaseViewController {
             $0.top.equalTo(filmCreateInfoLabel.snp.bottom)
             $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
-        tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
     }
     
     private func setUpTableView(){
-        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
+        tableView.rowHeight = 250
         
-        viewModel.FilmObservable.bind(to: tableView.rx.items(cellIdentifier: FilmListTableViewCell.cellId, cellType: FilmListTableViewCell.self)) { index, element, cell in
-            cell.selectionStyle = .none
-            cell.bindViewModel(film: element, isCreate: true)
+        viewModel.FilmObservable
+            .map { $0.filter { $0.state != .create} }
+            .bind(to: tableView.rx.items(cellIdentifier: FilmListTableViewCell.cellId, cellType: FilmListTableViewCell.self)) { index, element, cell in
+                cell.selectionStyle = .none
+                cell.bindViewModel(film: element, isCreate: true)
         }.disposed(by: disposeBag)
-    }
-    
-    @objc private func handleNavLeftButton(){
-        navigationController?.popViewController(animated: true)
+
+        tableView.rx.modelSelected(Film.self).subscribe(onNext: { indexPath in
+            let nextVC = FilmCreateDetailViewController()
+            nextVC.film = indexPath
+            nextVC.delegate = self
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }).disposed(by: disposeBag)
     }
 }
 
 
-extension FilmCreateViewController : UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+extension FilmCreateViewController : FilmCreateViewControllerDelegate {
+    func presentFilmCreateVC(film: Film) {
+        let nextVC = FilmCreateNameViewController()
+        nextVC.film = film
+        nextVC.delegate = self
+        navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    func popupToFilmCreateVC(){
+        navigationController?.popToViewController(self, animated: true)
     }
 }

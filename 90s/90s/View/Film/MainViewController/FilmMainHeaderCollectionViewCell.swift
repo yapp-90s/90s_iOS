@@ -15,7 +15,7 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     
     private let viewModel = FilmsViewModel()
     private var disposeBag = DisposeBag()
-    var delegate : FilmVCDelegate?
+    var delegate : FilmMainViewControllerDelegate?
     
     /// 필름을 보여주는 콜렉션 뷰입니다
     private var collectionView : UICollectionView = {

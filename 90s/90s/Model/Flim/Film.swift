@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import RxSwift
-import RxCocoa
-import RxDataSources
+
 
 struct Film {
     let id: String
@@ -16,7 +14,6 @@ struct Film {
     let createDate: String = Date().dateToString()
     var completeDate: String?
     var filterType : FilmFilterType
-//    let filter: String
     private(set) var photos: [Photo]
     
     let maxCount: Int
@@ -81,9 +78,7 @@ enum FilmFilterType : String {
     case Nice = "멋진 필름"
     case Hot = "강렬한 필름"
     case Dandy = "진지한 필름"
-}
 
-extension FilmFilterType {
     var id: Int {
         self.hashValue
     }
@@ -109,17 +104,3 @@ extension FilmFilterType {
     }
 }
 
-
-struct FilmListSectionData {
-    var header : String
-    var items: [Item]
-}
-
-extension FilmListSectionData : SectionModelType {
-    typealias Item = Film
-    
-    init(original: FilmListSectionData, items: [Film]) {
-        self = original
-        self.items = items
-    }
-}

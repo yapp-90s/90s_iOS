@@ -160,7 +160,7 @@ class FilmListTableViewCell: UITableViewCell {
         
         separateLine.snp.makeConstraints {
             $0.height.equalTo(1)
-            $0.top.equalTo(filmCount_DateLabel.snp.bottom).offset(20)
+            $0.top.equalTo(filmCount_DateLabel.snp.bottom).offset(25)
             $0.left.equalTo(18)
             $0.right.equalTo(-18)
         }
@@ -186,10 +186,11 @@ class FilmListTableViewCell: UITableViewCell {
         case true:
             filmTypeImageView.isHidden = true
             filmNewLabel.isHidden = true
+            separateLine.isHidden = false
             filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filterType.printDay())시간 소요"
         case false:
             filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createDate)" // 전체 개수 리턴하는 함수 필요
-            separateLine.isHidden = false
+            separateLine.isHidden = true
         }
         
         if Date().dateToString() == film.createDate {
