@@ -14,23 +14,23 @@ protocol AlbumCover {
 
 extension AlbumCover {
     var image: UIImage {
-        return UIImage(named: imageName)!
+        return UIImage(named: imageName) ?? UIImage()
     }
 }
 
 struct Copy: AlbumCover {
     let name = "1990 Copy"
-    let imageName = "albumcover1990Copy"
+    let imageName = "albumcover1990Copy.png"
 }
 
 struct Paradiso: AlbumCover {
     let name = "Paradiso"
-    let imageName = "albumcoverParadiso"
+    let imageName = "albumcoverParadiso.png"
 }
 
 struct HappilyEverAfter: AlbumCover {
     let name = "Happily Ever After"
-    let imageName = "albumcoverHappilyeverafter"
+    let imageName = "albumcoverHappilyeverafter.png"
 }
 
 struct FavoriteThings: AlbumCover {

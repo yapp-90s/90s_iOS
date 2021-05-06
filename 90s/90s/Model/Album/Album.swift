@@ -9,13 +9,13 @@ import UIKit
 
 struct Album {
     let id: String //var index: Int!
-    var user: [String]
+    var user: [String] = []
     let name: String
     var date: String
 //    let template: AlbumLayout
     let maxCount: Int
     let cover: AlbumCover
-    private(set) var photos: [Photo]
+    private(set) var photos: [Photo] = []
 }
 
 extension Album {

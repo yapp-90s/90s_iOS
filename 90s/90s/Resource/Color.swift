@@ -8,10 +8,17 @@
 import UIKit
 import Foundation
 
-enum Color {
-//    static let 
+//enum Color {
+//    static let retroOrange = UIColor.colorRGBHex(hex: 0xF65D48)
+//}
+extension UIColor {
+    static let retroOrange = ColorType.Retro_Orange.create()
+    static let retroBlack = ColorType.Retro_Black.create()
+    static let retroLightgray = ColorType.Retro_Lightgray.create()
+    static let retroGray = ColorType.Retro_Gray.create()
+    static let Warm_Lightgray = ColorType.Warm_Lightgray.create()
+    static let Warm_Gray = ColorType.Warm_Gray.create()
 }
-
 
 enum ColorType {
     case Retro_Orange

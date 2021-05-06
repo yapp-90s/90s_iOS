@@ -11,5 +11,14 @@ final class AlbumService {
     
     static let shared = AlbumService()
     
+    var cover: AlbumCover?
+    var name: String?
+    var template: Template?
+    
     private init() {}
+    
+    func createAlbum() -> Album? {
+        
+        return nil
+    }
 }

@@ -5,7 +5,7 @@
 //  Created by 김진우 on 2020/12/27.
 //
 
-import Foundation
+import UIKit
 
 // 필름에 추가된 후
 struct Photo {
@@ -26,6 +26,10 @@ extension Photo: Equatable {
     
     static func ==(lhs: Photo, rhs: String) -> Bool {
         return lhs.id == rhs
+    }
+    
+    var image: UIImage {
+        return UIImage(named: "photo\(Int.random(in: 0...8)).png")!
     }
 }
 
