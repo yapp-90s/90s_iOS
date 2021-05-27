@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// 필름 정보와 사진을 보여주는 VC
-class FilmListDetailViewController: BaseViewController {
+class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -74,6 +74,8 @@ class FilmListDetailViewController: BaseViewController {
         btn.backgroundColor = .retroOrange
         return btn
     }()
+    
+    let imagePickerController = UIImagePickerController()
     
     private var films : Film?
 
@@ -157,6 +159,11 @@ class FilmListDetailViewController: BaseViewController {
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
             $0.centerX.equalTo(safe)
         }
+        
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        imagePickerController.modalPresentationStyle = .fullScreen
     }
     
     func bindViewModel(film : Film){
@@ -210,5 +217,11 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
             cell.bindViewModel(item: f.photos[indexPath.row], isScaleFill: true)
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            present(imagePickerController, animated: true, completion: nil)
+        }
     }
 }

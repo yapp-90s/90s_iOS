@@ -26,7 +26,7 @@ class FilmCreateViewController: BaseViewController {
         return label
     }()
     
-    private let viewModel = FilmsViewModel()
+    private let viewModel = FilmsViewModel(dependency: .init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,7 @@ class FilmCreateViewController: BaseViewController {
         tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
         tableView.rowHeight = 250
         
-        viewModel.FilmObservable
+        viewModel.output.films
             .map { $0.filter { $0.state != .create} }
             .bind(to: tableView.rx.items(cellIdentifier: FilmListTableViewCell.cellId, cellType: FilmListTableViewCell.self)) { index, element, cell in
                 cell.selectionStyle = .none

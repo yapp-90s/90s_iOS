@@ -115,6 +115,7 @@ class FilmCreateCompleteViewController: BaseViewController {
     var film : Film!
     var delegate : FilmCreateViewControllerDelegate?
     private var isPopUpAppeared = false
+    private var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -253,7 +254,7 @@ class FilmCreateCompleteViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         popUpAddButton.rx.tap.bind {
-            // need to present new galary viewcontroller
+            self.setUpImagePickerView()
             self.updatePopUpView()
         }.disposed(by: disposeBag)
     }
@@ -275,9 +276,19 @@ class FilmCreateCompleteViewController: BaseViewController {
             }
         }
         
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
+    }
+    
+    private func setUpImagePickerView(){
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = true
+            
+            present(imagePicker, animated: true)
+        }
     }
     
     func bindViewModel(film : Film) {
@@ -298,5 +309,12 @@ class FilmCreateCompleteViewController: BaseViewController {
     
     @objc private func handleTapGesture(sender: UITapGestureRecognizer){
         updatePopUpView()
+    }
+}
+
+
+extension FilmCreateCompleteViewController : UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: nil)
     }
 }

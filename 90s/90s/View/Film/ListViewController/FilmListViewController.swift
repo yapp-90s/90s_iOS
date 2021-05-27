@@ -38,7 +38,7 @@ class FilmListViewController: BaseViewController {
         return btn
     }()
     
-    private let viewModel = FilmsViewModel()
+    private let viewModel = FilmsViewModel(dependency: .init())
     private var isEditingMode = false
     private var deleteFilmIndexPath : Set<IndexPath> = []
 
