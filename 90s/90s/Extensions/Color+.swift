@@ -8,10 +8,10 @@
 import UIKit
 
 extension UIColor {
-    class var retroOrange: UIColor { return UIColor(named: "retro_orange")! }
-    class var retroBlack: UIColor { return UIColor(named: "retro_black")! }
-    class var retroLightgray: UIColor { return UIColor(named: "retro_lightgray")! }
-    class var retroGray: UIColor { return UIColor(named: "retro_gray")! }
+//    class var retroOrange: UIColor { return UIColor(named: "retro_orange")! }
+//    class var retroBlack: UIColor { return UIColor(named: "retro_black")! }
+//    class var retroLightgray: UIColor { return UIColor(named: "retro_lightgray")! }
+//    class var retroGray: UIColor { return UIColor(named: "retro_gray")! }
     class var warmLightgray: UIColor { return UIColor(named: "warm_lightgray")! }
     class var warmGray: UIColor { return UIColor(named: "warm_gray")! }
 }

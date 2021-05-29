@@ -1,27 +1,33 @@
 //
-//  AlbumListCell.swift
+//  AlbumCoverCollectionViewCell.swift
 //  90s
 //
-//  Created by 김진우 on 2021/02/18.
+//  Created by 김진우 on 2021/03/27.
 //
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
-class AlbumListCell: UICollectionViewCell {
+class AlbumCoverCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "AlbumListCell"
+    static let identifier = "AlbumCoverCollectionViewCell"
+    
+    let disposeBag = DisposeBag()
     
     lazy private(set) var imageView: UIImageView = {
         let imageView = UIImageView()
         self.addSubview(imageView)
-        imageView.backgroundColor = .red
+        imageView.backgroundColor = .blue
         return imageView
     }()
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .green
+        label.textColor = .white
+        label.text = "자취일기\n"
+        label.numberOfLines = 2
         self.addSubview(label)
         return label
     }()
@@ -43,22 +49,24 @@ class AlbumListCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        self.backgroundColor = .white
-        
         imageView.snp.makeConstraints {
             $0.left.top.right.equalToSuperview()
             $0.width.equalTo(imageView.snp.height)
         }
         
         nameLabel.snp.makeConstraints {
-            $0.left.right.equalToSuperview().offset(3)
-            $0.top.equalTo(imageView.snp.bottom).offset(8)
-            $0.bottom.equalToSuperview()
+            $0.left.bottom.right.equalToSuperview()
+            $0.top.equalTo(imageView.snp.bottom).offset(6)
         }
     }
     
-    func refresh(with album: Album) {
-        imageView.image = album.cover.image
-        nameLabel.text = album.name
+    func bind(viewModel: AlbumViewModel) {
+        viewModel.name
+            .bind(to: nameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.cover.map { $0?.image }
+            .bind(to: imageView.rx.image)
+            .disposed(by: disposeBag)
     }
 }

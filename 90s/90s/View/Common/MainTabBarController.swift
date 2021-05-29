@@ -16,14 +16,15 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupUI() {
-        let albumVC = AlbumViewController()
+        let albumVC = AlbumViewController(viewModel: AlbumsViewModel(dependency: .init()))
+        let naviVC = UINavigationController(rootViewController: albumVC)
         albumVC.tabBarItem = UITabBarItem(title: "Album", image: nil, tag: 0)
         
         let filmVC = BaseNavigationControllerViewController(rootViewController: FilmMainViewController()) 
         filmVC.tabBarItem = UITabBarItem(title: "Film", image: nil, tag: 1)
         
         let tabList = [
-            albumVC,
+            naviVC,
             filmVC
         ]
         
