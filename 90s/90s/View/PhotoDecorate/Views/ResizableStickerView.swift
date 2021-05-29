@@ -9,7 +9,7 @@ import UIKit
 
 class ResizableStickerView: UIView {
     
-    var resizeHandler: ((UIPanGestureRecognizer, ResizableStickerView) -> Void)?
+    // MARK: - Views
     
     let removeButton: UIButton = {
         let button = UIButton()
@@ -32,6 +32,26 @@ class ResizableStickerView: UIView {
         
         return imageView
     }()
+    
+    // MARK: - Properties
+    
+    var resizeHandler: ((UIPanGestureRecognizer, ResizableStickerView) -> Void)?
+    
+    var isSelected: Bool = true {
+        willSet {
+            resizeButton.isHidden = !newValue
+            removeButton.isHidden = !newValue
+        }
+    }
+    
+    var isEditing: Bool = false {
+        willSet {
+            resizeButton.isHighlighted = newValue
+            removeButton.isHidden = newValue
+        }
+    }
+    
+    // MARK: - Intialize
     
     init(image: UIImage?) {
         super.init(frame: .init(x: 0, y: 0, width: 100, height: 100))
@@ -73,21 +93,13 @@ class ResizableStickerView: UIView {
         }
     }
     
+    // MARK: Selectors
+    
     @objc private func resizePanGesture(_ sender: UIPanGestureRecognizer) {
         resizeHandler?(sender, self)
     }
     
     @objc private func tappedRemoveButton(_ sender: UIButton) {
         removeFromSuperview()
-    }
-    
-    func resize(scale: CGFloat, angle: CGFloat, startTransform: CGAffineTransform, re: CGAffineTransform) {
-        let newTransform = CGAffineTransform(scaleX: scale, y: scale).concatenating(CGAffineTransform(rotationAngle: angle))
-        
-        transform = startTransform.concatenating(newTransform)
-        
-        let reScale = 1 / scale
-        removeButton.transform = re.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
-        resizeButton.transform = re.concatenating(CGAffineTransform(scaleX: reScale, y: reScale))
     }
 }

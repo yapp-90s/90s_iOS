@@ -8,6 +8,7 @@
 import UIKit
 
 class StickerCollectionViewCell: UICollectionViewCell {
+    
     static let identifier = "StickerCollectionViewCell"
     
     let stickerImageView: UIImageView = {
@@ -16,9 +17,13 @@ class StickerCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    // MARK: - Methods
+    
     func configure(sticker: Sticker) {
         stickerImageView.image = UIImage(named: sticker.imageName)
     }
+    
+    // MARK: - Initialize
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,7 +34,16 @@ class StickerCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        
+    }
+    
     private func setupViews() {
+        layer.cornerRadius = 11
+        layer.masksToBounds = true
+        
         addSubview(stickerImageView)
         
         stickerImageView.snp.makeConstraints {

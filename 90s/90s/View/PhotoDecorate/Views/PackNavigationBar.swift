@@ -13,6 +13,8 @@ class PackNavigationBar: UIView {
         case left
         case right
     }
+    
+    // MARK: - Views
 
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -32,6 +34,8 @@ class PackNavigationBar: UIView {
         
         return stackView
     }()
+    
+    // MARK: - Methods
     
     func addSideView(_ sideView: UIView, to position: SideViewPosition) {
         switch position {

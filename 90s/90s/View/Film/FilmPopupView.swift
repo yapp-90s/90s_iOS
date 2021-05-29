@@ -17,7 +17,7 @@ class FilmPopupView: UIView {
     
     var popupView : UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = ColorType.Warm_Gray.create()
+        view.backgroundColor = .warmGray
         view.clipsToBounds = true
         view.layer.cornerRadius = 10
         return view
@@ -38,7 +38,7 @@ class FilmPopupView: UIView {
     var leftBtn : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setTitle("취소", for: .normal)
-        btn.backgroundColor = ColorType.Warm_Lightgray.create()
+        btn.backgroundColor = .warmLightgray
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 8
         return btn
@@ -47,7 +47,7 @@ class FilmPopupView: UIView {
     var rightBtn : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.setTitle("삭제하기", for: .normal)
-        btn.backgroundColor = ColorType.Retro_Orange.create()
+        btn.backgroundColor = .retroOrange
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 8
         return btn

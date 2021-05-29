@@ -13,11 +13,11 @@ import RxDataSources
 
 
 /// 필름 리스트
-class FilmListVC: UIViewController {
+class FilmListViewController: UIViewController {
     private var navigationBar: NavigationBar = {
         let navBar = NavigationBar(frame: .zero)
         navBar.titleLabel.text = "내 필름"
-        navBar.rightBtn.setUpNavBarRightBtn(type: .text_edit)
+        navBar.rightButton.setUpNavBarRightBtn(type: .textEdit)
         return navBar
     }()
     
@@ -34,9 +34,9 @@ class FilmListVC: UIViewController {
         return view
     }()
     
-    private var selectedFilmDeleteBtn : UIButton = {
+    private var selectedFilmDeleteButton : UIButton = {
         let btn = UIButton(frame: .zero)
-        btn.backgroundColor = ColorType.Retro_Orange.create()
+        btn.backgroundColor = .retroOrange
         btn.titleLabel?.font = .boldSystemFont(ofSize: 15)
         btn.setTitle("필름을 선택해주세요", for: .normal)
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
@@ -58,17 +58,14 @@ class FilmListVC: UIViewController {
         setUpSubViews()
         setUpTableViewSection()
     }
-}
 
-
-extension FilmListVC {
     private func setUpSubViews(){
         tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .black
         
         view.addSubview(tableView)
         view.addSubview(navigationBar)
-        view.addSubview(selectedFilmDeleteBtn)
+        view.addSubview(selectedFilmDeleteButton)
         view.addSubview(popUpView)
         
         tableView.delegate = self
@@ -86,7 +83,7 @@ extension FilmListVC {
             $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        selectedFilmDeleteBtn.snp.makeConstraints {
+        selectedFilmDeleteButton.snp.makeConstraints {
             $0.height.equalTo(94)
             $0.left.right.bottom.equalTo(view)
         }
@@ -95,8 +92,8 @@ extension FilmListVC {
             $0.edges.equalTo(view)
         }
         
-        navigationBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
-        navigationBar.rightBtn.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
+        navigationBar.leftButton.addTarget(self, action: #selector(popUp), for: .touchUpInside)
+        navigationBar.rightButton.addTarget(self, action: #selector(editTableView), for: .touchUpInside)
         popUpView.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
         popUpView.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
     }
@@ -167,7 +164,7 @@ extension FilmListVC {
                             
                             if let count = self?.deleteFilmIndexPath.count {
                                 let text = count > 0 ? "\(count)개 필름 삭제" : "필름을 선택해주세요"
-                                self?.selectedFilmDeleteBtn.setTitle(text, for: .normal)
+                                self?.selectedFilmDeleteButton.setTitle(text, for: .normal)
                             }
                         }
                     }
@@ -180,9 +177,9 @@ extension FilmListVC {
     }
     
     @objc private func editTableView(){
-        selectedFilmDeleteBtn.setTitle("필름을 선택해주세요", for: .normal)
-        selectedFilmDeleteBtn.isHidden = isEditingMode
-        navigationBar.rightBtn.setTitle(isEditingMode ? "편집" : "취소", for: .normal)
+        selectedFilmDeleteButton.setTitle("필름을 선택해주세요", for: .normal)
+        selectedFilmDeleteButton.isHidden = isEditingMode
+        navigationBar.rightButton.setTitle(isEditingMode ? "편집" : "취소", for: .normal)
         deleteFilmIndexPath.removeAll()
         isEditingMode = !isEditingMode
         tableView.reloadData()
@@ -219,7 +216,7 @@ extension FilmListVC {
 }
 
 
-extension FilmListVC : UITableViewDelegate {
+extension FilmListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.cellID) as! FilmListSectionHeaderCell
         var value : (String, Bool) = ("", false)

@@ -14,8 +14,6 @@ class DecorateContainerViewController: BaseViewController {
         static let supplementaryHeight: CGFloat = 215
     }
     
-    // MARK: - Properties
-    
     // MARK: - Views
     
     private var photoDecoreateVC = PhotoDecorateViewController(viewModel: .init(dependency: .init(selectedPhoto: Photo(id: "", url: "picture1", date: ""))))
@@ -44,11 +42,13 @@ class DecorateContainerViewController: BaseViewController {
         stickerPackVC.viewModel = StickerPackListViewModel(dependency: .init(photoDecorateViewModel: photoDecoreateVC.viewModel))
         setupViews()
         setupLayouts()
+        setBarButtonItem(type: .imgCheck, position: .right, action: #selector(tappedCheckButton))
     }
     
     // MARK: - Initialize
     
     private func setupViews() {
+        title = "사진 선택"
         view.addSubview(photoDecorateView)
         view.addSubview(supplementaryView)
         
@@ -84,5 +84,23 @@ class DecorateContainerViewController: BaseViewController {
         subNavigationController.view.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+    }
+    
+    @objc func tappedCheckButton() {
+        
+        photoDecoreateVC.decoratingView.subviews.forEach { sticker in
+            guard let stickerView = sticker as? ResizableStickerView else { return }
+            stickerView.isSelected = false
+        }
+        
+        let renderer = UIGraphicsImageRenderer(size: photoDecoreateVC.decoratingView.bounds.size)
+        let image = renderer.image { context in
+            UIColor.orange.setStroke()
+            context.stroke(renderer.format.bounds)
+            photoDecoreateVC.photoView.drawHierarchy(in: photoDecoreateVC.decoratingView.bounds, afterScreenUpdates: true)
+        }
+//        let testVC = TestViewController()
+//        testVC.imageView.image = image
+//        present(testVC, animated: true, completion: nil)
     }
 }

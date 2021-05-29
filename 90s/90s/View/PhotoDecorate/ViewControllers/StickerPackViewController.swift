@@ -11,13 +11,12 @@ import RxSwift
 class StickerPackViewController: BaseViewController {
     
     private struct Constraints {
-        static let navBarHeight: CGFloat = 44
+        static let navBarHeight: CGFloat = 65
         static let stickerSize: CGSize = .init(width: 50, height: 50)
+        static let sectionInset: UIEdgeInsets = .init(top: 0, left: 19, bottom: 0, right: 18)
+        static let interItemSpacing: CGFloat = 22
+        static let lineSpacing: CGFloat = 20
     }
-    
-    // MARK: - Properties
-    
-    var viewModel: StickerPackViewModel
     
     // MARK: - Views
     
@@ -32,17 +31,26 @@ class StickerPackViewController: BaseViewController {
         let navBar = PackNavigationBar()
         navBar.addSideView(backButton, to: .left)
         navBar.titleLabel.textColor = .white
+        navBar.titleLabel.font = .boldSystemFont(ofSize: 14)
         
         return navBar
     }()
     
     let stickerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = Constraints.sectionInset
+        layout.minimumInteritemSpacing = Constraints.interItemSpacing
+        layout.minimumLineSpacing = Constraints.lineSpacing
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
         
         return collectionView
     }()
-
+    
+    // MARK: - Properties
+    
+    var viewModel: StickerPackViewModel
+    
     // MARK: - Initialize
     
     init(viewModel: StickerPackViewModel) {
@@ -64,7 +72,6 @@ class StickerPackViewController: BaseViewController {
     }
     
     private func bindViewModel() {
-        
         stickerCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         backButton.rx.tap
@@ -85,7 +92,6 @@ class StickerPackViewController: BaseViewController {
                 return cell
             }
             .disposed(by: disposeBag)
-        
     }
     
     private func setup() {
@@ -93,6 +99,8 @@ class StickerPackViewController: BaseViewController {
     }
     
     private func setupViews() {
+        view.backgroundColor = .warmGray
+        
         view.addSubview(navigationBar)
         view.addSubview(stickerCollectionView)
         
@@ -108,11 +116,15 @@ class StickerPackViewController: BaseViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension StickerPackViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.input.addSticker.onNext(indexPath.item)
     }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension StickerPackViewController: UICollectionViewDelegateFlowLayout {
     

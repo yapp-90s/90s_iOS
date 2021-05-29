@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 
 /// 필름 뷰 상단 - 헤더셀 입니다
-class FilmHeaderCollectionViewCell: UICollectionViewCell {
+class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     static let cellID = "headerCell"
     
     private let viewModel = FilmsViewModel()
@@ -33,7 +33,7 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private var filmCountBtn : UIButton = {
+    private var filmCountButton : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.titleLabel?.font = .systemFont(ofSize: 16)
         btn.setTitleColor(.gray, for: .normal)
@@ -59,15 +59,13 @@ class FilmHeaderCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
 
-extension FilmHeaderCollectionViewCell {
     private func setUpSubviews(){
         contentView.isUserInteractionEnabled = true
         
         addSubview(collectionView)
         addSubview(filmTitleLabel)
-        addSubview(filmCountBtn)
+        addSubview(filmCountButton)
         addSubview(printedTitleLabel)
         
         filmTitleLabel.snp.makeConstraints {
@@ -75,7 +73,7 @@ extension FilmHeaderCollectionViewCell {
             $0.top.equalTo(30)
         }
         
-        filmCountBtn.snp.makeConstraints {
+        filmCountButton.snp.makeConstraints {
             $0.width.equalTo(54)
             $0.height.equalTo(24)
             $0.right.equalTo(-35)
@@ -96,7 +94,7 @@ extension FilmHeaderCollectionViewCell {
     
     private func setUpCollectionView(){
         collectionView.delegate = self
-        collectionView.register(FilmCollectionViewCell.self, forCellWithReuseIdentifier: FilmCollectionViewCell.cellID)
+        collectionView.register(FilmMainCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainCollectionViewCell.cellID)
     }
     
     private func bindViewModel(){
@@ -107,7 +105,7 @@ extension FilmHeaderCollectionViewCell {
         
         /// set CollectionView DataSource
         viewModel.FilmObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmCollectionViewCell.cellID, cellType: FilmCollectionViewCell.self)) { index, item, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmMainCollectionViewCell.cellID, cellType: FilmMainCollectionViewCell.self)) { index, item, cell in
                 cell.bindItem(film: item)
             }
             .disposed(by: disposeBag)
@@ -115,23 +113,21 @@ extension FilmHeaderCollectionViewCell {
         viewModel.itemCount
             .map { "총 \($0 - 1)개" }
             .asDriver(onErrorJustReturn: "")
-            .drive(filmCountBtn.rx.title(for: .normal))
+            .drive(filmCountButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        filmCountBtn.rx.tap.bind { [weak self] in
+        filmCountButton.rx.tap.bind { [weak self] in
             self?.delegate?.presentListVC()
         }.disposed(by: disposeBag)
     }
 }
 
 
-extension FilmHeaderCollectionViewCell : UICollectionViewDelegate  {
+extension FilmMainHeaderCollectionViewCell : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 18
     }
-}
 
-extension FilmHeaderCollectionViewCell : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 140)
     }

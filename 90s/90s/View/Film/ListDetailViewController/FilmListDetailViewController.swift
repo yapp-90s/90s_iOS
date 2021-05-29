@@ -12,9 +12,9 @@ import SnapKit
 class FilmListDetailViewController: UIViewController {
     private var navigationBar : NavigationBar = {
         let navBar = NavigationBar(frame: .zero)
-        navBar.leftBtn.addTarget(self, action: #selector(popUp), for: .touchUpInside)
+        navBar.leftButton.addTarget(self, action: #selector(popUp), for: .touchUpInside)
         navBar.titleLabel.isHidden = true
-        navBar.rightBtn.isHidden = true
+        navBar.rightButton.isHidden = true
         return navBar
     }()
     
@@ -55,14 +55,14 @@ class FilmListDetailViewController: UIViewController {
         return cv
     }()
     
-    private var printBtn : UIButton = {
+    private var printButton : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.layer.cornerRadius = 15
         btn.clipsToBounds = true
         btn.titleLabel?.font = .systemFont(ofSize: 12)
         btn.setTitle("인화하기", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = ColorType.Warm_Lightgray.create()
+        btn.backgroundColor = .warmLightgray
         return btn
     }()
     
@@ -72,14 +72,14 @@ class FilmListDetailViewController: UIViewController {
         return iv
     }()
     
-    private var emptyAddMoreBtn: UIButton = {
+    private var emptyAddMoreButton: UIButton = {
         let btn = UIButton(frame: .zero)
         btn.layer.cornerRadius = 5
         btn.clipsToBounds = true
         btn.titleLabel?.font = .boldSystemFont(ofSize: 16)
         btn.setTitle("사진 추가하기", for: .normal)
         btn.setTitleColor(.white, for: .normal)
-        btn.backgroundColor = ColorType.Retro_Orange.create()
+        btn.backgroundColor = .retroOrange
         return btn
     }()
     
@@ -89,11 +89,8 @@ class FilmListDetailViewController: UIViewController {
         super.viewDidLoad()
         setUpSubViews()
     }
-}
 
-
-extension FilmListDetailViewController {
-    private func setUpSubViews(){
+    private func setUpSubViews() {
         view.backgroundColor = .black
         
         view.addSubview(navigationBar)
@@ -104,10 +101,10 @@ extension FilmListDetailViewController {
         view.addSubview(filmTypeLabel)
         view.addSubview(filmDateLabel)
         view.addSubview(filmCountLabel)
-        view.addSubview(printBtn)
+        view.addSubview(printButton)
         
         view.addSubview(emptyImageView)
-        view.addSubview(emptyAddMoreBtn)
+        view.addSubview(emptyAddMoreButton)
         
         let safe = view.safeAreaLayoutGuide
         collectionView.delegate = self
@@ -147,7 +144,7 @@ extension FilmListDetailViewController {
         }
         
         // hidden
-        printBtn.snp.makeConstraints {
+        printButton.snp.makeConstraints {
             $0.height.equalTo(32)
             $0.width.equalTo(78)
             $0.right.equalTo(safe).offset(-18)
@@ -168,7 +165,7 @@ extension FilmListDetailViewController {
             $0.centerX.equalTo(safe)
         }
         
-        emptyAddMoreBtn.snp.makeConstraints {
+        emptyAddMoreButton.snp.makeConstraints {
             $0.width.equalTo(285)
             $0.height.equalTo(57)
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
@@ -194,12 +191,12 @@ extension FilmListDetailViewController {
         
         if film.count == 0 {
             emptyImageView.isHidden = false
-            emptyAddMoreBtn.isHidden = false
-            printBtn.isHidden = true
+            emptyAddMoreButton.isHidden = false
+            printButton.isHidden = true
         } else {
             emptyImageView.isHidden = true
-            emptyAddMoreBtn.isHidden = true
-            printBtn.isHidden = false
+            emptyAddMoreButton.isHidden = true
+            printButton.isHidden = false
         }
         collectionView.reloadData()
     }
