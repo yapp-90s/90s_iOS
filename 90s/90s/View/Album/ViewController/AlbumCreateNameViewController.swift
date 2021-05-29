@@ -144,6 +144,8 @@ class AlbumCreateNameViewController: UIViewController {
     }
     
     private func createAlbum() {
+        viewModel.nameRelay.accept(textField.text ?? "")
+        
         let vc = AlbumCreateTemplateViewController(viewModel: viewModel)
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: false)

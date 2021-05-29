@@ -17,6 +17,7 @@ final class TemplateDetailCollectionViewCell: UICollectionViewCell {
     
     lazy private(set) var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .red
         contentView.addSubview(imageView)
         return imageView
     }()
@@ -39,6 +40,7 @@ final class TemplateDetailCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        
         imageView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.height.equalTo(imageView.snp.width).multipliedBy(1.662538)
@@ -47,7 +49,6 @@ final class TemplateDetailCollectionViewCell: UICollectionViewCell {
     }
     
     func bind(viewModel: TemplateViewModel) {
-        imageView.backgroundColor = .white
 //        viewModel.
     }
 }

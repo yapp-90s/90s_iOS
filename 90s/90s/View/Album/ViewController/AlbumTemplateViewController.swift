@@ -25,7 +25,6 @@ final class AlbumTemplateViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.backgroundColor = .red
         self.view.addSubview(label)
         return label
     }()

@@ -83,11 +83,11 @@ class AlbumViewController: UIViewController {
             return self.sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath, item: item)
         })
         
-        viewModel.albumSection
+        viewModel.output.albumSection
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.createViewModel.openCreateAlbum
+        viewModel.output.createViewModel.openCreateAlbum
             .subscribe({ _ in
                 self.createAlbum()
             }).disposed(by: disposeBag)

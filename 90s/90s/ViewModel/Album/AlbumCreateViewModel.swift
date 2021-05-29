@@ -18,6 +18,7 @@ final class AlbumCreateViewModel {
     let next: PublishRelay<Void> = .init()
     let back: PublishRelay<Void> = .init()
     let close: PublishRelay<Void> = .init()
+    let aaa: PublishSubject<Int> = .init()
     
     // MARK: - Output
     typealias CoverSectionModel = SectionModel<String, CoverViewModel>

@@ -18,7 +18,7 @@ final class AlbumService {
     private init() {}
     
     func createAlbum() -> Album? {
-        
+        print()
         return nil
     }
 }

@@ -34,10 +34,12 @@ final class AlbumCreateTemplateViewController: UIViewController {
         let cellWidth = (SCREEN_WIDTH - 47) / 2
         let cellHeight = cellWidth * 1.664634 + 30
         layout.itemSize = .init(width: cellWidth, height: cellHeight)
+        layout.sectionInset = .init(top: 24, left: 18, bottom: 24, right: 18)
         layout.minimumLineSpacing = 18
         layout.minimumInteritemSpacing = 11
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TemplateCollectionViewCell.self, forCellWithReuseIdentifier: TemplateCollectionViewCell.identifier)
+        collectionView.showsVerticalScrollIndicator = false
         self.view.addSubview(collectionView)
         return collectionView
     }()

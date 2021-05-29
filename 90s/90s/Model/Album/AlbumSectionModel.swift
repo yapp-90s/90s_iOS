@@ -16,7 +16,7 @@ enum AlbumSectionModel {
 }
 
 enum AlbumSectionItem {
-    case statusCreate(viewMode: AlbumCreateCellViewModel)
+    case statusCreate(viewModel: AlbumCreateCellViewModel)
     case statusBanner
     case statusHeader(title: String)
     case statusCover(albums: AlbumViewModel)

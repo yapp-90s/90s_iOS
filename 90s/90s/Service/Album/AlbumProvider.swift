@@ -80,4 +80,8 @@ struct AlbumProvider {
             .map { $0?.album }
             .share(replay: 1, scope: .whileConnected)
     }
+    
+    static func viewModel(id: String) -> AlbumViewModel {
+        return AlbumViewModel(album: Album(id: "", name: "", date: "", maxCount: 0, cover: Copy()))
+    }
 }

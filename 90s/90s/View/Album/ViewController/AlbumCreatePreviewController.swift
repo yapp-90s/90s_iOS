@@ -15,6 +15,8 @@ final class AlbumCreatePreviewViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.text = "앨범이\n완성되었습니다!"
+        label.numberOfLines = 2
         label.textColor = .white
         self.view.addSubview(label)
         return label
@@ -22,6 +24,8 @@ final class AlbumCreatePreviewViewController: UIViewController {
     
     private lazy var contentsView: UIView = {
         let view = UIView()
+        view.backgroundColor = .brown
+        view.layer.cornerRadius = 4
         self.view.addSubview(view)
         return view
     }()
@@ -34,6 +38,7 @@ final class AlbumCreatePreviewViewController: UIViewController {
     
     private lazy var line: UIView = {
         let view = UIView()
+        view.backgroundColor = .white
         self.contentsView.addSubview(view)
         return view
     }()
@@ -81,6 +86,8 @@ final class AlbumCreatePreviewViewController: UIViewController {
     
     private lazy var button: UIButton = {
         let button = UIButton()
+        button.backgroundColor = .retroOrange
+        button.layer.cornerRadius = 5
         button.setTitle("확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
         self.view.addSubview(button)
@@ -139,7 +146,7 @@ final class AlbumCreatePreviewViewController: UIViewController {
             $0.top.equalTo(nameLabel.snp.bottom).offset(16)
             $0.height.equalTo(0.5)
             $0.left.equalToSuperview().offset(24)
-            $0.right.equalToSuperview().offset(24)
+            $0.right.equalToSuperview().offset(-24)
         }
         
         coverNameLabel.snp.makeConstraints {
@@ -178,18 +185,17 @@ final class AlbumCreatePreviewViewController: UIViewController {
             .drive(imageView.rx.image)
             .disposed(by: disposeBag)
         
-        viewModel.name
-            .asDriver()
-            .drive(nameLabel.rx.text)
+        viewModel.nameRelay
+            .bind(to: nameLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.selectedCover
-            .map { "커버  \($0.name)" }
-            .drive(coverNameLabel.rx.text)
+        viewModel.selectedCoverRelay
+            .map { "커버     \($0.name)" }
+            .bind(to: coverNameLabel.rx.text)
             .disposed(by: disposeBag)
         
         
-        viewModel.selectedTemplate
+        viewModel.selectedTemplateRelay
             .map { "템플릿  \($0.name)" }
             .bind(to: templateNameLabel.rx.text)
             .disposed(by: disposeBag)
@@ -197,12 +203,12 @@ final class AlbumCreatePreviewViewController: UIViewController {
         
         viewModel.createDate
             .map { "생성일  \($0.toString)" }
-            .drive(coverNameLabel.rx.text)
+            .drive(createDateLabel.rx.text)
             .disposed(by: disposeBag)
         
         button.rx.tap
             .subscribe(onNext: { _ in
-                AlbumProvider.addAndUpdate(Album(id: "", name: self.viewModel.nameRelay.value, date: self.viewModel.dateRelay.value.toString, maxCount: 0, cover: self.viewModel.selectedCoverRelay.value))
+                AlbumRepository.shared.add(album: Album(id: "", name: self.viewModel.nameRelay.value, date: self.viewModel.dateRelay.value.toString, maxCount: 0, cover: self.viewModel.selectedCoverRelay.value))
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
                 }

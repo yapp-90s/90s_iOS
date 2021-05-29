@@ -38,7 +38,7 @@ final class AlbumViewModel: AlbumViewModelOutput, AlbumViewModelInput {
     init(album: Album) {
         self.id = album.id
         
-//        AlbumProvider.observable(id: album.id)
+        AlbumProvider.addAndUpdate(album)
         let albumObserver = AlbumProvider.observable(id: id)
             .asObservable()
             .share(replay: 1, scope: .whileConnected)
