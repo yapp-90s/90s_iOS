@@ -13,9 +13,9 @@ import RxSwift
 class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     static let cellID = "headerCell"
     
-    private let viewModel = FilmsViewModel()
+    private let viewModel = FilmsViewModel(dependency: .init())
     private var disposeBag = DisposeBag()
-    var delegate : FilmVCDelegate?
+    var delegate : FilmMainViewControllerDelegate?
     
     /// 필름을 보여주는 콜렉션 뷰입니다
     private var collectionView : UICollectionView = {
@@ -104,17 +104,24 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         attribute.append(attribute)
         
         /// set CollectionView DataSource
-        viewModel.FilmObservable
+        viewModel.output.films
             .bind(to: collectionView.rx.items(cellIdentifier: FilmMainCollectionViewCell.cellID, cellType: FilmMainCollectionViewCell.self)) { index, item, cell in
                 cell.bindItem(film: item)
             }
             .disposed(by: disposeBag)
         
-        viewModel.itemCount
-            .map { "총 \($0 - 1)개" }
+        viewModel.output.films
+            .map { $0.map { $0.id}}
+            .map { "총 \($0.count - 1)개" }
             .asDriver(onErrorJustReturn: "")
             .drive(filmCountButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected.subscribe(onNext: { indexPath in
+            if indexPath.row == 0 {
+                self.delegate?.presentCreateVC()
+            }
+        }).disposed(by: disposeBag)
         
         filmCountButton.rx.tap.bind { [weak self] in
             self?.delegate?.presentListVC()
