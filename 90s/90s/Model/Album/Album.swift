@@ -11,16 +11,18 @@ struct Album {
     let id: String //var index: Int!
     var user: [String] = []
     let name: String
-    var date: String
-//    let template: AlbumLayout
-    let maxCount: Int
+    var createdAt: String
+    var updatedAt: String
+    var completedAt: String?
+    //    let template: AlbumLayout
+    let totalPaper: Int
     let cover: AlbumCover
     private(set) var photos: [Photo] = []
 }
 
 extension Album {
     var age: Double {
-//         Date() - startDate로 계산
+        //         Date() - startDate로 계산
         return 0.0
     }
 }

@@ -48,9 +48,9 @@ final class AlbumViewModel: AlbumViewModelOutput, AlbumViewModelInput {
         self.name = albumObserver
             .map { $0?.name }
         self.date = albumObserver
-            .map { $0?.date }
+            .map { $0?.updatedAt }
         self.maxCount = albumObserver
-            .map { $0?.maxCount }
+            .map { $0?.totalPaper }
         self.cover = albumObserver
             .map { $0?.cover }
         self.photos = albumObserver

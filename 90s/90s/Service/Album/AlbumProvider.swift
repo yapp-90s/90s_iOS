@@ -82,6 +82,6 @@ struct AlbumProvider {
     }
     
     static func viewModel(id: String) -> AlbumViewModel {
-        return AlbumViewModel(album: Album(id: "", name: "", date: "", maxCount: 0, cover: Copy()))
+        return AlbumViewModel(album: .init(id: "", name: "", createdAt: "", updatedAt: "", totalPaper: 0, cover: .empty))
     }
 }

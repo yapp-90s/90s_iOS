@@ -208,7 +208,7 @@ final class AlbumCreatePreviewViewController: UIViewController {
         
         button.rx.tap
             .subscribe(onNext: { _ in
-                AlbumRepository.shared.add(album: Album(id: "", name: self.viewModel.nameRelay.value, date: self.viewModel.dateRelay.value.toString, maxCount: 0, cover: self.viewModel.selectedCoverRelay.value))
+                AlbumRepository.shared.add(album: .init(id: "", name: "", createdAt: "", updatedAt: "", totalPaper: 0, cover: .empty))
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
                 }

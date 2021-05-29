@@ -25,31 +25,31 @@ final class AlbumRepository {
     
     private func fetchMockData() {
         var dummyAlbums: [Album] = [
-            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", date: "2020.01.03", maxCount: 10, cover: Copy(), photos: [
+            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.04"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.05")
             ]),
-            .init(id: UUID().uuidString, user: ["B"], name: "앨범2", date: "2020.01.03", maxCount: 10, cover: Paradiso(), photos: [
+            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03")
             ]),
-            .init(id: UUID().uuidString, user: ["C"], name: "앨범3", date: "2020.01.03", maxCount: 10, cover: HappilyEverAfter(), photos: [
+            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03")
             ]),
-            .init(id: UUID().uuidString, user: ["D"], name: "앨범4", date: "2020.01.03", maxCount: 10, cover: Copy(), photos: [
+            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03")
             ]),
-            .init(id: UUID().uuidString, user: ["E"], name: "앨범5", date: "2020.01.03", maxCount: 10, cover: Paradiso(), photos: [
+            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03")
             ]),
-            .init(id: UUID().uuidString, user: ["F"], name: "앨범6", date: "2020.01.03", maxCount: 10, cover: HappilyEverAfter(), photos: [
+            .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
                 .init(id: UUID().uuidString, url: "", date: "2020.01.03"),
@@ -57,7 +57,7 @@ final class AlbumRepository {
             ])
         ]
         dummyAlbums.sort { (l, r) -> Bool in
-            return l.date < r.date
+            return l.createdAt < r.createdAt
         }
         albumsRelay.accept(dummyAlbums)
     }

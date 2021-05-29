@@ -1,6 +1,10 @@
 PODS:
   - Alamofire (5.4.1)
   - Differentiator (4.0.1)
+  - Moya (14.0.0):
+    - Moya/Core (= 14.0.0)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
   - Realm (10.7.2):
     - Realm/Headers (= 10.7.2)
   - Realm/Headers (10.7.2)
@@ -25,6 +29,7 @@ PODS:
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
+  - Moya
   - RealmSwift
   - RxAlamofire
   - RxCocoa
@@ -37,6 +42,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Differentiator
+    - Moya
     - Realm
     - RealmSwift
     - RxAlamofire
@@ -50,6 +56,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   Realm: e523da9ade306c5ae87e85dc09fdef148d3e1cc1
   RealmSwift: 4f6758c3adbdcc87f7b7777107226532a077f61c
   RxAlamofire: 8e144c62dcc01d68dcb366bfc542eb6dd46bab78
@@ -60,6 +67,6 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: c1d6a8074a08096016aaef12e1196e4bb6c1362a
+PODFILE CHECKSUM: 829489ac533131b6c31b31edbd063e0cd3f081f2
 
 COCOAPODS: 1.10.0

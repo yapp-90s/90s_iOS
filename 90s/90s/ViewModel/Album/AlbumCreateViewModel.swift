@@ -30,7 +30,7 @@ final class AlbumCreateViewModel {
     let createDate: Driver<Date>
     let templateSection: BehaviorRelay<[TemplateSectionModel]> = .init(value: [])
     
-    let selectedCoverRelay = BehaviorRelay<AlbumCover>(value: Copy())
+    let selectedCoverRelay = BehaviorRelay<AlbumCover>(value: .empty)
     let selectedTemplateRelay = BehaviorRelay<TemplateViewModel>(value: TemplateViewModel(template: Template(name: "", imageName: "")))
     let nameRelay = BehaviorRelay<String>(value: "")
     let dateRelay = BehaviorRelay<Date>(value: Date())

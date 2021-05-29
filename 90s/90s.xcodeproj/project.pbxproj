@@ -29,6 +29,9 @@
 		4CBF1781260F0526005ED4F8 /* StickerDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBF1780260F0526005ED4F8 /* StickerDecorator.swift */; };
 		4CBF1792260F1764005ED4F8 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4CBF1791260F1764005ED4F8 /* Colors.xcassets */; };
 		4CBF1798260F1A8F005ED4F8 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBF1797260F1A8F005ED4F8 /* Date+.swift */; };
+		4CDA3C5F264FA16B00EEE12C /* BaseTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDA3C5E264FA16B00EEE12C /* BaseTarget.swift */; };
+		4CDA3C63264FA39200EEE12C /* AlbumAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDA3C62264FA39200EEE12C /* AlbumAPI.swift */; };
+		4CDA3C67264FA94A00EEE12C /* AlbumResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CDA3C66264FA94A00EEE12C /* AlbumResponse.swift */; };
 		4CE649F625E0DEC80093D238 /* AddAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */; };
 		4CE649F725E0DEC80093D238 /* StickerPackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */; };
 		4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */; };
@@ -161,6 +164,9 @@
 		4CBF1780260F0526005ED4F8 /* StickerDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerDecorator.swift; sourceTree = "<group>"; };
 		4CBF1791260F1764005ED4F8 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		4CBF1797260F1A8F005ED4F8 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		4CDA3C5E264FA16B00EEE12C /* BaseTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTarget.swift; sourceTree = "<group>"; };
+		4CDA3C62264FA39200EEE12C /* AlbumAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumAPI.swift; sourceTree = "<group>"; };
+		4CDA3C66264FA94A00EEE12C /* AlbumResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumResponse.swift; sourceTree = "<group>"; };
 		4CE649F125E0DEC80093D238 /* AddAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAlbumViewController.swift; sourceTree = "<group>"; };
 		4CE649F225E0DEC80093D238 /* StickerPackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerPackListViewController.swift; sourceTree = "<group>"; };
 		4CE649F425E0DEC80093D238 /* PhotoDecorateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDecorateViewController.swift; sourceTree = "<group>"; };
@@ -432,6 +438,9 @@
 				6521BF8525BC293300580EB5 /* PhotoService.swift */,
 				659625FF262C301400277B80 /* CoverService.swift */,
 				65962602262C319000277B80 /* TemplateService.swift */,
+				4CDA3C5E264FA16B00EEE12C /* BaseTarget.swift */,
+				4CDA3C62264FA39200EEE12C /* AlbumAPI.swift */,
+				4CDA3C66264FA94A00EEE12C /* AlbumResponse.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -898,6 +907,7 @@
 				656AFA50262B53CA001C5E00 /* AlbumCreateCoverViewModel.swift in Sources */,
 				9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */,
 				9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */,
+				4CDA3C67264FA94A00EEE12C /* AlbumResponse.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
 				4CBF1781260F0526005ED4F8 /* StickerDecorator.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
@@ -939,11 +949,13 @@
 				652BC1CF25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift in Sources */,
 				65C7D72C261E1B7500F9FB09 /* AlbumsViewModel.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift in Sources */,
+				4CDA3C5F264FA16B00EEE12C /* BaseTarget.swift in Sources */,
 				653F7D8425988510002CD12A /* User.swift in Sources */,
 				4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */,
 				4C1F80ED25F35D1800E98A0B /* DecoratePhotoView.swift in Sources */,
 				657ED69D2630A395008823BC /* CoverViewModel.swift in Sources */,
 				4C1F80F125F3663900E98A0B /* ResizableStickerView.swift in Sources */,
+				4CDA3C63264FA39200EEE12C /* AlbumAPI.swift in Sources */,
 				4C554FDA26214F2F001C90C3 /* CGPoint+.swift in Sources */,
 				9BD15EA32600AA870038C968 /* NavBarRightBtn.swift in Sources */,
 				659E3BA9262172FD00051864 /* AlbumCreateTemplateViewController.swift in Sources */,
