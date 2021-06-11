@@ -86,12 +86,8 @@ class DecorateContainerViewController: BaseViewController {
         }
     }
     
-    @objc func tappedCheckButton() {
-        
-        photoDecoreateVC.decoratingView.subviews.forEach { sticker in
-            guard let stickerView = sticker as? ResizableStickerView else { return }
-            stickerView.isSelected = false
-        }
+    @objc private func tappedCheckButton() {
+        photoDecoreateVC.deselectAllStickers()
         
         let renderer = UIGraphicsImageRenderer(size: photoDecoreateVC.decoratingView.bounds.size)
         let image = renderer.image { context in

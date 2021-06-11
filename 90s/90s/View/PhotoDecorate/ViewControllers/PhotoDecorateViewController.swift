@@ -122,6 +122,13 @@ class PhotoDecorateViewController: BaseViewController {
         addResizingGesture(sticker)
     }
     
+    func deselectAllStickers() {
+        decoratingView.subviews.forEach { sticker in
+            guard let stickerView = sticker as? ResizableStickerView else { return }
+            stickerView.isSelected = false
+        }
+    }
+    
     // MARK: Private
     
     private func addMovingGesture(_ sticker: ResizableStickerView) {
