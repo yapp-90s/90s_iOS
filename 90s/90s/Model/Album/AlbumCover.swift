@@ -18,8 +18,11 @@ struct AlbumCover: Codable {
 }
 
 extension AlbumCover {
+    static var empty: AlbumCover {
+        .init(uid: 0, code: 0, name: "", description: nil, createdAt: "", releasedAt: nil, path: "")
+    }
     var image: UIImage {
-        return UIImage(named: path)!
+        return UIImage(named: path) ?? .remove
     }
 }
 

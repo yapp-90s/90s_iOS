@@ -9,15 +9,7 @@ import UIKit
 import SnapKit
 
 /// 필름 정보와 사진을 보여주는 VC
-class FilmListDetailViewController: UIViewController {
-    private var navigationBar : NavigationBar = {
-        let navBar = NavigationBar(frame: .zero)
-        navBar.leftButton.addTarget(self, action: #selector(popUp), for: .touchUpInside)
-        navBar.titleLabel.isHidden = true
-        navBar.rightButton.isHidden = true
-        return navBar
-    }()
-    
+class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -83,6 +75,8 @@ class FilmListDetailViewController: UIViewController {
         return btn
     }()
     
+    let imagePickerController = UIImagePickerController()
+    
     private var films : Film?
 
     override func viewDidLoad() {
@@ -92,9 +86,8 @@ class FilmListDetailViewController: UIViewController {
 
     private func setUpSubViews() {
         view.backgroundColor = .black
-        
-        view.addSubview(navigationBar)
-        
+        navigationController?.navigationBar.isHidden = false
+       
         view.addSubview(collectionView)
         view.addSubview(filmImageView)
         view.addSubview(filmNameLabel)
@@ -111,20 +104,15 @@ class FilmListDetailViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         
-        navigationBar.snp.makeConstraints {
-            $0.height.equalTo(52)
-            $0.top.left.right.equalTo(safe)
-        }
-        
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(134)
             $0.width.equalTo(100)
             $0.left.equalTo(safe).offset(18)
-            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(safe).offset(20)
         }
         
         filmTypeLabel.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(20)
+            $0.top.equalTo(safe).offset(20)
             $0.left.equalTo(filmImageView.snp.right).offset(18)
         }
         
@@ -171,6 +159,11 @@ class FilmListDetailViewController: UIViewController {
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
             $0.centerX.equalTo(safe)
         }
+        
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        imagePickerController.modalPresentationStyle = .fullScreen
     }
     
     func bindViewModel(film : Film){
@@ -200,10 +193,6 @@ class FilmListDetailViewController: UIViewController {
         }
         collectionView.reloadData()
     }
-    
-    @objc private func popUp(){
-        navigationController?.popViewController(animated: true)
-    }
 }
 
 
@@ -225,8 +214,14 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
         if let f = films {
-            cell.bindViewModel_scaleFill(item: f.photos[indexPath.row])
+            cell.bindViewModel(item: f.photos[indexPath.row], isScaleFill: true)
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            present(imagePickerController, animated: true, completion: nil)
+        }
     }
 }

@@ -13,6 +13,7 @@ enum Typography {
 }
 
 
+// 추후 헤더, 본문, 크기별로 지정
 enum LabelType {
     case bold_21
     case bold_16
@@ -22,6 +23,7 @@ enum LabelType {
     case normal_13
     case normal_gray_16
     case normal_gray_13
+    case attr_17
     
     func create() -> UILabel {
         let label = UILabel(frame: .zero)
@@ -45,7 +47,10 @@ enum LabelType {
         case .normal_gray_13:
             label.font = label.font.withSize(13)
             label.textColor = .lightGray
+        default:
+            break
         }
         return label
     }
 }
+

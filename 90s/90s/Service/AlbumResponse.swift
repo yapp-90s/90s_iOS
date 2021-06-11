@@ -18,7 +18,7 @@ struct AlbumResponse: Codable {
     // layout 추가필요
     
     var album: Album {
-        return Album(id: uid,
+        return Album(id: "\(uid)",
                      name: name,
                      createdAt: createdAt,
                      updatedAt: updatedAt,

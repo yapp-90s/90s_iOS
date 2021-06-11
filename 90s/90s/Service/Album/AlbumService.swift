@@ -14,6 +14,10 @@ final class AlbumService {
     
     static let shared = AlbumService()
     
+    var cover: AlbumCover?
+    var name: String?
+    var template: Template?
+    
     private init() {}
     
     func create(album data: AlbumAPI.AlbumData, completeHandler: @escaping (Result<Album, Error>) -> Void) {
@@ -27,5 +31,4 @@ final class AlbumService {
             }
         }
     }
-    
 }

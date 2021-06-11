@@ -24,7 +24,7 @@ class BaseNavigationControllerViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.tintColor = .white
-        let backButtonBackgroundImage = UIImage(named: "navigate_back")!
+        let backButtonBackgroundImage = UIImage(named: "navigationBar_back")!
         navigationBar.backIndicatorImage = backButtonBackgroundImage
         navigationBar.backIndicatorTransitionMaskImage = backButtonBackgroundImage
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset(horizontal: 5, vertical: -6), for: .default)

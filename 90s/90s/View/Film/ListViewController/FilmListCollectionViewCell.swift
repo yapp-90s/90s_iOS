@@ -10,7 +10,7 @@ import SnapKit
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
 class FilmListCollectionViewCell: UICollectionViewCell {
-    static let cellId = "filmListCCell"
+    static let cellId = "filmListCell"
     
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
@@ -35,14 +35,10 @@ class FilmListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func bindViewModel(item: Photo){
-        DispatchQueue.main.async { [weak self] in
-            self?.imageView.image = UIImage(named: item.url)
+    func bindViewModel(item: Photo, isScaleFill: Bool){
+        if isScaleFill {
+            imageView.contentMode = .scaleToFill
         }
-    }
-    
-    func bindViewModel_scaleFill(item: Photo){
-        imageView.contentMode = .scaleToFill
         DispatchQueue.main.async { [weak self] in
             self?.imageView.image = UIImage(named: item.url)
         }

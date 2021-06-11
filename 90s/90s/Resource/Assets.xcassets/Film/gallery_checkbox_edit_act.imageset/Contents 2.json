@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Checkbox_Edit_Act.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Checkbox_Edit_Act@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Checkbox_Edit_Act@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
