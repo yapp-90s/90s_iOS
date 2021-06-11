@@ -138,9 +138,9 @@ class PhotoDecorateViewController: BaseViewController {
         addResizingGesture(sticker)
     }
     
-    func renderDecoratedImage() -> UIImage {
+    func renderDecoratedImage() -> Data {
         let renderer = UIGraphicsImageRenderer(size: decoratingView.bounds.size)
-        let image = renderer.image { context in
+        let image = renderer.pngData { context in
             decoratingView.drawHierarchy(in: decoratingView.bounds, afterScreenUpdates: true)
         }
         
