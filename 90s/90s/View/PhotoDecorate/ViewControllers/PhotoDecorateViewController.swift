@@ -68,6 +68,11 @@ class PhotoDecorateViewController: BaseViewController {
         setupViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        selectAllStickers()
+    }
+    
     private func bindViewModel() {
         
         viewModel.input.addSticker
@@ -126,6 +131,13 @@ class PhotoDecorateViewController: BaseViewController {
         photoView.subviews.forEach { sticker in
             guard let stickerView = sticker as? ResizableStickerView else { return }
             stickerView.isSelected = false
+        }
+    }
+    
+    func selectAllStickers() {
+        photoView.subviews.forEach { sticker in
+            guard let stickerView = sticker as? ResizableStickerView else { return }
+            stickerView.isSelected = true
         }
     }
     
