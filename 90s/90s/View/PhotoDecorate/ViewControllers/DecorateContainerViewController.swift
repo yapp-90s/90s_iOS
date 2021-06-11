@@ -7,10 +7,11 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class DecorateContainerViewController: BaseViewController {
     
-    struct Constraints {
+    private struct Constraints {
         static let supplementaryHeight: CGFloat = 215
     }
     
@@ -18,6 +19,7 @@ class DecorateContainerViewController: BaseViewController {
     
     private let photoDecoreateVC: PhotoDecorateViewController
     private let stickerPackVC: StickerPackListViewController
+    
     private lazy var subNavigationController: UINavigationController = {
         let nav = UINavigationController(rootViewController: stickerPackVC)
         return nav
@@ -37,7 +39,7 @@ class DecorateContainerViewController: BaseViewController {
     
     // MARK: - Properties
     
-    let viewModel: DecorateContainerViewModel
+    private let viewModel: DecorateContainerViewModel
     
     // MARK: - View Life Cycle
     
