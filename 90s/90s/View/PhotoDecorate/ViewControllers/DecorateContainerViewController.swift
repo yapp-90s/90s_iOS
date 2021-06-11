@@ -88,15 +88,8 @@ class DecorateContainerViewController: BaseViewController {
     
     @objc private func tappedCheckButton() {
         photoDecoreateVC.deselectAllStickers()
+        let image = photoDecoreateVC.renderDecoratedImage()
         
-        let renderer = UIGraphicsImageRenderer(size: photoDecoreateVC.decoratingView.bounds.size)
-        let image = renderer.image { context in
-            UIColor.orange.setStroke()
-            context.stroke(renderer.format.bounds)
-            photoDecoreateVC.photoView.drawHierarchy(in: photoDecoreateVC.decoratingView.bounds, afterScreenUpdates: true)
-        }
-//        let testVC = TestViewController()
-//        testVC.imageView.image = image
-//        present(testVC, animated: true, completion: nil)
+        navigationController?.pushViewController(AddAlbumViewController(image: image), animated: true)
     }
 }

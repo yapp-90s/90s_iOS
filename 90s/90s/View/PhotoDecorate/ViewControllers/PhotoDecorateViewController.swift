@@ -129,6 +129,15 @@ class PhotoDecorateViewController: BaseViewController {
         }
     }
     
+    func renderDecoratedImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: decoratingView.bounds.size)
+        let image = renderer.image { context in
+            decoratingView.drawHierarchy(in: decoratingView.bounds, afterScreenUpdates: true)
+        }
+        
+        return image
+    }
+    
     // MARK: Private
     
     private func addMovingGesture(_ sticker: ResizableStickerView) {
