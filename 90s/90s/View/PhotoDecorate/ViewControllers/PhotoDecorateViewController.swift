@@ -31,14 +31,14 @@ class PhotoDecorateViewController: BaseViewController {
         return view
     }()
     
-    let photoBackgroundView: UIView = {
+    private let photoBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         
         return view
     }()
     
-    let photoView: RatioBasedImageView = {
+    private let photoView: RatioBasedImageView = {
         let photoView = RatioBasedImageView()
         photoView.clipsToBounds = false
         photoView.isUserInteractionEnabled = true
@@ -87,6 +87,17 @@ class PhotoDecorateViewController: BaseViewController {
             .map { UIImage(named: $0.url) ?? UIImage(named: "test_pic3") }
             .bind(to: photoView.rx.image)
             .disposed(by: disposeBag)
+        
+        viewModel.output.isResizableStickers
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] resizable in
+                self?.photoView.subviews.forEach {
+                    guard let sticker = $0 as? ResizableStickerView else { return }
+                    sticker.isResizable = resizable
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func setupViews() {
@@ -125,20 +136,6 @@ class PhotoDecorateViewController: BaseViewController {
         sticker.center = position ?? photoView.center
         addMovingGesture(sticker)
         addResizingGesture(sticker)
-    }
-    
-    func deselectAllStickers() {
-        photoView.subviews.forEach { sticker in
-            guard let stickerView = sticker as? ResizableStickerView else { return }
-            stickerView.isSelected = false
-        }
-    }
-    
-    func selectAllStickers() {
-        photoView.subviews.forEach { sticker in
-            guard let stickerView = sticker as? ResizableStickerView else { return }
-            stickerView.isSelected = true
-        }
     }
     
     func renderDecoratedImage() -> UIImage {

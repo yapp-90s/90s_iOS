@@ -87,7 +87,7 @@ class DecorateContainerViewController: BaseViewController {
     }
     
     @objc private func tappedCheckButton() {
-        photoDecoreateVC.deselectAllStickers()
+        photoDecoreateVC.viewModel.input.changeResizableOfAllStickers.onNext(false)
         let image = photoDecoreateVC.renderDecoratedImage()
         
         navigationController?.pushViewController(AddAlbumViewController(image: image), animated: true)

@@ -17,7 +17,14 @@ class PhotoDecorateViewModel: ViewModelType {
     
     required init(dependency: Dependency) {
         self.dependency = dependency
-        self.output = Output(photo: .init(value: dependency.selectedPhoto))
+        self.output = Output(
+            photo: .init(value: dependency.selectedPhoto),
+            isResizableStickers: .init(value: true)
+        )
+        
+        input.changeResizableOfAllStickers
+            .bind(to: output.isResizableStickers)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -28,9 +35,11 @@ extension PhotoDecorateViewModel {
     
     struct Input {
         var addSticker = PublishSubject<Sticker>()
+        var changeResizableOfAllStickers = PublishSubject<Bool>()
     }
     
     struct Output {
         var photo: BehaviorRelay<Photo>
+        var isResizableStickers: BehaviorRelay<Bool>
     }
 }
