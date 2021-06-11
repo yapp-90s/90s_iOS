@@ -16,8 +16,8 @@ class DecorateContainerViewController: BaseViewController {
     
     // MARK: - Views
     
-    private var photoDecoreateVC = PhotoDecorateViewController(viewModel: .init(dependency: .init(selectedPhoto: Photo(id: "", url: "picture1", date: ""))))
-    private var stickerPackVC = StickerPackListViewController()
+    private let photoDecoreateVC: PhotoDecorateViewController
+    private let stickerPackVC: StickerPackListViewController
     private lazy var subNavigationController: UINavigationController = {
         let nav = UINavigationController(rootViewController: stickerPackVC)
         return nav
@@ -35,11 +35,25 @@ class DecorateContainerViewController: BaseViewController {
         return view
     }()
     
+    // MARK: - Properties
+    
+    let viewModel: DecorateContainerViewModel
+    
     // MARK: - View Life Cycle
+    
+    init(_ viewModel: DecorateContainerViewModel) {
+        self.viewModel = viewModel
+        photoDecoreateVC = PhotoDecorateViewController(viewModel: viewModel.output.photoDecorateViewModel)
+        stickerPackVC = StickerPackListViewController(viewModel.output.stickerPackListViewModel)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        stickerPackVC.viewModel = StickerPackListViewModel(dependency: .init(photoDecorateViewModel: photoDecoreateVC.viewModel))
         setupViews()
         setupLayouts()
         setBarButtonItem(type: .imgCheck, position: .right, action: #selector(tappedCheckButton))

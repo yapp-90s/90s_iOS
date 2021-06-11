@@ -20,7 +20,7 @@ class StickerPackListViewController: BaseViewController {
     
     // MARK: - Properties
     
-    var viewModel = StickerPackListViewModel(dependency: .init())
+    unowned let viewModel: StickerPackListViewModel
     
     // MARK: - Views
     
@@ -48,6 +48,15 @@ class StickerPackListViewController: BaseViewController {
     }()
     
     // MARK: - View Life Cycle
+    
+    init(_ viewModel: StickerPackListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

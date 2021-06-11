@@ -48,7 +48,7 @@ class PhotoDecorateViewController: BaseViewController {
     
     // MARK: - Properties
     
-    let viewModel: PhotoDecorateViewModel
+    unowned let viewModel: PhotoDecorateViewModel
     
     // MARK: - Initialize
     
