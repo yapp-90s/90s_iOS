@@ -123,7 +123,7 @@ class PhotoDecorateViewController: BaseViewController {
     }
     
     func deselectAllStickers() {
-        decoratingView.subviews.forEach { sticker in
+        photoView.subviews.forEach { sticker in
             guard let stickerView = sticker as? ResizableStickerView else { return }
             stickerView.isSelected = false
         }
