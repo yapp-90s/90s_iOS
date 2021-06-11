@@ -71,11 +71,16 @@ class AddAlbumViewController: BaseViewController {
         return button
     }()
     
+    // MARK: - Properties
+    
+    let viewModel: AddAlbumViewModel
+    
     // MARK: - View Life Cycle
     
-    init(image: UIImage) {
+    init(_ viewModel: AddAlbumViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        photoView.image = image
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -89,6 +94,11 @@ class AddAlbumViewController: BaseViewController {
     }
     
     // MARK: - Initialize
+    
+    private func bind() {
+        let imageData = viewModel.output.decoratedImage.value
+        photoView.image = UIImage(data: imageData)
+    }
     
     private func setupViews() {
         view.addSubview(photoDecorateView)
