@@ -70,7 +70,7 @@ class PhotoDecorateViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        selectAllStickers()
+        viewModel.input.viewWillAppear.onNext(())
     }
     
     private func bindViewModel() {

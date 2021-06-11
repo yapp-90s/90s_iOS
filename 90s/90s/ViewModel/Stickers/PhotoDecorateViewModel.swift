@@ -22,6 +22,12 @@ class PhotoDecorateViewModel: ViewModelType {
             isResizableStickers: .init(value: true)
         )
         
+        input.viewWillAppear
+            .subscribe(onNext: { [weak self] _ in
+                self?.output.isResizableStickers.accept(true)
+            })
+            .disposed(by: disposeBag)
+        
         input.changeResizableOfAllStickers
             .bind(to: output.isResizableStickers)
             .disposed(by: disposeBag)
@@ -34,6 +40,7 @@ extension PhotoDecorateViewModel {
     }
     
     struct Input {
+        var viewWillAppear = PublishSubject<Void>()
         var addSticker = PublishSubject<Sticker>()
         var changeResizableOfAllStickers = PublishSubject<Bool>()
     }
