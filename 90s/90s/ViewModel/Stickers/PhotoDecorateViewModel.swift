@@ -43,10 +43,12 @@ extension PhotoDecorateViewModel {
         var viewWillAppear = PublishSubject<Void>()
         var addSticker = PublishSubject<Sticker>()
         var changeResizableOfAllStickers = PublishSubject<Bool>()
+        var decoratedImage = PublishSubject<Data>()
     }
     
     struct Output {
         var photo: BehaviorRelay<Photo>
         var isResizableStickers: BehaviorRelay<Bool>
+        var renderDecoratedImage = PublishSubject<Void>()
     }
 }

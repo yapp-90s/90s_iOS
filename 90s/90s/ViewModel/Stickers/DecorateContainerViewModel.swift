@@ -26,6 +26,21 @@ class DecorateContainerViewModel: ViewModelType {
                                                                     stickerFactory: StickerFactory()
                                                                 ))
         self.output = Output(photoDecorateViewModel: photoDecorateViewModel, stickerPackListViewModel: stickerPackListViewModel)
+        
+        self.input.completeDecoration
+            .subscribe(onNext: { [weak self] _ in
+                self?.photoDecorateViewModel.input.changeResizableOfAllStickers.onNext(false)
+                self?.photoDecorateViewModel.output.renderDecoratedImage.onNext(())
+            })
+            .disposed(by: disposeBag)
+        
+        photoDecorateViewModel.input.decoratedImage
+            .subscribe(onNext: { [weak self] imageData in
+                self?.output.pushToAddAlbumVC.onNext(
+                    AddAlbumViewModel(dependency: .init(decoratedImage: imageData))
+                )
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -36,11 +51,12 @@ extension DecorateContainerViewModel {
     }
     
     struct Input {
-        
+        var completeDecoration = PublishSubject<Void>()
     }
     
     struct Output {
         var photoDecorateViewModel: PhotoDecorateViewModel
         var stickerPackListViewModel: StickerPackListViewModel
+        var pushToAddAlbumVC = PublishSubject<AddAlbumViewModel>()
     }
 }

@@ -54,12 +54,22 @@ class DecorateContainerViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
         setupViews()
         setupLayouts()
         setBarButtonItem(type: .imgCheck, position: .right, action: #selector(tappedCheckButton))
     }
     
     // MARK: - Initialize
+    
+    private func bind() {
+        viewModel.output.pushToAddAlbumVC
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] addAlbumVM in
+                self?.navigationController?.pushViewController(AddAlbumViewController(addAlbumVM), animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
     
     private func setupViews() {
         title = "사진 선택"
@@ -101,9 +111,6 @@ class DecorateContainerViewController: BaseViewController {
     }
     
     @objc private func tappedCheckButton() {
-        photoDecoreateVC.viewModel.input.changeResizableOfAllStickers.onNext(false)
-        let image = photoDecoreateVC.renderDecoratedImage()
-        
-        navigationController?.pushViewController(AddAlbumViewController(image: image), animated: true)
+        viewModel.input.completeDecoration.onNext(())
     }
 }

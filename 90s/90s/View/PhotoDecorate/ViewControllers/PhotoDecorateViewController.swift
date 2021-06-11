@@ -98,6 +98,13 @@ class PhotoDecorateViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        viewModel.output.renderDecoratedImage
+            .subscribe(onNext: { [weak self] _ in
+                guard let imageData = self?.renderDecoratedImage() else { return }
+                self?.viewModel.input.decoratedImage.onNext(imageData)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func setupViews() {
