@@ -10,7 +10,7 @@ import UIKit
 class PhotoDecorateViewController: BaseViewController {
     
     private struct Constraints {
-        static let photoInset: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
+        static let photoInset: UIEdgeInsets = .init(top: 40, left: 40, bottom: 40, right: 40)
     }
     
     private var decorator = StickerDecorator()
@@ -19,24 +19,36 @@ class PhotoDecorateViewController: BaseViewController {
     
     private(set) var decoratingView: UIView = {
         let view = UIView()
+        
+        return view
+    }()
+    
+    private(set) var decoratingBorderView: UIView = {
+        let view = UIView()
         view.layer.borderColor = UIColor.white.cgColor
         view.layer.borderWidth = 1
         
         return view
     }()
     
-    let photoView: RatioBasedImageView = {
-        let photoView = RatioBasedImageView()
-        photoView.isUserInteractionEnabled = true
-        photoView.layer.borderWidth = 20
-        photoView.layer.borderColor = UIColor.white.cgColor
+    private let photoBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
         
+        return view
+    }()
+    
+    private let photoView: RatioBasedImageView = {
+        let photoView = RatioBasedImageView()
+        photoView.clipsToBounds = false
+        photoView.isUserInteractionEnabled = true
+
         return photoView
     }()
     
     // MARK: - Properties
     
-    let viewModel: PhotoDecorateViewModel
+    unowned let viewModel: PhotoDecorateViewModel
     
     // MARK: - Initialize
     
@@ -56,6 +68,11 @@ class PhotoDecorateViewController: BaseViewController {
         setupViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.input.viewWillAppear.onNext(())
+    }
+    
     private func bindViewModel() {
         
         viewModel.input.addSticker
@@ -67,14 +84,34 @@ class PhotoDecorateViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.output.photo
-            .map { UIImage(named: $0.url) ?? UIImage(named: "icon_trash") }
+            .map { UIImage(named: $0.url) ?? UIImage(named: "test_pic3") }
             .bind(to: photoView.rx.image)
             .disposed(by: disposeBag)
+        
+        viewModel.output.isResizableStickers
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] resizable in
+                self?.photoView.subviews.forEach {
+                    guard let sticker = $0 as? ResizableStickerView else { return }
+                    sticker.isResizable = resizable
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.output.renderDecoratedImage
+            .subscribe(onNext: { [weak self] _ in
+                guard let imageData = self?.renderDecoratedImage() else { return }
+                self?.viewModel.input.decoratedImage.onNext(imageData)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func setupViews() {
-        view.addSubview(decoratingView)
-        view.addSubview(photoView)
+        view.addSubview(decoratingBorderView)
+        decoratingBorderView.addSubview(decoratingView)
+        decoratingView.addSubview(photoBackgroundView)
+        decoratingView.addSubview(photoView)
         
         photoView.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -84,9 +121,18 @@ class PhotoDecorateViewController: BaseViewController {
             $0.trailing.equalToSuperview().inset(Constraints.photoInset)
         }
         
-        decoratingView.snp.makeConstraints {
+        photoBackgroundView.snp.makeConstraints {
+            $0.center.equalTo(photoView)
+            $0.top.edges.equalTo(photoView).inset(-20)
+        }
+        
+        decoratingBorderView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.bottom.equalTo(photoView).inset(-20)
+            $0.top.bottom.equalTo(photoBackgroundView).inset(-20)
+        }
+        
+        decoratingView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -97,6 +143,15 @@ class PhotoDecorateViewController: BaseViewController {
         sticker.center = position ?? photoView.center
         addMovingGesture(sticker)
         addResizingGesture(sticker)
+    }
+    
+    func renderDecoratedImage() -> Data {
+        let renderer = UIGraphicsImageRenderer(size: decoratingView.bounds.size)
+        let image = renderer.pngData { context in
+            decoratingView.drawHierarchy(in: decoratingView.bounds, afterScreenUpdates: true)
+        }
+        
+        return image
     }
     
     // MARK: Private

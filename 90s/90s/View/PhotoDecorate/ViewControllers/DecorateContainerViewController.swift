@@ -7,17 +7,19 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class DecorateContainerViewController: BaseViewController {
     
-    struct Constraints {
+    private struct Constraints {
         static let supplementaryHeight: CGFloat = 215
     }
     
     // MARK: - Views
     
-    private var photoDecoreateVC = PhotoDecorateViewController(viewModel: .init(dependency: .init(selectedPhoto: Photo(id: "", url: "picture1", date: ""))))
-    private var stickerPackVC = StickerPackListViewController()
+    private let photoDecoreateVC: PhotoDecorateViewController
+    private let stickerPackVC: StickerPackListViewController
+    
     private lazy var subNavigationController: UINavigationController = {
         let nav = UINavigationController(rootViewController: stickerPackVC)
         return nav
@@ -35,17 +37,41 @@ class DecorateContainerViewController: BaseViewController {
         return view
     }()
     
+    // MARK: - Properties
+    
+    private let viewModel: DecorateContainerViewModel
+    
     // MARK: - View Life Cycle
+    
+    init(_ viewModel: DecorateContainerViewModel) {
+        self.viewModel = viewModel
+        photoDecoreateVC = PhotoDecorateViewController(viewModel: viewModel.output.photoDecorateViewModel)
+        stickerPackVC = StickerPackListViewController(viewModel.output.stickerPackListViewModel)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        stickerPackVC.viewModel = StickerPackListViewModel(dependency: .init(photoDecorateViewModel: photoDecoreateVC.viewModel))
+        bind()
         setupViews()
         setupLayouts()
         setBarButtonItem(type: .imgCheck, position: .right, action: #selector(tappedCheckButton))
     }
     
     // MARK: - Initialize
+    
+    private func bind() {
+        viewModel.output.pushToAddAlbumVC
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] addAlbumVM in
+                self?.navigationController?.pushViewController(AddAlbumViewController(addAlbumVM), animated: true)
+            })
+            .disposed(by: disposeBag)
+    }
     
     private func setupViews() {
         title = "사진 선택"
@@ -86,21 +112,7 @@ class DecorateContainerViewController: BaseViewController {
         }
     }
     
-    @objc func tappedCheckButton() {
-        
-        photoDecoreateVC.decoratingView.subviews.forEach { sticker in
-            guard let stickerView = sticker as? ResizableStickerView else { return }
-            stickerView.isSelected = false
-        }
-        
-        let renderer = UIGraphicsImageRenderer(size: photoDecoreateVC.decoratingView.bounds.size)
-        let image = renderer.image { context in
-            UIColor.orange.setStroke()
-            context.stroke(renderer.format.bounds)
-            photoDecoreateVC.photoView.drawHierarchy(in: photoDecoreateVC.decoratingView.bounds, afterScreenUpdates: true)
-        }
-//        let testVC = TestViewController()
-//        testVC.imageView.image = image
-//        present(testVC, animated: true, completion: nil)
+    @objc private func tappedCheckButton() {
+        viewModel.input.completeDecoration.onNext(())
     }
 }
