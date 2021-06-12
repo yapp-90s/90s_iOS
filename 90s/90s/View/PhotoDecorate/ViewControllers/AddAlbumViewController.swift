@@ -98,12 +98,16 @@ class AddAlbumViewController: BaseViewController {
     private func bind() {
         let imageData = viewModel.output.decoratedImage.value
         photoView.image = UIImage(data: imageData)
+        
+        downloadButton.rx.tap
+            .bind(to: viewModel.input.downloadImage)
+            .disposed(by: disposeBag)
     }
     
     private func setupViews() {
         view.addSubview(photoDecorateView)
         view.addSubview(supplementaryView)
-        [photoView].forEach { photoDecorateView.addSubview($0) }
+        photoDecorateView.addSubview(photoView)
         supplementaryView.addSubview(addingContentsView)
         [addToAlbumButton, downloadButton, shareButton].forEach { addingContentsView.addSubview($0) }
     }

@@ -18,6 +18,17 @@ class AddAlbumViewModel: ViewModelType {
     required init(dependency: Dependency) {
         self.dependency = dependency
         self.output = Output(decoratedImage: BehaviorRelay<Data>.init(value: dependency.decoratedImage))
+        
+        input.downloadImage
+            .subscribe(onNext: { [weak self] _ in
+                self?.saveImage(dependency.decoratedImage)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func saveImage(_ data: Data) {
+        guard let image = UIImage(data: data) else { return }
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
 }
 
@@ -28,7 +39,7 @@ extension AddAlbumViewModel {
     }
     
     struct Input {
-
+        var downloadImage = PublishSubject<Void>()
     }
     
     struct Output {
