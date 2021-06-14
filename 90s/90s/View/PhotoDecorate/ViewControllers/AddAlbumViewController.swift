@@ -71,6 +71,14 @@ class AddAlbumViewController: BaseViewController {
         return button
     }()
     
+    private let indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.hidesWhenStopped = true
+        indicator.stopAnimating()
+        
+        return indicator
+    }()
+    
     // MARK: - Properties
     
     let viewModel: AddAlbumViewModel
@@ -96,20 +104,25 @@ class AddAlbumViewController: BaseViewController {
     // MARK: - Initialize
     
     private func bind() {
-        let imageData = viewModel.output.decoratedImage.value
-        photoView.image = UIImage(data: imageData)
-        
         downloadButton.rx.tap
             .bind(to: viewModel.input.downloadImage)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isLoading
+            .bind(to: indicator.rx.isAnimating)
             .disposed(by: disposeBag)
     }
     
     private func setupViews() {
+        let imageData = viewModel.output.decoratedImage.value
+        photoView.image = UIImage(data: imageData)
+        
         view.addSubview(photoDecorateView)
         view.addSubview(supplementaryView)
         photoDecorateView.addSubview(photoView)
         supplementaryView.addSubview(addingContentsView)
         [addToAlbumButton, downloadButton, shareButton].forEach { addingContentsView.addSubview($0) }
+        photoView.addSubview(indicator)
     }
     
     private func setupLayouts() {
@@ -152,9 +165,13 @@ class AddAlbumViewController: BaseViewController {
         }
         
         photoView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.top.greaterThanOrEqualToSuperview()
             $0.bottom.lessThanOrEqualToSuperview()
+        }
+        
+        indicator.snp.makeConstraints {
+            $0.center.equalToSuperview()
         }
     }
 }
