@@ -21,14 +21,24 @@ class AddAlbumViewModel: ViewModelType {
         
         input.downloadImage
             .subscribe(onNext: { [weak self] _ in
-                self?.saveImage(dependency.decoratedImage)
+                self?.output.isLoading.onNext(true)
+                self?.dependency.imageService.saveImage(dependency.decoratedImage)
+            })
+            .disposed(by: disposeBag)
+        
+        dependency.imageService.saveCompletion
+            .subscribe(onNext: { [weak self] response in
+                self?.responseImageService(response)
             })
             .disposed(by: disposeBag)
     }
     
-    func saveImage(_ data: Data) {
-        guard let image = UIImage(data: data) else { return }
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+    func responseImageService(_ response: ImageServiceResponse) {
+        switch response {
+            case .success:
+                output.isLoading.onNext(false)
+            default: return
+        }
     }
 }
 
@@ -36,6 +46,7 @@ extension AddAlbumViewModel {
     
     struct Dependency {
         var decoratedImage: Data
+        var imageService: ImageServiceProtocol
     }
     
     struct Input {
@@ -44,5 +55,6 @@ extension AddAlbumViewModel {
     
     struct Output {
         var decoratedImage: BehaviorRelay<Data>
+        var isLoading = BehaviorSubject<Bool>(value: false)
     }
 }

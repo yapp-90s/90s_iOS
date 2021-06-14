@@ -37,7 +37,7 @@ class DecorateContainerViewModel: ViewModelType {
         photoDecorateViewModel.input.decoratedImage
             .subscribe(onNext: { [weak self] imageData in
                 self?.output.pushToAddAlbumVC.onNext(
-                    AddAlbumViewModel(dependency: .init(decoratedImage: imageData))
+                    AddAlbumViewModel(dependency: .init(decoratedImage: imageData, imageService: ImageService()))
                 )
             })
             .disposed(by: disposeBag)
