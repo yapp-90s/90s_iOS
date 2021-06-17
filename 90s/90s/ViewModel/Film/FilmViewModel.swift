@@ -17,6 +17,8 @@ final class FilmsViewModel : ViewModelType {
  
     required init(dependency: Dependency) {
         self.dependency = dependency
+        
+        output.films.accept(dependency.filmFactory.createDefaultData())
     }
     
     func getStateData(state : FilmStateType) -> [Film]{
@@ -39,9 +41,9 @@ extension FilmsViewModel {
         var filmFactory = FilmFactory()
     }
     struct Input {
-        
+        var selectFilm = PublishSubject<Film>()
     }
     struct Output {
-        var films = BehaviorRelay<[Film]>(value: FilmFactory().createDefaultData())
+        var films = BehaviorRelay<[Film]>(value: [])
     }
 }

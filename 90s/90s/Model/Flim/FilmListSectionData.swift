@@ -52,17 +52,3 @@ enum FilmListSectionModel : SectionModelType {
     }
     
 }
-
-//struct FilmListSectionData {
-//    var header : String
-//    var items : [FilmListSectionItem]
-//}
-//
-//extension FilmListSectionData : SectionModelType {
-//    typealias Item = FilmListSectionItem
-//    
-//    init(original: FilmListSectionData, items: [FilmListSectionItem]) {
-//        self = original
-//        self.items = items
-//    }
-//}

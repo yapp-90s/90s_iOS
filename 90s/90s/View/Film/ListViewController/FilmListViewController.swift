@@ -29,7 +29,6 @@ class FilmListViewController: BaseViewController {
     private var popUpView : FilmPopupView = {
         let view = FilmPopupView()
         view.isHidden = true
-        
         view.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
         view.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
         
@@ -38,11 +37,11 @@ class FilmListViewController: BaseViewController {
     
     private var selectedFilmDeleteButton : UIButton = {
         let btn = UIButton(frame: .zero)
+        btn.isHidden = true
         btn.backgroundColor = .retroOrange
         btn.titleLabel?.font = .boldSystemFont(ofSize: 15)
         btn.setTitle("필름을 선택해주세요", for: .normal)
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
-        btn.isHidden = true
         btn.addTarget(self, action: #selector(selectDeleteBtn), for: .touchUpInside)
         return btn
     }()
@@ -62,6 +61,7 @@ class FilmListViewController: BaseViewController {
         super.viewDidLoad()
         setUpNavigationBar()
         setUpSubViews()
+        setUpTableViewData()
         setUpTableViewSection()
     }
     
@@ -80,23 +80,21 @@ class FilmListViewController: BaseViewController {
         view.addSubview(selectedFilmDeleteButton)
         view.addSubview(popUpView)
         
-        tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        
         tableView.snp.makeConstraints {
             $0.top.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         selectedFilmDeleteButton.snp.makeConstraints {
             $0.height.equalTo(94)
-            $0.left.right.bottom.equalTo(view)
+            $0.left.right.bottom.equalToSuperview()
         }
         
         popUpView.snp.makeConstraints {
-            $0.edges.equalTo(view)
+            $0.edges.equalToSuperview()
         }
     }
-
-    private func setUpTableViewSection(){
+    
+    private func setUpTableViewData() {
         let filmArray = viewModel.getStateData(state: .adding).filter { $0.count == $0.maxCount }
         if !filmArray.isEmpty {
             FilmSection.append(.sectionTimeToPrint(item: filmArray.first!))
@@ -107,6 +105,10 @@ class FilmListViewController: BaseViewController {
             .sectionPrinting(items: viewModel.getStateData(state: .printing)),
             .sectionCompleted(items: viewModel.getStateData(state: .complete))
         ])
+    }
+
+    private func setUpTableViewSection(){
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
         dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionModel> (configureCell: { dataSource, tableView, indexPath, item in
             if indexPath.section == 0 && self.FilmSection.count == 4 {
@@ -169,7 +171,7 @@ class FilmListViewController: BaseViewController {
     
     // 개선할 곳 start ~
     @objc private func handleNavigationRightButtonEdit(){
-       handleNavigationRightButton()
+        handleNavigationRightButton()
         setBarButtonItem(type: .textCancle, position: .right, action: #selector(handleNavigationRightButtonCancle))
     }
     

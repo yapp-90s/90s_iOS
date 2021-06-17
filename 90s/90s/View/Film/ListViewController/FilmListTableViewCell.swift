@@ -12,8 +12,6 @@ import RxCocoa
 
 /// 필름 리스트를 보여주는 테이블 셀
 class FilmListTableViewCell: UITableViewCell {
-    static let cellId = "filmListCell"
-    
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.showsHorizontalScrollIndicator = false
@@ -81,9 +79,15 @@ class FilmListTableViewCell: UITableViewCell {
         return btn
     }()
     
+    // MARK: - Property
+    
+    static let cellId = "filmListCell"
+    
     private var disposeBag = DisposeBag()
     private var testFilmValue : (Film, Bool)?
     private var isDeleteBtnClicked : Bool = false
+    
+    // MARK: - Initialize
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -97,6 +101,8 @@ class FilmListTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         filmDeleteButton.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
     }
+    
+    // MARK: - Methods
 
     private func setUpSubViews(){
         addSubview(filmBackgroudImageView)

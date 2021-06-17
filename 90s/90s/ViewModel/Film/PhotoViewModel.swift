@@ -20,6 +20,10 @@ final class PhotoViewModel : ViewModelType {
     required init(dependency: Dependency) {
         self.dependency = dependency
         
+        input.newPhoto
+            .bind(to: output.photoViewModel)
+            .disposed(by: disposeBag)
+        
         output.photoViewModel.accept(setMockData())
     }
     
@@ -33,18 +37,20 @@ final class PhotoViewModel : ViewModelType {
             Photo(id: "5", url: "test_pic2", date: "0"),
             Photo(id: "6", url: "test_pic3", date: "0"),
             Photo(id: "7", url: "test_pic4", date: "0"),
-            ]
+        ]
     }
 }
 
 extension PhotoViewModel {
-    struct Dependency { }
+    struct Dependency {
+    }
+    
     struct Input {
-        var newPhoto = PublishSubject<Photo>()
+        var newPhoto = PublishSubject<[Photo]>()
     }
     
     struct Output {
-        let photoViewModel : BehaviorRelay<[Photo]> = .init(value: [])
+        var photoViewModel : BehaviorRelay<[Photo]> = .init(value: [])
     }
 }
 

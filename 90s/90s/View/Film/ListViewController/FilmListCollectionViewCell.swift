@@ -10,13 +10,13 @@ import SnapKit
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
 class FilmListCollectionViewCell: UICollectionViewCell {
-    static let cellId = "filmListCell"
-    
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleToFill
         return iv
     }()
+    
+    static let cellId = "filmListCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

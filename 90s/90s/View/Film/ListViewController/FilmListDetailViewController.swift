@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import QBImagePickerController
 
 /// 필름 정보와 사진을 보여주는 VC
 class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -77,12 +78,10 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
         return btn
     }()
     
-    private let imagePickerController : UIImagePickerController = {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        imagePicker.modalPresentationStyle = .fullScreen
-        
+    private let imagePickerController : QBImagePickerController = {
+        let imagePicker = QBImagePickerController()
+        imagePicker.allowsMultipleSelection = true
+        imagePicker.showsNumberOfSelectedAssets = true
         return imagePicker
     }()
     
@@ -94,7 +93,7 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
     }
 
     private func setUpSubViews() {
-        view.backgroundColor = .black
+        view.overrideUserInterfaceStyle = .dark
         navigationController?.navigationBar.isHidden = false
        
         view.addSubview(collectionView)
@@ -226,7 +225,17 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            present(imagePickerController, animated: true, completion: nil)
+            present(imagePickerController, animated: true)
         }
+    }
+}
+
+extension FilmListDetailViewController : QBImagePickerControllerDelegate {
+    func qb_imagePickerControllerDidCancel(_ imagePickerController: QBImagePickerController!) {
+        dismiss(animated: true)
+    }
+    
+    func qb_imagePickerController(_ imagePickerController: QBImagePickerController!, didFinishPickingAssets assets: [Any]!) {
+        dismiss(animated: true)
     }
 }
