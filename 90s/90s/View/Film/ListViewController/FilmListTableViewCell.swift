@@ -19,6 +19,8 @@ class FilmListTableViewCell: UITableViewCell {
         cv.showsHorizontalScrollIndicator = false
         cv.isUserInteractionEnabled = false
         cv.backgroundColor = UIColor.colorRGBHex(hex: 0x2B2B2E)
+        
+        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         return cv
     }()
     
@@ -81,7 +83,7 @@ class FilmListTableViewCell: UITableViewCell {
     
     private var disposeBag = DisposeBag()
     private var testFilmValue : (Film, Bool)?
-    var isDeleteBtnClicked : Bool = false
+    private var isDeleteBtnClicked : Bool = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -109,9 +111,7 @@ class FilmListTableViewCell: UITableViewCell {
         
         backgroundColor = .clear
         collectionView.dataSource = self
-        
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
        
         filmTitleImageView.snp.makeConstraints {
             $0.width.equalTo(100)

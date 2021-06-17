@@ -43,9 +43,7 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         return cv
     }()
     
@@ -77,14 +75,7 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
         return btn
     }()
     
-    private let imagePickerController : UIImagePickerController = {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        imagePicker.modalPresentationStyle = .fullScreen
-        
-        return imagePicker
-    }()
+    let imagePickerController = UIImagePickerController()
     
     private var films : Film?
 
@@ -108,11 +99,10 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
         view.addSubview(emptyImageView)
         view.addSubview(emptyAddMoreButton)
         
+        let safe = view.safeAreaLayoutGuide
         collectionView.delegate = self
         collectionView.dataSource = self
-        imagePickerController.delegate = self
-        
-        let safe = view.safeAreaLayoutGuide
+        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(134)
@@ -169,6 +159,11 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
             $0.centerX.equalTo(safe)
         }
+        
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.allowsEditing = true
+        imagePickerController.modalPresentationStyle = .fullScreen
     }
     
     func bindViewModel(film : Film){

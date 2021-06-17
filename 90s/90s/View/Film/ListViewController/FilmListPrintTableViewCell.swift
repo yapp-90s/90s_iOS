@@ -101,6 +101,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
     
     func bindViewModel(film: Film) {
         filmTypeLabel.text = film.filterType.rawValue
+        
         DispatchQueue.main.async { [weak self] in
             self?.filmImageView.image = UIImage(named: film.filterType.image())
         }

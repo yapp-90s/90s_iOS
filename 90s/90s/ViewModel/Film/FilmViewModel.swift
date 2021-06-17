@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class FilmsViewModel : ViewModelType {
+final class FilmsViewModel : ViewModelType {
     private(set) var dependency : Dependency
     private(set) var input = Input()
     private(set) var output = Output()

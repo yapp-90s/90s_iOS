@@ -11,19 +11,17 @@ import RxSwift
 
 /// 필름 뷰 상단 - 헤더셀 입니다
 class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
-    static let cellID = "headerCell"
-    
-    private let viewModel = FilmsViewModel(dependency: .init())
-    private var disposeBag = DisposeBag()
-    var delegate : FilmMainViewControllerDelegate?
-    
     /// 필름을 보여주는 콜렉션 뷰입니다
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
         cv.showsHorizontalScrollIndicator = false
+        
+        cv.register(FilmMainCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainCollectionViewCell.cellID)
+        
         return cv
     }()
     
@@ -48,17 +46,27 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         label.text = "인화된 사진"
         return label
     }()
+    
+    // MARK: - Property
+    
+    static let cellID = "headerCell"
+    private let viewModel = FilmsViewModel(dependency: .init())
+    private var disposeBag = DisposeBag()
+    var delegate : FilmMainViewControllerDelegate?
 
+    // MARK: - Init
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpSubviews()
-        setUpCollectionView()
         bindViewModel()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Method
 
     private func setUpSubviews(){
         contentView.isUserInteractionEnabled = true
@@ -67,6 +75,8 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         addSubview(filmTitleLabel)
         addSubview(filmCountButton)
         addSubview(printedTitleLabel)
+        
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         filmTitleLabel.snp.makeConstraints {
             $0.left.equalTo(18)
@@ -92,16 +102,14 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func setUpCollectionView(){
-        collectionView.delegate = self
-        collectionView.register(FilmMainCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainCollectionViewCell.cellID)
-    }
-    
     private func bindViewModel(){
         let attribute = NSMutableAttributedString(string: "")
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage(named: "point")
         attribute.append(attribute)
+        
+//        collectionView.delegate = self
+        
         
         /// set CollectionView DataSource
         viewModel.output.films

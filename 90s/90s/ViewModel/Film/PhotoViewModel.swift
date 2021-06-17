@@ -8,38 +8,43 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxRelay
 
-class PhotoViewModel {
-    var array : [TestPhoto] = []
-    var photoObservable = BehaviorRelay<[TestPhoto]>(value: [])
+final class PhotoViewModel : ViewModelType {
+    private(set) var dependency: Dependency
+    private(set) var input = Input()
+    private(set) var output = Output()
     
-    init() {
-        setDefaultData()
-        setObservableDefaultData()
-    }
+    var disposeBag = DisposeBag()
     
-    func setDefaultData(){
-        self.array = [TestPhoto(image: "test_pic1"),
-                      TestPhoto(image: "test_pic2"),
-                      TestPhoto(image: "test_pic3"),
-                      TestPhoto(image: "test_pic4"),
-                      TestPhoto(image: "test_pic2"),
-                      TestPhoto(image: "test_pic2"),
-                      TestPhoto(image: "test_pic3"),
-                      TestPhoto(image: "test_pic4")]
-    }
-    
-    func setObservableDefaultData(){
-        let photos : [TestPhoto] = [TestPhoto(image: "test_pic1"),
-                                    TestPhoto(image: "test_pic2"),
-                                    TestPhoto(image: "test_pic3"),
-                                    TestPhoto(image: "test_pic4"),
-                                    TestPhoto(image: "test_pic2"),
-                                    TestPhoto(image: "test_pic2"),
-                                    TestPhoto(image: "test_pic3"),
-                                    TestPhoto(image: "test_pic4")]
+    required init(dependency: Dependency) {
+        self.dependency = dependency
         
-        photoObservable.accept(photos)
+        output.photoViewModel.accept(setMockData())
+    }
+    
+    private func setMockData() -> [Photo] {
+        return [
+            Photo(id: "0", url: "test_pic1", date: "0"),
+            Photo(id: "1", url: "test_pic2", date: "0"),
+            Photo(id: "2", url: "test_pic3", date: "0"),
+            Photo(id: "3", url: "test_pic4", date: "0"),
+            Photo(id: "4", url: "test_pic1", date: "0"),
+            Photo(id: "5", url: "test_pic2", date: "0"),
+            Photo(id: "6", url: "test_pic3", date: "0"),
+            Photo(id: "7", url: "test_pic4", date: "0"),
+            ]
+    }
+}
+
+extension PhotoViewModel {
+    struct Dependency { }
+    struct Input {
+        var newPhoto = PublishSubject<Photo>()
+    }
+    
+    struct Output {
+        let photoViewModel : BehaviorRelay<[Photo]> = .init(value: [])
     }
 }
 

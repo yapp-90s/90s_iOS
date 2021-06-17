@@ -21,7 +21,6 @@ class FilmListGalleryCollectionViewCell: UICollectionViewCell {
     }()
     
     static let cellID = "FilmListGalleryCollectionViewCell"
-    
     var thumbnailImage : UIImage! {
         didSet {
             imageView.image = thumbnailImage

@@ -12,9 +12,6 @@ import PhotosUI
 class FilmListGalleryViewController: UIViewController {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero,collectionViewLayout: .init())
-        
-        cv.register(FilmListGalleryCollectionViewCell.self, forCellWithReuseIdentifier: FilmListGalleryCollectionViewCell.cellID)
-        
         return cv
     }()
     
@@ -39,6 +36,8 @@ class FilmListGalleryViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.edges.equalTo(0)
         }
+        
+        collectionView.register(FilmListGalleryCollectionViewCell.self, forCellWithReuseIdentifier: FilmListGalleryCollectionViewCell.cellID)
     }
     
     private func setUpPHAssets() {
