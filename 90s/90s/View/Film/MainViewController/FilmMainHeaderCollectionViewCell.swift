@@ -107,10 +107,7 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         let imageAttachment = NSTextAttachment()
         imageAttachment.image = UIImage(named: "point")
         attribute.append(attribute)
-        
-//        collectionView.delegate = self
-        
-        
+
         /// set CollectionView DataSource
         viewModel.output.films
             .bind(to: collectionView.rx.items(cellIdentifier: FilmMainCollectionViewCell.cellID, cellType: FilmMainCollectionViewCell.self)) { index, item, cell in

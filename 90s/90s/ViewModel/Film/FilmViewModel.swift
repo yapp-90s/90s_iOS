@@ -13,7 +13,8 @@ final class FilmsViewModel : ViewModelType {
     private(set) var dependency : Dependency
     private(set) var input = Input()
     private(set) var output = Output()
-    private(set) var disposeBag = DisposeBag()
+    
+    var disposeBag = DisposeBag()
  
     required init(dependency: Dependency) {
         self.dependency = dependency

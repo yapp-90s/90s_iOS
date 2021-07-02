@@ -127,8 +127,6 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 
 extension FilmMainViewController : FilmPinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        
-        
 //        if let image = UIImage(named: viewModel.photoObservable.value[indexPath.item].url) {
 //            print("FilmMainVC - collectionView image : lost image size")
 //            return image.size.height
