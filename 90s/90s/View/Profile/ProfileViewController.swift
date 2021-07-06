@@ -20,32 +20,41 @@ class ProfileViewController: UIViewController {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true
-        iv.layer.cornerRadius = 10
+        iv.layer.cornerRadius = 38
+        iv.backgroundColor = .gray
         return iv
     }()
     
     private var nameLabel : UILabel = {
-        return LabelType.bold_16.create()
+        let label = LabelType.bold_16.create()
+        label.text = "User Name"
+        return label
     }()
     
     private var emailLabel : UILabel = {
-        return LabelType.normal_13.create()
+        let label = LabelType.normal_13.create()
+        label.text = "aaaabbbb@90s.com"
+        return label
     }()
     
     private var informationView : UIView = {
-        return UIView(frame: .zero)
+        let v = UIView(frame: .zero)
+        return v
     }()
     
     private var countLabel : UILabel = {
-        return LabelType.normal_21.create()
+        let label = LabelType.normal_21.create()
+        return label
     }()
     
     private var countInfoLabel: UILabel = {
-        return LabelType.normal_gray_16.create()
+        let label = LabelType.normal_gray_16.create()
+        return label
     }()
   
     private var tableView: UITableView = {
         let tv = UITableView(frame: .zero)
+        tv.backgroundColor = .Warm_Gray
         return tv
     }()
     
@@ -72,6 +81,8 @@ class ProfileViewController: UIViewController {
     
     
     private func setUpSubviews() {
+        view.backgroundColor = .black
+        
         view.addSubview(profileView)
         view.addSubview(informationView)
         view.addSubview(tableView)
@@ -80,14 +91,16 @@ class ProfileViewController: UIViewController {
         profileView.addSubview(nameLabel)
         profileView.addSubview(emailLabel)
         
+        let safe = view.safeAreaLayoutGuide
         
         profileView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
+            $0.top.left.right.equalTo(safe)
             $0.height.equalTo(160)
         }
         
         informationView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
+            $0.top.equalTo(profileView.snp.bottom).offset(11)
+            $0.left.right.equalToSuperview()
             $0.height.equalTo(110)
         }
         
@@ -100,12 +113,12 @@ class ProfileViewController: UIViewController {
         }
         
         nameLabel.snp.makeConstraints {
-            $0.top.equalTo(12)
+            $0.top.equalTo(imageView.snp.bottom).offset(12)
             $0.centerX.equalTo(view.snp.centerX)
         }
         
         emailLabel.snp.makeConstraints {
-            $0.top.equalTo(5)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
             $0.centerX.equalTo(view.snp.centerX)
         }
         
@@ -114,7 +127,7 @@ class ProfileViewController: UIViewController {
         // Setting tableView
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(6)
+            $0.top.equalTo(informationView.snp.bottom).offset(6)
             $0.left.right.bottom.equalToSuperview()
         }
     }

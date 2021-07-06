@@ -23,9 +23,13 @@ class MainTabBarController: UITabBarController {
         let filmVC = BaseNavigationControllerViewController(rootViewController: FilmMainViewController()) 
         filmVC.tabBarItem = UITabBarItem(title: "Film", image: nil, tag: 1)
         
+        let profileVC = BaseNavigationControllerViewController(rootViewController: ProfileViewController())
+        profileVC.tabBarItem = UITabBarItem(title: "Profile", image: nil, tag: 2)
+        
         let tabList = [
             naviVC,
-            filmVC
+            filmVC,
+            profileVC
         ]
         
         viewControllers = tabList
