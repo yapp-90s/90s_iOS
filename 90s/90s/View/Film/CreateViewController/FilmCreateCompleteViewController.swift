@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import QBImagePickerController
 
 class FilmCreateCompleteViewController: BaseViewController {
     private let infoLabel : UILabel = {
@@ -112,10 +113,16 @@ class FilmCreateCompleteViewController: BaseViewController {
         return button
     }()
     
+    private let imagePicker : QBImagePickerController = {
+        let ip = QBImagePickerController()
+        ip.allowsMultipleSelection = true
+        ip.showsNumberOfSelectedAssets = true
+        return ip
+    }()
+    
     var film : Film!
     var delegate : FilmCreateViewControllerDelegate?
     private var isPopUpAppeared = false
-    private var imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,6 +137,7 @@ class FilmCreateCompleteViewController: BaseViewController {
         view.addSubview(filmView)
         view.addSubview(completeButton)
         
+        imagePicker.delegate = self
         setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
         
         filmView.addSubview(filmImageView)
@@ -254,7 +262,7 @@ class FilmCreateCompleteViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         popUpAddButton.rx.tap.bind {
-            self.setUpImagePickerView()
+            self.present(self.imagePicker, animated: true, completion: nil)
             self.updatePopUpView()
         }.disposed(by: disposeBag)
     }
@@ -281,16 +289,6 @@ class FilmCreateCompleteViewController: BaseViewController {
         })
     }
     
-    private func setUpImagePickerView(){
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .savedPhotosAlbum
-            imagePicker.allowsEditing = true
-            
-            present(imagePicker, animated: true)
-        }
-    }
-    
     func bindViewModel(film : Film) {
         DispatchQueue.main.async { [weak self] in
             self?.filmImageView.image = UIImage(named: film.filterType.image())
@@ -312,9 +310,12 @@ class FilmCreateCompleteViewController: BaseViewController {
     }
 }
 
-
-extension FilmCreateCompleteViewController : UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        self.dismiss(animated: true, completion: nil)
+extension FilmCreateCompleteViewController : QBImagePickerControllerDelegate {
+    func qb_imagePickerControllerDidCancel(_ imagePickerController: QBImagePickerController!) {
+        dismiss(animated: true)
+    }
+    
+    func qb_imagePickerController(_ imagePickerController: QBImagePickerController!, didFinishPickingAssets assets: [Any]!) {
+        dismiss(animated: true)
     }
 }

@@ -12,7 +12,10 @@ class FilmCreateDetailViewController: BaseViewController {
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(FilmCreateDetailCollectionViewCell.self, forCellWithReuseIdentifier: FilmCreateDetailCollectionViewCell.cellID)
+        cv.register(FilmCreateDetailCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmCreateDetailCollectionReusableView.cellID)
         return cv
     }()
     
@@ -28,15 +31,12 @@ class FilmCreateDetailViewController: BaseViewController {
         view.backgroundColor = .black
         view.addSubview(collectionView)
         
-        collectionView.snp.makeConstraints {
-            $0.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        collectionView.register(FilmCreateDetailCollectionViewCell.self, forCellWithReuseIdentifier: FilmCreateDetailCollectionViewCell.cellID)
-        collectionView.register(FilmCreateDetailCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmCreateDetailCollectionReusableView.cellID)
+        collectionView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 

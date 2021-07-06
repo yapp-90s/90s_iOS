@@ -9,8 +9,6 @@ import UIKit
 import SnapKit
 
 class FilmListPrintTableViewCell: UITableViewCell {
-    static let cellID = "filmListPrintCell"
-    
     private var printBackgroundView : UIView = {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
@@ -50,6 +48,8 @@ class FilmListPrintTableViewCell: UITableViewCell {
         btn.layer.cornerRadius = 5
         return btn
     }()
+    
+    static let cellID = "filmListPrintCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -101,6 +101,7 @@ class FilmListPrintTableViewCell: UITableViewCell {
     
     func bindViewModel(film: Film) {
         filmTypeLabel.text = film.filterType.rawValue
+        
         DispatchQueue.main.async { [weak self] in
             self?.filmImageView.image = UIImage(named: film.filterType.image())
         }

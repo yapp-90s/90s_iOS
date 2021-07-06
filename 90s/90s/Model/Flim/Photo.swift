@@ -33,9 +33,3 @@ extension Photo: Equatable {
     }
 }
 
-
-// MARK: 임시로 만든 사진 데이터
-
-struct TestPhoto {
-    var image: String
-}

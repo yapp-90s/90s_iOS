@@ -9,8 +9,6 @@ import UIKit
 import SnapKit
 
 class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
-    static let cellID = "FilmListSectionHeaderCell"
-    
     private var headerTitle : UILabel = {
         return LabelType.bold_21.create()
     }()
@@ -21,6 +19,8 @@ class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
         label.isHidden = true
         return label
     }()
+    
+    static let cellID = "FilmListSectionHeaderCell"
 
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)

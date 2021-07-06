@@ -9,14 +9,17 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class FilmsViewModel : ViewModelType {
+final class FilmsViewModel : ViewModelType {
     private(set) var dependency : Dependency
     private(set) var input = Input()
     private(set) var output = Output()
-    private(set) var disposeBag = DisposeBag()
+    
+    var disposeBag = DisposeBag()
  
     required init(dependency: Dependency) {
         self.dependency = dependency
+        
+        output.films.accept(dependency.filmFactory.createDefaultData())
     }
     
     func getStateData(state : FilmStateType) -> [Film]{
@@ -39,9 +42,9 @@ extension FilmsViewModel {
         var filmFactory = FilmFactory()
     }
     struct Input {
-        
+        var selectFilm = PublishSubject<Film>()
     }
     struct Output {
-        var films = BehaviorRelay<[Film]>(value: FilmFactory().createDefaultData())
+        var films = BehaviorRelay<[Film]>(value: [])
     }
 }

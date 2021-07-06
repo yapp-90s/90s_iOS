@@ -10,8 +10,6 @@ import SnapKit
 
 /// 필름 뷰 상단 - 헤더 셀에서 "내 필름 목록" 을 보여주는 콜렉션 셀입니다
 class FilmMainCollectionViewCell: UICollectionViewCell {
-    static let cellID = "filmCell"
-    
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.layer.cornerRadius = 10
@@ -24,6 +22,8 @@ class FilmMainCollectionViewCell: UICollectionViewCell {
         return LabelType.normal_13.create()
     }()
     
+    static let cellID = "filmCell"
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpSubviews()
@@ -32,7 +32,6 @@ class FilmMainCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     private func setUpSubviews(){
         addSubview(filmImageView)
