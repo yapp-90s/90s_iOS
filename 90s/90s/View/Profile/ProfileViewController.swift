@@ -7,8 +7,10 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UIScrollViewDelegate {
 
     // MARK: - UI Component
     
@@ -55,12 +57,16 @@ class ProfileViewController: UIViewController {
     private var tableView: UITableView = {
         let tv = UITableView(frame: .zero)
         tv.backgroundColor = .Warm_Gray
+        tv.separatorStyle = .none
+        tv.register(ProfileMainTableViewCell.self, forCellReuseIdentifier: ProfileMainTableViewCell.cellID)
         return tv
     }()
     
     private var manageButton: UIButton = {
         let btn = UIButton(frame: .zero)
-        btn.tintColor = .gray
+        btn.setTitleColor(.lightGray, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 14)
+        btn.setTitle("프로필 관리", for: .normal)
         return btn
     }()
     
@@ -86,6 +92,7 @@ class ProfileViewController: UIViewController {
         view.addSubview(profileView)
         view.addSubview(informationView)
         view.addSubview(tableView)
+        view.addSubview(manageButton)
         
         profileView.addSubview(imageView)
         profileView.addSubview(nameLabel)
@@ -128,7 +135,18 @@ class ProfileViewController: UIViewController {
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(informationView.snp.bottom).offset(6)
-            $0.left.right.bottom.equalToSuperview()
+            $0.left.right.equalTo(safe)
+            $0.height.equalTo(200)
         }
+        
+        manageButton.snp.makeConstraints {
+            $0.top.equalTo(tableView.snp.bottom).offset(22)
+            $0.left.right.equalTo(safe)
+            $0.height.equalTo(60)
+        }
+    }
+    
+    private func setUpTableView() {
+        // rx tableview setting
     }
 }
