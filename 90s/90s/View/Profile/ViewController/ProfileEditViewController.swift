@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ProfileEditViewController: UIViewController {
     
@@ -61,12 +62,15 @@ class ProfileEditViewController: UIViewController {
         underLineLabel.snp.makeConstraints {
             $0.centerX.equalTo(view.snp.centerX)
             $0.top.equalTo(nameTextField.snp.bottom).offset(10)
+            $0.height.equalTo(1)
+            $0.width.equalTo(view.snp.width).offset(-36)
         }
         
         editButton.snp.makeConstraints {
             $0.top.equalTo(nameTextField.snp.bottom).offset(35)
-            $0.height.equalTo(60)
             $0.centerX.equalTo(view.snp.centerX)
+            $0.height.equalTo(60)
+            $0.width.equalTo(view.snp.width).offset(-36)
         }
     }
 }
