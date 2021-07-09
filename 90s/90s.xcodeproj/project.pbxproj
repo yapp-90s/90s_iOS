@@ -572,6 +572,7 @@
 				6521BF6525BC1C6700580EB5 /* Flim */,
 				6521BF6725BC1CB800580EB5 /* Box */,
 				6521BF6625BC1CA200580EB5 /* Album */,
+				9BAFB2B4269813EC001FE934 /* Profile */,
 				653F7D8325988510002CD12A /* User.swift */,
 			);
 			path = Model;
@@ -768,6 +769,13 @@
 				9BE8E68526032BAB00A6EEBC /* FilmListPrintTableViewCell.swift */,
 			);
 			path = ListViewController;
+			sourceTree = "<group>";
+		};
+		9BAFB2B4269813EC001FE934 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		9BB76123254EACF4005B7B5A = {

@@ -65,6 +65,7 @@ class FilmPopupView: UIView {
     private func setUpSubviews(){
         addSubview(backgroundView)
         addSubview(popupView)
+        
         popupView.addSubview(imageView)
         popupView.addSubview(titleLabel)
         popupView.addSubview(leftBtn)

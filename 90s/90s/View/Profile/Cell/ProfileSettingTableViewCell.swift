@@ -9,51 +9,24 @@ import UIKit
 import SnapKit
 
 class ProfileSettingTableViewCell: UITableViewCell {
-    private var titleLabel : UILabel = {
-        return LabelType.normal_16.create()
+    let titleLabel : UILabel = {
+        let label = LabelType.normal_16.create()
+        label.text = "Title"
+        return label
     }()
     
-    private var switchButton : UISwitch = {
+    private let switchButton : UISwitch = {
         let sbutton = UISwitch(frame: .zero)
         return sbutton
     }()
     
-    private let leaveView : UIView = {
+    private let spacingView : UIView = {
         let view = UIView(frame: .zero)
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 8
-        view.backgroundColor = .Cool_Gray
+        view.backgroundColor = .black
         return view
     }()
     
-    private let leaveTitleLabel : UILabel = {
-        let label = LabelType.bold_18.create()
-        label.text = "정말 떠나실 건가요?"
-        return label
-    }()
-    
-    private let leaveSubTitleLabel : UILabel = {
-        let label = LabelType.normal_gray_13.create()
-        return label
-    }()
-    
-    private let notLeaveButton : UIButton = {
-        let button = UIButton(frame: .zero)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 5
-        button.setTitle("다시 생각해 볼게요", for: .normal)
-        button.backgroundColor = .retroOrange
-        return button
-    }()
-    
-    private let leaveButton : UIButton = {
-        let button = UIButton(frame: .zero)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 5
-        button.setTitle("회원 탈퇴", for: .normal)
-        button.backgroundColor = .Cool_Lightgray
-        return button
-    }()
+    static let cellID = "ProfileSettingTableViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -63,13 +36,7 @@ class ProfileSettingTableViewCell: UITableViewCell {
     private func setUpSubviews() {
         addSubview(titleLabel)
         addSubview(switchButton)
-        addSubview(leaveView)
-        
-        leaveView.addSubview(leaveTitleLabel)
-        leaveView.addSubview(leaveSubTitleLabel)
-        leaveView.addSubview(notLeaveButton)
-        leaveView.addSubview(leaveButton)
-        
+        addSubview(spacingView)
         
         titleLabel.snp.makeConstraints {
             $0.centerY.equalTo(contentView.snp.centerY)
@@ -81,12 +48,13 @@ class ProfileSettingTableViewCell: UITableViewCell {
             $0.right.equalTo(contentView.snp.right).offset(-8)
         }
         
-        // -TODO: Need To Set Leave View Constraint
-        
-        
+        spacingView.snp.makeConstraints {
+            $0.height.equalTo(8)
+            $0.left.right.bottom.equalToSuperview()
+        }
     }
     
-    func bindViewModel(name: String, isClicked: Bool) {
+    func bindViewModel(name: String, isExist: Bool, isClicked: Bool) {
         titleLabel.text = name
         switchButton.setOn(isClicked, animated: true)
     }

@@ -9,15 +9,30 @@ import UIKit
 import SnapKit
 
 class ProfileMainTableViewCell: UITableViewCell {
-    private var titleLabel : UILabel = {
+    private let titleLabel : UILabel = {
         let label = LabelType.normal_16.create()
+        label.text = "Title"
         return label
     }()
     
-    private var nextButton : UIButton = {
-        let button = UIButton(frame: .zero)
-        button.setImage(UIImage(named: "point"), for: .normal)
-        return button
+    private let pointView: UIView = {
+        let view = UIView(frame: .zero)
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 2
+        view.backgroundColor = .retroOrange
+        return view
+    }()
+    
+    private let nextImageView : UIImageView = {
+        let iv = UIImageView(frame: .zero)
+        iv.image = UIImage(named: "point")
+        return iv
+    }()
+    
+    private let spacingView : UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .black
+        return view
     }()
     
     static let cellID = "ProfileMainTableViewCell"
@@ -29,17 +44,32 @@ class ProfileMainTableViewCell: UITableViewCell {
     
     private func setUpSubviews(){
         addSubview(titleLabel)
-        addSubview(nextButton)
+        addSubview(pointView)
+        addSubview(nextImageView)
+        addSubview(spacingView)
+        
+        contentView.backgroundColor = .colorRGBHex(hex: 0x222225)
         
         titleLabel.snp.makeConstraints {
             $0.left.equalToSuperview()
             $0.centerY.equalTo(contentView.snp.centerY)
         }
         
-        nextButton.snp.makeConstraints {
+        pointView.snp.makeConstraints {
+            $0.width.height.equalTo(4)
+            $0.left.equalTo(titleLabel.snp.right).offset(3)
+            $0.top.equalTo(titleLabel.snp.top)
+        }
+        
+        nextImageView.snp.makeConstraints {
             $0.right.equalToSuperview()
             $0.width.height.equalTo(50)
             $0.centerY.equalTo(contentView.snp.centerY)
+        }
+        
+        spacingView.snp.makeConstraints {
+            $0.height.equalTo(8)
+            $0.left.right.bottom.equalToSuperview()
         }
     }
 }

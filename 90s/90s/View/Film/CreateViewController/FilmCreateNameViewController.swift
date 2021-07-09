@@ -66,9 +66,10 @@ class FilmCreateNameViewController: BaseViewController {
     }
     
     private func setUpSubViews(){
-        view.backgroundColor = .black
         navigationItem.title = "필름 만들기"
         setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
+        
+        view.backgroundColor = .black
         
         view.addSubview(infoLabel)
         view.addSubview(imageView)
@@ -118,7 +119,7 @@ class FilmCreateNameViewController: BaseViewController {
             .subscribe(onNext: { _ in
                
                 guard let text = self.textField.text else {return}
-                print("text =",text, text.isEmpty)
+               
                 if !text.trimmingCharacters(in: .whitespaces).isEmpty {
                     self.filmName = text
                     self.completeButton.backgroundColor = .retroOrange
