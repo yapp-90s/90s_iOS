@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileTermsViewController: BaseViewController {
+final class ProfileTermsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

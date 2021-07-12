@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import QBImagePickerController
 
-class FilmCreateCompleteViewController: BaseViewController {
+final class FilmCreateCompleteViewController: BaseViewController {
     private let infoLabel : UILabel = {
         let label = UILabel.createSpacingLabel(text: "필름이\n완성되었습니다!")
         return label

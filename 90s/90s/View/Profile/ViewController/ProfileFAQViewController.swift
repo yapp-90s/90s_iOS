@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileFAQViewController: BaseViewController {
+final class ProfileFAQViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

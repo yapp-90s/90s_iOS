@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmCreateDetailViewController: BaseViewController {
+final class FilmCreateDetailViewController: BaseViewController {
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical

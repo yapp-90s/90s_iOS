@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class ProfileViewController: BaseViewController, UIScrollViewDelegate {
+final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
 
     // MARK: - UI Component
     

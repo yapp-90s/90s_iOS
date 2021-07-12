@@ -10,7 +10,7 @@ import SnapKit
 import QBImagePickerController
 
 /// 필름 정보와 사진을 보여주는 VC
-class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmListPrintTableViewCell: UITableViewCell {
+final class FilmListPrintTableViewCell: UITableViewCell {
     private var printBackgroundView : UIView = {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true

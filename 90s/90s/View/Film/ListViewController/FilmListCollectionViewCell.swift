@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// 필름 속 사진들을 보여주는 콜렉션 셀
-class FilmListCollectionViewCell: UICollectionViewCell {
+final class FilmListCollectionViewCell: UICollectionViewCell {
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleToFill

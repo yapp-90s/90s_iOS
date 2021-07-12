@@ -13,7 +13,7 @@ import RxDataSources
 
 
 /// 필름 리스트
-class FilmListViewController: BaseViewController {
+final class FilmListViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.showsVerticalScrollIndicator = false

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmPopupView: UIView {
+final class FilmPopupView: UIView {
     private var backgroundView : UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.8)

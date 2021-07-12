@@ -17,7 +17,7 @@ protocol FilmMainViewControllerDelegate {
 }
 
 
-class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
+final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
         

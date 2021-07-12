@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 /// 필름 리스트를 보여주는 테이블 셀
-class FilmListTableViewCell: UITableViewCell {
+final class FilmListTableViewCell: UITableViewCell {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.showsHorizontalScrollIndicator = false

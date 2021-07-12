@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
+final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true

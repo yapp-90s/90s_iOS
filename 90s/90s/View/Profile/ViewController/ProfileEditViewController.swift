@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class ProfileEditViewController: BaseViewController {
+final class ProfileEditViewController: BaseViewController {
     private let profileImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true

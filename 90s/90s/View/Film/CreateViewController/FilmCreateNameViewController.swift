@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmCreateNameViewController: BaseViewController {
+final class FilmCreateNameViewController: BaseViewController {
     private let infoLabel : UILabel = {
         let label = UILabel.createSpacingLabel(text: "어디에 사용되는 필름인가요?\n이름을 정해주세요 :)")
         return label

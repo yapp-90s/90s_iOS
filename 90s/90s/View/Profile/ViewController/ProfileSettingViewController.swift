@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class ProfileSettingViewController: BaseViewController, UIScrollViewDelegate {
+final class ProfileSettingViewController: BaseViewController, UIScrollViewDelegate {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero)
         tv.isScrollEnabled = false
