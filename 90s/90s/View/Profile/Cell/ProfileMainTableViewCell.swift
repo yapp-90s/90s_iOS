@@ -36,10 +36,15 @@ class ProfileMainTableViewCell: UITableViewCell {
     }()
     
     static let cellID = "ProfileMainTableViewCell"
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubviews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setUpSubviews(){
@@ -48,11 +53,11 @@ class ProfileMainTableViewCell: UITableViewCell {
         addSubview(nextImageView)
         addSubview(spacingView)
         
-        contentView.backgroundColor = .colorRGBHex(hex: 0x222225)
+        backgroundColor = .colorRGBHex(hex: 0x222225)
         
         titleLabel.snp.makeConstraints {
-            $0.left.equalToSuperview()
-            $0.centerY.equalTo(contentView.snp.centerY)
+            $0.left.equalTo(18)
+            $0.centerY.equalTo(contentView.snp.centerY).offset(-2)
         }
         
         pointView.snp.makeConstraints {
@@ -62,14 +67,20 @@ class ProfileMainTableViewCell: UITableViewCell {
         }
         
         nextImageView.snp.makeConstraints {
-            $0.right.equalToSuperview()
-            $0.width.height.equalTo(50)
-            $0.centerY.equalTo(contentView.snp.centerY)
+            $0.right.equalTo(-24)
+            $0.height.equalTo(13)
+            $0.width.equalTo(6)
+            $0.centerY.equalTo(contentView.snp.centerY).offset(-2)
         }
         
         spacingView.snp.makeConstraints {
-            $0.height.equalTo(8)
+            $0.height.equalTo(4)
             $0.left.right.bottom.equalToSuperview()
         }
+    }
+    
+    func bindViewModel(element: (String, Bool)) {
+        titleLabel.text = element.0
+        pointView.isHidden = !element.1
     }
 }

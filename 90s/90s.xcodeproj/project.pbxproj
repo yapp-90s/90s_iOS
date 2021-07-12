@@ -129,6 +129,7 @@
 		9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */; };
 		9B878D6425E10B820024CFAA /* FilmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */; };
 		9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */; };
+		9B8CB357269C2F4900549035 /* ProfileLeaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */; };
 		9B9868EB2696F2450063A938 /* ProfileSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9868EA2696F2450063A938 /* ProfileSettingTableViewCell.swift */; };
 		9BA119D226086C430045F37B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 9BA119D126086C430045F37B /* .swiftlint.yml */; };
 		9BA3FF5625FDF4B5000D2A2E /* FilmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3FF5525FDF4B5000D2A2E /* FilmViewModel.swift */; };
@@ -290,6 +291,7 @@
 		9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListTableViewCell.swift; sourceTree = "<group>"; };
 		9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionHeaderCell.swift; sourceTree = "<group>"; };
+		9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLeaveViewController.swift; sourceTree = "<group>"; };
 		9B9868EA2696F2450063A938 /* ProfileSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingTableViewCell.swift; sourceTree = "<group>"; };
 		9BA119D126086C430045F37B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9BA3FF5525FDF4B5000D2A2E /* FilmViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmViewModel.swift; sourceTree = "<group>"; };
@@ -685,6 +687,7 @@
 				9B30C31A268F0191007F3564 /* ProfileSettingViewController.swift */,
 				9B30C322268F01AF007F3564 /* ProfileFAQViewController.swift */,
 				9B30C326268F01C6007F3564 /* ProfileTermsViewController.swift */,
+				9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1109,6 +1112,7 @@
 				4C1F80E425F34A5100E98A0B /* StickerCollectionViewCell.swift in Sources */,
 				657ED69A2630A33E008823BC /* CoverCollectionViewCell.swift in Sources */,
 				65962603262C319000277B80 /* TemplateService.swift in Sources */,
+				9B8CB357269C2F4900549035 /* ProfileLeaveViewController.swift in Sources */,
 				4CE649F625E0DEC80093D238 /* AddAlbumViewController.swift in Sources */,
 				9BC35EEF26315EC80062B24C /* FilmCreateCompleteViewController.swift in Sources */,
 				9B3746FB2630260100E412B0 /* FilmListSectionData.swift in Sources */,

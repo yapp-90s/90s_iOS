@@ -107,8 +107,8 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     private let tableView: UITableView = {
         let tv = UITableView(frame: .zero)
         tv.separatorStyle = .none
-        tv.showsVerticalScrollIndicator = false
-        tv.rowHeight = 70
+        tv.showsHorizontalScrollIndicator = false
+        tv.rowHeight = 65
         tv.isScrollEnabled = false
         
         tv.register(ProfileMainTableViewCell.self, forCellReuseIdentifier: ProfileMainTableViewCell.cellID)
@@ -123,11 +123,11 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         return btn
     }()
     
-    private let items : [String] = [
-        "설정",
-        "자주 묻는 질문",
-        "약관 개인정보 처리방침"
-    ]
+    private let items = Observable.just([
+        ("설정", true),
+        ("자주 묻는 질문", false),
+        ("약관 개인정보 처리방침", false)
+    ])
     
     // MARK: - LifeCycle
 
@@ -265,13 +265,13 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        Observable.just(items).bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.cellID, cellType: ProfileMainTableViewCell.self)) { index, element, cell in
-            cell.textLabel?.text = element
+        items.bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.cellID, cellType: ProfileMainTableViewCell.self)) { index, element, cell in
+            cell.bindViewModel(element: element)
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(String.self).subscribe(onNext: { item in
-            if item == "설정" {
+        tableView.rx.modelSelected((String, Bool).self).subscribe(onNext: { item in
+            if item.0 == "설정" {
                 self.navigationController?.pushViewController(ProfileSettingViewController(), animated: true)
             }
         }).disposed(by: disposeBag)

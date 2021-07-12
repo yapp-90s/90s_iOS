@@ -26,17 +26,21 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         view.clipsToBounds = true
         view.layer.cornerRadius = 8
         view.backgroundColor = .Cool_Gray
+        view.isHidden = true
         return view
     }()
     
     private let leaveTitleLabel : UILabel = {
         let label = LabelType.bold_18.create()
         label.text = "정말 떠나실 건가요?"
+        label.textAlignment = .center
         return label
     }()
     
     private let leaveSubTitleLabel : UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel.createSpacingLabel(text: "회원을 탈퇴하면 모든 회원정보 및\n앨범과 사진이 삭제됩니다", size: 14, numberOfLines: 2)
+        label.textAlignment = .center
+        label.textColor = .gray
         return label
     }()
     
@@ -44,6 +48,7 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         let button = UIButton(frame: .zero)
         button.clipsToBounds = true
         button.layer.cornerRadius = 5
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         button.setTitle("다시 생각해 볼게요", for: .normal)
         button.backgroundColor = .retroOrange
         return button
@@ -53,7 +58,8 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         let button = UIButton(frame: .zero)
         button.clipsToBounds = true
         button.layer.cornerRadius = 5
-        button.setTitle("회원 탈퇴", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        button.setTitle("회원탈퇴", for: .normal)
         button.backgroundColor = .Cool_Lightgray
         return button
     }()
@@ -66,16 +72,17 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         return button
     }()
     
-    private var items : [(String, Bool, Bool)] = [
+    private var items = Observable.just([
         ("마케팅 이벤트 알림", true, true),
         ("인화 알림", true, false),
         ("로그아웃", false, false)
-    ]
+    ])
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubviews()
         setUpTableView()
+        setUpButtonEvent()
     }
  
     private func setUpSubviews() {
@@ -98,14 +105,58 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
             $0.height.equalTo(60)
             $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        leaveView.snp.makeConstraints {
+            $0.width.equalTo(312)
+            $0.height.equalTo(320)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.centerX.equalToSuperview()
+        }
+        
+        leaveTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(53)
+            $0.centerX.equalToSuperview()
+        }
+        
+        leaveSubTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(leaveTitleLabel.snp.bottom).offset(18)
+            $0.centerX.equalToSuperview()
+        }
+        
+        leaveButton.snp.makeConstraints {
+            $0.height.equalTo(57)
+            $0.left.equalTo(18)
+            $0.right.bottom.equalTo(-18)
+        }
+        
+        notLeaveButton.snp.makeConstraints {
+            $0.height.equalTo(57)
+            $0.left.equalTo(18)
+            $0.right.equalTo(-18)
+            $0.bottom.equalTo(leaveButton.snp.top).offset(-12)
+        }
     }
     
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        Observable.just(items).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.cellID, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
-            cell.titleLabel.text = element.0
+        items.bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.cellID, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
             cell.bindViewModel(name: element.0, isExist: element.1, isClicked: element.2)
+            cell.selectionStyle = .none
+        }.disposed(by: disposeBag)
+    }
+    
+    private func setUpButtonEvent() {
+        signoutButton.rx.tap.bind {
+            self.leaveView.isHidden = false
+        }.disposed(by: disposeBag)
+        
+        notLeaveButton.rx.tap.bind {
+            self.leaveView.isHidden = true
+        }.disposed(by: disposeBag)
+        
+        leaveButton.rx.tap.bind {
+            self.navigationController?.present(ProfileLeaveViewController(), animated: true)
         }.disposed(by: disposeBag)
     }
 }
