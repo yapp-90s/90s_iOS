@@ -29,9 +29,9 @@ final class FilmListViewController: BaseViewController {
     private var popUpView : FilmPopupView = {
         let view = FilmPopupView()
         view.isHidden = true
+        
         view.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
         view.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
-        
         return view
     }()
     

@@ -271,9 +271,17 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected((String, Bool).self).subscribe(onNext: { item in
-            if item.0 == "설정" {
+            switch item.0 {
+            case "설정" :
                 self.navigationController?.pushViewController(ProfileSettingViewController(), animated: true)
+            case "자주 묻는 질문":
+                self.navigationController?.pushViewController(ProfileFAQViewController(), animated: true)
+            case "약관 개인정보 처리방침":
+                self.navigationController?.pushViewController(ProfileTermsViewController(), animated: true)
+            default:
+                print("none")
             }
+            
         }).disposed(by: disposeBag)
     }
     
