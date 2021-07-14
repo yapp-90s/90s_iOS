@@ -7,12 +7,4 @@
 
 import RxSwift
 import RxRelay
-//
-//final class FilmRepository {
-//    static let shared = FilmRepository()
-//
-//    private let filmsRelay = BehaviorRelay<[Film]>(value: [])
-//    let films : Observable<[FilmsViewModel]?>
-//
-//}
 

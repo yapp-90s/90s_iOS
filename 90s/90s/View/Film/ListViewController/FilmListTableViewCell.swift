@@ -183,7 +183,7 @@ final class FilmListTableViewCell: UITableViewCell {
         testFilmValue = (film, isCreate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmTitleImageView.image = UIImage(named: film.filterType.image())
+            self?.filmTitleImageView.image = UIImage(named: film.filmType.name.image())
             self?.filmTypeImageView.image = UIImage(named: film.state.image())
         }
         filmTitleLabel.text = film.name
@@ -193,13 +193,13 @@ final class FilmListTableViewCell: UITableViewCell {
             filmTypeImageView.isHidden = true
             filmNewLabel.isHidden = true
             separateLine.isHidden = false
-            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filterType.printDay())시간 소요"
+            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDay())시간 소요"
         case false:
-            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createDate)" // 전체 개수 리턴하는 함수 필요
+            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createdAt)" // 전체 개수 리턴하는 함수 필요
             separateLine.isHidden = true
         }
         
-        if Date().dateToString() == film.createDate {
+        if Date().dateToString() == film.createdAt {
             filmNewLabel.isHidden = false
         }
     

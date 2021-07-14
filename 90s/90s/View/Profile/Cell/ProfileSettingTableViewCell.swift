@@ -15,11 +15,11 @@ class ProfileSettingTableViewCell: UITableViewCell {
         return label
     }()
     
-    private var switchButton : UISwitch = {
-        let sbutton = UISwitch(frame: .zero)
-        return sbutton
-    }()
-    
+//    private var switchButton : UISwitch = {
+//        let sbutton = UISwitch(frame: .zero)
+//        return sbutton
+//    }()
+//
     private let spacingView : UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = .black
@@ -39,7 +39,6 @@ class ProfileSettingTableViewCell: UITableViewCell {
     
     private func setUpSubviews() {
         addSubview(titleLabel)
-        addSubview(switchButton)
         addSubview(spacingView)
         
         backgroundColor = .colorRGBHex(hex: 0x222225)
@@ -48,23 +47,14 @@ class ProfileSettingTableViewCell: UITableViewCell {
             $0.centerY.equalTo(contentView.snp.centerY).offset(-2)
             $0.left.equalTo(contentView.safeAreaLayoutGuide).offset(8)
         }
-        
-        switchButton.snp.makeConstraints {
-            $0.centerY.equalTo(contentView.snp.centerY).offset(-2)
-            $0.right.equalTo(contentView.snp.right).offset(-18)
-        }
-        
+
         spacingView.snp.makeConstraints {
             $0.height.equalTo(4)
             $0.left.right.bottom.equalToSuperview()
         }
     }
     
-    func bindViewModel(name: String, isExist: Bool, isClicked: Bool) {
+    func bindViewModel(name: String) {
         titleLabel.text = name
-        switchButton.isHidden = !isExist
-        if isExist {
-            switchButton.setOn(isClicked, animated: true)
-        }
     }
 }

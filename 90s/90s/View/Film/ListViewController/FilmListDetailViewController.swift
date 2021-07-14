@@ -172,17 +172,17 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
     
     func bindViewModel(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
         }
         filmNameLabel.text = film.name
-        filmDateLabel.text = film.createDate
+        filmDateLabel.text = film.createdAt
         filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
         filmTypeLabel.text = film.state.text()
         
         films = film
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
-            let photo = Photo(id: "0000", url: "film_add_photo", date: "")
+            let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
             films?.addAtFirst(photo)
         }
         

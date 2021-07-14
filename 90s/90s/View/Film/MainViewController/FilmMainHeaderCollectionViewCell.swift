@@ -116,7 +116,7 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
             .disposed(by: disposeBag)
         
         viewModel.output.films
-            .map { $0.map { $0.id}}
+            .map { $0.map { $0.uid}}
             .map { "총 \($0.count - 1)개" }
             .asDriver(onErrorJustReturn: "")
             .drive(filmCountButton.rx.title(for: .normal))

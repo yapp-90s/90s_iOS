@@ -9,11 +9,16 @@ import Foundation
 
 
 struct Film {
-    let id: String
+    let uid: Int
     var name: String
-    let createDate: String = Date().dateToString()
-    var completeDate: String?
-    var filterType : FilmFilterType
+    var filmType : FilmType
+    var user : User
+    
+    let createdAt: String = Date().dateToString()
+    var printStartAt : String?
+    var printEndAt: String?
+    
+    // - None Network Data
     private(set) var photos: [Photo]
     
     let maxCount: Int

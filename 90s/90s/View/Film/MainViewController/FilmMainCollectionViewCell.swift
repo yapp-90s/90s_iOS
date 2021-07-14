@@ -50,7 +50,7 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
     
     func bindItem(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image()) 
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image()) 
         }
         filmImageLabel.text = film.name
     }

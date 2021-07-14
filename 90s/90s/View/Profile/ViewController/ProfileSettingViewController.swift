@@ -73,9 +73,9 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     }()
     
     private var items = Observable.just([
-        ("마케팅 이벤트 알림", true, true),
-        ("인화 알림", true, false),
-        ("로그아웃", false, false)
+        ("마케팅 이벤트 알림", true),
+        ("인화 알림", false),
+        ("로그아웃", false)
     ])
 
     override func viewDidLoad() {
@@ -141,7 +141,16 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
         items.bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.cellID, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
-            cell.bindViewModel(name: element.0, isExist: element.1, isClicked: element.2)
+            cell.bindViewModel(name: element.0)
+            
+            if element.0 != "로그아웃" {
+                let switchView = UISwitch()
+                switchView.isOn = element.1
+                switchView.onTintColor = .retroOrange
+                cell.accessoryView = switchView
+                
+                // 온/오프 변경 되었을 때 저장 안됨
+            }
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
     }
