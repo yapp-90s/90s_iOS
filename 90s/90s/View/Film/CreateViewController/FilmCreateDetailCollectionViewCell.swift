@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmCreateDetailCollectionViewCell: UICollectionViewCell {
+final class FilmCreateDetailCollectionViewCell: UICollectionViewCell {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleAspectFit

@@ -17,28 +17,27 @@ protocol FilmMainViewControllerDelegate {
 }
 
 
-class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
+final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
+        cv.showsVerticalScrollIndicator = false
         
         cv.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
         cv.register(FilmMainPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID)
-        
-        cv.showsVerticalScrollIndicator = false
-        
         return cv
     }()
     
     // MARK: Property
     
     private let viewModel = PhotoViewModel(dependency: .init())
+    private var dataSource : RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>?
     
     // MARK: Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpCollectionView()
-//        setupCollectionViewDataSource()
+        setupCollectionViewDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,42 +51,30 @@ class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private func setUpCollectionView(){
         view.addSubview(collectionView)
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
         collectionView.snp.makeConstraints {
             $0.top.bottom.right.left.equalToSuperview()
         }
     }
     
     private func setupCollectionViewDataSource(){
-        let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { (dataSource, collectionView, indexPath, element) in
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as! FilmMainPhotoCollectionViewCell
             cell.bindViewModel(image: element.url)
             return cell
         })
         
-        dataSource.configureSupplementaryView = {(dataSource, collectionView, kind, indexPath) -> UICollectionReusableView in
+        guard let datasource = dataSource else { return }
+        
+        datasource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as! FilmMainHeaderCollectionViewCell
             header.delegate = self
             return header
         }
-        
-        dataSource.configureCell = { (dataSource, collectionView, indexPath, item) -> UICollectionViewCell in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as! FilmMainPhotoCollectionViewCell
-            cell.bindViewModel(image: item.url)
-            return cell
-        }
-//
-//        viewModel.photoObservable
-//            .bind(to: collectionView.rx.items(dataSource: dataSource))
-    
-        
-//        viewModel.photoObservable
-//            .bind(to: collectionView.rx.items(cellIdentifier: FilmMainPhotoCollectionViewCell.cellID, cellType: FilmMainPhotoCollectionViewCell.self)) { index, item, cell in
-//                cell.bindViewModel(image: item.image)
-//            }
-//            .disposed(by: disposeBag)
+
+        viewModel.output.photoSectionViewModel
+            .bind(to: collectionView.rx.items(dataSource: datasource)).disposed(by: disposeBag)
     }
 }
 
@@ -109,7 +96,7 @@ extension FilmMainViewController : UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as? FilmMainPhotoCollectionViewCell else { return UICollectionViewCell() }
-        cell.bindViewModel(image: viewModel.output.photoViewModel.value[indexPath.row].url)
+        cell.bindViewModel(image: (viewModel.output.photoSectionViewModel.value.first?.items[indexPath.row].url)!)
         return cell
     }
 }
@@ -131,6 +118,6 @@ extension FilmMainViewController : FilmPinterestLayoutDelegate {
 //            print("FilmMainVC - collectionView image : lost image size")
 //            return image.size.height
 //        }
-        return UIImage(named: viewModel.output.photoViewModel.value[indexPath.row].url)!.size.height
+        return UIImage(named: viewModel.output.photoSectionViewModel.value.first!.items[indexPath.row].url)!.size.height
     }
 }

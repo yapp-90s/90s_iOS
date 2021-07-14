@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import QBImagePickerController
 
-class FilmCreateCompleteViewController: BaseViewController {
+final class FilmCreateCompleteViewController: BaseViewController {
     private let infoLabel : UILabel = {
         let label = UILabel.createSpacingLabel(text: "필름이\n완성되었습니다!")
         return label
@@ -291,14 +291,14 @@ class FilmCreateCompleteViewController: BaseViewController {
     
     func bindViewModel(film : Film) {
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
         }
         
         filmNameLabel.text = film.name
-        filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filterType.rawValue)
-        filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filterType.printDay())시간")
+        filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.name.rawValue)
+        filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filmType.name.printDay())시간")
         filmCountLabel = UILabel.createNormalBoldLabel(normal: "사진 개수", bold: "\(film.count)장")
-        filmDateLabel = UILabel.createNormalBoldLabel(normal: "생성일", bold: film.createDate)
+        filmDateLabel = UILabel.createNormalBoldLabel(normal: "생성일", bold: film.createdAt)
     }
     
     @objc private func handleNavigationRightButton(){

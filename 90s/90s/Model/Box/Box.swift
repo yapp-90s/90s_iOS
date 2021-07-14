@@ -21,8 +21,8 @@ extension Box {
     }
     
     @discardableResult
-    mutating func remove(_ id: String) -> Photo? {
-        guard let index = photos.firstIndex(where: { $0.id == id }) else { return nil }
+    mutating func remove(_ id: Int) -> Photo? {
+        guard let index = photos.firstIndex(where: { $0.photoUid == id }) else { return nil }
         return photos.remove(at: index)
     }
     

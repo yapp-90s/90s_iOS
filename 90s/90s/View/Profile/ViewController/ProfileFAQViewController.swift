@@ -6,24 +6,50 @@
 //
 
 import UIKit
+import RxSwift
 
-class ProfileFAQViewController: UIViewController {
-
+final class ProfileFAQViewController: BaseViewController, UIScrollViewDelegate {
+    
+    private let tableView : UITableView = {
+        let tv = UITableView(frame: .zero)
+        tv.separatorStyle = .none
+        tv.rowHeight = 65
+        tv.showsVerticalScrollIndicator = false
+        
+        tv.register(ProfileMainTableViewCell.self, forCellReuseIdentifier: ProfileMainTableViewCell.cellID)
+        return tv
+    }()
+    
+    
+    private let items = Observable.of([
+        "자주 묻는 질문 리스트 1",
+        "자주 묻는 질문 리스트 2",
+        "자주 묻는 질문 리스트 3"
+    ])
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setUpSubviews()
+        setUpTableView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setUpSubviews() {
+        navigationItem.title = "자주 묻는 질문"
+        
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
-    */
-
+    
+    private func setUpTableView() {
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        items.bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.cellID, cellType: ProfileMainTableViewCell.self
+        )) { index, element, cell in
+            cell.bindViewModel(element: (element, false))
+            cell.selectionStyle = .none
+        }.disposed(by: disposeBag)
+    }
 }

@@ -14,7 +14,7 @@ protocol FilmCreateViewControllerDelegate {
     func popupToFilmCreateVC()
 }
 
-class FilmCreateViewController: BaseViewController {
+final class FilmCreateViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero)
         tv.showsHorizontalScrollIndicator = false

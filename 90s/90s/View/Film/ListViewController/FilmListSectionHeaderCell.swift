@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
+final class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
     private var headerTitle : UILabel = {
         return LabelType.bold_21.create()
     }()

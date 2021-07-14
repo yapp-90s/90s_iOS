@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmCreateNameViewController: BaseViewController {
+final class FilmCreateNameViewController: BaseViewController {
     private let infoLabel : UILabel = {
         let label = UILabel.createSpacingLabel(text: "어디에 사용되는 필름인가요?\n이름을 정해주세요 :)")
         return label
@@ -51,7 +51,7 @@ class FilmCreateNameViewController: BaseViewController {
 
     var film: Film! {
         didSet {
-            imageView.image = UIImage(named: film.filterType.image())
+            imageView.image = UIImage(named: film.filmType.name.image())
         }
     }
     
@@ -66,9 +66,10 @@ class FilmCreateNameViewController: BaseViewController {
     }
     
     private func setUpSubViews(){
-        view.backgroundColor = .black
         navigationItem.title = "필름 만들기"
         setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
+        
+        view.backgroundColor = .black
         
         view.addSubview(infoLabel)
         view.addSubview(imageView)
@@ -118,7 +119,7 @@ class FilmCreateNameViewController: BaseViewController {
             .subscribe(onNext: { _ in
                
                 guard let text = self.textField.text else {return}
-                print("text =",text, text.isEmpty)
+               
                 if !text.trimmingCharacters(in: .whitespaces).isEmpty {
                     self.filmName = text
                     self.completeButton.backgroundColor = .retroOrange

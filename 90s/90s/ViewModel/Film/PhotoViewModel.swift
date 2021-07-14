@@ -29,14 +29,14 @@ final class PhotoViewModel : ViewModelType {
     
     private func setMockData() -> [Photo] {
         return [
-            Photo(id: "0", url: "test_pic1", date: "0"),
-            Photo(id: "1", url: "test_pic2", date: "0"),
-            Photo(id: "2", url: "test_pic3", date: "0"),
-            Photo(id: "3", url: "test_pic4", date: "0"),
-            Photo(id: "4", url: "test_pic1", date: "0"),
-            Photo(id: "5", url: "test_pic2", date: "0"),
-            Photo(id: "6", url: "test_pic3", date: "0"),
-            Photo(id: "7", url: "test_pic4", date: "0"),
+            Photo(photoUid: 0, url: "test_pic1", date: "0"),
+            Photo(photoUid: 1, url: "test_pic2", date: "0"),
+            Photo(photoUid: 2, url: "test_pic3", date: "0"),
+            Photo(photoUid: 3, url: "test_pic4", date: "0"),
+            Photo(photoUid: 4, url: "test_pic1", date: "0"),
+            Photo(photoUid: 5, url: "test_pic2", date: "0"),
+            Photo(photoUid: 6, url: "test_pic3", date: "0"),
+            Photo(photoUid: 7, url: "test_pic4", date: "0"),
         ]
     }
 }
@@ -50,6 +50,7 @@ extension PhotoViewModel {
     }
     
     struct Output {
+        var photoSectionViewModel : BehaviorRelay<[FilmMainSectionModel]> = .init(value: [])
         var photoViewModel : BehaviorRelay<[Photo]> = .init(value: [])
     }
 }

@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 
 /// 필름 뷰 상단 - 헤더셀 입니다
-class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
+final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     /// 필름을 보여주는 콜렉션 뷰입니다
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -116,7 +116,7 @@ class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
             .disposed(by: disposeBag)
         
         viewModel.output.films
-            .map { $0.map { $0.id}}
+            .map { $0.map { $0.uid}}
             .map { "총 \($0.count - 1)개" }
             .asDriver(onErrorJustReturn: "")
             .drive(filmCountButton.rx.title(for: .normal))

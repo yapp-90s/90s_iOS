@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class FilmListPrintTableViewCell: UITableViewCell {
+final class FilmListPrintTableViewCell: UITableViewCell {
     private var printBackgroundView : UIView = {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
@@ -100,10 +100,10 @@ class FilmListPrintTableViewCell: UITableViewCell {
     }
     
     func bindViewModel(film: Film) {
-        filmTypeLabel.text = film.filterType.rawValue
+        filmTypeLabel.text = film.filmType.name.rawValue
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
         }
     }
 }

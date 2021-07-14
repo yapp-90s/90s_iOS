@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// 필름 뷰 상단 - 헤더 셀에서 "내 필름 목록" 을 보여주는 콜렉션 셀입니다
-class FilmMainCollectionViewCell: UICollectionViewCell {
+final class FilmMainCollectionViewCell: UICollectionViewCell {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.layer.cornerRadius = 10
@@ -50,7 +50,7 @@ class FilmMainCollectionViewCell: UICollectionViewCell {
     
     func bindItem(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image()) 
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image()) 
         }
         filmImageLabel.text = film.name
     }

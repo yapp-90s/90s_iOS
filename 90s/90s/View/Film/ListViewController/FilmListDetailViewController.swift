@@ -10,7 +10,7 @@ import SnapKit
 import QBImagePickerController
 
 /// 필름 정보와 사진을 보여주는 VC
-class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -172,17 +172,17 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
     
     func bindViewModel(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
         }
         filmNameLabel.text = film.name
-        filmDateLabel.text = film.createDate
+        filmDateLabel.text = film.createdAt
         filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
         filmTypeLabel.text = film.state.text()
         
         films = film
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
-            let photo = Photo(id: "0000", url: "film_add_photo", date: "")
+            let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
             films?.addAtFirst(photo)
         }
         
