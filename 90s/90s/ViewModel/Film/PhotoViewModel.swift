@@ -24,6 +24,8 @@ final class PhotoViewModel : ViewModelType {
             .bind(to: output.photoViewModel)
             .disposed(by: disposeBag)
         
+        output.photoSectionViewModel.accept([FilmMainSectionModel(header: "", items: setMockData())])
+        
         output.photoViewModel.accept(setMockData())
     }
     

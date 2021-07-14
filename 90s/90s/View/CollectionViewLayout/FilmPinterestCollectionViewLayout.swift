@@ -11,7 +11,7 @@ protocol FilmPinterestLayoutDelegate : AnyObject {
     func collectionView( _ collectionView : UICollectionView, heightForPhotoAtIndexPath indexPath : IndexPath) -> CGFloat
 }
 
-class FilmPinterestLayout: UICollectionViewLayout {
+final class FilmPinterestLayout: UICollectionViewLayout {
     weak var delegate : FilmPinterestLayoutDelegate?
     
     private let numberOfColumns = 2

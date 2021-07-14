@@ -7,10 +7,12 @@
 
 import RxDataSources
 
-struct FilmMainSectionModel : SectionModelType {
+struct FilmMainSectionModel  {
     var header : String
     var items : [Photo]
-    
+}
+
+extension FilmMainSectionModel : SectionModelType {
     typealias Item = Photo
     
     init(original: FilmMainSectionModel, items : [Photo]) {

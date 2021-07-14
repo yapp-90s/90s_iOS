@@ -12,7 +12,7 @@ struct Film {
     let uid: Int
     var name: String
     var filmType : FilmType
-    var user : User
+    var user : User?
     
     let createdAt: String = Date().dateToString()
     var printStartAt : String?

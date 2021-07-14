@@ -10,15 +10,13 @@ import Foundation
 struct FilmFactory {
     func createDefaultData() -> [Film] {
         return [
-//            Film(uid: 0, name: "필름 만들기", filmType: <#T##FilmType#>, user: <#T##User#>, photos: [
-//
+            
+//            Film(uid: 0, name: "필름 만들기", photos: [
+//                Photo(id: 0, url: "test_pic1", date: "\(Date())"),
+//                Photo(id: 1, url: "test_pic1", date: "\(Date())"),
+//                Photo(id: 2, url: "test_pic1", date: "\(Date())")
 //            ], maxCount: 36)
-//            Film(id: "0", name: "필름 만들기", completeDate: "2021.10.10", filterType: .Create, photos: [
-//                Photo(id: "0000", url: "test_pic1", date: "\(Date())"),
-//                Photo(id: "0000", url: "test_pic1", date: "\(Date())"),
-//                Photo(id: "0000", url: "test_pic1", date: "\(Date())")
-//            ]
-//            , maxCount: 36, state: .create),
+//
 //            Film(id: "1", name: "귀여운 필름", completeDate: "2021.10.10", filterType: .Cute, photos: [
 //                Photo(id: "0001", url: "test_pic1", date: "\(Date())"),
 //                Photo(id: "0002", url: "test_pic1", date: "\(Date())"),
