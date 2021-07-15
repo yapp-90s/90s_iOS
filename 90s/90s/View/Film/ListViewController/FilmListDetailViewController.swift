@@ -46,6 +46,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.showsVerticalScrollIndicator = false
         cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         return cv
     }()

@@ -15,14 +15,14 @@ struct Film {
     var user : User?
     
     let createdAt: String = Date().dateToString()
-    var printStartAt : String?
-    var printEndAt: String?
+    var printStartAt : String = ""
+    var printEndAt: String = ""
     
     // - None Network Data
     private(set) var photos: [Photo]
     
     let maxCount: Int
-    var state : FilmStateType = .adding
+    var state : FilmStateType
     
     @discardableResult
     mutating func add(_ photo: Photo) -> Bool {

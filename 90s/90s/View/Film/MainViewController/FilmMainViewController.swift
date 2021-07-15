@@ -51,7 +51,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints {
-            $0.top.bottom.right.left.equalToSuperview()
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -62,16 +62,20 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as! FilmMainPhotoCollectionViewCell
             cell.bindViewModel(image: element.url)
             return cell
-        }, configureSupplementaryView: { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+        })
+        
+        dataSource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as! FilmMainHeaderCollectionViewCell
             header.delegate = self
             return header
-        })
+        }
 
         viewModel.output.photoSectionViewModel
             .bind(to: collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        collectionView.collectionViewLayout = FilmPinterestLayout()
+        let layout = FilmPinterestLayout()
+        layout.delegate = self
+        collectionView.collectionViewLayout = layout
     }
 }
 
@@ -88,10 +92,10 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 
 extension FilmMainViewController : FilmPinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-//        if let image = UIImage(named: viewModel.photoObservable.value[indexPath.item].url) {
-//            print("FilmMainVC - collectionView image : lost image size")
-//            return image.size.height
-//        }
-        return UIImage(named: viewModel.output.photoSectionViewModel.value.first!.items[indexPath.row].url)!.size.height
+        if let index = viewModel.output.photoSectionViewModel.value.first,
+           let image = UIImage(named: index.items[indexPath.row].url) {
+            return image.size.height
+        }
+        return 200
     }
 }

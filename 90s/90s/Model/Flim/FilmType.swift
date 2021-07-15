@@ -8,13 +8,13 @@
 import Foundation
 
 struct FilmType {
-    let uid : Int?
-    let code : Int?
+    let uid : Int = -1
+    let code : Int = -1
     var name : FilmFilterType
-    var description : String?
+    var description : String = ""
     
-    let createdAt : String?
-    var updatedAt : String?
-    var releasedAt : String?
+    let createdAt : String = ""
+    var updatedAt : String = ""
+    var releasedAt : String = ""
 }
 

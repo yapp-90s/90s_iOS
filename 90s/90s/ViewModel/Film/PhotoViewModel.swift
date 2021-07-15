@@ -21,12 +21,10 @@ final class PhotoViewModel : ViewModelType {
         self.dependency = dependency
         
         input.newPhoto
-            .bind(to: output.photoViewModel)
+            .bind(to: output.photoSectionViewModel)
             .disposed(by: disposeBag)
         
         output.photoSectionViewModel.accept([FilmMainSectionModel(header: "", items: setMockData())])
-        
-        output.photoViewModel.accept(setMockData())
     }
     
     private func setMockData() -> [Photo] {
@@ -39,6 +37,9 @@ final class PhotoViewModel : ViewModelType {
             Photo(photoUid: 5, url: "test_pic2", date: "0"),
             Photo(photoUid: 6, url: "test_pic3", date: "0"),
             Photo(photoUid: 7, url: "test_pic4", date: "0"),
+            Photo(photoUid: 8, url: "test_pic1", date: "0"),
+            Photo(photoUid: 9, url: "test_pic2", date: "0"),
+            Photo(photoUid: 10, url: "test_pic3", date: "0"),
         ]
     }
 }
@@ -48,12 +49,11 @@ extension PhotoViewModel {
     }
     
     struct Input {
-        var newPhoto = PublishSubject<[Photo]>()
+        var newPhoto = PublishSubject<[FilmMainSectionModel]>()
     }
     
     struct Output {
         var photoSectionViewModel : BehaviorRelay<[FilmMainSectionModel]> = .init(value: [])
-        var photoViewModel : BehaviorRelay<[Photo]> = .init(value: [])
     }
 }
 

@@ -10,8 +10,8 @@ import UIKit
 
 // 필름에 추가된 후
 struct Photo {
-    let photoUid: Int
-    var filmUid : Int?
+    let photoUid : Int
+    var filmUid : Int = -1
     let url: String
     let date: String
     
