@@ -118,6 +118,7 @@
 		9B3746F326301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */; };
 		9B3746F726301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */; };
 		9B3746FB2630260100E412B0 /* FilmListSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746FA2630260100E412B0 /* FilmListSectionData.swift */; };
+		9B38AC9A26A5A9B5000DD6B5 /* PhotoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */; };
 		9B494FDB2689596B009878E9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B494FDA2689596B009878E9 /* ProfileViewController.swift */; };
 		9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */; };
 		9B5040DE269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5040DD269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift */; };
@@ -285,6 +286,7 @@
 		9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionReusableView.swift; sourceTree = "<group>"; };
 		9B3746FA2630260100E412B0 /* FilmListSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionData.swift; sourceTree = "<group>"; };
+		9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResponse.swift; sourceTree = "<group>"; };
 		9B494FDA2689596B009878E9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmFactory.swift; sourceTree = "<group>"; };
 		9B5040DD269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLeaveTableViewCell.swift; sourceTree = "<group>"; };
@@ -833,6 +835,7 @@
 			children = (
 				9B8EC8A1269EC6ED0010BFA9 /* PhotoAPI.swift */,
 				6521BF8525BC293300580EB5 /* PhotoService.swift */,
+				9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -1218,6 +1221,7 @@
 				65AE123725CFEDF40036147F /* AlbumViewController.swift in Sources */,
 				4C1F80F525F3692E00E98A0B /* DecoratingView.swift in Sources */,
 				65059A6C261CB4880092DB6B /* AlbumProvider.swift in Sources */,
+				9B38AC9A26A5A9B5000DD6B5 /* PhotoResponse.swift in Sources */,
 				6521BF8325BC274100580EB5 /* AlbumService.swift in Sources */,
 				4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */,
 			);
