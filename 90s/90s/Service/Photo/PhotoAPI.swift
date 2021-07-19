@@ -16,18 +16,22 @@ enum PhotoAPI {
 }
 
 extension PhotoAPI : BaseTarget {
-    var path: String {
+    var jwt : String {
+        return "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3Iiwicm9sZXMiOlsiUk9MRV9UUllFUiJdLCJpYXQiOjE2MTI1NzA3MjQsImV4cCI6MjI0MzI5MDcyNH0.UCZtpbxD_3-mUAAtZwphgRSw-ZT7-DIbN2VZFzR0FQo"
+    }
+    
+    var path : String {
         switch self {
         case .download: return "photo/download"
         case .upload: return "photo/upload"
         }
     }
     
-    var method: Method {
+    var method : Method {
         return .post
     }
     
-    var task: Task {
+    var task : Task {
         switch self {
         case .download(let photo):
             return .requestParameters(parameters: ["photoUid" : photo], encoding: JSONEncoding.default)
@@ -39,12 +43,12 @@ extension PhotoAPI : BaseTarget {
         }
     }
     
-    var headers: [String : String]? {
+    var headers : [String : String]? {
         switch self {
         case .download:
             return [
                 "Content-Type" : "application/json",
-                "X-AUTH-TOKEN" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3Iiwicm9sZXMiOlsiUk9MRV9UUllFUiJdLCJpYXQiOjE2MTI1NzA3MjQsImV4cCI6MjI0MzI5MDcyNH0.UCZtpbxD_3-mUAAtZwphgRSw-ZT7-DIbN2VZFzR0FQo",
+                "X-AUTH-TOKEN" : jwt,
                 "Accept" : "application/octet-stream"
             ]
         case .upload:

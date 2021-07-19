@@ -9,7 +9,7 @@ import UIKit
 
 
 // 필름에 추가된 후
-struct Photo {
+struct Photo : Codable {
     let photoUid : Int
     var filmUid : Int = -1
     let url: String

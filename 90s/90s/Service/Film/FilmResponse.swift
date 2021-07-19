@@ -19,12 +19,12 @@ struct FilmResponse: Codable {
     var film: Film {
         return Film(uid: uid,
                     name: name,
-                    filmType: .init(uid: 0, code: 0, name: .Create),
+                    filmType: .init(uid: 0, code: 0, name: .Create, createdAt: Date().toString),
                     user: user,
                     printStartAt: printStartAt,
                     printEndAt: printEndAt,
                     photos: [],
-                    maxCount: 36, // 값 없음
+                    maxCount: 36, // 지정된 값 없음
                     state: .create)
     }
 }

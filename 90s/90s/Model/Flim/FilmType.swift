@@ -13,7 +13,7 @@ struct FilmType : Codable {
     var name : FilmFilterType
     var description : String = ""
     
-    let createdAt : String = ""
+    let createdAt : String 
     var updatedAt : String = ""
     var releasedAt : String = ""
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Film {
+struct Film : Codable {
     let uid: Int
     var name: String
     var filmType : FilmType
@@ -43,7 +43,7 @@ extension Film {
 }
 
 /// Film 제작의 상태표
-enum FilmStateType : Int, Hashable {
+enum FilmStateType : Int, Codable {
     case create = 0
     case adding = 1
     case printing = 2

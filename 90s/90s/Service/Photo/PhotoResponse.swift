@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct PhotoResponse : Codable {
+    var uid : Int
+    var url : String
+    var film : Film
+    var createdAt : String
+    var updatedAt : String
+}
