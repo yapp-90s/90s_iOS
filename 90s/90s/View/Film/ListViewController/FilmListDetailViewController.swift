@@ -184,7 +184,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
             let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
-            films?.addAtFirst(photo)
+            films?.add(photo)
         }
         
         if film.count == 0 {

@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct FilmType {
-    let uid : Int = -1
-    let code : Int = -1
+struct FilmType : Codable {
+    let uid : Int
+    let code : Int
     var name : FilmFilterType
     var description : String = ""
     

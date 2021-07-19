@@ -30,13 +30,6 @@ struct Film {
         photos.append(photo)
         return true
     }
-    
-    @discardableResult
-    mutating func addAtFirst(_ photo : Photo) -> Bool {
-        guard !isFull else { return false }
-        photos.insert(photo, at: 0)
-        return true
-    }
 }
 
 extension Film {
@@ -76,7 +69,7 @@ enum FilmStateType : Int, Hashable {
 }
 
 /// Film 필터 종류
-enum FilmFilterType : String {
+enum FilmFilterType : String, Codable {
     case Create = ""
     case Cold = "차가운 필름"
     case Cute = "귀여운 필름"

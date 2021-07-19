@@ -14,5 +14,20 @@ final class FlimService {
     
     let provider = MoyaProvider<FilmAPI>()
     
+    var filmType : FilmType?
+    var user : User?
+    
     private init() {}
+    
+    func create(film data: FilmAPI.FilmData, completionHandler : @escaping (Result<Film, Error>) -> Void) {
+        provider.request(.create(data)) { result in
+            do {
+                let response = try result.get()
+                let value = try response.map(FilmResponse.self)
+                completionHandler(.success(value.film))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
 }

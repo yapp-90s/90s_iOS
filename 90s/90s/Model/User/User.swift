@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct User {
+struct User : Codable {
     let uid : Int
     var name : String
     var password : String?
@@ -31,6 +31,6 @@ struct User {
     var credentialNonExpired : Bool
 }
 
-enum Roles : String {
+enum Roles : String, Codable {
     case ROLE_TESTER = "ROLE_TESTER"
 }
