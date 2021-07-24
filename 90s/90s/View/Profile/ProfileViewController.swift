@@ -126,7 +126,7 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     private let items = Observable.just([
         ("설정", true),
         ("자주 묻는 질문", false),
-        ("약관 개인정보 처리방침", false)
+        ("약관 · 개인정보 처리방침", false)
     ])
     
     // MARK: - LifeCycle

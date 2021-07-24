@@ -112,5 +112,15 @@ enum FilmFilterType : String, Codable {
         default : return 0xFFFFFF
         }
     }
+    
+    var imageWidth : Int {
+        switch self {
+        case .None : return 60
+        case .Mono : return 80
+        case .MossPink : return 60
+        case .ForgetMeNot : return 80
+        default: return 0
+        }
+    }
 }
 

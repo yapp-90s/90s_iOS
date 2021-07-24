@@ -203,7 +203,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
 
 extension FilmListDetailViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 2 - 24, height: 166)
+        return CGSize(width: view.frame.width / 2 - 24, height: 164)
     }
 }
 

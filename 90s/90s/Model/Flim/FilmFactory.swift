@@ -16,12 +16,12 @@ struct FilmFactory {
                 Photo(photoUid: 2, url: "test_pic1", date: "\(Date())"),
                 Photo(photoUid: 2, url: "test_pic1", date: "\(Date())"),
             ], maxCount: 36, state: .create),
-            Film(uid: 2, name: "귀여운 필름", filmType: .init(uid: 1, code: 0, name: .ForgetMeNot, createdAt: Date().toString), photos: [
+            Film(uid: 2, name: "귀여운 필름", filmType: .init(uid: 1, code: 0, name: .Mono, createdAt: Date().toString), photos: [
                 Photo(photoUid: 3, url: "test_pic3", date: "\(Date())"),
                 Photo(photoUid: 4, url: "test_pic3", date: "\(Date())"),
                 Photo(photoUid: 5, url: "test_pic3", date: "\(Date())"),
             ], maxCount: 36, state: .adding),
-            Film(uid: 2, name: "멋있는 필름", filmType: .init(uid: 3, code: 0, name: .Mono, createdAt: Date().toString), photos: [
+            Film(uid: 2, name: "멋있는 필름", filmType: .init(uid: 3, code: 0, name: .None, createdAt: Date().toString), photos: [
                 Photo(photoUid: 6, url: "test_pic2", date: "\(Date())"),
                 Photo(photoUid: 7, url: "test_pic2", date: "\(Date())"),
                 Photo(photoUid: 8, url: "test_pic2", date: "\(Date())"),
@@ -32,7 +32,7 @@ struct FilmFactory {
                 Photo(photoUid: 9, url: "test_pic4", date: "\(Date())"),
                 Photo(photoUid: 10, url: "test_pic4", date: "\(Date())")
             ], maxCount: 36, state: .printing),
-            Film(uid: 4, name: "차분한 필름", filmType: .init(uid: 5, code: 0, name: .None, createdAt: Date().toString), photos: [
+            Film(uid: 4, name: "차분한 필름", filmType: .init(uid: 5, code: 0, name: .ForgetMeNot, createdAt: Date().toString), photos: [
                 Photo(photoUid: 12, url: "test_pic3", date: "\(Date())"),
                 Photo(photoUid: 13, url: "test_pic3", date: "\(Date())"),
                 Photo(photoUid: 14, url: "test_pic3", date: "\(Date())"),

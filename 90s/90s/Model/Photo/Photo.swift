@@ -30,7 +30,7 @@ extension Photo: Equatable {
     }
     
     var image: UIImage {
-        return UIImage(named: "photo\(Int.random(in: 0...8)).png")!
+        return UIImage(named: "photo\(Int.random(in: 1...4)).png")!
     }
 }
 
