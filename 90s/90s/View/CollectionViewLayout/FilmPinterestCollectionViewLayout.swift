@@ -11,11 +11,10 @@ protocol FilmPinterestLayoutDelegate : AnyObject {
     func collectionView( _ collectionView : UICollectionView, heightForPhotoAtIndexPath indexPath : IndexPath) -> CGFloat
 }
 
-class FilmPinterestLayout: UICollectionViewLayout {
+final class FilmPinterestLayout: UICollectionViewLayout {
     weak var delegate : FilmPinterestLayoutDelegate?
     
     private let numberOfColumns = 2
-    private var numberOfSections = 1
     
     private var cache : [UICollectionViewLayoutAttributes] = []
 
@@ -26,8 +25,18 @@ class FilmPinterestLayout: UICollectionViewLayout {
         return collectionView.bounds.width - (insets.left + insets.right)
     }
     
+    override init() {
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override var collectionViewContentSize: CGSize {
-        return CGSize(width: contentWidth, height: contentHeight)
+        get {
+            return CGSize(width: contentWidth, height: contentHeight)
+        }
     }
     
     override func prepare() {
@@ -36,8 +45,7 @@ class FilmPinterestLayout: UICollectionViewLayout {
     
     private func setUpPinterestLayout(){
         guard cache.isEmpty, let collectionView = collectionView else { return }
-        numberOfSections = collectionView.numberOfSections
-        
+    
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         var xOffset : [CGFloat] = []
         var yOffset : [CGFloat] = Array(repeating: 300, count: numberOfColumns)
@@ -50,11 +58,14 @@ class FilmPinterestLayout: UICollectionViewLayout {
         let headerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: IndexPath(item: 0, section: 0))
         headerAttribute.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 300)
         cache.append(headerAttribute)
-      
+        
         for item in 0..<collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
             
-            let photoHeight = delegate?.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath) ?? 200
+            guard let photoHeight = delegate?.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath) else {
+                print("PinterestLayout : Unable to bring height of image")
+                return
+            }
             let height = 12 + photoHeight
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
            
@@ -77,10 +88,8 @@ class FilmPinterestLayout: UICollectionViewLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         var visibileLayoutAttributes : [UICollectionViewLayoutAttributes] = []
         
-        for attributes in cache {
-            if attributes.frame.intersects(rect) {
-                visibileLayoutAttributes.append(attributes)
-            }
+        for attributes in cache where rect.intersects(attributes.frame) {
+            visibileLayoutAttributes.append(attributes)
         }
         
         return visibileLayoutAttributes

@@ -14,10 +14,14 @@ protocol FilmCreateViewControllerDelegate {
     func popupToFilmCreateVC()
 }
 
-class FilmCreateViewController: BaseViewController {
+final class FilmCreateViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero)
         tv.showsHorizontalScrollIndicator = false
+        tv.separatorStyle = .none
+        tv.rowHeight = 250
+        
+        tv.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
         return tv
     }()
     
@@ -58,10 +62,6 @@ class FilmCreateViewController: BaseViewController {
     }
     
     private func setUpTableView(){
-        tableView.separatorStyle = .none
-        tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
-        tableView.rowHeight = 250
-        
         viewModel.output.films
             .map { $0.filter { $0.state != .create} }
             .bind(to: tableView.rx.items(cellIdentifier: FilmListTableViewCell.cellId, cellType: FilmListTableViewCell.self)) { index, element, cell in

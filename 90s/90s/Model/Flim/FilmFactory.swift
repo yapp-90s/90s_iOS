@@ -10,43 +10,42 @@ import Foundation
 struct FilmFactory {
     func createDefaultData() -> [Film] {
         return [
-            Film(id: "0", name: "필름 만들기", completeDate: "2021.10.10", filterType: .Create, photos: [
-                Photo(id: "0000", url: "test_pic1", date: "\(Date())"),
-                Photo(id: "0000", url: "test_pic1", date: "\(Date())"),
-                Photo(id: "0000", url: "test_pic1", date: "\(Date())")
-            ]
-            , maxCount: 36, state: .create),
-            Film(id: "1", name: "귀여운 필름", completeDate: "2021.10.10", filterType: .Cute, photos: [
-                Photo(id: "0001", url: "test_pic1", date: "\(Date())"),
-                Photo(id: "0002", url: "test_pic1", date: "\(Date())"),
-                Photo(id: "0003", url: "test_pic1", date: "\(Date())")
-            ]
-            , maxCount: 36, state: .adding),
-            Film(id: "2", name: "멋있는 필름", completeDate: "2021.10.10", filterType: .Nice, photos: [
-                Photo(id: "0004", url: "test_pic2", date: "\(Date())"),
-                Photo(id: "0005", url: "test_pic2", date: "\(Date())"),
-                Photo(id: "0006", url: "test_pic2", date: "\(Date())")
-            ]
-            , maxCount: 3, state: .adding),
-            Film(id: "3", name: "차가운 필름", completeDate: "2021.10.10", filterType: .Cold, photos: [
-                Photo(id: "0007", url: "test_pic4", date: "\(Date())"),
-                Photo(id: "0008", url: "test_pic4", date: "\(Date())"),
-                Photo(id: "0009", url: "test_pic4", date: "\(Date())")
-            ]
-            , maxCount: 36, state: .printing),
-            Film(id: "4", name: "차분한 필름", completeDate: "2021.10.10", filterType: .Dandy, photos: [
-                Photo(id: "0010", url: "test_pic3", date: "\(Date())"),
-                Photo(id: "0011", url: "test_pic3", date: "\(Date())"),
-                Photo(id: "0012", url: "test_pic3", date: "\(Date())")
-            ]
-            , maxCount: 36, state: .printing),
-            Film(id: "5", name: "생생한 필름", completeDate: "2021.10.10", filterType: .Nice, photos: [
-                Photo(id: "0013", url: "test_pic1", date: "\(Date())"),
-                Photo(id: "0014", url: "test_pic1", date: "\(Date())"),
-                Photo(id: "0015", url: "test_pic1", date: "\(Date())")
-            ]
-            , maxCount: 36, state: .complete),
-            Film(id: "6", name: "귀여운 필름", completeDate: "2021.10.10", filterType: .Cute, photos: [], maxCount: 36, state: .adding),
+            Film(uid: 0, name: "필름 만들기", filmType: .init(uid: 0, code: 0, name: .Create, createdAt: Date().toString), photos: [
+                Photo(photoUid: 0, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 1, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 2, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 2, url: "test_pic1", date: "\(Date())"),
+            ], maxCount: 36, state: .create),
+            Film(uid: 2, name: "귀여운 필름", filmType: .init(uid: 1, code: 0, name: .Cute, createdAt: Date().toString), photos: [
+                Photo(photoUid: 3, url: "test_pic3", date: "\(Date())"),
+                Photo(photoUid: 4, url: "test_pic3", date: "\(Date())"),
+                Photo(photoUid: 5, url: "test_pic3", date: "\(Date())"),
+            ], maxCount: 36, state: .adding),
+            Film(uid: 2, name: "멋있는 필름", filmType: .init(uid: 3, code: 0, name: .Nice, createdAt: Date().toString), photos: [
+                Photo(photoUid: 6, url: "test_pic2", date: "\(Date())"),
+                Photo(photoUid: 7, url: "test_pic2", date: "\(Date())"),
+                Photo(photoUid: 8, url: "test_pic2", date: "\(Date())"),
+                Photo(photoUid: 8, url: "test_pic2", date: "\(Date())"),
+                Photo(photoUid: 8, url: "test_pic2", date: "\(Date())"),
+            ], maxCount: 3, state: .adding),
+            Film(uid: 3, name: "차가운 필름", filmType: .init(uid: 1, code: 0, name: .Cold, createdAt: Date().toString), photos: [
+                Photo(photoUid: 9, url: "test_pic4", date: "\(Date())"),
+                Photo(photoUid: 10, url: "test_pic4", date: "\(Date())")
+            ], maxCount: 36, state: .printing),
+            Film(uid: 4, name: "차분한 필름", filmType: .init(uid: 5, code: 0, name: .Dandy, createdAt: Date().toString), photos: [
+                Photo(photoUid: 12, url: "test_pic3", date: "\(Date())"),
+                Photo(photoUid: 13, url: "test_pic3", date: "\(Date())"),
+                Photo(photoUid: 14, url: "test_pic3", date: "\(Date())"),
+            ], maxCount: 36, state: .printing),
+            Film(uid: 5, name: "강렬한 필름", filmType: .init(uid: 4, code: 0, name: .Hot, createdAt: Date().toString), photos: [
+                Photo(photoUid: 15, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 16, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 17, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 15, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 16, url: "test_pic1", date: "\(Date())"),
+                Photo(photoUid: 17, url: "test_pic1", date: "\(Date())"),
+            ], maxCount: 36, state: .complete),
+            Film(uid: 6, name: "귀여운 필름", filmType: .init(uid: 2, code: 0, name: .Cute, createdAt: Date().toString), photos: [], maxCount: 36, state: .adding)
         ]
     }
 }

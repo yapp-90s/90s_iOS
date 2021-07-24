@@ -1,47 +1,41 @@
 //
-//  FilmViewModel.swift
+//  FilmsViewModel.swift
 //  90s
 //
-//  Created by 성다연 on 2021/02/15.
+//  Created by 성다연 on 2021/07/19.
 //
 
-import Foundation
 import RxSwift
 import RxCocoa
 
-class FilmsViewModel : ViewModelType {
+final class FilmViewModel : ViewModelType {
     private(set) var dependency : Dependency
     private(set) var input = Input()
     private(set) var output = Output()
-    private(set) var disposeBag = DisposeBag()
- 
-    required init(dependency: Dependency) {
+    
+    let disposeBag = DisposeBag()
+    
+    init(dependency : Dependency) {
         self.dependency = dependency
     }
     
-    func getStateData(state : FilmStateType) -> [Film]{
-        var array : [Film] = []
+    init(repository : FilmRepository) {
+        self.dependency = Dependency(film: repository.films)
+    }
+    
+    deinit {
         
-        output.films
-            .map { $0.filter { $0.state == state }}
-            .subscribe(onNext: {
-                array.append(contentsOf: $0)
-            })
-            .dispose()
-        
-        return array
     }
 }
 
-
-extension FilmsViewModel {
+extension FilmViewModel {
     struct Dependency {
-        var filmFactory = FilmFactory()
+        var film : Observable<[FilmsViewModel]>?
     }
     struct Input {
-        
+        let inputFilm = PublishRelay<Film>()
     }
     struct Output {
-        var films = BehaviorRelay<[Film]>(value: FilmFactory().createDefaultData())
+        var outputFilm : Driver<Film>?
     }
 }

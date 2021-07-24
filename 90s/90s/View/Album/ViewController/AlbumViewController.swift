@@ -39,6 +39,7 @@ class AlbumViewController: UIViewController {
     }()
     
     // MARK: - Property
+    
     private let viewModel: AlbumsViewModel
     private let disposeBag = DisposeBag()
     let sections: [AlbumSection] = [

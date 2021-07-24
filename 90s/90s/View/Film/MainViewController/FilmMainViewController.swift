@@ -9,28 +9,34 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 protocol FilmMainViewControllerDelegate {
     func presentListVC()
     func presentCreateVC()
 }
 
-class FilmMainViewController : BaseViewController {
-    private var collectionView : UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: FilmPinterestLayout())
+
+final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
+    private let collectionView : UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
+        
+        cv.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
+        cv.register(FilmMainPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID)
         return cv
     }()
     
-    private let viewModel = PhotoViewModel()
-    private var photoViewModel = PhotoViewModel().array
-
+    // MARK: Property
+    
+    private let viewModel = PhotoViewModel(dependency: .init())
+    
     // MARK: Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpCollectionView()
-//        setupCollectionViewDataSource()
+        setUpSubviews()
+        setupCollectionViewDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,54 +44,38 @@ class FilmMainViewController : BaseViewController {
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
     }
+    
+    // MARK: Method
 
-    private func setUpCollectionView(){
+    private func setUpSubviews(){
         view.addSubview(collectionView)
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        if let layouts = collectionView.collectionViewLayout as? FilmPinterestLayout {
-            layouts.delegate = self
-        }
-        
-        collectionView.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
-        collectionView.register(FilmMainPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID)
-        
         collectionView.snp.makeConstraints {
-            $0.top.bottom.right.left.equalTo(view.safeAreaLayoutGuide)
+            $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     private func setupCollectionViewDataSource(){
-        viewModel.photoObservable
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmMainPhotoCollectionViewCell.cellID, cellType: FilmMainPhotoCollectionViewCell.self)) { index, item, cell in
-                cell.bindViewModel(image: item.image)
-            }
-            .disposed(by: disposeBag)
-    }
-}
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as! FilmMainPhotoCollectionViewCell
+            cell.bindViewModel(image: element.url)
+            return cell
+        })
+        
+        dataSource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as! FilmMainHeaderCollectionViewCell
+            header.delegate = self
+            return header
+        }
 
-extension FilmMainViewController : UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    // MARK: Header cell setting
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as? FilmMainHeaderCollectionViewCell else { return UICollectionReusableView() }
-        header.delegate = self
-        return header
-    }
-    
-    // MARK: Collectionview setting
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photoViewModel.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as? FilmMainPhotoCollectionViewCell else { return UICollectionViewCell() }
-        cell.bindViewModel(image: photoViewModel[indexPath.row].image)
-        return cell
+        viewModel.output.photoSectionViewModel
+            .bind(to: collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        let layout = FilmPinterestLayout()
+        layout.delegate = self
+        collectionView.collectionViewLayout = layout
     }
 }
 
@@ -102,9 +92,10 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 
 extension FilmMainViewController : FilmPinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        if let image = UIImage(named: photoViewModel[indexPath.item].image) {
+        if let index = viewModel.output.photoSectionViewModel.value.first,
+           let image = UIImage(named: index.items[indexPath.row].url) {
             return image.size.height
         }
-        return 220
+        return 200
     }
 }

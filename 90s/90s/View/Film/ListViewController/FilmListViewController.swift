@@ -13,64 +13,72 @@ import RxDataSources
 
 
 /// 필름 리스트
-class FilmListViewController: BaseViewController {
+final class FilmListViewController: BaseViewController {
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.showsVerticalScrollIndicator = false
         tv.separatorStyle = .none
+        
+        tv.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
+        tv.register(FilmListPrintTableViewCell.self, forCellReuseIdentifier: FilmListPrintTableViewCell.cellID)
+        tv.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.cellID)
+        
         return tv
     }()
     
     private var popUpView : FilmPopupView = {
         let view = FilmPopupView()
         view.isHidden = true
+        
+        view.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
+        view.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
         return view
     }()
     
     private var selectedFilmDeleteButton : UIButton = {
         let btn = UIButton(frame: .zero)
+        btn.isHidden = true
         btn.backgroundColor = .retroOrange
         btn.titleLabel?.font = .boldSystemFont(ofSize: 15)
         btn.setTitle("필름을 선택해주세요", for: .normal)
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0)
-        btn.isHidden = true
         btn.addTarget(self, action: #selector(selectDeleteBtn), for: .touchUpInside)
         return btn
     }()
+    
+    // MARK: - Property
     
     private let viewModel = FilmsViewModel(dependency: .init())
     private var isEditingMode = false
     private var deleteFilmIndexPath : Set<IndexPath> = []
 
-    private var FilmSection : [FilmListSectionData] = []
-    private var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionData>?
+    private var FilmSection : [FilmListSectionModel] = []
+    private var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionModel>?
+    
+    // MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
         setUpSubViews()
+        setUpTableViewData()
         setUpTableViewSection()
     }
     
+    // MARK: - Methods
+    
     private func setUpNavigationBar() {
         setBarButtonItem(type: .textEdit, position: .right, action: #selector(handleNavigationRightButtonEdit))
+        tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
         navigationItem.title = "내 필름"
+        view.backgroundColor = .black
     }
 
     private func setUpSubViews(){
-        tabBarController?.tabBar.isHidden = true
-        navigationController?.navigationBar.isHidden = false
-        view.backgroundColor = .black
-        
         view.addSubview(tableView)
         view.addSubview(selectedFilmDeleteButton)
         view.addSubview(popUpView)
-        
-        tableView.delegate = self
-        tableView.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
-        tableView.register(FilmListPrintTableViewCell.self, forCellReuseIdentifier: FilmListPrintTableViewCell.cellID)
-        tableView.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.cellID)
-        
         
         tableView.snp.makeConstraints {
             $0.top.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -78,30 +86,31 @@ class FilmListViewController: BaseViewController {
         
         selectedFilmDeleteButton.snp.makeConstraints {
             $0.height.equalTo(94)
-            $0.left.right.bottom.equalTo(view)
+            $0.left.right.bottom.equalToSuperview()
         }
         
         popUpView.snp.makeConstraints {
-            $0.edges.equalTo(view)
+            $0.edges.equalToSuperview()
         }
-      
-        popUpView.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
-        popUpView.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
     }
-
-    private func setUpTableViewSection(){
+    
+    private func setUpTableViewData() {
         let filmArray = viewModel.getStateData(state: .adding).filter { $0.count == $0.maxCount }
         if !filmArray.isEmpty {
-            FilmSection.append(FilmListSectionData(header: "", items: filmArray))
+            FilmSection.append(.sectionTimeToPrint(item: filmArray.first!))
         }
         
         FilmSection.append(contentsOf: [
-            FilmListSectionData(header: "", items: viewModel.getStateData(state: .adding)),
-            FilmListSectionData(header: "", items: viewModel.getStateData(state: .printing)),
-            FilmListSectionData(header: "", items: viewModel.getStateData(state: .complete))
+            .sectionAdding(items: viewModel.getStateData(state: .adding)),
+            .sectionPrinting(items: viewModel.getStateData(state: .printing)),
+            .sectionCompleted(items: viewModel.getStateData(state: .complete))
         ])
+    }
+
+    private func setUpTableViewSection(){
+        tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionData> (configureCell: { dataSource, tableView, indexPath, item in
+        dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionModel> (configureCell: { dataSource, tableView, indexPath, item in
             if indexPath.section == 0 && self.FilmSection.count == 4 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: FilmListPrintTableViewCell.cellID) as! FilmListPrintTableViewCell
                 cell.bindViewModel(film: item)
@@ -116,8 +125,6 @@ class FilmListViewController: BaseViewController {
             cell.isEditCellSelected(value: value)
             cell.selectionStyle = .none
             return cell
-        }, titleForHeaderInSection: { dataSource, sectionIndex in
-            return dataSource[sectionIndex].header
         })
         
         Observable.just(FilmSection)
@@ -164,7 +171,7 @@ class FilmListViewController: BaseViewController {
     
     // 개선할 곳 start ~
     @objc private func handleNavigationRightButtonEdit(){
-       handleNavigationRightButton()
+        handleNavigationRightButton()
         setBarButtonItem(type: .textCancle, position: .right, action: #selector(handleNavigationRightButtonCancle))
     }
     
@@ -186,6 +193,7 @@ class FilmListViewController: BaseViewController {
         popUpView.isHidden = false
         popUpView.alpha = 1
         popUpView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        
         UIView.animate(withDuration: 0.5) { [weak self] in
             self?.popUpView.transform = .identity
         }
@@ -217,8 +225,6 @@ extension FilmListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.cellID) as! FilmListSectionHeaderCell
         var value : (String, Bool) = ("", false)
-
-        header.backgroundView = UIView(frame: header.bounds)
         
         switch FilmSection.count < 4 ? section + 1 : section {
         case 0:
@@ -231,6 +237,7 @@ extension FilmListViewController : UITableViewDelegate {
             value = ("인화를 완료했어요", false)
         }
         
+        header.backgroundView = UIView(frame: header.bounds)
         header.bindViewModel(text: value.0)
         header.bindBlackView(hidden: value.1)
         

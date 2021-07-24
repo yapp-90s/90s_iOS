@@ -8,28 +8,26 @@
 import Foundation
 
 
-struct Film {
-    let id: String
+struct Film : Codable {
+    let uid: Int
     var name: String
-    let createDate: String = Date().dateToString()
-    var completeDate: String?
-    var filterType : FilmFilterType
+    var filmType : FilmType
+    var user : User?
+    
+    let createdAt: String = Date().dateToString()
+    var printStartAt : String = ""
+    var printEndAt: String = ""
+    
+    // - None Network Data
     private(set) var photos: [Photo]
     
     let maxCount: Int
-    var state : FilmStateType = .adding
+    var state : FilmStateType
     
     @discardableResult
     mutating func add(_ photo: Photo) -> Bool {
         guard !isFull else { return false }
         photos.append(photo)
-        return true
-    }
-    
-    @discardableResult
-    mutating func addAtFirst(_ photo : Photo) -> Bool {
-        guard !isFull else { return false }
-        photos.insert(photo, at: 0)
         return true
     }
 }
@@ -45,7 +43,7 @@ extension Film {
 }
 
 /// Film 제작의 상태표
-enum FilmStateType : Int, Hashable {
+enum FilmStateType : Int, Codable {
     case create = 0
     case adding = 1
     case printing = 2
@@ -71,7 +69,7 @@ enum FilmStateType : Int, Hashable {
 }
 
 /// Film 필터 종류
-enum FilmFilterType : String {
+enum FilmFilterType : String, Codable {
     case Create = ""
     case Cold = "차가운 필름"
     case Cute = "귀여운 필름"

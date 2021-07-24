@@ -7,9 +7,10 @@
 
 import UIKit
 import SnapKit
+import QBImagePickerController
 
 /// 필름 정보와 사진을 보여주는 VC
-class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -43,7 +44,10 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.showsVerticalScrollIndicator = false
+        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         return cv
     }()
     
@@ -75,7 +79,12 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
         return btn
     }()
     
-    let imagePickerController = UIImagePickerController()
+    private let imagePickerController : QBImagePickerController = {
+        let imagePicker = QBImagePickerController()
+        imagePicker.allowsMultipleSelection = true
+        imagePicker.showsNumberOfSelectedAssets = true
+        return imagePicker
+    }()
     
     private var films : Film?
 
@@ -85,7 +94,7 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
     }
 
     private func setUpSubViews() {
-        view.backgroundColor = .black
+        view.overrideUserInterfaceStyle = .dark
         navigationController?.navigationBar.isHidden = false
        
         view.addSubview(collectionView)
@@ -99,10 +108,11 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
         view.addSubview(emptyImageView)
         view.addSubview(emptyAddMoreButton)
         
-        let safe = view.safeAreaLayoutGuide
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
+        imagePickerController.delegate = self
+        
+        let safe = view.safeAreaLayoutGuide
         
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(134)
@@ -159,27 +169,22 @@ class FilmListDetailViewController: BaseViewController, UIImagePickerControllerD
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
             $0.centerX.equalTo(safe)
         }
-        
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.allowsEditing = true
-        imagePickerController.modalPresentationStyle = .fullScreen
     }
     
     func bindViewModel(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filterType.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
         }
         filmNameLabel.text = film.name
-        filmDateLabel.text = film.createDate
+        filmDateLabel.text = film.createdAt
         filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
         filmTypeLabel.text = film.state.text()
         
         films = film
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
-            let photo = Photo(id: "0000", url: "film_add_photo", date: "")
-            films?.addAtFirst(photo)
+            let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
+            films?.add(photo)
         }
         
         if film.count == 0 {
@@ -221,7 +226,17 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            present(imagePickerController, animated: true, completion: nil)
+            present(imagePickerController, animated: true)
         }
+    }
+}
+
+extension FilmListDetailViewController : QBImagePickerControllerDelegate {
+    func qb_imagePickerControllerDidCancel(_ imagePickerController: QBImagePickerController!) {
+        dismiss(animated: true)
+    }
+    
+    func qb_imagePickerController(_ imagePickerController: QBImagePickerController!, didFinishPickingAssets assets: [Any]!) {
+        dismiss(animated: true)
     }
 }

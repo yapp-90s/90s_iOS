@@ -11,14 +11,14 @@ import RxSwift
 import RxCocoa
 
 /// 필름 리스트를 보여주는 테이블 셀
-class FilmListTableViewCell: UITableViewCell {
-    static let cellId = "filmListCell"
-    
+final class FilmListTableViewCell: UITableViewCell {
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         cv.showsHorizontalScrollIndicator = false
         cv.isUserInteractionEnabled = false
         cv.backgroundColor = UIColor.colorRGBHex(hex: 0x2B2B2E)
+        
+        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         return cv
     }()
     
@@ -79,9 +79,15 @@ class FilmListTableViewCell: UITableViewCell {
         return btn
     }()
     
+    // MARK: - Property
+    
+    static let cellId = "filmListCell"
+    
     private var disposeBag = DisposeBag()
     private var testFilmValue : (Film, Bool)?
-    var isDeleteBtnClicked : Bool = false
+    private var isDeleteBtnClicked : Bool = false
+    
+    // MARK: - Initialize
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -95,6 +101,8 @@ class FilmListTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         filmDeleteButton.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
     }
+    
+    // MARK: - Methods
 
     private func setUpSubViews(){
         addSubview(filmBackgroudImageView)
@@ -109,9 +117,7 @@ class FilmListTableViewCell: UITableViewCell {
         
         backgroundColor = .clear
         collectionView.dataSource = self
-        
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        collectionView.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
        
         filmTitleImageView.snp.makeConstraints {
             $0.width.equalTo(100)
@@ -177,7 +183,7 @@ class FilmListTableViewCell: UITableViewCell {
         testFilmValue = (film, isCreate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmTitleImageView.image = UIImage(named: film.filterType.image())
+            self?.filmTitleImageView.image = UIImage(named: film.filmType.name.image())
             self?.filmTypeImageView.image = UIImage(named: film.state.image())
         }
         filmTitleLabel.text = film.name
@@ -187,13 +193,13 @@ class FilmListTableViewCell: UITableViewCell {
             filmTypeImageView.isHidden = true
             filmNewLabel.isHidden = true
             separateLine.isHidden = false
-            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filterType.printDay())시간 소요"
+            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDay())시간 소요"
         case false:
-            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createDate)" // 전체 개수 리턴하는 함수 필요
+            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createdAt)" // 전체 개수 리턴하는 함수 필요
             separateLine.isHidden = true
         }
         
-        if Date().dateToString() == film.createDate {
+        if Date().dateToString() == film.createdAt {
             filmNewLabel.isHidden = false
         }
     
