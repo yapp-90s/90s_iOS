@@ -51,7 +51,7 @@ final class FilmCreateNameViewController: BaseViewController {
 
     var film: Film! {
         didSet {
-            imageView.image = UIImage(named: film.filmType.name.image())
+            imageView.image = UIImage(named: film.filmType.name.image)
         }
     }
     

@@ -474,8 +474,8 @@
 			isa = PBXGroup;
 			children = (
 				653F7D7F259884D4002CD12A /* Film.swift */,
-				9B8EC869269EBC620010BFA9 /* FilmType.swift */,
 				9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */,
+				9B8EC869269EBC620010BFA9 /* FilmType.swift */,
 				9B3746FA2630260100E412B0 /* FilmListSectionData.swift */,
 			);
 			path = Flim;

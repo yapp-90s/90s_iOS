@@ -173,7 +173,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
     
     func bindViewModel(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
         }
         filmNameLabel.text = film.name
         filmDateLabel.text = film.createdAt
