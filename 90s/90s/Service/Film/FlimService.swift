@@ -30,4 +30,28 @@ final class FlimService {
             }
         }
     }
+    
+    func getFilm(completionHandler : @escaping (Result<[Film], Error>) -> Void) {
+        provider.request(.getFilms) { result in
+            do {
+                let response = try result.get()
+                let value = try response.map([FilmResponse].self)
+                completionHandler(.success(value.map { $0.film }))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func startPrinting(completionHandler : @escaping (Result<Film, Error>) -> Void) {
+        provider.request(.startPrinting) { result in
+            do {
+                let response = try result.get()
+                let value = try response.map(FilmResponse.self)
+                completionHandler(.success(value.film))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
 }

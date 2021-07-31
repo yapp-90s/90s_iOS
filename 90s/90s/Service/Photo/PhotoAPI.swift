@@ -10,19 +10,22 @@ import Moya
 enum PhotoAPI {
     typealias photoUid = (Int)
     typealias photoData = (image: UIImage, filmUid : Int)
+    typealias filmUID = (Int)
     typealias JWT = (String)
     
-    case download(_ data : photoUid)
-    case getPhotoInfosByFilm(_ filmUID : Int)
+    case download(_ photoUID : photoUid)
+    case getPhotoInfosByFilm(_ filmUID : filmUID)
     case upload(_ data : photoData)
+    case delete(_ photoUID : photoUid)
 }
 
 extension PhotoAPI : BaseTarget {
     var path : String {
         switch self {
-        case .download: return "photo/download"
-        case .upload: return "photo/upload"
+        case .download : return "photo/download"
+        case .upload : return "photo/upload"
         case .getPhotoInfosByFilm(let uid) : return "photo/getPhotoInfosByFilm/\(uid)"
+        case .delete(let uid): return "photo/delete/\(uid)"
         }
     }
     
@@ -30,7 +33,7 @@ extension PhotoAPI : BaseTarget {
         switch self {
         case .download, .upload:
             return .post
-        case .getPhotoInfosByFilm:
+        case .getPhotoInfosByFilm, .delete:
             return .get
         }
     }
@@ -45,7 +48,7 @@ extension PhotoAPI : BaseTarget {
                 "image" : photo.image,
                 "filmUid" : photo.filmUid
             ], encoding: JSONEncoding.default)
-        case .getPhotoInfosByFilm:
+        case .getPhotoInfosByFilm, .delete:
             return .requestPlain
         }
     }
@@ -62,7 +65,7 @@ extension PhotoAPI : BaseTarget {
             return [
                 "Content-Type" : "application/json"
             ]
-        case .getPhotoInfosByFilm :
+        case .getPhotoInfosByFilm, .delete :
             return [
                 "X-AUTO-TOKEN" : "\(JWT.self)",
                 "Accept" : "application/json"

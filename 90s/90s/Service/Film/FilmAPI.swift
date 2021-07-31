@@ -74,5 +74,4 @@ extension FilmAPI : BaseTarget {
     var validationType: ValidationType {
         return .successCodes
     }
-    
 }
