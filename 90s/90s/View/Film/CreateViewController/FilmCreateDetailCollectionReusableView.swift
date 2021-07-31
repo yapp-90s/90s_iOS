@@ -17,14 +17,14 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
     }()
     
     private var nameLabel : UILabel = {
-        let label = LabelType.bold_18.create()
-        
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Title
         return label
     }()
     
     private var many_countTimeLabel: UILabel = {
-        let label = LabelType.normal_gray_13.create()
-        
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         return label
     }()
     
@@ -88,11 +88,11 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
     
     func bindViewModel(film: Film) {
         DispatchQueue.main.async { [weak self] in
-            self?.imageView.image = UIImage(named: film.filmType.name.image())
+            self?.imageView.image = UIImage(named: film.filmType.name.image)
         }
         
         nameLabel.text = film.name
-        many_countTimeLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDay())시간 소요"
+        many_countTimeLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDaysCount)시간 소요"
         
         createButton.rx.tap.bind {
             self.delegate?.presentFilmCreateVC(film: film)

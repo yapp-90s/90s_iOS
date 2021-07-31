@@ -19,7 +19,9 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
     }()
     
     private var filmImageLabel : UILabel = {
-        return LabelType.normal_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Head
+        return label
     }()
     
     static let cellID = "filmCell"
@@ -50,7 +52,7 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
     
     func bindItem(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image()) 
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image) 
         }
         filmImageLabel.text = film.name
     }

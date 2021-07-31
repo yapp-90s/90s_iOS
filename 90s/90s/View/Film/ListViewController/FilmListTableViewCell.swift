@@ -12,22 +12,16 @@ import RxCocoa
 
 /// 필름 리스트를 보여주는 테이블 셀
 final class FilmListTableViewCell: UITableViewCell {
-    private var collectionView : UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        cv.showsHorizontalScrollIndicator = false
-        cv.isUserInteractionEnabled = false
-        cv.backgroundColor = UIColor.colorRGBHex(hex: 0x2B2B2E)
-        
-        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
-        return cv
-    }()
-    
     private var filmTitleLabel : UILabel = {
-        return LabelType.bold_16.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Title
+        return label
     }()
     
     private var filmCount_DateLabel : UILabel = {
-        return LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
+        return label
     }()
     
     /// 필름 상태를 보여주는 이미지 뷰
@@ -86,6 +80,8 @@ final class FilmListTableViewCell: UITableViewCell {
     private var disposeBag = DisposeBag()
     private var testFilmValue : (Film, Bool)?
     private var isDeleteBtnClicked : Bool = false
+    private var imageViewArray : [UIImageView] = [
+        .init(frame: .zero), .init(frame: .zero), .init(frame: .zero), .init(frame: .zero)]
     
     // MARK: - Initialize
     
@@ -93,6 +89,7 @@ final class FilmListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -100,6 +97,7 @@ final class FilmListTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         filmDeleteButton.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
+        imageViewArray.forEach { $0.image = nil }
     }
     
     // MARK: - Methods
@@ -107,7 +105,7 @@ final class FilmListTableViewCell: UITableViewCell {
     private func setUpSubViews(){
         addSubview(filmBackgroudImageView)
         addSubview(filmTitleImageView)
-        addSubview(collectionView)
+        
         addSubview(filmTitleLabel)
         addSubview(filmCount_DateLabel)
         addSubview(filmTypeImageView)
@@ -115,10 +113,10 @@ final class FilmListTableViewCell: UITableViewCell {
         addSubview(separateLine)
         addSubview(filmDeleteButton)
         
+        imageViewArray.forEach { addSubview($0) }
+        
         backgroundColor = .clear
-        collectionView.dataSource = self
-        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-       
+        
         filmTitleImageView.snp.makeConstraints {
             $0.width.equalTo(100)
             $0.height.equalTo(140)
@@ -130,14 +128,7 @@ final class FilmListTableViewCell: UITableViewCell {
             $0.left.equalTo(filmTitleImageView.snp.right).offset(-2)
             $0.height.equalTo(110)
             $0.right.equalTo(-28)
-            $0.top.equalTo(30)
-        }
-        
-        collectionView.snp.makeConstraints {
-            $0.left.equalTo(filmTitleImageView.snp.right).offset(10)
-            $0.right.equalTo(filmBackgroudImageView.snp.right)
-            $0.top.equalTo(filmBackgroudImageView.snp.top).offset(15)
-            $0.bottom.equalTo(filmBackgroudImageView.snp.bottom).offset(-15)
+            $0.top.equalTo(32)
         }
         
         filmTitleLabel.snp.makeConstraints {
@@ -152,7 +143,7 @@ final class FilmListTableViewCell: UITableViewCell {
         
         filmTypeImageView.snp.makeConstraints {
             $0.height.equalTo(29)
-            $0.width.equalTo(110)
+            $0.width.equalTo(105)
             $0.top.equalTo(filmBackgroudImageView.snp.bottom).offset(23)
             $0.right.equalTo(-18)
         }
@@ -177,39 +168,51 @@ final class FilmListTableViewCell: UITableViewCell {
             $0.centerY.equalTo(filmBackgroudImageView.snp.centerY)
             $0.right.equalTo(0)
         }
+        
+        imageViewArray.forEach { $0.snp.makeConstraints {
+            $0.height.equalTo(80)
+            $0.centerY.equalTo(filmTitleImageView.snp.centerY)
+        }}
     }
     
     func bindViewModel(film: Film, isCreate: Bool){
         testFilmValue = (film, isCreate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmTitleImageView.image = UIImage(named: film.filmType.name.image())
+            self?.filmTitleImageView.image = UIImage(named: film.filmType.name.image)
             self?.filmTypeImageView.image = UIImage(named: film.state.image())
+            self?.createInsideImages(type: film.filmType.name, photo: film.photos)
         }
+        
         filmTitleLabel.text = film.name
+        separateLine.isHidden = !isCreate
         
         switch isCreate {
         case true:
             filmTypeImageView.isHidden = true
             filmNewLabel.isHidden = true
-            separateLine.isHidden = false
-            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDay())시간 소요"
+            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDaysCount)시간 소요"
         case false:
             filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createdAt)" // 전체 개수 리턴하는 함수 필요
-            separateLine.isHidden = true
         }
         
         if Date().dateToString() == film.createdAt {
             filmNewLabel.isHidden = false
         }
+    }
     
-        collectionView.reloadData()
-        
-        //MARK: TODO - Rx로 아래대로 하면 스크롤 시 멈춤
-//        BehaviorRelay(value: film.photos).bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.filmListCCellId, cellType: FilmListCollectionViewCell.self)) { index, item, cell in
-//            cell.bindViewModel(item: item)
-//        }
-//        .disposed(by: disposeBag)
+    private func createInsideImages(type : FilmFilterType, photo : [Photo]) {
+        let repeatCount = photo.count > 3 ? 4 : photo.count
+       
+        for i in 0..<repeatCount  {
+            imageViewArray[i].image = photo[i].image
+            imageViewArray[i].tag = i
+            
+            imageViewArray[i].snp.makeConstraints {
+                $0.width.equalTo(type.imageWidth)
+                $0.left.equalTo(filmTitleImageView.snp.right).offset(i * (6 + type.imageWidth))
+            }
+        }
     }
     
     func isEditStarted(value: Bool){
@@ -222,34 +225,5 @@ final class FilmListTableViewCell: UITableViewCell {
         DispatchQueue.main.async { [weak self] in
             self?.filmDeleteButton.setImage(UIImage(named: image), for: .normal)
         }
-    }
-}
-
-extension FilmListTableViewCell : UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let item = testFilmValue else { return 0 }
-        return item.0.photos.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
-        
-        if let item = testFilmValue {
-            cell.bindViewModel(item: item.0.photos[indexPath.row], isScaleFill: false)
-        }
-        return cell
-    }
-}
-
-
-extension FilmListTableViewCell : UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 6
-    }
-}
-
-extension FilmListTableViewCell : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 80)
     }
 }

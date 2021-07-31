@@ -31,7 +31,31 @@ final class PhotoService {
         provider.request(.download(data)) { result in
             do {
                 let response = try result.get()
-                let value = try response.map(PhotoAPI.photoUid.self)
+                let value = try response.map(Int.self)
+                completionHandler(.success(value))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func getPhotoInfosByFilm(filmUID data : PhotoAPI.filmUID, completionHandler : @escaping(Result<[PhotoResponse], Error>) -> Void) {
+        provider.request(.getPhotoInfosByFilm(data)) { result in
+            do {
+                let response = try result.get()
+                let value = try response.map([PhotoResponse].self)
+                completionHandler(.success(value))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func delete(filmUID data : PhotoAPI.filmUID, completionHandler : @escaping(Result<Bool, Error>) -> Void) {
+        provider.request(.delete(data)) { result in
+            do {
+                let response = try result.get()
+                let value = try response.map(Bool.self)
                 completionHandler(.success(value))
             } catch {
                 completionHandler(.failure(error))

@@ -10,53 +10,66 @@ import Moya
 enum PhotoAPI {
     typealias photoUid = (Int)
     typealias photoData = (image: UIImage, filmUid : Int)
+    typealias filmUID = (Int)
+    typealias JWT = (String)
     
-    case download(_ data : photoUid)
+    case download(_ photoUID : photoUid)
+    case getPhotoInfosByFilm(_ filmUID : filmUID)
     case upload(_ data : photoData)
+    case delete(_ photoUID : photoUid)
 }
 
 extension PhotoAPI : BaseTarget {
-    var jwt : String {
-        return "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3Iiwicm9sZXMiOlsiUk9MRV9UUllFUiJdLCJpYXQiOjE2MTI1NzA3MjQsImV4cCI6MjI0MzI5MDcyNH0.UCZtpbxD_3-mUAAtZwphgRSw-ZT7-DIbN2VZFzR0FQo"
-    }
-    
     var path : String {
         switch self {
-        case .download: return "photo/download"
-        case .upload: return "photo/upload"
+        case .download : return "photo/download"
+        case .upload : return "photo/upload"
+        case .getPhotoInfosByFilm(let uid) : return "photo/getPhotoInfosByFilm/\(uid)"
+        case .delete(let uid): return "photo/delete/\(uid)"
         }
     }
     
     var method : Method {
-        return .post
+        switch self {
+        case .download, .upload:
+            return .post
+        case .getPhotoInfosByFilm, .delete:
+            return .get
+        }
     }
     
     var task : Task {
         switch self {
-        case .download(let photo):
-            return .requestParameters(parameters: ["photoUid" : photo], encoding: JSONEncoding.default)
-        case .upload(let photo):
+        case .download(let photoUID) :
+            return .requestParameters(parameters: ["photoUid" : photoUID], encoding: JSONEncoding.default)
+        case .upload(let photo) :
+//            return .requestCompositeData(bodyData: <#T##Data#>, urlParameters: <#T##[String : Any]#>)
             return .requestParameters(parameters: [
                 "image" : photo.image,
                 "filmUid" : photo.filmUid
             ], encoding: JSONEncoding.default)
+        case .getPhotoInfosByFilm, .delete:
+            return .requestPlain
         }
     }
     
     var headers : [String : String]? {
         switch self {
-        case .download:
+        case .download :
             return [
                 "Content-Type" : "application/json",
-                "X-AUTH-TOKEN" : jwt,
+                "X-AUTH-TOKEN" : "\(JWT.self)",
                 "Accept" : "application/octet-stream"
             ]
-        case .upload:
+        case .upload :
             return [
                 "Content-Type" : "application/json"
             ]
+        case .getPhotoInfosByFilm, .delete :
+            return [
+                "X-AUTO-TOKEN" : "\(JWT.self)",
+                "Accept" : "application/json"
+            ]
         }
     }
-    
-    
 }

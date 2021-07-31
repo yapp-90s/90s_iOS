@@ -70,34 +70,56 @@ enum FilmStateType : Int, Codable {
 
 /// Film 필터 종류
 enum FilmFilterType : String, Codable {
-    case Create = ""
-    case Cold = "차가운 필름"
-    case Cute = "귀여운 필름"
-    case Nice = "멋진 필름"
-    case Hot = "강렬한 필름"
-    case Dandy = "진지한 필름"
-
-    var id: Int {
+    case Create = "Create"
+    case None = "None"
+    case Mono = "Mono"
+    case MossPink = "MossPink"
+    case ForgetMeNot = "ForgetMeNot"
+    
+    var id : Int {
         self.hashValue
     }
     
-    func printDay() -> Int {
+    var printDaysCount : Int {
+        return 12
+    }
+    
+    var photoCount : Int {
+        return 36
+    }
+    
+    var image : String {
         switch self {
-        case .Cold, .Cute, .Nice, .Hot:
-            return 6
-        case .Dandy:
-            return 12
-        default:
-            return 0
+        case .Create:
+            return "film_default"
+        case .None :
+            return "filmroll_none"
+        case .Mono :
+            return "filmroll_mono"
+        case .MossPink :
+            return "filmroll_mosspink"
+        case .ForgetMeNot :
+            return "filmroll_forgetmenot"
         }
     }
     
-    func image() -> String {
+    var color : Int {
         switch self {
-        case .Create:
-            return "film_create"
-        case .Cold, .Cute, .Nice, .Hot, .Dandy :
-            return "film_default"
+        case .None : return 0x727379
+        case .Mono : return 0x53555A
+        case .MossPink : return 0x8276AF
+        case .ForgetMeNot : return 0x517796
+        default : return 0xFFFFFF
+        }
+    }
+    
+    var imageWidth : Int {
+        switch self {
+        case .None : return 60
+        case .Mono : return 80
+        case .MossPink : return 60
+        case .ForgetMeNot : return 80
+        default: return 0
         }
     }
 }

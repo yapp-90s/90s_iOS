@@ -10,7 +10,9 @@ import SnapKit
 
 final class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
     private var headerTitle : UILabel = {
-        return LabelType.bold_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Head
+        return label
     }()
     
     private var blackView : UILabel = {

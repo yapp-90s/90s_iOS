@@ -16,7 +16,8 @@ class ProfileLeaveTableViewCell: UITableViewCell {
     }()
     
     private let titleLabel : UILabel = {
-        let label = LabelType.bold_16.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Popup_Title
         return label
     }()
     

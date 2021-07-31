@@ -10,7 +10,8 @@ import SnapKit
 
 class ProfileMainTableViewCell: UITableViewCell {
     private let titleLabel : UILabel = {
-        let label = LabelType.normal_16.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Profile_Menu_Text
         label.text = "Title"
         return label
     }()

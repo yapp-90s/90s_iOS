@@ -29,7 +29,8 @@ final class FilmCreateCompleteViewController: BaseViewController {
     }()
     
     private var filmNameLabel : UILabel = {
-        let label = LabelType.bold_18.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Popup_Title
         return label
     }()
     
@@ -291,12 +292,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
     
     func bindViewModel(film : Film) {
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image())
+            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
         }
         
         filmNameLabel.text = film.name
         filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.name.rawValue)
-        filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filmType.name.printDay())시간")
+        filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filmType.name.printDaysCount)시간")
         filmCountLabel = UILabel.createNormalBoldLabel(normal: "사진 개수", bold: "\(film.count)장")
         filmDateLabel = UILabel.createNormalBoldLabel(normal: "생성일", bold: film.createdAt)
     }

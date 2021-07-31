@@ -9,8 +9,12 @@ import Moya
 
 enum FilmAPI {
     typealias FilmData = (filmCode : Int, name : String)
+    typealias JWT = (String)
+    typealias FilmArray = [Film]
     
     case create(_ data : FilmData)
+    case getFilms
+    case startPrinting
 }
 
 
@@ -18,13 +22,26 @@ extension FilmAPI : BaseTarget {
     var path: String {
         switch self {
         case .create: return "film/create"
+        case .getFilms: return "film/getFilms"
+        case .startPrinting: return "film/startPrinting"
         }
     }
     
     var method: Method {
-        return .post
+        switch self {
+        case .create:
+            return .post
+        case .getFilms, .startPrinting:
+            return .get
+        }
     }
     
+    /**
+     기본 요청 : plain request
+     데이터 요청 : data request
+     파라미터 요청 : parameter request
+     업로드 요청 : upload request
+    */
     var task: Task {
         switch self {
         case .create(let film):
@@ -32,6 +49,8 @@ extension FilmAPI : BaseTarget {
                 "filmCode" : film.filmCode,
                 "name" : film.name
             ], encoding: JSONEncoding.default)
+        case .getFilms, .startPrinting:
+            return .requestPlain
         }
     }
     
@@ -40,11 +59,19 @@ extension FilmAPI : BaseTarget {
         case .create:
             return [
                 "Content-Type" : "application/json",
-                "X-AUTO-TOKEN" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3Iiwicm9sZXMiOlsiUk9MRV9UUllFUiJdLCJpYXQiOjE2MTI1NzA3MjQsImV4cCI6MjI0MzI5MDcyNH0.UCZtpbxD_3-mUAAtZwphgRSw-ZT7-DIbN2VZFzR0FQo",
-                "Accept": "application/json"
+                "X-AUTO-TOKEN" : "\(JWT.self)",
+                "Accept" : "application/json"
+            ]
+        case .getFilms, .startPrinting:
+            return [
+                "X-AUTO-TOKEN" : "\(JWT.self)",
+                "Accept" : "application/json"
             ]
         }
     }
     
-    
+    // HTTP code 200 ~ 299 사이인 경우, 요청 성공
+    var validationType: ValidationType {
+        return .successCodes
+    }
 }

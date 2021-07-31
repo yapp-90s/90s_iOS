@@ -30,7 +30,8 @@ final class FilmPopupView: UIView {
     }()
     
     var titleLabel : UILabel = {
-        let label = LabelType.bold_18.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Popup_Title
         label.text = "필름을 정말 삭제하시겠습니까?"
         return label
     }()

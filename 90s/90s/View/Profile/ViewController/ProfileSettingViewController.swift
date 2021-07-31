@@ -31,7 +31,8 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     }()
     
     private let leaveTitleLabel : UILabel = {
-        let label = LabelType.bold_18.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Popup_Title
         label.text = "정말 떠나실 건가요?"
         label.textAlignment = .center
         return label
