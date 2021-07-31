@@ -18,25 +18,29 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
     }()
     
     private var filmNameLabel : UILabel = {
-        let label = LabelType.bold_18.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Title
         label.text = "필름이름"
         return label
     }()
     
     private var filmTypeLabel : UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Small_Text
         label.text = "사진 추가 중"
         return label
     }()
     
     private var filmDateLabel : UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         label.text = "2021.03.14"
         return label
     }()
     
     private var filmCountLabel : UILabel = {
-        let label = LabelType.normal_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Large_Text
         label.text = "0/36장"
         return label
     }()

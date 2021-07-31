@@ -17,7 +17,8 @@ class NavigationBar: UIView {
     }()
     
     var titleLabel : UILabel = {
-        let label = LabelType.normal_16.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Top_Title
         label.text = "Title"
         return label
     }()

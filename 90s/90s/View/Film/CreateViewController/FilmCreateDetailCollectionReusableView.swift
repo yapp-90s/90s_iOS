@@ -17,14 +17,14 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
     }()
     
     private var nameLabel : UILabel = {
-        let label = LabelType.bold_18.create()
-        
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Title
         return label
     }()
     
     private var many_countTimeLabel: UILabel = {
-        let label = LabelType.normal_gray_13.create()
-        
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         return label
     }()
     

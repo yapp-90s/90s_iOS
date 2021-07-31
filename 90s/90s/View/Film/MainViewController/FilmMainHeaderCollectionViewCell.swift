@@ -26,7 +26,8 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     }()
     
     private let filmTitleLabel : UILabel = {
-        let label = LabelType.bold_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Small_Text
         label.text = "내 필름"
         return label
     }()
@@ -42,7 +43,8 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     }()
     
     private let printedTitleLabel : UILabel = {
-        let label = LabelType.bold_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Head
         label.text = "인화된 사진"
         return label
     }()

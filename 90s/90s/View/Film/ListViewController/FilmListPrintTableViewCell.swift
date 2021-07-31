@@ -23,12 +23,14 @@ final class FilmListPrintTableViewCell: UITableViewCell {
     }()
     
     private var filmTypeLabel : UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         return label
     }()
     
     private var printInfoLabel : UILabel = {
-        let label = LabelType.bold_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Large_Text_Bold
         let paragraph = NSMutableParagraphStyle()
         paragraph.lineSpacing = 5.0
         let attribute = NSMutableAttributedString(string: "사진을 모두 채운\n필름이 있어요", attributes: [NSAttributedString.Key.paragraphStyle: paragraph])

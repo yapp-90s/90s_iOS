@@ -13,11 +13,15 @@ import RxCocoa
 /// 필름 리스트를 보여주는 테이블 셀
 final class FilmListTableViewCell: UITableViewCell {
     private var filmTitleLabel : UILabel = {
-        return LabelType.bold_16.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Title
+        return label
     }()
     
     private var filmCount_DateLabel : UILabel = {
-        return LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
+        return label
     }()
     
     /// 필름 상태를 보여주는 이미지 뷰

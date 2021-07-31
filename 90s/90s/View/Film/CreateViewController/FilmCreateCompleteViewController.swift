@@ -29,7 +29,8 @@ final class FilmCreateCompleteViewController: BaseViewController {
     }()
     
     private var filmNameLabel : UILabel = {
-        let label = LabelType.bold_18.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Popup_Title
         return label
     }()
     

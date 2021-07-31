@@ -28,13 +28,15 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     }()
     
     private let nameLabel : UILabel = {
-        let label = LabelType.bold_16.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Title
         label.text = "User Name"
         return label
     }()
     
     private let emailLabel : UILabel = {
-        let label = LabelType.normal_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         label.text = "aaaabbbb@90s.com"
         return label
     }()
@@ -45,37 +47,43 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     }()
     
     private let albumCountLabel : UILabel = {
-        let label = LabelType.normal_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Large_Text
         label.text = "n개"
         return label
     }()
     
     private let photoCountLabel : UILabel = {
-        let label = LabelType.normal_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Large_Text
         label.text = "n장"
         return label
     }()
     
     private let filmCountLabel : UILabel = {
-        let label = LabelType.normal_21.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Large_Text
         label.text = "n통"
         return label
     }()
     
     private let albumInfoLabel: UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         label.text = "앨범"
         return label
     }()
     
     private let photoInfoLabel: UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         label.text = "사진"
         return label
     }()
     
     private let filmInfoLabel: UILabel = {
-        let label = LabelType.normal_gray_13.create()
+        let label = UILabel(frame: .zero)
+        label.font = .Film_Sub_Title
         label.text = "필름"
         return label
     }()

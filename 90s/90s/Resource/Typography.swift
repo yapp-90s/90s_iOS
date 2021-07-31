@@ -8,49 +8,26 @@
 import UIKit
 import Foundation
 
-enum Typography {
-//    static let 
-}
-
-
-// 추후 헤더, 본문, 크기별로 지정
-enum LabelType {
-    case bold_21
-    case bold_16
-    case bold_18
-    case normal_21
-    case normal_16
-    case normal_13
-    case normal_gray_16
-    case normal_gray_13
-    case attr_17
+extension UIFont {
+    static var Head = UIFont.boldSystemFont(ofSize: 21) 
+    static let Large_Text = UIFont.systemFont(ofSize: 20, weight: .regular)
+    static let Large_Text_Bold = UIFont.boldSystemFont(ofSize: 20)
     
-    func create() -> UILabel {
-        let label = UILabel(frame: .zero)
-        
-        switch self {
-        case .bold_21:
-            label.font = UIFont.boldSystemFont(ofSize: 21)
-        case .bold_16:
-            label.font = UIFont.boldSystemFont(ofSize: 16)
-        case .bold_18:
-            label.font = UIFont.boldSystemFont(ofSize: 18)
-        case .normal_21:
-            label.font = label.font.withSize(21)
-        case .normal_16:
-            label.font = label.font.withSize(16)
-        case .normal_13:
-            label.font = label.font.withSize(13)
-        case .normal_gray_16:
-            label.font = label.font.withSize(16)
-            label.textColor = .lightGray
-        case .normal_gray_13:
-            label.font = label.font.withSize(13)
-            label.textColor = .lightGray
-        default:
-            break
-        }
-        return label
-    }
+    static let Sub_Head = UIFont.systemFont(ofSize: 17, weight: .regular)
+    static let Popup_Title = UIFont.boldSystemFont(ofSize: 17)
+    static let Film_Title = UIFont.boldSystemFont(ofSize: 16)
+    static let Top_Title = UIFont.systemFont(ofSize: 15, weight: .regular)
+    
+    static let Profile_Menu_Text = UIFont.systemFont(ofSize: 15, weight: .regular)
+    static let Btn_Text = UIFont.boldSystemFont(ofSize: 15)
+    static let Input_Text = UIFont.boldSystemFont(ofSize: 15)
+    
+    static let Medium_Text = UIFont.systemFont(ofSize: 14, weight: .regular)
+    static let Medium_Text_Bold = UIFont.boldSystemFont(ofSize: 14)
+    
+    static let Btn_Small_Text = UIFont.boldSystemFont(ofSize: 13)
+    static let Film_Sub_Title = UIFont.systemFont(ofSize: 13, weight: .regular)
+    
+    static let Small_Text = UIFont.systemFont(ofSize: 12, weight: .regular)
+    static let Small_Text_Bold = UIFont.boldSystemFont(ofSize: 12)
 }
-
