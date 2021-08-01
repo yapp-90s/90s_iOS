@@ -24,7 +24,6 @@ struct FilmResponse: Codable {
                     printStartAt: printStartAt,
                     printEndAt: printEndAt,
                     photos: [],
-                    maxCount: 36, // 지정된 값 없음
-                    state: .create)
+                    maxCount: 36)
     }
 }

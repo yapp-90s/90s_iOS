@@ -21,13 +21,12 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         cv.showsHorizontalScrollIndicator = false
         
         cv.register(FilmMainCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainCollectionViewCell.cellID)
-        
         return cv
     }()
     
     private let filmTitleLabel : UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .Small_Text
+        label.font = .Head
         label.text = "내 필름"
         return label
     }()
@@ -137,12 +136,12 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
 }
 
 
-extension FilmMainHeaderCollectionViewCell : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension FilmMainHeaderCollectionViewCell : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 18
+        return 16
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 140)
+        return CGSize(width: 80, height: 163)
     }
 }

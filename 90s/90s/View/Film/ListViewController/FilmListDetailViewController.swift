@@ -11,37 +11,39 @@ import QBImagePickerController
 
 /// 필름 정보와 사진을 보여주는 VC
 final class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    private var filmImageView : UIImageView = {
+    private let filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
         return iv
     }()
     
-    private var filmNameLabel : UILabel = {
+    private let filmNameLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Film_Title
         label.text = "필름이름"
         return label
     }()
     
-    private var filmTypeLabel : UILabel = {
+    private let filmTypeLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Small_Text
+        label.textColor = .gray
         label.text = "사진 추가 중"
         return label
     }()
     
-    private var filmDateLabel : UILabel = {
+    private let filmDateLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Film_Sub_Title
+        label.textColor = .gray
         label.text = "2021.03.14"
         return label
     }()
     
-    private var filmCountLabel : UILabel = {
+    private let filmCountLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Large_Text
-        label.text = "0/36장"
+        label.text = "장"
         return label
     }()
     
@@ -55,7 +57,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         return cv
     }()
     
-    private var printButton : UIButton = {
+    private let printButton : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.layer.cornerRadius = 15
         btn.clipsToBounds = true
@@ -66,13 +68,13 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         return btn
     }()
     
-    private var emptyImageView: UIImageView = {
+    private let emptyImageView: UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_photo_empty")
         return iv
     }()
     
-    private var emptyAddMoreButton: UIButton = {
+    private let emptyAddMoreButton: UIButton = {
         let btn = UIButton(frame: .zero)
         btn.layer.cornerRadius = 5
         btn.clipsToBounds = true
@@ -85,6 +87,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
     
     private let imagePickerController : QBImagePickerController = {
         let imagePicker = QBImagePickerController()
+        imagePicker.overrideUserInterfaceStyle = .light
         imagePicker.allowsMultipleSelection = true
         imagePicker.showsNumberOfSelectedAssets = true
         return imagePicker
@@ -95,6 +98,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubViews()
+        setUpButtons()
     }
 
     private func setUpSubViews() {
@@ -119,10 +123,10 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         let safe = view.safeAreaLayoutGuide
         
         filmImageView.snp.makeConstraints {
-            $0.height.equalTo(134)
-            $0.width.equalTo(100)
-            $0.left.equalTo(safe).offset(18)
-            $0.top.equalTo(safe).offset(20)
+            $0.height.equalTo(164)
+            $0.width.equalTo(105)
+            $0.left.equalTo(safe).offset(10)
+            $0.top.equalTo(safe).offset(2)
         }
         
         filmTypeLabel.snp.makeConstraints {
@@ -132,7 +136,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         
         filmNameLabel.snp.makeConstraints {
             $0.top.equalTo(filmTypeLabel.snp.bottom).offset(14)
-            $0.left.equalTo(filmImageView.snp.right).offset(18)
+            $0.left.equalTo(filmImageView.snp.right).offset(17)
         }
         
         filmDateLabel.snp.makeConstraints {
@@ -142,7 +146,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         
         filmCountLabel.snp.makeConstraints {
             $0.top.equalTo(filmDateLabel.snp.bottom).offset(28)
-            $0.left.equalTo(filmImageView.snp.right).offset(18)
+            $0.left.equalTo(filmImageView.snp.right).offset(17)
         }
         
         // hidden
@@ -163,16 +167,22 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         emptyImageView.snp.makeConstraints {
             $0.width.equalTo(163)
             $0.height.equalTo(142)
-            $0.top.equalTo(filmCountLabel.snp.bottom).offset(58)
+            $0.top.equalTo(filmCountLabel.snp.bottom).offset(64)
             $0.centerX.equalTo(safe)
         }
         
         emptyAddMoreButton.snp.makeConstraints {
-            $0.width.equalTo(285)
+            $0.left.equalTo(45)
+            $0.right.equalTo(-45)
             $0.height.equalTo(57)
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
-            $0.centerX.equalTo(safe)
         }
+    }
+    
+    private func setUpButtons() {
+        emptyAddMoreButton.rx.tap.bind {
+            self.present(self.imagePickerController, animated: true)
+        }.disposed(by: disposeBag)
     }
     
     func bindViewModel(film : Film){
@@ -188,7 +198,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
             let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
-            films?.add(photo)
+            films?.addAtFirst(photo)
         }
         
         if film.count == 0 {
@@ -207,7 +217,8 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
 
 extension FilmListDetailViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width / 2 - 24, height: 164)
+        let ratio = collectionView.frame.width / 2 - 5
+        return CGSize(width: ratio, height: ratio)
     }
 }
 

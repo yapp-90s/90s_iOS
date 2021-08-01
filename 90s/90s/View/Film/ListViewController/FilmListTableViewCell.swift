@@ -21,6 +21,7 @@ final class FilmListTableViewCell: UITableViewCell {
     private var filmCount_DateLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Film_Sub_Title
+        label.textColor = .gray
         return label
     }()
     
@@ -111,29 +112,32 @@ final class FilmListTableViewCell: UITableViewCell {
         addSubview(filmTypeImageView)
         addSubview(filmNewLabel)
         addSubview(separateLine)
+        
+        imageViewArray.forEach {
+            addSubview($0)
+            $0.backgroundColor = .Cool_Lightgray
+        }
+        
         addSubview(filmDeleteButton)
-        
-        imageViewArray.forEach { addSubview($0) }
-        
         backgroundColor = .clear
         
         filmTitleImageView.snp.makeConstraints {
             $0.width.equalTo(100)
-            $0.height.equalTo(140)
-            $0.left.equalTo(18)
-            $0.top.equalTo(18)
+            $0.height.equalTo(164)
+            $0.left.equalTo(11)
+            $0.top.equalTo(0)
         }
         
         filmBackgroudImageView.snp.makeConstraints {
-            $0.left.equalTo(filmTitleImageView.snp.right).offset(-2)
+            $0.left.equalTo(filmTitleImageView.snp.right).offset(-5)
             $0.height.equalTo(110)
-            $0.right.equalTo(-28)
-            $0.top.equalTo(32)
+            $0.right.equalTo(-18)
+            $0.top.equalTo(34)
         }
         
         filmTitleLabel.snp.makeConstraints {
             $0.left.equalTo(20)
-            $0.top.equalTo(filmTitleImageView.snp.bottom).offset(8)
+            $0.top.equalTo(filmTitleImageView.snp.bottom).offset(3)
         }
         
         filmCount_DateLabel.snp.makeConstraints {
@@ -143,15 +147,15 @@ final class FilmListTableViewCell: UITableViewCell {
         
         filmTypeImageView.snp.makeConstraints {
             $0.height.equalTo(29)
-            $0.width.equalTo(105)
-            $0.top.equalTo(filmBackgroudImageView.snp.bottom).offset(23)
+            $0.width.equalTo(111)
+            $0.top.equalTo(filmBackgroudImageView.snp.bottom).offset(28)
             $0.right.equalTo(-18)
         }
         
         filmNewLabel.snp.makeConstraints {
             $0.width.equalTo(37)
             $0.height.equalTo(18)
-            $0.top.equalTo(filmTitleImageView.snp.bottom).offset(9)
+            $0.top.equalTo(filmTitleImageView.snp.bottom).offset(4)
             $0.left.equalTo(filmTitleLabel.snp.right).offset(5)
         }
         
@@ -169,10 +173,12 @@ final class FilmListTableViewCell: UITableViewCell {
             $0.right.equalTo(0)
         }
         
-        imageViewArray.forEach { $0.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.centerY.equalTo(filmTitleImageView.snp.centerY)
-        }}
+        imageViewArray.forEach {
+            $0.snp.makeConstraints {
+                $0.height.equalTo(80)
+                $0.centerY.equalTo(filmTitleImageView.snp.centerY).offset(6.5)
+            }
+        }
     }
     
     func bindViewModel(film: Film, isCreate: Bool){
@@ -193,7 +199,7 @@ final class FilmListTableViewCell: UITableViewCell {
             filmNewLabel.isHidden = true
             filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDaysCount)시간 소요"
         case false:
-            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount) · \(film.createdAt)" // 전체 개수 리턴하는 함수 필요
+            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
         }
         
         if Date().dateToString() == film.createdAt {
@@ -210,7 +216,7 @@ final class FilmListTableViewCell: UITableViewCell {
             
             imageViewArray[i].snp.makeConstraints {
                 $0.width.equalTo(type.imageWidth)
-                $0.left.equalTo(filmTitleImageView.snp.right).offset(i * (6 + type.imageWidth))
+                $0.left.equalTo(filmTitleImageView.snp.right).offset(i * (6 + type.imageWidth) + 6)
             }
         }
     }
@@ -222,6 +228,7 @@ final class FilmListTableViewCell: UITableViewCell {
     
     func isEditCellSelected(value: Bool) {
         let image = value ? "film_edit_select" : "film_edit_unselect"
+        
         DispatchQueue.main.async { [weak self] in
             self?.filmDeleteButton.setImage(UIImage(named: image), for: .normal)
         }

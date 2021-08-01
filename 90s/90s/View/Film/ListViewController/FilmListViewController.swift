@@ -14,7 +14,7 @@ import RxDataSources
 
 /// 필름 리스트
 final class FilmListViewController: BaseViewController {
-    private var tableView : UITableView = {
+    private let tableView : UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.showsVerticalScrollIndicator = false
         tv.separatorStyle = .none
@@ -26,7 +26,7 @@ final class FilmListViewController: BaseViewController {
         return tv
     }()
     
-    private var popUpView : FilmPopupView = {
+    private let popUpView : FilmPopupView = {
         let view = FilmPopupView()
         view.isHidden = true
         
@@ -35,7 +35,7 @@ final class FilmListViewController: BaseViewController {
         return view
     }()
     
-    private var selectedFilmDeleteButton : UIButton = {
+    private let selectedFilmDeleteButton : UIButton = {
         let btn = UIButton(frame: .zero)
         btn.isHidden = true
         btn.backgroundColor = .retroOrange
@@ -79,7 +79,7 @@ final class FilmListViewController: BaseViewController {
         view.addSubview(tableView)
         view.addSubview(selectedFilmDeleteButton)
         view.addSubview(popUpView)
-        
+            
         tableView.snp.makeConstraints {
             $0.top.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
@@ -95,9 +95,18 @@ final class FilmListViewController: BaseViewController {
     }
     
     private func setUpTableViewData() {
+        // 바로 인화하기
         let filmArray = viewModel.getStateData(state: .adding).filter { $0.count == $0.maxCount }
         if !filmArray.isEmpty {
             FilmSection.append(.sectionTimeToPrint(item: filmArray.first!))
+        }
+        
+        if !viewModel.getStateData(state: .adding).isEmpty {
+            FilmSection.append(.sectionAdding(items: viewModel.getStateData(state: .adding)))
+        } else if !viewModel.getStateData(state: .printing).isEmpty {
+            FilmSection.append(.sectionPrinting(items: viewModel.getStateData(state: .printing)))
+        } else if !viewModel.getStateData(state: .complete).isEmpty {
+            FilmSection.append(.sectionCompleted(items: viewModel.getStateData(state: .complete)))
         }
         
         FilmSection.append(contentsOf: [
@@ -130,7 +139,6 @@ final class FilmListViewController: BaseViewController {
         Observable.just(FilmSection)
             .bind(to: tableView.rx.items(dataSource: dataSource!))
             .disposed(by: disposeBag)
-        
         
         tableView.rx.modelSelected(Film.self)
             .subscribe(onNext: { [weak self] item in
@@ -252,7 +260,7 @@ extension FilmListViewController : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.section == 0 && FilmSection.count == 4 ? 360 : 215
+        return indexPath.section == 0 && FilmSection.count == 4 ? 360 : 210
     }
 }
 

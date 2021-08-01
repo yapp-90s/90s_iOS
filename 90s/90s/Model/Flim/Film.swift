@@ -7,27 +7,37 @@
 
 import Foundation
 
-
 struct Film : Codable {
     let uid: Int
     var name: String
     var filmType : FilmType
     var user : User?
     
-    let createdAt: String = Date().dateToString()
-    var printStartAt : String = ""
-    var printEndAt: String = ""
+    var createdAt = Date().toString
+    var printStartAt : String?
+    var printEndAt: String?
     
     // - None Network Data
     private(set) var photos: [Photo]
     
     let maxCount: Int
-    var state : FilmStateType
+    
+    var state : FilmStateType {
+        get {
+            if maxCount == -1 {
+                return .create
+            } else if let startPrint = printStartAt, photos.count >= maxCount {
+                return startPrint.isEmpty ? .complete : .printing
+            } else {
+                return .adding
+            }
+        }
+    }
     
     @discardableResult
-    mutating func add(_ photo: Photo) -> Bool {
+    mutating func addAtFirst(_ photo: Photo) -> Bool {
         guard !isFull else { return false }
-        photos.append(photo)
+        photos.insert(photo, at: 0)
         return true
     }
 }
