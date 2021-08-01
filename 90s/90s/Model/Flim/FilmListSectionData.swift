@@ -39,6 +39,37 @@ enum FilmListSectionModel : SectionModelType {
         }
     }
     
+    var name : String {
+        switch self {
+        case .sectionTimeToPrint:
+            return "인화할 시간!"
+        case .sectionAdding:
+            return "사진을 추가하고 있어요"
+        case .sectionPrinting:
+            return "지금 인화하고 있어요"
+        case .sectionCompleted:
+            return "인화를 완료했어요"
+        }
+    }
+    
+    var heightForSection : CGFloat {
+        switch self {
+        case .sectionTimeToPrint:
+            return 70
+        default:
+            return 50
+        }
+    }
+    
+    var heightForRow : CGFloat {
+        switch self {
+        case .sectionTimeToPrint:
+            return 360
+        default:
+            return 210
+        }
+    }
+    
     init(original: FilmListSectionModel, items: [Film]) {
         switch original {
         case .sectionTimeToPrint(let item):

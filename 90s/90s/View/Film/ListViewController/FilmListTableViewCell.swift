@@ -208,7 +208,7 @@ final class FilmListTableViewCell: UITableViewCell {
     }
     
     private func createInsideImages(type : FilmFilterType, photo : [Photo]) {
-        let repeatCount = photo.count > 3 ? 4 : photo.count
+        let repeatCount = min(photo.count, type.maxCountImageView)
        
         for i in 0..<repeatCount  {
             imageViewArray[i].image = photo[i].image

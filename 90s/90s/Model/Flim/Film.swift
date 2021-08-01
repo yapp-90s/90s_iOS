@@ -26,8 +26,8 @@ struct Film : Codable {
         get {
             if maxCount == -1 {
                 return .create
-            } else if let startPrint = printStartAt, photos.count >= maxCount {
-                return startPrint.isEmpty ? .complete : .printing
+            } else if photos.count >= maxCount {
+                return printStartAt != nil ? .complete : .printing
             } else {
                 return .adding
             }
@@ -70,10 +70,10 @@ enum FilmStateType : Int, Codable {
     
     func text() -> String {
         switch self {
-        case .create, .adding:
-            return "사진 추가 중"
-        case .printing, .complete:
-            return "인화완료"
+        case .create: return ""
+        case .adding: return "사진 추가 중"
+        case .printing: return "인화중"
+        case .complete: return "인화완료"
         }
     }
 }
@@ -100,16 +100,11 @@ enum FilmFilterType : String, Codable {
     
     var image : String {
         switch self {
-        case .Create:
-            return "film_default"
-        case .None :
-            return "filmroll_none"
-        case .Mono :
-            return "filmroll_mono"
-        case .MossPink :
-            return "filmroll_mosspink"
-        case .ForgetMeNot :
-            return "filmroll_forgetmenot"
+        case .Create : return "film_default"
+        case .None : return "filmroll_none"
+        case .Mono : return "filmroll_mono"
+        case .MossPink : return "filmroll_mosspink"
+        case .ForgetMeNot : return "filmroll_forgetmenot"
         }
     }
     
@@ -129,6 +124,14 @@ enum FilmFilterType : String, Codable {
         case .Mono : return 80
         case .MossPink : return 60
         case .ForgetMeNot : return 80
+        default: return 0
+        }
+    }
+    
+    var maxCountImageView : Int {
+        switch self {
+        case .None, .MossPink : return 4
+        case .Mono, .ForgetMeNot: return 3
         default: return 0
         }
     }
