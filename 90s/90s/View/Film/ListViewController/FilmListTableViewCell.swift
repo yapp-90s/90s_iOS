@@ -98,7 +98,7 @@ final class FilmListTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         filmDeleteButton.setImage(UIImage(named: "film_edit_unselect"), for: .normal)
-        imageViewArray.forEach { $0.image = nil }
+        imageViewArray.forEach { $0.image = nil}
     }
     
     // MARK: - Methods
@@ -115,7 +115,6 @@ final class FilmListTableViewCell: UITableViewCell {
         
         imageViewArray.forEach {
             addSubview($0)
-            $0.backgroundColor = .Cool_Lightgray
         }
         
         addSubview(filmDeleteButton)
@@ -211,12 +210,20 @@ final class FilmListTableViewCell: UITableViewCell {
         let repeatCount = min(photo.count, type.maxCountImageView)
        
         for i in 0..<repeatCount  {
-            imageViewArray[i].image = photo[i].image
+            imageViewArray[i].image = UIImage(named: photo[i].url)
             imageViewArray[i].tag = i
             
             imageViewArray[i].snp.makeConstraints {
                 $0.width.equalTo(type.imageWidth)
                 $0.left.equalTo(filmTitleImageView.snp.right).offset(i * (6 + type.imageWidth) + 6)
+            }
+        }
+        
+        if repeatCount < 4 {
+            for i in repeatCount..<4 {
+                imageViewArray[i].snp.remakeConstraints {
+                    $0.width.equalTo(0)
+                }
             }
         }
     }

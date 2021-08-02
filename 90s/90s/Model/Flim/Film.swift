@@ -40,6 +40,10 @@ struct Film : Codable {
         photos.insert(photo, at: 0)
         return true
     }
+    
+    static func ==(rhs: Film, lhs: Film) -> Bool {
+        return rhs.uid == lhs.uid && rhs.name == lhs.name
+    }
 }
 
 extension Film {

@@ -30,8 +30,8 @@ final class FilmListViewController: BaseViewController {
         let view = FilmPopupView()
         view.isHidden = true
         
-        view.leftBtn.addTarget(self, action: #selector(popUpLeftBtn), for: .touchUpInside)
-        view.rightBtn.addTarget(self, action: #selector(popUpRightBtn), for: .touchUpInside)
+        view.leftBtn.addTarget(self, action: #selector(popUpAnimation), for: .touchUpInside)
+        view.rightBtn.addTarget(self, action: #selector(popUpDeleteButton), for: .touchUpInside)
         return view
     }()
     
@@ -48,7 +48,7 @@ final class FilmListViewController: BaseViewController {
     
     // MARK: - Property
     
-    private let viewModel = FilmsViewModel(dependency: .init())
+    private var viewModel = FilmListViewModel(dependency: .init())
     private var isEditingMode = false
     private var isTimeToPrintExist = false
     private var deleteFilmIndexPath : Set<IndexPath> = []
@@ -57,7 +57,16 @@ final class FilmListViewController: BaseViewController {
     private var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionModel>?
     
     // MARK: - LifeCycle
-
+    
+    init(viewModel: FilmListViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
@@ -96,22 +105,22 @@ final class FilmListViewController: BaseViewController {
     }
     
     private func setUpTableViewData() {
-        // 바로 인화하기
-        let filmArray = viewModel.getStateData(state: .printing).filter { $0.printStartAt == nil }
-        if !filmArray.isEmpty {
-            FilmSection.append(.sectionTimeToPrint(item: filmArray.first!))
-            isTimeToPrintExist = true
-        }
+        viewModel.output.film_timeToPrint.subscribe(onNext: { data in
+            self.FilmSection.append(.sectionTimeToPrint(item: data.first!))
+            self.isTimeToPrintExist = true
+        }).disposed(by: disposeBag)
         
-        if !viewModel.getStateData(state: .adding).isEmpty {
-            FilmSection.append(.sectionAdding(items: viewModel.getStateData(state: .adding)))
-        }
-        if !viewModel.getStateData(state: .printing).isEmpty {
-            FilmSection.append(.sectionPrinting(items: viewModel.getStateData(state: .printing)))
-        }
-        if !viewModel.getStateData(state: .complete).isEmpty {
-            FilmSection.append(.sectionCompleted(items: viewModel.getStateData(state: .complete)))
-        }
+        viewModel.output.film_adding.subscribe(onNext: { data in
+            self.FilmSection.append(.sectionAdding(items: data))
+        }).disposed(by: disposeBag)
+        
+        viewModel.output.film_printing.subscribe(onNext: { data in
+            self.FilmSection.append(.sectionPrinting(items: data))
+        }).disposed(by: disposeBag)
+        
+        viewModel.output.film_complete.subscribe(onNext: { data in
+            self.FilmSection.append(.sectionCompleted(items: data))
+        }).disposed(by: disposeBag)
     }
 
     private func setUpTableViewSection(){
@@ -141,7 +150,7 @@ final class FilmListViewController: BaseViewController {
         tableView.rx.modelSelected(Film.self)
             .subscribe(onNext: { [weak self] item in
                 if let bool = self?.isEditingMode {
-                    if !bool, item.count != item.maxCount {
+                    if !bool {
                         let nextVC = FilmListDetailViewController()
                         nextVC.bindViewModel(film: item)
                         self?.navigationController?.pushViewController(nextVC, animated: true)
@@ -197,7 +206,7 @@ final class FilmListViewController: BaseViewController {
         }
     }
     
-    @objc private func popUpLeftBtn(){
+    @objc private func popUpAnimation(){
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.popUpView.popupView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
         }, completion: { _ in
@@ -207,16 +216,9 @@ final class FilmListViewController: BaseViewController {
         handleNavigationRightButton()
     }
     
-    @objc private func popUpRightBtn(){
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
-            self?.popUpView.popupView.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-        }, completion: { _ in
-            self.popUpView.isHidden = true
-            self.popUpView.popupView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        })
+    @objc private func popUpDeleteButton(){
+        popUpAnimation()
         
-        handleNavigationRightButton()
-        print("need delete code")
     }
 }
 

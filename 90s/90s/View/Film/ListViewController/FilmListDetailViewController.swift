@@ -71,6 +71,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
     private let emptyImageView: UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_photo_empty")
+        iv.isHidden = true
         return iv
     }()
     
@@ -82,6 +83,7 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         btn.setTitle("사진 추가하기", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .retroOrange
+        btn.isHidden = true
         return btn
     }()
     
@@ -199,17 +201,16 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         if film.maxCount != film.photos.count && film.photos.count > 0 {
             let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
             films?.addAtFirst(photo)
+        } else {
+            printButton.isHidden = true
         }
         
         if film.count == 0 {
             emptyImageView.isHidden = false
             emptyAddMoreButton.isHidden = false
             printButton.isHidden = true
-        } else {
-            emptyImageView.isHidden = true
-            emptyAddMoreButton.isHidden = true
-            printButton.isHidden = false
         }
+        
         collectionView.reloadData()
     }
 }
