@@ -133,11 +133,10 @@ final class FilmCreateNameViewController: BaseViewController {
     
     private func setUpCompleteButton(){
         completeButton.rx.tap.bind {
-            let nextVC = FilmCreateCompleteViewController()
-            self.film.name = self.filmName
-            nextVC.film = self.film
+            guard var newFilm = self.film else { return }
+            newFilm.name = self.filmName
+            let nextVC = FilmCreateCompleteViewController(film: newFilm)
             nextVC.delegate = self.delegate
-            nextVC.bindViewModel(film: self.film)
             self.navigationController?.pushViewController(nextVC, animated: true)
         }.disposed(by: disposeBag)
     }
