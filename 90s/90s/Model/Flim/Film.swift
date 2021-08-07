@@ -7,28 +7,42 @@
 
 import Foundation
 
-
 struct Film : Codable {
     let uid: Int
     var name: String
     var filmType : FilmType
     var user : User?
     
-    let createdAt: String = Date().dateToString()
-    var printStartAt : String = ""
-    var printEndAt: String = ""
+    var createdAt = Date().toString
+    var printStartAt : String?
+    var printEndAt: String?
     
     // - None Network Data
     private(set) var photos: [Photo]
     
     let maxCount: Int
-    var state : FilmStateType
+    
+    var state : FilmStateType {
+        get {
+            if maxCount == -1 {
+                return .create
+            } else if photos.count >= maxCount {
+                return printStartAt != nil ? .complete : .printing
+            } else {
+                return .adding
+            }
+        }
+    }
     
     @discardableResult
-    mutating func add(_ photo: Photo) -> Bool {
+    mutating func addAtFirst(_ photo: Photo) -> Bool {
         guard !isFull else { return false }
-        photos.append(photo)
+        photos.insert(photo, at: 0)
         return true
+    }
+    
+    static func ==(rhs: Film, lhs: Film) -> Bool {
+        return rhs.uid == lhs.uid && rhs.name == lhs.name
     }
 }
 
@@ -60,10 +74,10 @@ enum FilmStateType : Int, Codable {
     
     func text() -> String {
         switch self {
-        case .create, .adding:
-            return "사진 추가 중"
-        case .printing, .complete:
-            return "인화완료"
+        case .create: return ""
+        case .adding: return "사진 추가 중"
+        case .printing: return "인화중"
+        case .complete: return "인화완료"
         }
     }
 }
@@ -90,16 +104,11 @@ enum FilmFilterType : String, Codable {
     
     var image : String {
         switch self {
-        case .Create:
-            return "film_default"
-        case .None :
-            return "filmroll_none"
-        case .Mono :
-            return "filmroll_mono"
-        case .MossPink :
-            return "filmroll_mosspink"
-        case .ForgetMeNot :
-            return "filmroll_forgetmenot"
+        case .Create : return "film_default"
+        case .None : return "filmroll_none"
+        case .Mono : return "filmroll_mono"
+        case .MossPink : return "filmroll_mosspink"
+        case .ForgetMeNot : return "filmroll_forgetmenot"
         }
     }
     
@@ -119,6 +128,14 @@ enum FilmFilterType : String, Codable {
         case .Mono : return 80
         case .MossPink : return 60
         case .ForgetMeNot : return 80
+        default: return 0
+        }
+    }
+    
+    var maxCountImageView : Int {
+        switch self {
+        case .None, .MossPink : return 4
+        case .Mono, .ForgetMeNot: return 3
         default: return 0
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 import SnapKit
 
 final class FilmListPrintTableViewCell: UITableViewCell {
@@ -13,24 +14,27 @@ final class FilmListPrintTableViewCell: UITableViewCell {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
         view.layer.cornerRadius = 5
-        view.backgroundColor = .warmGray
+        view.backgroundColor = .Cool_Gray
         return view
     }()
     
     private var filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
+        iv.contentMode = .scaleAspectFit
         return iv
     }()
     
     private var filmTypeLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Film_Sub_Title
+        label.textColor = .gray
         return label
     }()
     
     private var printInfoLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Large_Text_Bold
+        
         let paragraph = NSMutableParagraphStyle()
         paragraph.lineSpacing = 5.0
         let attribute = NSMutableAttributedString(string: "사진을 모두 채운\n필름이 있어요", attributes: [NSAttributedString.Key.paragraphStyle: paragraph])
@@ -55,14 +59,14 @@ final class FilmListPrintTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setSubViews()
+        setUpSubViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setSubViews() {
+    private func setUpSubViews() {
         addSubview(printBackgroundView)
         addSubview(filmImageView)
         addSubview(filmTypeLabel)
@@ -77,20 +81,20 @@ final class FilmListPrintTableViewCell: UITableViewCell {
         }
         
         filmImageView.snp.makeConstraints {
-            $0.width.equalTo(57)
-            $0.height.equalTo(79)
-            $0.top.equalTo(46)
-            $0.centerX.equalTo(self.snp.centerX)
+            $0.width.equalTo(67)
+            $0.height.equalTo(105)
+            $0.top.equalTo(printBackgroundView.snp.top).offset(20)
+            $0.centerX.equalTo(printBackgroundView.snp.centerX)
         }
         
         filmTypeLabel.snp.makeConstraints {
             $0.centerX.equalTo(self.snp.centerX)
-            $0.top.equalTo(filmImageView.snp.bottom).offset(25)
+            $0.top.equalTo(filmImageView.snp.bottom).offset(4)
         }
         
         printInfoLabel.snp.makeConstraints {
             $0.centerX.equalTo(self.snp.centerX)
-            $0.top.equalTo(filmTypeLabel.snp.bottom).offset(10)
+            $0.top.equalTo(filmTypeLabel.snp.bottom).offset(11)
         }
         
         printButton.snp.makeConstraints {

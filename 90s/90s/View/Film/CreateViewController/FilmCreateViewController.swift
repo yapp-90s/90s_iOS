@@ -27,6 +27,7 @@ final class FilmCreateViewController: BaseViewController {
     
     private let filmCreateInfoLabel : UILabel = {
         let label = UILabel.createSpacingLabel(text: "필름을\n선택해주세요")
+        label.font = .Sub_Head
         return label
     }()
     

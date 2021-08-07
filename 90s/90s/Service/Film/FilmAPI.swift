@@ -59,12 +59,12 @@ extension FilmAPI : BaseTarget {
         case .create:
             return [
                 "Content-Type" : "application/json",
-                "X-AUTO-TOKEN" : "\(JWT.self)",
+                "X-AUTH-TOKEN" : "\(JWT.self)",
                 "Accept" : "application/json"
             ]
         case .getFilms, .startPrinting:
             return [
-                "X-AUTO-TOKEN" : "\(JWT.self)",
+                "X-AUTH-TOKEN" : "\(JWT.self)",
                 "Accept" : "application/json"
             ]
         }

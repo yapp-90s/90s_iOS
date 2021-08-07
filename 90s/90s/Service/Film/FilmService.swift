@@ -8,9 +8,9 @@
 import Moya
 import RxSwift
 
-final class FlimService {
+final class FilmService {
     
-    static let shared = FlimService()
+    static let shared = FilmService()
     
     let provider = MoyaProvider<FilmAPI>()
     

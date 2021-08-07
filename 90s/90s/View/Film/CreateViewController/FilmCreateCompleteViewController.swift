@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 import QBImagePickerController
 
 final class FilmCreateCompleteViewController: BaseViewController {
@@ -121,15 +122,25 @@ final class FilmCreateCompleteViewController: BaseViewController {
         return ip
     }()
     
-    var film : Film!
+    var film : Film
     var delegate : FilmCreateViewControllerDelegate?
     private var isPopUpAppeared = false
+    
+    init(film : Film) {
+        self.film = film
+        super.init(nibName: nil, bundle: nil)
+        bindViewModel(film: film)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubViews()
         setUpPopUpSubViews()
-        handleCompleteButton()
+        handleButton()
     }
 
     private func setUpSubViews(){
@@ -250,12 +261,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }
     }
     
-    private func handleCompleteButton(){
+    private func handleButton(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(sender:)))
         view.addGestureRecognizer(tap)
         
         completeButton.rx.tap.bind {
-            self.updatePopUpView()
+            self.handleCompleteButton()
         }.disposed(by: disposeBag)
         
         popUpCancleButton.rx.tap.bind {
@@ -266,6 +277,20 @@ final class FilmCreateCompleteViewController: BaseViewController {
             self.present(self.imagePicker, animated: true, completion: nil)
             self.updatePopUpView()
         }.disposed(by: disposeBag)
+    }
+    
+    private func handleCompleteButton(){
+        updatePopUpView()
+        
+        FilmService.shared.create(film: (film.uid, film.name)) { result in
+            print("input :", self.film.uid, self.film.name)
+            switch result {
+            case let .success(response) :
+                print("FilmCreate - success request")
+            case let .failure(error) :
+                print("FilmCreate - error on creating film :", error)
+            }
+        }
     }
     
     private func updatePopUpView(){

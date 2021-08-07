@@ -82,7 +82,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
 
 extension FilmMainViewController : FilmMainViewControllerDelegate {
     func presentListVC() {
-        navigationController?.pushViewController(FilmListViewController(), animated: true)
+        navigationController?.pushViewController(FilmListViewController(viewModel: .init(dependency: .init())), animated: true)
     }
     func presentCreateVC() {
         navigationController?.pushViewController(FilmCreateViewController(), animated: true)
