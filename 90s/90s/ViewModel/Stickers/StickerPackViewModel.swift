@@ -42,11 +42,11 @@ class StickerPackViewModel: ViewModelType {
 extension StickerPackViewModel {
     struct Dependency {
         weak var photoDecorateViewModel: PhotoDecorateViewModel?
-        var stickerPack: StickerPack
+        var stickerPack: StickerPackType
     }
     
     struct Input {
-        var fetchStickers = PublishSubject<StickerPack>()
+        var fetchStickers = PublishSubject<StickerPackType>()
         var addSticker = PublishSubject<Int>()
     }
     

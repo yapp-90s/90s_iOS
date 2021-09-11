@@ -8,13 +8,13 @@
 import Foundation
 
 struct StickerFactory {
-    func stickerPackList(of category: StickerPackCategory) -> [StickerPack] {
+    func stickerPackList(of category: StickerPackCategory) -> [StickerPackType] {
         switch category {
             case .basic: return [
-                StickerPack(name: "설날",
-                            thumbnailImageName: "film_default",
-                            stickers: (0...10).map { _ in Sticker(imageName: "film_default") },
-                            category: .basic),
+                DrawingStickerPack(),
+                GeometricStickerPack(),
+                RibbonStickerPack(),
+                TapeStickerPack()
             ]
             case .charactersAndNumbers: return []
             case .season: return []

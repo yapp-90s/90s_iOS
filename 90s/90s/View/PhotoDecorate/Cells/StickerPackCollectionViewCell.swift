@@ -62,7 +62,7 @@ class StickerPackCollectionViewCell: UICollectionViewCell {
         
     }
     
-    func configure(pack: StickerPack) {
+    func configure(pack: StickerPackType) {
         nameLabel.text = pack.name
         imageView.image = UIImage(named: pack.thumbnailImageName)
     }
