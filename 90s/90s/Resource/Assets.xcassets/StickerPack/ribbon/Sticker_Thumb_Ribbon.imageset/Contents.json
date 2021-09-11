@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Sticker_Thumb_Geometric.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Sticker_Thumb_Geometric@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Sticker_Thumb_Geometric@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
