@@ -21,6 +21,12 @@ class BaseViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    deinit {
+        #if DEBUG
+        print("deinit: \(self)")
+        #endif
+    }
+    
     func setBarButtonItem(type: BarButtonType, position: BarButtonPosition, action: Selector? = nil) {
         
         var barButtonItem: UIBarButtonItem?
