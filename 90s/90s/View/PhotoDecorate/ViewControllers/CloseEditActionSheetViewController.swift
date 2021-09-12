@@ -37,19 +37,21 @@ class CloseEditActionSheetViewController: BaseViewController {
         return stackView
     }()
     
-    private var cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("취소하기", for: .normal)
         button.backgroundColor = .Cool_Lightgray
         button.layer.cornerRadius = 6
+        button.addTarget(self, action: #selector(self.tappedCancelButton), for: .touchUpInside)
         return button
     }()
     
-    private var closeButton: UIButton = {
+    private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setTitle("종료하기", for: .normal)
         button.backgroundColor = .retroOrange
         button.layer.cornerRadius = 6
+        button.addTarget(self, action: #selector(self.tappedCloseButton), for: .touchUpInside)
         return button
     }()
     
@@ -75,6 +77,7 @@ class CloseEditActionSheetViewController: BaseViewController {
     override func viewDidLoad() {
         self.transitioningDelegate = self
         self.setupViews()
+        self.bind()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -110,6 +113,34 @@ class CloseEditActionSheetViewController: BaseViewController {
             maker.bottom.equalTo(self.buttonsBackgroundStackView.snp.top)
             maker.centerX.equalToSuperview()
         }
+    }
+    
+    private func bind() {
+        self.viewModel.output.cancel
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        self.viewModel.output.close
+            .subscribe(onNext: { [weak self] _ in
+                // TODO: pop 시키는건지 아예 편집쪽 종료하는건지 체크
+                let navigationViewController = self?.presentingViewController as? UINavigationController
+                self?.dismiss(animated: true) {
+                    navigationViewController?.popViewController(animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    @objc
+    private func tappedCancelButton() {
+        self.viewModel.input.tappedCancelButton.onNext(())
+    }
+    
+    @objc
+    private func tappedCloseButton() {
+        self.viewModel.input.tappedCloseButton.onNext(())
     }
     
     fileprivate func showActionSheet() {
