@@ -101,6 +101,10 @@ class AddAlbumViewController: BaseViewController {
         setupLayouts()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     // MARK: - Initialize
     
     private func bind() {
@@ -110,6 +114,12 @@ class AddAlbumViewController: BaseViewController {
         
         viewModel.output.isLoading
             .bind(to: indicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.output.showCloseEdit
+            .subscribe(onNext: { [weak self] in
+                self?.showCloseEditActionSheet()
+            })
             .disposed(by: disposeBag)
     }
     
@@ -123,6 +133,8 @@ class AddAlbumViewController: BaseViewController {
         supplementaryView.addSubview(addingContentsView)
         [addToAlbumButton, downloadButton, shareButton].forEach { addingContentsView.addSubview($0) }
         photoView.addSubview(indicator)
+        
+        setBarButtonItem(type: .imgClose, position: .right, action: #selector(tappedCloseBarButton))
     }
     
     private func setupLayouts() {
@@ -173,5 +185,15 @@ class AddAlbumViewController: BaseViewController {
         indicator.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
+    }
+    
+    private func showCloseEditActionSheet() {
+        let closeEditActionSheetViewController = CloseEditActionSheetViewController(viewModel: CloseEditActionSheetViewModel(dependency: .init()))
+        closeEditActionSheetViewController.modalPresentationStyle = .overFullScreen
+        self.present(closeEditActionSheetViewController, animated: true, completion: nil)
+    }
+    
+    @objc private func tappedCloseBarButton() {
+        self.viewModel.input.tappedCloseButton.onNext(())
     }
 }
