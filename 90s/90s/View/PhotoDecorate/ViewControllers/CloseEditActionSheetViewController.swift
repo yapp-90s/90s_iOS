@@ -8,17 +8,9 @@
 import UIKit
 import SnapKit
 
-class CloseEditActionSheetViewController: BaseViewController {
+class CloseEditActionSheetViewController: ActionSheetViewController {
     
     // MARK: - Views
-    
-    private var actionSheetBackgroundView: UIView = {
-        let view = UIView()
-        view.isUserInteractionEnabled = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .Cool_Gray
-        return view
-    }()
     
     private var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -58,9 +50,6 @@ class CloseEditActionSheetViewController: BaseViewController {
     // MARK: - Properties
     
     let viewModel: CloseEditActionSheetViewModel
-    fileprivate var isPresenting = false
-    fileprivate var actionSheetTopConstraint: Constraint?
-    fileprivate var actionSheetBottomConstraint: Constraint?
     
     // MARK: - View Life Cycle
     
@@ -75,32 +64,18 @@ class CloseEditActionSheetViewController: BaseViewController {
     }
     
     override func viewDidLoad() {
-        self.transitioningDelegate = self
+        super.viewDidLoad()
         self.setupViews()
         self.bind()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first, touch.view == self.view {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
     private func setupViews() {
-        self.view.backgroundColor = .black.withAlphaComponent(0.5)
+        self.actionSheetHeight = 270
         
-        self.view.addSubview(self.actionSheetBackgroundView)
-        self.actionSheetBackgroundView.addSubview(self.descriptionLabel)
-        self.actionSheetBackgroundView.addSubview(self.buttonsBackgroundStackView)
+        self.actionSheetContentView.addSubview(self.descriptionLabel)
+        self.actionSheetContentView.addSubview(self.buttonsBackgroundStackView)
         self.buttonsBackgroundStackView.addArrangedSubview(cancelButton)
         self.buttonsBackgroundStackView.addArrangedSubview(closeButton)
-        
-        self.actionSheetBackgroundView.snp.makeConstraints { maker in
-            maker.leading.trailing.equalToSuperview()
-            maker.height.equalTo(270)
-            self.actionSheetBottomConstraint = maker.top.equalTo(self.view.snp.bottom).constraint
-            self.actionSheetBottomConstraint?.activate()
-        }
         
         self.buttonsBackgroundStackView.snp.makeConstraints { maker in
             maker.leading.trailing.equalToSuperview().inset(18)
@@ -141,55 +116,5 @@ class CloseEditActionSheetViewController: BaseViewController {
     @objc
     private func tappedCloseButton() {
         self.viewModel.input.tappedCloseButton.onNext(())
-    }
-    
-    fileprivate func showActionSheet() {
-        self.view.alpha = 1
-        self.actionSheetBottomConstraint?.update(inset: self.actionSheetBackgroundView.frame.height)
-    }
-    
-    fileprivate func hideActionSheet() {
-        self.view.alpha = 0
-        self.actionSheetBottomConstraint?.update(inset: 0)
-    }
-}
-
-extension CloseEditActionSheetViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
-    
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 1
-    }
-    
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
-        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-        guard let toVC = toViewController else { return }
-        self.isPresenting = !self.isPresenting
-        
-        self.view.layoutIfNeeded()
-        if isPresenting {
-            containerView.addSubview(toVC.view)
-            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut], animations: {
-                self.showActionSheet()
-                self.view.layoutIfNeeded()
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        } else {
-            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut], animations: {
-                self.hideActionSheet()
-                self.view.layoutIfNeeded()
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        }
     }
 }
