@@ -26,6 +26,12 @@ class AddAlbumViewModel: ViewModelType {
             })
             .disposed(by: disposeBag)
         
+        self.input.tappedCloseButton
+            .subscribe(onNext: { [weak self] _ in
+                self?.output.showCloseEdit.onNext(())
+            })
+            .disposed(by: disposeBag)
+        
         dependency.imageService.saveCompletion
             .subscribe(onNext: { [weak self] response in
                 self?.responseImageService(response)
@@ -51,10 +57,12 @@ extension AddAlbumViewModel {
     
     struct Input {
         var downloadImage = PublishSubject<Void>()
+        var tappedCloseButton = PublishSubject<Void>()
     }
     
     struct Output {
         var decoratedImage: BehaviorRelay<Data>
         var isLoading = BehaviorSubject<Bool>(value: false)
+        var showCloseEdit = PublishSubject<Void>()
     }
 }
