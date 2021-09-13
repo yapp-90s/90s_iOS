@@ -9,18 +9,18 @@ import Foundation
 
 enum StickerPackCategory: CaseIterable {
     case basic
-    case brink
-    case dark
-    case cuty
+    case charactersAndNumbers
+    case season
+    case trip
 }
 
 extension StickerPackCategory: CustomStringConvertible {
     var description: String {
         switch self {
-            case .basic: return "기본기본"
-            case .brink: return "화려화려"
-            case .dark: return "다크다크"
-            case .cuty: return "귀염귀염"
+            case .basic: return "베이직"
+            case .charactersAndNumbers: return "문자&숫자"
+            case .season: return "계절"
+            case .trip: return "여행"
         }
     }
 }

@@ -134,7 +134,7 @@ class StickerPackListViewController: BaseViewController {
         }
     }
     
-    private func presentStickerPack(for stickerPack: StickerPack) {
+    private func presentStickerPack(for stickerPack: StickerPackType) {
         self.definesPresentationContext = true
         let stickerPackVC = StickerPackViewController(viewModel: StickerPackViewModel(dependency: .init(photoDecorateViewModel: viewModel.dependency.photoDecorateViewModel,
                                                                                                         stickerPack: stickerPack)))

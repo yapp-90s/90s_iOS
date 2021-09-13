@@ -48,7 +48,7 @@ extension StickerPackListViewModel {
 
     struct Output {
         var currentCategory = BehaviorRelay<StickerPackCategory>(value: .basic)
-        var stickerPackList = BehaviorRelay<[StickerPack]>(value: [])
-        var showStickersOfPack = PublishSubject<StickerPack>()
+        var stickerPackList = BehaviorRelay<[StickerPackType]>(value: [])
+        var showStickersOfPack = PublishSubject<StickerPackType>()
     }
 }
