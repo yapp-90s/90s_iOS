@@ -30,6 +30,9 @@ class ActionSheetViewController: BaseViewController, ActionSheetViewControllerTy
     var actionSheetContentView: UIView = {
         let view = UIView()
         view.backgroundColor = .Cool_Gray
+        view.layer.masksToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.cornerRadius = 12
         return view
     }()
     
