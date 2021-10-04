@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		36529073270823710060BEDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529072270823710060BEDE /* LoginViewController.swift */; };
+		36529077270AEA770060BEDE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529076270AEA770060BEDE /* Reusable.swift */; };
 		36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */; };
 		36817CAE26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */; };
 		36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */; };
@@ -175,6 +176,7 @@
 /* Begin PBXFileReference section */
 		18EEE8FA90593B4DB4FD2BD8 /* Pods-90s.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.debug.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.debug.xcconfig"; sourceTree = "<group>"; };
 		36529072270823710060BEDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		36529076270AEA770060BEDE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewController.swift; sourceTree = "<group>"; };
 		36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewModel.swift; sourceTree = "<group>"; };
 		36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				4CBF1797260F1A8F005ED4F8 /* Date+.swift */,
 				4C554FD926214F2F001C90C3 /* CGPoint+.swift */,
 				9BC35EEA26314A310062B24C /* UILabel+.swift */,
+				36529076270AEA770060BEDE /* Reusable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1106,6 +1109,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36529077270AEA770060BEDE /* Reusable.swift in Sources */,
 				36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */,
 				9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */,
 				4CBF1798260F1A8F005ED4F8 /* Date+.swift in Sources */,
