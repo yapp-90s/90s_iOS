@@ -23,6 +23,12 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
         return collectionView
     }()
     
+    fileprivate lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.numberOfPages = self.introContents.count
+        return pageControl
+    }()
+    
     fileprivate var buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
@@ -85,14 +91,9 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     private func setupViews() {
-        self.view.addSubview(self.introCollectionView)
         self.view.addSubview(self.buttonsStackView)
-        
-        self.introCollectionView.snp.makeConstraints { maker in
-            maker.top.equalTo(self.view.safeAreaLayoutGuide).offset(43)
-            maker.leading.trailing.equalToSuperview()
-            maker.bottom.equalTo(self.buttonsStackView.snp.top).offset(-26)
-        }
+        self.view.addSubview(self.pageControl)
+        self.view.addSubview(self.introCollectionView)
         
         let loginButtons = [self.kakaoLoginButton, self.googleLoginButton, self.appleLoginButton]
         let buttonLogos = ["kakao_logo", "google_logo", "apple_logo"].map { UIImage(named: $0) }
@@ -118,6 +119,18 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
                 maker.width.height.equalTo(25)
             }
         }
+        
+        self.pageControl.snp.makeConstraints { maker in
+            maker.bottom.equalTo(self.buttonsStackView.snp.top).offset(-55)
+            maker.centerX.equalToSuperview()
+        }
+        
+        self.introCollectionView.snp.makeConstraints { maker in
+            maker.top.equalTo(self.view.safeAreaLayoutGuide).offset(43)
+            maker.leading.trailing.equalToSuperview()
+            maker.bottom.equalTo(self.pageControl.snp.top)
+        }
+        
     }
     
     private func setupCollectionView() {
@@ -143,6 +156,11 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     // MARK: - UICollectionView DataSource, UICollectionView Delegate
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        self.pageControl.currentPage = page
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.introContents.count

@@ -74,7 +74,7 @@ class IntroCollectionViewCell: UICollectionViewCell {
         self.imageView.snp.makeConstraints { maker in
             maker.top.equalTo(self.subTitleLabel.snp.bottom).offset(9)
             maker.leading.trailing.equalToSuperview().inset(30)
-            maker.bottom.equalToSuperview().inset(51)
+            maker.bottom.equalToSuperview().inset(14)
         }
     }
 }
