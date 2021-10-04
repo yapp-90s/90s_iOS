@@ -7,9 +7,21 @@
 
 import UIKit
 
-class LoginViewController: BaseViewController {
+class LoginViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: - Views
+    
+    fileprivate var introCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = .zero
+        flowLayout.minimumInteritemSpacing = .zero
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
+    }()
     
     fileprivate var buttonsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -48,22 +60,47 @@ class LoginViewController: BaseViewController {
         button.addTarget(self, action: #selector(appleLoginDidTap), for: .touchUpInside)
         return button
     }()
-
+    
+    // MARK: - Properties
+    
+    let introContents: [IntroCollectionViewCell.IntroContents] = [
+        .init(title: "Z에게 보내는\n나의 오래된 사진첩, 오렌지",
+              subTitle: "한 장 한 장 소중히 간직했던 그때 그\n감성으로 즐기는 나만의 사진첩",
+              imageName: "img_onboarding01"),
+        .init(title: "마음에 드는\n앨범 커버를 골라보세요",
+              subTitle: "트렌디한 스타일부터\n내 취향 저격한 스타일까지",
+              imageName: "img_onboarding02"),
+        .init(title: "내 사진이 빛나는 순간,\n템플릿과 스티커로 꾸미기",
+              subTitle: "소중한 내 사진을 더욱 돋보이게할\n템플릿을 선택하고 스티커로 화룡점정!",
+              imageName: "img_onboarding03"),
+        .init(title: "필름으로 만나는\n느림의 바이브",
+              subTitle: "원하는 느낌의 필름으로 인화하고\n기다리던 그때의 경험을 즐겨보세요",
+              imageName: "img_onboarding04")
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
+        self.setupCollectionView()
     }
     
     private func setupViews() {
-        self.view.addSubview(buttonsStackView)
-        let loginButtons = [kakaoLoginButton, googleLoginButton, appleLoginButton]
+        self.view.addSubview(self.introCollectionView)
+        self.view.addSubview(self.buttonsStackView)
+        
+        self.introCollectionView.snp.makeConstraints { maker in
+            maker.top.equalTo(self.view.safeAreaLayoutGuide).offset(43)
+            maker.leading.trailing.equalToSuperview()
+            maker.bottom.equalTo(self.buttonsStackView.snp.top).offset(-26)
+        }
+        
+        let loginButtons = [self.kakaoLoginButton, self.googleLoginButton, self.appleLoginButton]
         let buttonLogos = ["kakao_logo", "google_logo", "apple_logo"].map { UIImage(named: $0) }
         
         self.buttonsStackView.snp.makeConstraints { maker in
             maker.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(18)
             maker.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(75)
         }
-        
         
         zip(loginButtons, buttonLogos).forEach { (button, logo) in
             self.buttonsStackView.addArrangedSubview(button)
@@ -83,6 +120,13 @@ class LoginViewController: BaseViewController {
         }
     }
     
+    private func setupCollectionView() {
+        self.introCollectionView.dataSource = self
+        self.introCollectionView.delegate = self
+        
+        self.introCollectionView.register(reusable: IntroCollectionViewCell.self)
+    }
+    
     @objc
     private func kakaoLoginDidTap(_ sender: UIButton) {
         
@@ -96,5 +140,21 @@ class LoginViewController: BaseViewController {
     @objc
     private func appleLoginDidTap(_ sender: UIButton) {
         
+    }
+    
+    // MARK: - UICollectionView DataSource, UICollectionView Delegate
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.introContents.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(IntroCollectionViewCell.self, forIndexPath: indexPath)
+        cell.configure(contents: self.introContents[indexPath.item])
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.bounds.size
     }
 }
