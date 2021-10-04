@@ -23,6 +23,7 @@ class LoginViewController: BaseViewController {
         let button = UIButton()
         button.setTitle("카카오톡으로 로그인", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .Medium_Text_Bold
         button.backgroundColor = UIColor(hexString: "FEE233")
         button.addTarget(self, action: #selector(kakaoLoginDidTap(_:)), for: .touchUpInside)
         return button
@@ -32,6 +33,7 @@ class LoginViewController: BaseViewController {
         let button = UIButton()
         button.setTitle("구글로 로그인", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .Medium_Text_Bold
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(googleLoginDidTap(_:)), for: .touchUpInside)
         return button
@@ -41,6 +43,7 @@ class LoginViewController: BaseViewController {
         let button = UIButton()
         button.setTitle("Apple로 로그인", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .Medium_Text_Bold
         button.backgroundColor = .Cool_Gray
         button.addTarget(self, action: #selector(appleLoginDidTap), for: .touchUpInside)
         return button
