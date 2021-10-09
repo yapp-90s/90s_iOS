@@ -13,6 +13,7 @@
 		36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */; };
 		36817CAE26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */; };
 		36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */; };
+		368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27ED27116D5D0082089A /* LoginViewModel.swift */; };
 		368F27F127116F5C0082089A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F027116F5C0082089A /* LoginService.swift */; };
 		368F27F4271170C20082089A /* LoginOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F3271170C20082089A /* LoginOAuth.swift */; };
 		4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D025F337C200E98A0B /* BaseViewController.swift */; };
@@ -184,6 +185,7 @@
 		36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewController.swift; sourceTree = "<group>"; };
 		36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewModel.swift; sourceTree = "<group>"; };
 		36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
+		368F27ED27116D5D0082089A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		368F27F027116F5C0082089A /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		368F27F3271170C20082089A /* LoginOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuth.swift; sourceTree = "<group>"; };
 		49A656A105DAD88678F2DDC4 /* Pods_90s.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_90s.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -373,6 +375,14 @@
 			children = (
 				36529072270823710060BEDE /* LoginViewController.swift */,
 				36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		368F27EC27116D540082089A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				368F27ED27116D5D0082089A /* LoginViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1225,6 +1235,7 @@
 				65EBDF8126186A7F00E51612 /* AlbumCreateSection.swift in Sources */,
 				9BAFD43F26A54F3300561E34 /* FilmResponse.swift in Sources */,
 				65D9505B26216C7C00A78826 /* AlbumCreateCellViewModel.swift in Sources */,
+				368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */,
 				653F7D7C2598849B002CD12A /* Album.swift in Sources */,
 				4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */,
 				654C7470259C4872007B1D4A /* AlbumCover.swift in Sources */,
