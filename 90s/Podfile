@@ -14,14 +14,6 @@ target '90s' do
  pod 'RealmSwift'
  pod 'SwiftLint'
  pod 'Moya'
-
- pod 'KakaoSDK'
- pod 'RxKakaoSDKCommon'
- pod 'KakaoSDKAuth'
- pod 'RxKakaoSDKAuth'
- pod 'KakaoSDKUser'
- pod 'RxKakaoSDKUser'
- 
  
  # Film - temporary custom gallery
  pod 'QBImagePickerController'

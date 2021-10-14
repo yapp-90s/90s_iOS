@@ -84,19 +84,6 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
               imageName: "img_onboarding04")
     ]
     
-    private let viewModel: LoginViewModel
-    
-    // MARK: - View Life Cycle
-    
-    init(viewModel: LoginViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
@@ -155,7 +142,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     @objc
     private func kakaoLoginDidTap(_ sender: UIButton) {
-        self.viewModel.requestLogin(type: .kakao)
+        
     }
     
     @objc
