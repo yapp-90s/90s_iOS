@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36529073270823710060BEDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529072270823710060BEDE /* LoginViewController.swift */; };
+		36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */; };
+		36529077270AEA770060BEDE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529076270AEA770060BEDE /* Reusable.swift */; };
 		36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */; };
 		36817CAE26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */; };
 		36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */; };
@@ -174,6 +177,9 @@
 
 /* Begin PBXFileReference section */
 		18EEE8FA90593B4DB4FD2BD8 /* Pods-90s.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.debug.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.debug.xcconfig"; sourceTree = "<group>"; };
+		36529072270823710060BEDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroCollectionViewCell.swift; sourceTree = "<group>"; };
+		36529076270AEA770060BEDE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewController.swift; sourceTree = "<group>"; };
 		36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewModel.swift; sourceTree = "<group>"; };
 		36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -360,6 +366,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36529071270823070060BEDE /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				36529072270823710060BEDE /* LoginViewController.swift */,
+				36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		4C1F80CF25F3379800E98A0B /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +447,7 @@
 				4CBF1797260F1A8F005ED4F8 /* Date+.swift */,
 				4C554FD926214F2F001C90C3 /* CGPoint+.swift */,
 				9BC35EEA26314A310062B24C /* UILabel+.swift */,
+				36529076270AEA770060BEDE /* Reusable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -654,6 +670,7 @@
 		65AE123425CFEDAA0036147F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				36529071270823070060BEDE /* Login */,
 				4C1F80CF25F3379800E98A0B /* Common */,
 				4CE649F025E0DEC80093D238 /* PhotoDecorate */,
 				652BC1C825E0D62A00DC8E90 /* Film */,
@@ -1098,6 +1115,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36529077270AEA770060BEDE /* Reusable.swift in Sources */,
 				36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */,
 				9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */,
 				4CBF1798260F1A8F005ED4F8 /* Date+.swift in Sources */,
@@ -1161,6 +1179,7 @@
 				65426FC525B2FD68006124BA /* Color+.swift in Sources */,
 				65426FC525B2FD68006124BA /* Color+.swift in Sources */,
 				9BB76132254EACF4005B7B5A /* SceneDelegate.swift in Sources */,
+				36529073270823710060BEDE /* LoginViewController.swift in Sources */,
 				651AED58260EFEAB009135DB /* AlbumCoverCollectionViewCell.swift in Sources */,
 				9BC436B3267332910081D3E8 /* FilmMainSectionModel.swift in Sources */,
 				9B878D6425E10B820024CFAA /* FilmListCollectionViewCell.swift in Sources */,
@@ -1228,6 +1247,7 @@
 				65739EA9263F0A3D009AA160 /* TemplateViewModel.swift in Sources */,
 				4C231953267312C900FE0939 /* CenterVerticallyButton.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
+				36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */,
 				4C357AE225E1013B00B23E84 /* ScrollingHorizontalStackView.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
