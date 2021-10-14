@@ -19,24 +19,28 @@ class AddAlbumViewModel: ViewModelType {
         self.dependency = dependency
         self.output = Output(decoratedImage: BehaviorRelay<Data>.init(value: dependency.decoratedImage))
         
-        input.downloadImage
+        self.input.downloadImage
             .subscribe(onNext: { [weak self] _ in
                 self?.output.isLoading.onNext(true)
                 self?.dependency.imageService.saveImage(dependency.decoratedImage)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
+        
+        self.input.tappedShareButton
+            .bind(to: self.output.showShareActionSheet)
+            .disposed(by: self.disposeBag)
         
         self.input.tappedCloseButton
             .subscribe(onNext: { [weak self] _ in
                 self?.output.showCloseEdit.onNext(())
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
         
         dependency.imageService.saveCompletion
             .subscribe(onNext: { [weak self] response in
                 self?.responseImageService(response)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
     }
     
     func responseImageService(_ response: ImageServiceResponse) {
@@ -57,6 +61,7 @@ extension AddAlbumViewModel {
     
     struct Input {
         var downloadImage = PublishSubject<Void>()
+        var tappedShareButton = PublishSubject<Void>()
         var tappedCloseButton = PublishSubject<Void>()
     }
     
@@ -64,5 +69,6 @@ extension AddAlbumViewModel {
         var decoratedImage: BehaviorRelay<Data>
         var isLoading = BehaviorSubject<Bool>(value: false)
         var showCloseEdit = PublishSubject<Void>()
+        var showShareActionSheet = PublishSubject<Void>()
     }
 }

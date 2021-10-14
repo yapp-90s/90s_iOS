@@ -108,19 +108,29 @@ class AddAlbumViewController: BaseViewController {
     // MARK: - Initialize
     
     private func bind() {
-        downloadButton.rx.tap
+        self.downloadButton.rx.tap
             .bind(to: viewModel.input.downloadImage)
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
         
-        viewModel.output.isLoading
+        self.shareButton.rx.tap
+            .bind(to: self.viewModel.input.tappedShareButton)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.isLoading
             .bind(to: indicator.rx.isAnimating)
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
         
         self.viewModel.output.showCloseEdit
             .subscribe(onNext: { [weak self] in
                 self?.showCloseEditActionSheet()
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.showShareActionSheet
+            .subscribe(onNext: { [weak self] in
+                self?.showShareActionSheet()
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func setupViews() {
@@ -191,6 +201,12 @@ class AddAlbumViewController: BaseViewController {
         let closeEditActionSheetViewController = CloseEditActionSheetViewController(viewModel: CloseEditActionSheetViewModel(dependency: .init()))
         closeEditActionSheetViewController.modalPresentationStyle = .overFullScreen
         self.present(closeEditActionSheetViewController, animated: true, completion: nil)
+    }
+    
+    private func showShareActionSheet() {
+        let shareActionSheetViewController = ShareActionSheetViewController()
+        shareActionSheetViewController.modalPresentationStyle = .overFullScreen
+        self.present(shareActionSheetViewController, animated: true, completion: nil)
     }
     
     @objc private func tappedCloseBarButton() {
