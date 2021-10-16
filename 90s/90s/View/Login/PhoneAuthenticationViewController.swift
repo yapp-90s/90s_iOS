@@ -18,7 +18,7 @@ class PhoneAuthenticationViewController: UIViewController {
         return textFieldView
     }()
     
-    private let retryView: UIView = {
+    private let authNumberView: UIView = {
         let view = UIView()
         view.isHidden = true
         return view
@@ -61,9 +61,9 @@ class PhoneAuthenticationViewController: UIViewController {
     
     private func setupViews() {
         self.view.addSubview(self.phoneNumberTextField)
-        self.view.addSubview(retryView)
-        self.retryView.addSubview(self.authenticationTextField)
-        self.retryView.addSubview(self.retryButton)
+        self.view.addSubview(authNumberView)
+        self.authNumberView.addSubview(self.authenticationTextField)
+        self.authNumberView.addSubview(self.retryButton)
         self.view.addSubview(self.authenticationCompleteButton)
         
         self.phoneNumberTextField.snp.makeConstraints { maker in
@@ -71,7 +71,7 @@ class PhoneAuthenticationViewController: UIViewController {
             maker.leading.trailing.equalToSuperview()
             maker.height.equalTo(75)
         }
-        self.retryView.snp.makeConstraints { maker in
+        self.authNumberView.snp.makeConstraints { maker in
             maker.top.equalTo(self.phoneNumberTextField.snp.bottom)
             maker.leading.trailing.equalToSuperview()
             maker.height.equalTo(75)
@@ -91,7 +91,7 @@ class PhoneAuthenticationViewController: UIViewController {
         self.authenticationTextField.inset = .init(top: 15, left: 18, bottom: 15, right: 12)
         
         self.authenticationCompleteButton.snp.makeConstraints { maker in
-            maker.top.equalTo(self.retryView.snp.bottom).offset(21)
+            maker.top.equalTo(self.authNumberView.snp.bottom).offset(21)
             maker.leading.trailing.equalToSuperview().inset(18)
             maker.height.equalTo(57)
         }
