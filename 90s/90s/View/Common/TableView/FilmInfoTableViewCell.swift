@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-/// 필름 리스트를 보여주는 테이블 셀
+/// 필름 정보를 보여주는 테이블 셀
 final class FilmInfoTableViewCell: UITableViewCell {
     private var filmTitleLabel : UILabel = {
         let label = UILabel(frame: .zero)
@@ -90,8 +90,6 @@ final class FilmInfoTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
     }
-    
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -179,6 +177,10 @@ final class FilmInfoTableViewCell: UITableViewCell {
                 $0.centerY.equalTo(filmTitleImageView.snp.centerY).offset(6.5)
             }
         }
+    }
+    
+    func showStateImage(show value : Bool) {
+        filmTypeImageView.isHidden = !value
     }
     
     func bindViewModel(film: Film, isCreate: Bool){

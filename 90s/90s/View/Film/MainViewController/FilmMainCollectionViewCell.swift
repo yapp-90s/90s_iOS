@@ -25,7 +25,7 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    static let cellID = "filmCell"
+    static let cellID = "FilmMainCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

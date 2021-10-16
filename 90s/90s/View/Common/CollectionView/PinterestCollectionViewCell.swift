@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// 필름 뷰 하단 - 인하된 사진들을 보여주는 콜렉션 셀입니다
-final class FilmMainPhotoCollectionViewCell: UICollectionViewCell {
+final class PinterestCollectionViewCell: UICollectionViewCell {
     private var photoImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.contentMode = .scaleAspectFill
@@ -17,7 +17,7 @@ final class FilmMainPhotoCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    static let cellID = "photoCell"
+    static let cellID = "PinterestCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

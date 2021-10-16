@@ -145,14 +145,12 @@ class AlbumCreateCoverViewController: UIViewController {
             .drive(coverImageView.rx.image)
             .disposed(by: disposeBag)
         
-        viewModel.next
-            .subscribe { _ in
-                self.createAlbum()
-            }.disposed(by: disposeBag)
-        
         collectionView.rx
             .itemSelected
-            .map { self.viewModel.coverSection.value.first!.items[$0.item].cover.value }
+            .map { value in
+                self.createAlbum()
+                return self.viewModel.coverSection.value.first!.items[value.item].cover.value
+            }
             .bind(to: viewModel.selectCover)
             .disposed(by: disposeBag)
         

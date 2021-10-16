@@ -23,7 +23,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         cv.showsVerticalScrollIndicator = false
         
         cv.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
-        cv.register(FilmMainPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID)
+        cv.register(PinterestCollectionViewCell.self, forCellWithReuseIdentifier: PinterestCollectionViewCell.cellID)
         return cv
     }()
     
@@ -59,7 +59,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as! FilmMainPhotoCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PinterestCollectionViewCell.cellID, for: indexPath) as! PinterestCollectionViewCell
             cell.bindViewModel(image: element.url)
             return cell
         })
@@ -73,7 +73,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         viewModel.output.photoSectionViewModel
             .bind(to: collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
-        let layout = FilmPinterestLayout()
+        let layout = PinterestLayout()
         layout.delegate = self
         collectionView.collectionViewLayout = layout
     }
@@ -90,7 +90,7 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 }
 
 
-extension FilmMainViewController : FilmPinterestLayoutDelegate {
+extension FilmMainViewController : PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         if let index = viewModel.output.photoSectionViewModel.value.first,
            let image = UIImage(named: index.items[indexPath.row].url) {

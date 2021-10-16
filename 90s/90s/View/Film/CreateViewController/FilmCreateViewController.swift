@@ -21,7 +21,7 @@ final class FilmCreateViewController: BaseViewController {
         tv.separatorStyle = .none
         tv.rowHeight = 250
         
-        tv.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
+        tv.register(FilmInfoTableViewCell.self, forCellReuseIdentifier: FilmInfoTableViewCell.cellId)
         return tv
     }()
     
@@ -65,7 +65,7 @@ final class FilmCreateViewController: BaseViewController {
     private func setUpTableView(){
         viewModel.output.films
             .map { $0.filter { $0.state != .create} }
-            .bind(to: tableView.rx.items(cellIdentifier: FilmListTableViewCell.cellId, cellType: FilmListTableViewCell.self)) { index, element, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
                 cell.selectionStyle = .none
                 cell.bindViewModel(film: element, isCreate: true)
         }.disposed(by: disposeBag)

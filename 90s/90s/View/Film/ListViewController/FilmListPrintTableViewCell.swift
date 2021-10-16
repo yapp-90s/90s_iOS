@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import SnapKit
 
+/// 필름 "인화할 시간!" 테이블 셀
 final class FilmListPrintTableViewCell: UITableViewCell {
     private var printBackgroundView : UIView = {
         let view = UIView(frame: .zero)
@@ -55,7 +56,7 @@ final class FilmListPrintTableViewCell: UITableViewCell {
         return btn
     }()
     
-    static let cellID = "filmListPrintCell"
+    static let cellID = "FilmListPrintTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
