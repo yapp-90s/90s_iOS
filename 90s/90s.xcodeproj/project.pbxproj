@@ -12,6 +12,7 @@
 		36529077270AEA770060BEDE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529076270AEA770060BEDE /* Reusable.swift */; };
 		36721787271AE11300FEDE51 /* PhoneAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36721786271AE11300FEDE51 /* PhoneAuthenticationViewController.swift */; };
 		36721789271AE1CD00FEDE51 /* LabelTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36721788271AE1CD00FEDE51 /* LabelTextFieldView.swift */; };
+		3672178B271AF2D700FEDE51 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3672178A271AF2D700FEDE51 /* UITextField+.swift */; };
 		36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */; };
 		36817CAE26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */; };
 		36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */; };
@@ -184,6 +185,7 @@
 		36529076270AEA770060BEDE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		36721786271AE11300FEDE51 /* PhoneAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthenticationViewController.swift; sourceTree = "<group>"; };
 		36721788271AE1CD00FEDE51 /* LabelTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextFieldView.swift; sourceTree = "<group>"; };
+		3672178A271AF2D700FEDE51 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewController.swift; sourceTree = "<group>"; };
 		36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewModel.swift; sourceTree = "<group>"; };
 		36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				4C554FD926214F2F001C90C3 /* CGPoint+.swift */,
 				9BC35EEA26314A310062B24C /* UILabel+.swift */,
 				36529076270AEA770060BEDE /* Reusable.swift */,
+				3672178A271AF2D700FEDE51 /* UITextField+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1167,6 +1170,7 @@
 				652BC1D025E0D62A00DC8E90 /* FilmMainViewController.swift in Sources */,
 				6588AE1B2642841B00487AB9 /* TemplateDetailCollectionViewCell.swift in Sources */,
 				652BC1D025E0D62A00DC8E90 /* FilmMainViewController.swift in Sources */,
+				3672178B271AF2D700FEDE51 /* UITextField+.swift in Sources */,
 				654C746D259C4845007B1D4A /* AlbumLayout.swift in Sources */,
 				651AED5F260F03E0009135DB /* AlbumViewModel.swift in Sources */,
 				9B8EC88C269EC35E0010BFA9 /* FilmAPI.swift in Sources */,
