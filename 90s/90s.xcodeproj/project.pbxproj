@@ -10,6 +10,7 @@
 		36529073270823710060BEDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529072270823710060BEDE /* LoginViewController.swift */; };
 		36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */; };
 		36529077270AEA770060BEDE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529076270AEA770060BEDE /* Reusable.swift */; };
+		36721787271AE11300FEDE51 /* PhoneAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36721786271AE11300FEDE51 /* PhoneAuthenticationViewController.swift */; };
 		36721789271AE1CD00FEDE51 /* LabelTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36721788271AE1CD00FEDE51 /* LabelTextFieldView.swift */; };
 		36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */; };
 		36817CAE26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */; };
@@ -181,6 +182,7 @@
 		36529072270823710060BEDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroCollectionViewCell.swift; sourceTree = "<group>"; };
 		36529076270AEA770060BEDE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		36721786271AE11300FEDE51 /* PhoneAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthenticationViewController.swift; sourceTree = "<group>"; };
 		36721788271AE1CD00FEDE51 /* LabelTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTextFieldView.swift; sourceTree = "<group>"; };
 		36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewController.swift; sourceTree = "<group>"; };
 		36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewModel.swift; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 			children = (
 				36529072270823710060BEDE /* LoginViewController.swift */,
 				36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */,
+				36721786271AE11300FEDE51 /* PhoneAuthenticationViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1124,6 +1127,7 @@
 				9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */,
 				4CBF1798260F1A8F005ED4F8 /* Date+.swift in Sources */,
 				4CE64A0D25E0DF6F0093D238 /* PhotoViewModel.swift in Sources */,
+				36721787271AE11300FEDE51 /* PhoneAuthenticationViewController.swift in Sources */,
 				9B08FF0E26216F7A004DE486 /* FilmCreateViewController.swift in Sources */,
 				4CBC5A9525F264F6005D2592 /* StickerPackCollectionViewCell.swift in Sources */,
 				9B3746ED26301CCC00E412B0 /* FilmCreateDetailViewController.swift in Sources */,
