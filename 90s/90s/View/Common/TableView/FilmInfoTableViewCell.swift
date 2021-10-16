@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 /// 필름 리스트를 보여주는 테이블 셀
-final class FilmListTableViewCell: UITableViewCell {
+final class FilmInfoTableViewCell: UITableViewCell {
     private var filmTitleLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Film_Title
@@ -76,7 +76,7 @@ final class FilmListTableViewCell: UITableViewCell {
     
     // MARK: - Property
     
-    static let cellId = "filmListCell"
+    static let cellId = "FilmInfoTableViewCell"
     
     private var disposeBag = DisposeBag()
     private var testFilmValue : (Film, Bool)?
@@ -90,7 +90,8 @@ final class FilmListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
     }
-
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

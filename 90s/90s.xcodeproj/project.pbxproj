@@ -61,9 +61,9 @@
 		6521BF8F25BC2A8900580EB5 /* BoxService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6521BF8E25BC2A8900580EB5 /* BoxService.swift */; };
 		6525007E264C4C3700C1524D /* AlbumRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6525007D264C4C3700C1524D /* AlbumRepository.swift */; };
 		652B9EDA2620C2BC000A3C55 /* AlbumCreateCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652B9ED92620C2BC000A3C55 /* AlbumCreateCoverViewController.swift */; };
-		652BC1CD25E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1C725E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift */; };
+		652BC1CD25E0D62A00DC8E90 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1C725E0D62A00DC8E90 /* PinterestLayout.swift */; };
 		652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1C925E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift */; };
-		652BC1CF25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1CA25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift */; };
+		652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1CA25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift */; };
 		652BC1D025E0D62A00DC8E90 /* FilmMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1CB25E0D62A00DC8E90 /* FilmMainViewController.swift */; };
 		652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BC1CC25E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift */; };
 		6533210E25E0D87B00E973BB /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6533210D25E0D87B00E973BB /* MainTabBarController.swift */; };
@@ -131,11 +131,12 @@
 		9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */; };
 		9B5040DE269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5040DD269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift */; };
 		9B596C9D260F08B1003DE554 /* _0sTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B596C9C260F08B1003DE554 /* _0sTests.swift */; };
+		9B7060BF271AC5CC00DDC95F /* AlbumSelectPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7060BE271AC5CC00DDC95F /* AlbumSelectPhotoViewController.swift */; };
 		9B739C5D260379C200CF659C /* FilmPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B739C5C260379C200CF659C /* FilmPopupView.swift */; };
 		9B75E28B26799B1E0067667D /* FilmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B75E28A26799B1E0067667D /* FilmRepository.swift */; };
 		9B7FD9E6269451D0000B52B7 /* ProfileMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7FD9E5269451D0000B52B7 /* ProfileMainTableViewCell.swift */; };
 		9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5C25E0F4110024CFAA /* FilmListViewController.swift */; };
-		9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */; };
+		9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5F25E0F48A0024CFAA /* FilmInfoTableViewCell.swift */; };
 		9B878D6425E10B820024CFAA /* FilmListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */; };
 		9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */; };
 		9B8CB357269C2F4900549035 /* ProfileLeaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */; };
@@ -160,7 +161,6 @@
 		9BC35EEF26315EC80062B24C /* FilmCreateCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC35EEE26315EC70062B24C /* FilmCreateCompleteViewController.swift */; };
 		9BC436AD267332310081D3E8 /* FilmListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC436AC267332310081D3E8 /* FilmListSection.swift */; };
 		9BC436B3267332910081D3E8 /* FilmMainSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC436B2267332910081D3E8 /* FilmMainSectionModel.swift */; };
-		9BD15EA0260093710038C968 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD15E9F260093710038C968 /* NavigationBar.swift */; };
 		9BD15EA32600AA870038C968 /* NavBarRightBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */; };
 		9BE8E68626032BAB00A6EEBC /* FilmListPrintTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE8E68526032BAB00A6EEBC /* FilmListPrintTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -238,9 +238,9 @@
 		6521BF8E25BC2A8900580EB5 /* BoxService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxService.swift; sourceTree = "<group>"; };
 		6525007D264C4C3700C1524D /* AlbumRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRepository.swift; sourceTree = "<group>"; };
 		652B9ED92620C2BC000A3C55 /* AlbumCreateCoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCreateCoverViewController.swift; sourceTree = "<group>"; };
-		652BC1C725E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmPinterestCollectionViewLayout.swift; sourceTree = "<group>"; };
+		652BC1C725E0D62A00DC8E90 /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		652BC1C925E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmMainCollectionViewCell.swift; sourceTree = "<group>"; };
-		652BC1CA25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmMainPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		652BC1CA25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestCollectionViewCell.swift; sourceTree = "<group>"; };
 		652BC1CB25E0D62A00DC8E90 /* FilmMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmMainViewController.swift; sourceTree = "<group>"; };
 		652BC1CC25E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilmMainHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		6533210D25E0D87B00E973BB /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -309,12 +309,13 @@
 		9B596C9A260F08B1003DE554 /* 90sTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 90sTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B596C9C260F08B1003DE554 /* _0sTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _0sTests.swift; sourceTree = "<group>"; };
 		9B596C9E260F08B1003DE554 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B7060BE271AC5CC00DDC95F /* AlbumSelectPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSelectPhotoViewController.swift; sourceTree = "<group>"; };
 		9B739C5C260379C200CF659C /* FilmPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmPopupView.swift; sourceTree = "<group>"; };
 		9B75E28A26799B1E0067667D /* FilmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmRepository.swift; sourceTree = "<group>"; };
 		9B7FD9E5269451D0000B52B7 /* ProfileMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainTableViewCell.swift; sourceTree = "<group>"; };
 		9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		9B878D5C25E0F4110024CFAA /* FilmListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListViewController.swift; sourceTree = "<group>"; };
-		9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListTableViewCell.swift; sourceTree = "<group>"; };
+		9B878D5F25E0F48A0024CFAA /* FilmInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmInfoTableViewCell.swift; sourceTree = "<group>"; };
 		9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionHeaderCell.swift; sourceTree = "<group>"; };
 		9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLeaveViewController.swift; sourceTree = "<group>"; };
@@ -341,7 +342,6 @@
 		9BC35EEE26315EC70062B24C /* FilmCreateCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateCompleteViewController.swift; sourceTree = "<group>"; };
 		9BC436AC267332310081D3E8 /* FilmListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSection.swift; sourceTree = "<group>"; };
 		9BC436B2267332910081D3E8 /* FilmMainSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmMainSectionModel.swift; sourceTree = "<group>"; };
-		9BD15E9F260093710038C968 /* NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBar.swift; sourceTree = "<group>"; };
 		9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarRightBtn.swift; sourceTree = "<group>"; };
 		9BE8E68526032BAB00A6EEBC /* FilmListPrintTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListPrintTableViewCell.swift; sourceTree = "<group>"; };
 		A899E3B7EB6B84253A60D0E8 /* Pods-90s.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.release.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.release.xcconfig"; sourceTree = "<group>"; };
@@ -378,10 +378,11 @@
 		4C1F80CF25F3379800E98A0B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				9B7060BD271AC2D400DDC95F /* TableView */,
+				9B7060BC271ABB6200DDC95F /* CollectionView */,
 				6533210D25E0D87B00E973BB /* MainTabBarController.swift */,
 				4C8E3D96260F31500090481C /* BaseNavigationControllerViewController.swift */,
 				4C1F80D025F337C200E98A0B /* BaseViewController.swift */,
-				9BD15E9F260093710038C968 /* NavigationBar.swift */,
 				4CBC5A6925F24F55005D2592 /* HighlightButton.swift */,
 				4C357AE125E1013B00B23E84 /* ScrollingHorizontalStackView.swift */,
 				36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */,
@@ -559,14 +560,6 @@
 			path = Album;
 			sourceTree = "<group>";
 		};
-		652BC1C625E0D62A00DC8E90 /* CollectionViewLayout */ = {
-			isa = PBXGroup;
-			children = (
-				652BC1C725E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift */,
-			);
-			path = CollectionViewLayout;
-			sourceTree = "<group>";
-		};
 		652BC1C825E0D62A00DC8E90 /* Film */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,6 +656,7 @@
 				659E3BA8262172FD00051864 /* AlbumCreateTemplateViewController.swift */,
 				659E3BAB2621743600051864 /* AlbumTemplateViewController.swift */,
 				659E3BAE26218D3400051864 /* AlbumCreatePreviewController.swift */,
+				9B7060BE271AC5CC00DDC95F /* AlbumSelectPhotoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -670,11 +664,10 @@
 		65AE123425CFEDAA0036147F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				36529071270823070060BEDE /* Login */,
 				4C1F80CF25F3379800E98A0B /* Common */,
+				36529071270823070060BEDE /* Login */,
 				4CE649F025E0DEC80093D238 /* PhotoDecorate */,
 				652BC1C825E0D62A00DC8E90 /* Film */,
-				652BC1C625E0D62A00DC8E90 /* CollectionViewLayout */,
 				65AE123525CFEDDD0036147F /* Album */,
 				9B494FD926895936009878E9 /* Profile */,
 			);
@@ -771,6 +764,23 @@
 			path = 90sTests;
 			sourceTree = "<group>";
 		};
+		9B7060BC271ABB6200DDC95F /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				652BC1C725E0D62A00DC8E90 /* PinterestLayout.swift */,
+				652BC1CA25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		9B7060BD271AC2D400DDC95F /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				9B878D5F25E0F48A0024CFAA /* FilmInfoTableViewCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
 		9B75E28926799B110067667D /* Film */ = {
 			isa = PBXGroup;
 			children = (
@@ -812,7 +822,6 @@
 			children = (
 				652BC1CB25E0D62A00DC8E90 /* FilmMainViewController.swift */,
 				652BC1C925E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift */,
-				652BC1CA25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift */,
 				652BC1CC25E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift */,
 			);
 			path = MainViewController;
@@ -823,7 +832,6 @@
 			children = (
 				9B878D5C25E0F4110024CFAA /* FilmListViewController.swift */,
 				9BA3FF5E25FE13E1000D2A2E /* FilmListDetailViewController.swift */,
-				9B878D5F25E0F48A0024CFAA /* FilmListTableViewCell.swift */,
 				9B878D6325E10B820024CFAA /* FilmListCollectionViewCell.swift */,
 				9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */,
 				9BE8E68526032BAB00A6EEBC /* FilmListPrintTableViewCell.swift */,
@@ -1129,13 +1137,13 @@
 				9B75E28B26799B1E0067667D /* FilmRepository.swift in Sources */,
 				4C2319572673593200FE0939 /* DecorateContainerViewModel.swift in Sources */,
 				9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */,
-				9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */,
+				9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */,
 				9B8EC8A2269EC6ED0010BFA9 /* PhotoAPI.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
 				656AFA50262B53CA001C5E00 /* AlbumCreateCoverViewModel.swift in Sources */,
 				9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */,
 				4C2319612674405E00FE0939 /* ImageService.swift in Sources */,
-				9B878D6025E0F48A0024CFAA /* FilmListTableViewCell.swift in Sources */,
+				9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */,
 				4CDA3C67264FA94A00EEE12C /* AlbumResponse.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
 				4CBF1781260F0526005ED4F8 /* StickerDecorator.swift in Sources */,
@@ -1162,6 +1170,7 @@
 				654C746D259C4845007B1D4A /* AlbumLayout.swift in Sources */,
 				651AED5F260F03E0009135DB /* AlbumViewModel.swift in Sources */,
 				9B8EC88C269EC35E0010BFA9 /* FilmAPI.swift in Sources */,
+				9B7060BF271AC5CC00DDC95F /* AlbumSelectPhotoViewController.swift in Sources */,
 				9B739C5D260379C200CF659C /* FilmPopupView.swift in Sources */,
 				65CAD32226199F0A00817C12 /* AlbumTitleHeaderCollectionViewCell.swift in Sources */,
 				65EBDF8426186C8000E51612 /* AlbumBannerSection.swift in Sources */,
@@ -1188,9 +1197,9 @@
 				4C23195D26736D6600FE0939 /* AddAlbumViewModel.swift in Sources */,
 				9B7FD9E6269451D0000B52B7 /* ProfileMainTableViewCell.swift in Sources */,
 				9BA3FF5625FDF4B5000D2A2E /* FilmsViewModel.swift in Sources */,
-				652BC1CF25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift in Sources */,
+				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
 				65C7D72C261E1B7500F9FB09 /* AlbumsViewModel.swift in Sources */,
-				652BC1CF25E0D62A00DC8E90 /* FilmMainPhotoCollectionViewCell.swift in Sources */,
+				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
 				4CDA3C5F264FA16B00EEE12C /* BaseTarget.swift in Sources */,
 				4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */,
 				9B8EC86A269EBC620010BFA9 /* FilmType.swift in Sources */,
@@ -1210,7 +1219,7 @@
 				654C7470259C4872007B1D4A /* AlbumCover.swift in Sources */,
 				65EBDF8A26186EE000E51612 /* AlbumPreviewSection.swift in Sources */,
 				4CBC5A9125F25CA3005D2592 /* StickerPackListViewModel.swift in Sources */,
-				652BC1CD25E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift in Sources */,
+				652BC1CD25E0D62A00DC8E90 /* PinterestLayout.swift in Sources */,
 				653F7D822598850D002CD12A /* Sticker.swift in Sources */,
 				651AED5B260EFEBC009135DB /* AlbumPreviewCollectionViewCell.swift in Sources */,
 				6533A6E0261F6B1900ED4F8E /* AlbumSectionModel.swift in Sources */,
@@ -1242,7 +1251,6 @@
 				653F7D7E259884A3002CD12A /* Photo.swift in Sources */,
 				4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */,
 				659E3BAC2621743600051864 /* AlbumTemplateViewController.swift in Sources */,
-				9BD15EA0260093710038C968 /* NavigationBar.swift in Sources */,
 				659E3BB626219B2D00051864 /* AlbumCreateViewModel.swift in Sources */,
 				65739EA9263F0A3D009AA160 /* TemplateViewModel.swift in Sources */,
 				4C231953267312C900FE0939 /* CenterVerticallyButton.swift in Sources */,
