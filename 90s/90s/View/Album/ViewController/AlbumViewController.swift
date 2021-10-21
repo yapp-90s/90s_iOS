@@ -11,6 +11,8 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
+let layoutScale = UIScreen.main.bounds.width / 375
+
 class AlbumViewController: UIViewController {
     
     // MARK: - UI Component
@@ -39,7 +41,6 @@ class AlbumViewController: UIViewController {
     }()
     
     // MARK: - Property
-    
     private let viewModel: AlbumsViewModel
     private let disposeBag = DisposeBag()
     let sections: [AlbumSection] = [
@@ -55,19 +56,14 @@ class AlbumViewController: UIViewController {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
+        
+        setupUI()
+        bindState()
     }
     
     // MARK: - Init
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupUI()
-        bindCollectionView()
     }
     
     // MARK: - Method
@@ -79,7 +75,7 @@ class AlbumViewController: UIViewController {
         }
     }
     
-    private func bindCollectionView() {
+    private func bindState() {
         let dataSource = RxCollectionViewSectionedReloadDataSource<AlbumSectionModel>(configureCell: { (datasource, collectionView, indexPath, item) in
             return self.sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath, item: item)
         })
@@ -91,13 +87,15 @@ class AlbumViewController: UIViewController {
         viewModel.output.createViewModel.openCreateAlbum
             .subscribe({ _ in
                 self.createAlbum()
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func createAlbum() {
         let vc = AlbumCreateCoverViewController(viewModel: AlbumCreateViewModel())
         let naviVC = UINavigationController(rootViewController: vc)
         naviVC.modalPresentationStyle = .overFullScreen
+        naviVC.navigationBar.isHidden = true
         DispatchQueue.main.async {
             self.present(naviVC, animated: false)
         }

@@ -16,15 +16,29 @@ final class AlbumTemplateViewController: UIViewController {
     
     private let TEMPLATE_HEIGHT_SCALE: CGFloat = 1.662538
     
-    private lazy var tagLabel: UILabel = {
+    private lazy var topBar: UIView = {
+        let view = UIView()
+        self.view.addSubview(view)
+        return view
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(named: "back"), for: .normal)
+        topBar.addSubview(button)
+        return button
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.font = .Large_Text_Bold
+        label.textColor = .white
         self.view.addSubview(label)
         return label
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private lazy var tagLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
         self.view.addSubview(label)
         return label
     }()
@@ -32,6 +46,7 @@ final class AlbumTemplateViewController: UIViewController {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.setTitle("결정하기", for: .normal)
+        button.titleLabel?.font = .Btn_Text
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .retroOrange
         button.layer.cornerRadius = 6
@@ -41,14 +56,15 @@ final class AlbumTemplateViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = .init(top: 20, left: 26, bottom: 20, right: 26)
+        layout.sectionInset = .init(top: 20 * layoutScale, left: 26 * layoutScale, bottom: 20 * layoutScale, right: 26 * layoutScale)
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 12
-        let width = UIScreen.main.bounds.width - 52
+        layout.minimumLineSpacing = 12 * layoutScale
+        let width = UIScreen.main.bounds.width - 52 * layoutScale
         layout.itemSize = .init(width: width, height: width * TEMPLATE_HEIGHT_SCALE)
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TemplateDetailCollectionViewCell.self, forCellWithReuseIdentifier: TemplateDetailCollectionViewCell.identifier)
+        collectionView.isPagingEnabled = true
         self.view.addSubview(collectionView)
         return collectionView
     }()
@@ -75,29 +91,41 @@ final class AlbumTemplateViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .black
-        tagLabel.snp.makeConstraints {
-            $0.width.equalTo(37)
-            $0.height.equalTo(18)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(21)
-            $0.left.equalToSuperview().offset(18)
+        
+        topBar.snp.makeConstraints {
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(52 * layoutScale)
         }
         
-        titleLabel.snp.makeConstraints {
-            $0.height.equalTo(24)
-            $0.top.equalTo(tagLabel.snp.bottom).offset(7)
-            $0.left.equalTo(18)
+        backButton.snp.makeConstraints {
+            $0.width.height.equalTo(34 * layoutScale)
+            $0.left.equalToSuperview().offset(9 * layoutScale)
+            $0.centerY.equalToSuperview()
+        }
+        
+        tagLabel.snp.makeConstraints {
+            $0.width.equalTo(37 * layoutScale)
+            $0.height.equalTo(18 * layoutScale)
+            $0.top.equalTo(topBar.snp.bottom).offset(21 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+        }
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.height.equalTo(24 * layoutScale)
+            $0.top.equalTo(tagLabel.snp.bottom).offset(7 * layoutScale)
+            $0.left.equalTo(18 * layoutScale)
         }
         
         button.snp.makeConstraints {
-            $0.width.equalTo(103)
-            $0.height.equalTo(48)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(21)
-            $0.left.equalTo(titleLabel.snp.right).offset(18)
-            $0.right.equalToSuperview().offset(-18)
+            $0.width.equalTo(103 * layoutScale)
+            $0.height.equalTo(48 * layoutScale)
+            $0.top.equalTo(topBar.snp.bottom).offset(21 * layoutScale)
+            $0.left.equalTo(descriptionLabel.snp.right).offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(40)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(40 * layoutScale)
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -109,7 +137,7 @@ final class AlbumTemplateViewController: UIViewController {
     private func bindViewModel() {
         let dataSource = TemplateDataSource(configureCell: { (_, collectionView, indexPath, item) in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateDetailCollectionViewCell.identifier, for: indexPath) as! TemplateDetailCollectionViewCell
-            cell.bind(viewModel: self.viewModel.selectedTemplateRelay.value)
+            cell.bind(viewModel: item)
             return cell
         })
         
@@ -119,24 +147,32 @@ final class AlbumTemplateViewController: UIViewController {
         
         viewModel.selectedTemplateRelay.value
             .name
-            .bind(to: titleLabel.rx.text)
+            .bind(to: descriptionLabel.rx.text)
             .disposed(by: disposeBag)
         
         button.rx.tap
-            .bind(to: viewModel.next)
+            .subscribe(onNext: { _ in
+                self.createAlbum()
+            })
             .disposed(by: disposeBag)
         
-        viewModel.next
-            .subscribe { _ in
-                self.createAlbum()
-            }.disposed(by: disposeBag)
+        backButton.rx.tap
+            .subscribe(onNext: { _ in
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+//        viewModel.next
+//            .subscribe { _ in
+//                self.createAlbum()
+//            }.disposed(by: disposeBag)
         
     }
     
     private func createAlbum() {
         let vc = AlbumCreatePreviewViewController(viewModel: viewModel)
         DispatchQueue.main.async {
-            self.navigationController?.pushViewController(vc, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

@@ -55,7 +55,7 @@ struct AlbumProvider {
 //            var albumValue = self.albumRelay.value
 //            var record = albumValue[id]
 //            guard record != nil else { return }
-//            
+//
 //            record?.count -= 1
 //            if record?.count ?? 0 < 1 {
 //                record = nil
@@ -79,9 +79,5 @@ struct AlbumProvider {
             .distinctUntilChanged { $0?.updatedAt == $1?.updatedAt }
             .map { $0?.album }
             .share(replay: 1, scope: .whileConnected)
-    }
-    
-    static func viewModel(id: String) -> AlbumViewModel {
-        return AlbumViewModel(album: .init(id: "", name: "", createdAt: "", updatedAt: "", totalPaper: 0, cover: .empty))
     }
 }

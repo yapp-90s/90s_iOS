@@ -26,6 +26,7 @@ class AlbumCoverCollectionViewCell: UICollectionViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
+        label.font = .Medium_Text
         label.text = "자취일기\n"
         label.numberOfLines = 2
         self.addSubview(label)

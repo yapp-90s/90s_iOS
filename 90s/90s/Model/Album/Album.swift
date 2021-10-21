@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Album {
+struct Album: Codable {
     let id: String //var index: Int!
     var user: [String] = []
     let name: String
