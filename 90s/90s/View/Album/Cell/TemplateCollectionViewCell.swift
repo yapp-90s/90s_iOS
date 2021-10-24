@@ -17,7 +17,8 @@ class TemplateCollectionViewCell: UICollectionViewCell {
     
     lazy private(set) var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 4
+        imageView.layer.cornerRadius = 4 * layoutScale
+        imageView.layer.masksToBounds = true
         self.addSubview(imageView)
         return imageView
     }()
@@ -60,11 +61,10 @@ class TemplateCollectionViewCell: UICollectionViewCell {
     }
     
     func bind(viewModel: TemplateViewModel) {
-        imageView.backgroundColor = .red
-//        viewModel.imageName
-//            .map { $0.image }
-//            .bind(to: imageView.rx.image)
-//            .disposed(by: disposeBag)
+        viewModel.imageName
+            .map { UIImage(named: $0) }
+            .bind(to: imageView.rx.image)
+            .disposed(by: disposeBag)
         
         viewModel.name
             .bind(to: label.rx.text)

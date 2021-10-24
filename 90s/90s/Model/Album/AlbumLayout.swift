@@ -133,7 +133,7 @@ struct Filmroll: AlbumLayout {
 //        case .Filmroll : return CGSize(width: 332, height: 444)
 //        }
 //    }
-//    
+//
 //    var innerFrameHighSize : CGSize {
 //        switch self {
 //        case .Tape: return CGSize(width: 316, height: 258)
