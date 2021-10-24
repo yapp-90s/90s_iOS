@@ -85,7 +85,6 @@ final class FilmListViewController: BaseViewController {
         tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "내 필름"
-        view.backgroundColor = .black
     }
 
     private func setUpSubViews(){
