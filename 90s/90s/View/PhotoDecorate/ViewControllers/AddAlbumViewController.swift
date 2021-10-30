@@ -126,9 +126,9 @@ class AddAlbumViewController: BaseViewController {
             })
             .disposed(by: self.disposeBag)
         
-        self.viewModel.output.showShareActionSheet
-            .subscribe(onNext: { [weak self] in
-                self?.showShareActionSheet()
+        self.viewModel.output.shareImage
+            .subscribe(onNext: { [weak self] decoratedImage in
+                self?.shareImage(decoratedImage)
             })
             .disposed(by: self.disposeBag)
     }
@@ -203,10 +203,11 @@ class AddAlbumViewController: BaseViewController {
         self.present(closeEditActionSheetViewController, animated: true, completion: nil)
     }
     
-    private func showShareActionSheet() {
-        let shareActionSheetViewController = ShareActionSheetViewController()
-        shareActionSheetViewController.modalPresentationStyle = .overFullScreen
-        self.present(shareActionSheetViewController, animated: true, completion: nil)
+    private func shareImage(_ image: Data) {
+        let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+                
+        self.present(activityVC, animated: true, completion: nil)
     }
     
     @objc private func tappedCloseBarButton() {
