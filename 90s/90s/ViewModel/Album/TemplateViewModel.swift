@@ -11,7 +11,7 @@ import RxSwift
 
 final class TemplateViewModel {
     var name: Observable<String>
-    var imageName: Observable<String?>
+    var imageName: Observable<String>
     
     init(template: Template) {
         name = Observable.just(template.name)

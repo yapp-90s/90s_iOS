@@ -14,6 +14,7 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     
     lazy var label: UILabel = {
         let label = UILabel()
+        label.font = .Head
         label.text = "만드는 중!"
         label.textColor = .white
         self.addSubview(label)
@@ -36,11 +37,11 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         label.snp.makeConstraints {
-            $0.height.equalTo(24)
-            $0.top.equalToSuperview().offset(12)
-            $0.left.equalToSuperview().offset(18)
-            $0.right.equalToSuperview().offset(-18)
-            $0.bottom.equalToSuperview().offset(-12)
+            $0.height.equalTo(24 * layoutScale)
+            $0.top.equalToSuperview().offset(12 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
+            $0.bottom.equalToSuperview().offset(-12 * layoutScale)
         }
     }
 }

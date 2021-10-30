@@ -14,26 +14,49 @@ import RxDataSources
 class AlbumCreateCoverViewController: UIViewController {
     
     // MARK: - UI Component
+    private lazy var topBar: UIView = {
+        let view = UIView()
+        self.view.addSubview(view)
+        return view
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        topBar.addSubview(label)
+        label.text = "앨범 만들기(1/3)"
+        label.font = .Sub_Head
+        return label
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(named: "close"), for: .normal)
+        topBar.addSubview(button)
+        return button
+    }()
+    
     private lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
             
-            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(118), heightDimension: .absolute(118))
+            let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(118 * layoutScale), heightDimension: .absolute(118 * layoutScale))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous
-            section.interGroupSpacing = .init(16)
+            section.interGroupSpacing = .init(16 * layoutScale)
+            section.contentInsets = .init(top: 0, leading: 18 * layoutScale, bottom: 0, trailing: 18 * layoutScale)
             
             return section
         }
         return layout
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
+        label.font = .Sub_Head
         label.text = "앨범의 얼굴,\n커버를 선택해 주세요"
         self.view.addSubview(label)
         return label
@@ -62,6 +85,7 @@ class AlbumCreateCoverViewController: UIViewController {
         button.backgroundColor = .retroOrange
         button.layer.cornerRadius = 6
         button.setTitle("이 커버 선택", for: .normal)
+        button.titleLabel?.font = .Btn_Text
         self.view.addSubview(button)
         return button
     }()
@@ -93,32 +117,48 @@ class AlbumCreateCoverViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .black
         
+        topBar.snp.makeConstraints {
+            $0.top.left.right.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(52 * layoutScale)
+        }
+        
         titleLabel.snp.makeConstraints {
-            $0.height.equalTo(46)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(29)
-            $0.left.equalToSuperview().offset(18)
-            $0.right.equalToSuperview().offset(-18)
+            $0.height.equalTo(24 * layoutScale)
+            $0.center.equalToSuperview()
+        }
+        
+        closeButton.snp.makeConstraints {
+            $0.width.height.equalTo(34 * layoutScale)
+            $0.right.equalToSuperview().offset(-9 * layoutScale)
+            $0.centerY.equalToSuperview()
+        }
+        
+        descriptionLabel.snp.makeConstraints {
+            $0.height.equalTo(46 * layoutScale)
+            $0.top.equalTo(topBar.snp.bottom).offset(29 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
         }
         
         coverImageView.snp.makeConstraints {
-            $0.width.height.equalTo(199)
+            $0.width.height.equalTo(199 * layoutScale)
             $0.width.equalTo(coverImageView.snp.height)
-            $0.top.equalTo(titleLabel.snp.bottom).offset(53)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(53 * layoutScale)
             $0.centerXWithinMargins.equalToSuperview()
         }
         
         collectionView.snp.makeConstraints {
-            $0.height.equalTo(118)
-            $0.top.equalTo(coverImageView.snp.bottom).offset(51)
+            $0.height.equalTo(118 * layoutScale)
+            $0.top.equalTo(coverImageView.snp.bottom).offset(51 * layoutScale)
             $0.left.right.equalToSuperview()
         }
         
         button.snp.makeConstraints {
-            $0.height.equalTo(57)
-            $0.top.equalTo(collectionView.snp.bottom).offset(21)
-            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-21)
-            $0.left.equalToSuperview().offset(18)
-            $0.right.equalToSuperview().offset(-18)
+            $0.height.equalTo(57 * layoutScale)
+//            $0.top.equalTo(collectionView.snp.bottom).offset(21 * layoutScale)
+            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-21 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
         }
     }
     
@@ -157,12 +197,18 @@ class AlbumCreateCoverViewController: UIViewController {
         button.rx.tap
             .bind(to: viewModel.next)
             .disposed(by: disposeBag)
+        
+        closeButton.rx.tap
+            .subscribe(onNext: { _ in
+                self.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func createAlbum() {
         let vc = AlbumCreateNameViewController(viewModel: viewModel)
         DispatchQueue.main.async {
-            self.navigationController?.pushViewController(vc, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

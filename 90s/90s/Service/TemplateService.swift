@@ -16,7 +16,14 @@ final class TemplateService {
     private let templates = BehaviorRelay<[Template]>(value: [])
     
     private init() {
-        templates.accept([Template(name: "Template1", imageName: "Template1"), Template(name: "Template2", imageName: "Template2"), Template(name: "Template3", imageName: ""), Template(name: "Tempalte4", imageName: ""), Template(name: "Template5", imageName: "")])
+        templates.accept([
+                            Template(name: "PortraBlack", imageName: "Template_Preview_PortraBlack"),
+                            Template(name: "PortraWhite", imageName: "Template_Preview_PortraWhite"),
+                            Template(name: "MoodyPaper", imageName: "Template_Preview_MoodyPaper"),
+                            Template(name: "Grass", imageName: "Template_Preview_Grass"),
+                            Template(name: "Polaroid", imageName: "Template_Preview_Polaroid"),
+                            Template(name: "Gradient", imageName: "Template_Preview_Gradient")
+        ])
     }
     
     func viewModels() -> Observable<[TemplateViewModel]> {

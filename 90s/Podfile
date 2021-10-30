@@ -15,7 +15,4 @@ target '90s' do
  pod 'SwiftLint'
  pod 'Moya'
  
- # Film - temporary custom gallery
- pod 'QBImagePickerController'
- 
 end
