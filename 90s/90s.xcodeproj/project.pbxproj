@@ -8,9 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		36529073270823710060BEDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529072270823710060BEDE /* LoginViewController.swift */; };
+		36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */; };
+		36529077270AEA770060BEDE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529076270AEA770060BEDE /* Reusable.swift */; };
 		36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */; };
 		36817CAE26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */; };
 		36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */; };
+		368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27ED27116D5D0082089A /* LoginViewModel.swift */; };
+		368F27F127116F5C0082089A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F027116F5C0082089A /* LoginService.swift */; };
+		368F27F4271170C20082089A /* LoginOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F3271170C20082089A /* LoginOAuth.swift */; };
 		4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D025F337C200E98A0B /* BaseViewController.swift */; };
 		4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */; };
 		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
@@ -175,9 +180,14 @@
 /* Begin PBXFileReference section */
 		18EEE8FA90593B4DB4FD2BD8 /* Pods-90s.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.debug.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.debug.xcconfig"; sourceTree = "<group>"; };
 		36529072270823710060BEDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroCollectionViewCell.swift; sourceTree = "<group>"; };
+		36529076270AEA770060BEDE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 		36817CAB26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewController.swift; sourceTree = "<group>"; };
 		36817CAD26ECA7C700DCFFEF /* CloseEditActionSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseEditActionSheetViewModel.swift; sourceTree = "<group>"; };
 		36817CAF26EDBAE000DCFFEF /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
+		368F27ED27116D5D0082089A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		368F27F027116F5C0082089A /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		368F27F3271170C20082089A /* LoginOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuth.swift; sourceTree = "<group>"; };
 		49A656A105DAD88678F2DDC4 /* Pods_90s.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_90s.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C1F80D025F337C200E98A0B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewModel.swift; sourceTree = "<group>"; };
@@ -364,6 +374,31 @@
 			isa = PBXGroup;
 			children = (
 				36529072270823710060BEDE /* LoginViewController.swift */,
+				36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		368F27EC27116D540082089A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				368F27ED27116D5D0082089A /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		368F27EF27116F470082089A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				368F27F027116F5C0082089A /* LoginService.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		368F27F2271170BB0082089A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				368F27F3271170C20082089A /* LoginOAuth.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -439,6 +474,7 @@
 				4CBF1797260F1A8F005ED4F8 /* Date+.swift */,
 				4C554FD926214F2F001C90C3 /* CGPoint+.swift */,
 				9BC35EEA26314A310062B24C /* UILabel+.swift */,
+				36529076270AEA770060BEDE /* Reusable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -525,6 +561,7 @@
 		6521BF7A25BC272200580EB5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				368F27EF27116F470082089A /* Login */,
 				9B8EC892269EC4D60010BFA9 /* Common */,
 				9B8EC891269EC4C40010BFA9 /* Profile */,
 				9B8EC8A0269EC6E30010BFA9 /* Photo */,
@@ -609,6 +646,7 @@
 		653F7D7A2598842B002CD12A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				368F27F2271170BB0082089A /* Login */,
 				9B8EC895269EC5A70010BFA9 /* Photo */,
 				9B8EC86D269EBCC40010BFA9 /* User */,
 				65B2658125CE8F6300ED9CEA /* Sticker */,
@@ -778,6 +816,7 @@
 			isa = PBXGroup;
 			children = (
 				4CE649FC25E0DEEA0093D238 /* ViewModelType.swift */,
+				368F27EC27116D540082089A /* Login */,
 				6533A6C0261F536100ED4F8E /* Image */,
 				651AED5D260F03A7009135DB /* Album */,
 				9B878C2925DA861C0024CFAA /* Film */,
@@ -1106,11 +1145,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36529077270AEA770060BEDE /* Reusable.swift in Sources */,
 				36817CB026EDBAE000DCFFEF /* ActionSheetViewController.swift in Sources */,
 				9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */,
 				4CBF1798260F1A8F005ED4F8 /* Date+.swift in Sources */,
 				4CE64A0D25E0DF6F0093D238 /* PhotoViewModel.swift in Sources */,
 				9B08FF0E26216F7A004DE486 /* FilmCreateViewController.swift in Sources */,
+				368F27F4271170C20082089A /* LoginOAuth.swift in Sources */,
 				4CBC5A9525F264F6005D2592 /* StickerPackCollectionViewCell.swift in Sources */,
 				9B3746ED26301CCC00E412B0 /* FilmCreateDetailViewController.swift in Sources */,
 				4CE649F725E0DEC80093D238 /* StickerPackListViewController.swift in Sources */,
@@ -1194,6 +1235,7 @@
 				65EBDF8126186A7F00E51612 /* AlbumCreateSection.swift in Sources */,
 				9BAFD43F26A54F3300561E34 /* FilmResponse.swift in Sources */,
 				65D9505B26216C7C00A78826 /* AlbumCreateCellViewModel.swift in Sources */,
+				368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */,
 				653F7D7C2598849B002CD12A /* Album.swift in Sources */,
 				4C357ADF25E0F03B00B23E84 /* StickerPackCategory.swift in Sources */,
 				654C7470259C4872007B1D4A /* AlbumCover.swift in Sources */,
@@ -1201,6 +1243,7 @@
 				4CBC5A9125F25CA3005D2592 /* StickerPackListViewModel.swift in Sources */,
 				652BC1CD25E0D62A00DC8E90 /* FilmPinterestCollectionViewLayout.swift in Sources */,
 				653F7D822598850D002CD12A /* Sticker.swift in Sources */,
+				368F27F127116F5C0082089A /* LoginService.swift in Sources */,
 				651AED5B260EFEBC009135DB /* AlbumPreviewCollectionViewCell.swift in Sources */,
 				6533A6E0261F6B1900ED4F8E /* AlbumSectionModel.swift in Sources */,
 				9B494FDB2689596B009878E9 /* ProfileViewController.swift in Sources */,
@@ -1236,6 +1279,7 @@
 				65739EA9263F0A3D009AA160 /* TemplateViewModel.swift in Sources */,
 				4C231953267312C900FE0939 /* CenterVerticallyButton.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
+				36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */,
 				4C357AE225E1013B00B23E84 /* ScrollingHorizontalStackView.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
