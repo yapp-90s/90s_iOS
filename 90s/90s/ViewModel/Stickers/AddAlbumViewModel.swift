@@ -27,7 +27,8 @@ class AddAlbumViewModel: ViewModelType {
             .disposed(by: self.disposeBag)
         
         self.input.tappedShareButton
-            .bind(to: self.output.showShareActionSheet)
+            .map { dependency.decoratedImage }
+            .bind(to: self.output.shareImage)
             .disposed(by: self.disposeBag)
         
         self.input.tappedCloseButton
@@ -69,6 +70,6 @@ extension AddAlbumViewModel {
         var decoratedImage: BehaviorRelay<Data>
         var isLoading = BehaviorSubject<Bool>(value: false)
         var showCloseEdit = PublishSubject<Void>()
-        var showShareActionSheet = PublishSubject<Void>()
+        var shareImage = PublishSubject<Data>()
     }
 }
