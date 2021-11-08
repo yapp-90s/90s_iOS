@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
-import QBImagePickerController
+
 
 final class FilmCreateCompleteViewController: BaseViewController {
     private let infoLabel : UILabel = {
@@ -115,13 +115,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         return button
     }()
     
-    private let imagePicker : QBImagePickerController = {
-        let ip = QBImagePickerController()
-        ip.allowsMultipleSelection = true
-        ip.showsNumberOfSelectedAssets = true
-        return ip
-    }()
-    
     var film : Film
     var delegate : FilmCreateViewControllerDelegate?
     private var isPopUpAppeared = false
@@ -149,7 +142,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         view.addSubview(filmView)
         view.addSubview(completeButton)
         
-        imagePicker.delegate = self
         setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
         
         filmView.addSubview(filmImageView)
@@ -274,7 +266,8 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         popUpAddButton.rx.tap.bind {
-            self.present(self.imagePicker, animated: true, completion: nil)
+            let nextVC = FilmGalleryViewController()
+            self.present(nextVC, animated: true)
             self.updatePopUpView()
         }.disposed(by: disposeBag)
     }
@@ -283,10 +276,9 @@ final class FilmCreateCompleteViewController: BaseViewController {
         updatePopUpView()
         
         FilmService.shared.create(film: (film.uid, film.name)) { result in
-            print("input :", self.film.uid, self.film.name)
             switch result {
             case let .success(response) :
-                print("FilmCreate - success request")
+                print("FilmCreate - success request", response)
             case let .failure(error) :
                 print("FilmCreate - error on creating film :", error)
             }
@@ -336,12 +328,3 @@ final class FilmCreateCompleteViewController: BaseViewController {
     }
 }
 
-extension FilmCreateCompleteViewController : QBImagePickerControllerDelegate {
-    func qb_imagePickerControllerDidCancel(_ imagePickerController: QBImagePickerController!) {
-        dismiss(animated: true)
-    }
-    
-    func qb_imagePickerController(_ imagePickerController: QBImagePickerController!, didFinishPickingAssets assets: [Any]!) {
-        dismiss(animated: true)
-    }
-}

@@ -178,6 +178,10 @@
 		9BC436AD267332310081D3E8 /* FilmListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC436AC267332310081D3E8 /* FilmListSection.swift */; };
 		9BC436B3267332910081D3E8 /* FilmMainSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC436B2267332910081D3E8 /* FilmMainSectionModel.swift */; };
 		9BD15EA32600AA870038C968 /* NavBarRightBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */; };
+		9BD618C827395A2C0025F1FB /* FilmGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD618C727395A2C0025F1FB /* FilmGalleryViewController.swift */; };
+		9BD618CA27395B120025F1FB /* FilmGalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD618C927395B120025F1FB /* FilmGalleryCollectionViewCell.swift */; };
+		9BD618CC27395D490025F1FB /* FilmGallerySelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD618CB27395D490025F1FB /* FilmGallerySelectedViewController.swift */; };
+		9BD618CE273960C40025F1FB /* FilmGallerySelectedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD618CD273960C40025F1FB /* FilmGallerySelectedCollectionViewCell.swift */; };
 		9BE8E68626032BAB00A6EEBC /* FilmListPrintTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE8E68526032BAB00A6EEBC /* FilmListPrintTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -374,6 +378,10 @@
 		9BC436AC267332310081D3E8 /* FilmListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSection.swift; sourceTree = "<group>"; };
 		9BC436B2267332910081D3E8 /* FilmMainSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmMainSectionModel.swift; sourceTree = "<group>"; };
 		9BD15EA22600AA870038C968 /* NavBarRightBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarRightBtn.swift; sourceTree = "<group>"; };
+		9BD618C727395A2C0025F1FB /* FilmGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmGalleryViewController.swift; sourceTree = "<group>"; };
+		9BD618C927395B120025F1FB /* FilmGalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmGalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		9BD618CB27395D490025F1FB /* FilmGallerySelectedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmGallerySelectedViewController.swift; sourceTree = "<group>"; };
+		9BD618CD273960C40025F1FB /* FilmGallerySelectedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmGallerySelectedCollectionViewCell.swift; sourceTree = "<group>"; };
 		9BE8E68526032BAB00A6EEBC /* FilmListPrintTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListPrintTableViewCell.swift; sourceTree = "<group>"; };
 		A829FF2A0EAADCA032BD9A97 /* Pods_90s.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_90s.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B477D38C99D1FC828044B033 /* Pods-90s.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.debug.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.debug.xcconfig"; sourceTree = "<group>"; };
@@ -602,6 +610,7 @@
 				9B878D5A25E0F3CB0024CFAA /* MainViewController */,
 				9B878D5B25E0F3E30024CFAA /* ListViewController */,
 				9B08FF0A26216ED7004DE486 /* CreateViewController */,
+				9BD618C627395A0F0025F1FB /* GalleryViewController */,
 				9B739C5C260379C200CF659C /* FilmPopupView.swift */,
 			);
 			path = Film;
@@ -1045,6 +1054,17 @@
 			path = Section;
 			sourceTree = "<group>";
 		};
+		9BD618C627395A0F0025F1FB /* GalleryViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9BD618C727395A2C0025F1FB /* FilmGalleryViewController.swift */,
+				9BD618C927395B120025F1FB /* FilmGalleryCollectionViewCell.swift */,
+				9BD618CB27395D490025F1FB /* FilmGallerySelectedViewController.swift */,
+				9BD618CD273960C40025F1FB /* FilmGallerySelectedCollectionViewCell.swift */,
+			);
+			path = GalleryViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1246,6 +1266,7 @@
 				9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */,
 				9B8EC8A2269EC6ED0010BFA9 /* PhotoAPI.swift in Sources */,
 				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
+				9BD618CA27395B120025F1FB /* FilmGalleryCollectionViewCell.swift in Sources */,
 				656AFA50262B53CA001C5E00 /* AlbumCreateCoverViewModel.swift in Sources */,
 				9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */,
 				4C2319612674405E00FE0939 /* ImageService.swift in Sources */,
@@ -1276,6 +1297,7 @@
 				65F73D8B2721D133001313B5 /* TemplateImageView.swift in Sources */,
 				652BC1D025E0D62A00DC8E90 /* FilmMainViewController.swift in Sources */,
 				3672178B271AF2D700FEDE51 /* UITextField+.swift in Sources */,
+				9BD618C827395A2C0025F1FB /* FilmGalleryViewController.swift in Sources */,
 				654C746D259C4845007B1D4A /* AlbumLayout.swift in Sources */,
 				65F73D8A2721D133001313B5 /* TemplatePortraWhite.swift in Sources */,
 				651AED5F260F03E0009135DB /* AlbumViewModel.swift in Sources */,
@@ -1369,8 +1391,10 @@
 				659E3BAF26218D3400051864 /* AlbumCreatePreviewController.swift in Sources */,
 				653F7D7E259884A3002CD12A /* Photo.swift in Sources */,
 				4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */,
+				9BD618CE273960C40025F1FB /* FilmGallerySelectedCollectionViewCell.swift in Sources */,
 				659E3BAC2621743600051864 /* AlbumTemplateViewController.swift in Sources */,
 				659E3BB626219B2D00051864 /* AlbumCreateViewModel.swift in Sources */,
+				9BD618CC27395D490025F1FB /* FilmGallerySelectedViewController.swift in Sources */,
 				65739EA9263F0A3D009AA160 /* TemplateViewModel.swift in Sources */,
 				65F73D892721D133001313B5 /* PortraWhiteImageView.swift in Sources */,
 				4C231953267312C900FE0939 /* CenterVerticallyButton.swift in Sources */,
