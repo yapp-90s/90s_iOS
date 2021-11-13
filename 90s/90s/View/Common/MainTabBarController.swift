@@ -16,7 +16,7 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupUI() {
-        let albumVC = AlbumViewController(viewModel: AlbumsViewModel(dependency: .init()))
+        let albumVC = AlbumViewController(viewModel: AlbumsViewModel(dependency: .init(albumRepository: .shared)))
         let naviVC = UINavigationController(rootViewController: albumVC)
         albumVC.tabBarItem = UITabBarItem(title: "Album", image: nil, tag: 0)
         

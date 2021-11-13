@@ -59,6 +59,7 @@ class AlbumViewController: UIViewController {
         
         setupUI()
         bindState()
+        bindAction()
     }
     
     // MARK: - Init
@@ -75,6 +76,24 @@ class AlbumViewController: UIViewController {
         }
     }
     
+    private func bindAction() {
+        collectionView.rx.itemSelected
+            .filter { $0.section == 0 }
+            .map { _ in () }
+            .bind(to: viewModel.input.createAlbumButton)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .filter { $0.section == 3 }
+            .bind(to: viewModel.input.selectMakingAlbum)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .filter { $0.section == 5 }
+            .bind(to: viewModel.input.selectAlbum)
+            .disposed(by: disposeBag)
+    }
+    
     private func bindState() {
         let dataSource = RxCollectionViewSectionedReloadDataSource<AlbumSectionModel>(configureCell: { (datasource, collectionView, indexPath, item) in
             return self.sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath, item: item)
@@ -84,20 +103,40 @@ class AlbumViewController: UIViewController {
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.output.createViewModel.openCreateAlbum
-            .subscribe({ _ in
-                self.createAlbum()
-            })
+        viewModel.output.createViewModel
+            .bind { self.createAlbum($0) }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.selectedMakingAlbum
+            .bind { self.showMakingAlbum($0) }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.selectedAlbum
+            .bind { self.showAlbum($0) }
             .disposed(by: disposeBag)
     }
     
-    private func createAlbum() {
-        let vc = AlbumCreateCoverViewController(viewModel: AlbumCreateViewModel())
+    private func createAlbum(_ viewModel: AlbumCreateViewModel) {
+        let vc = AlbumCreateCoverViewController(viewModel: viewModel)
         let naviVC = UINavigationController(rootViewController: vc)
         naviVC.modalPresentationStyle = .overFullScreen
         naviVC.navigationBar.isHidden = true
         DispatchQueue.main.async {
             self.present(naviVC, animated: false)
+        }
+    }
+    
+    private func showMakingAlbum(_ albumViewModel: AlbumViewModel) {
+        let vc = UIViewController()
+        DispatchQueue.main.async {
+            self.present(vc, animated: true)
+        }
+    }
+    
+    private func showAlbum(_ albumViewModel: AlbumViewModel) {
+        let vc = UIViewController()
+        DispatchQueue.main.async {
+            self.present(vc, animated: true)
         }
     }
 }
