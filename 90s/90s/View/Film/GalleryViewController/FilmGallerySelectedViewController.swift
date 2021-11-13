@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import SnapKit
+
+// TODO: - 할 일 : ViewModel 생성, RxCollectionView 변환, 앨범 사진 데이터 추가 로직
 
 final class FilmGallerySelectedViewController: BaseViewController {
     
@@ -24,32 +27,38 @@ final class FilmGallerySelectedViewController: BaseViewController {
     private let infoLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.textColor = .lightGray
-        label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 13)
-        label.text = "생성일\n2021.11.08"
+        label.numberOfLines = 2
         
         return label
     }()
     
     private let completeButton : UIButton = {
         let button = UIButton(frame: .zero)
-        button.titleLabel!.text = "앨범에 넣기"
-        button.titleLabel!.font = UIFont.boldSystemFont(ofSize: 14)
-        button.titleLabel!.textColor = .white
-        button.titleLabel!.textAlignment = .center
+        button.setTitle("앨범에 넣기", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.textAlignment = .center
         button.backgroundColor = .retroOrange
         
         return button
     }()
     
+    // MARK: - Properties
+    
+    var viewModel : [UIImage] = []
+    
     private var photos : [UIImage] = []
+    
+    // MARK: - Life Cycle
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(_ viewModel : [UIImage]) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        bind()
     }
     
     convenience init(photo array : [UIImage]){
-        self.init(nibName: nil, bundle: nil)
+        self.init([])
         self.photos = array
         collectionView.reloadData()
     }
@@ -62,7 +71,10 @@ final class FilmGallerySelectedViewController: BaseViewController {
         super.viewDidLoad()
         
         setUpSubViews()
+        setInfoView()
     }
+    
+    // MARK: - Methods
     
     private func setUpSubViews() {
         view.addSubview(collectionView)
@@ -71,25 +83,45 @@ final class FilmGallerySelectedViewController: BaseViewController {
         
         let safe = view.safeAreaLayoutGuide
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: safe.topAnchor,constant: 10).isActive = true
-        collectionView.heightAnchor.constraint(equalToConstant: 450).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: safe.rightAnchor).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: safe.leftAnchor).isActive = true
+        collectionView.snp.makeConstraints {
+            $0.top.left.right.equalTo(safe)
+            $0.height.equalTo(450)
+        }
         
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
-        infoLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 14).isActive = true
-        infoLabel.leftAnchor.constraint(equalTo: collectionView.leftAnchor).isActive = true
-        infoLabel.rightAnchor.constraint(equalTo: collectionView.rightAnchor).isActive = true
+        infoLabel.snp.makeConstraints {
+            $0.left.right.equalTo(safe)
+            $0.top.equalTo(collectionView.snp.bottom).offset(14)
+        }
         
-        completeButton.translatesAutoresizingMaskIntoConstraints = false
-        completeButton.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 50).isActive = true
-        completeButton.leftAnchor.constraint(equalTo: safe.leftAnchor, constant: 45).isActive = true
-        completeButton.rightAnchor.constraint(equalTo: safe.rightAnchor, constant: -45).isActive = true
-        completeButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        completeButton.snp.makeConstraints {
+            $0.top.equalTo(infoLabel.snp.bottom).offset(50)
+            $0.left.equalTo(safe).offset(45)
+            $0.right.equalTo(safe).offset(-45)
+            $0.height.equalTo(60)
+        }
         
         collectionView.delegate = self
         collectionView.dataSource = self
+    }
+    
+    private func setInfoView() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd"
+        
+        let today = dateFormatter.string(from: Date())
+        let attr = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 13)]
+        let attributedString = NSMutableAttributedString(string: "생성일\n" + today,attributes: attr)
+       
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = 8
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
+        
+        infoLabel.attributedText = attributedString
+    }
+    
+    private func bind() {
+//        self.completeButton.rx.tap.bind(to: <#T##Void...##Void#>)
     }
 }
 
@@ -102,11 +134,11 @@ extension FilmGallerySelectedViewController : UICollectionViewDataSource, UIColl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmGallerySelectedCollectionViewCell.cellID, for: indexPath) as! FilmGallerySelectedCollectionViewCell
         
         cell.bindImageView(photo: photos[indexPath.item])
-
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 400, height: 400)
+        return CGSize(width: view.frame.width - 10, height: 400)
     }
 }

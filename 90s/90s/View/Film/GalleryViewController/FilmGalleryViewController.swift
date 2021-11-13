@@ -10,6 +10,8 @@ import SnapKit
 import Photos
 import RxSwift
 
+// TODO: - 할 일 : ViewModel 생성, RxCollectionView 변환, 이미지 분할 Call
+
 final class FilmGalleryViewController: BaseViewController {
 
     private let collectionView : UICollectionView = {
@@ -79,7 +81,21 @@ final class FilmGalleryViewController: BaseViewController {
         view.addSubview(selectionView)
         selectionView.addSubview(selectedLabel)
         
-        setUpSubViewsConstraints()
+        let safe = view.safeAreaLayoutGuide
+        
+        collectionView.snp.makeConstraints {
+            $0.edges.equalTo(safe)
+        }
+        
+        selectionView.snp.makeConstraints {
+            $0.bottom.left.right.equalTo(safe)
+            $0.height.equalTo(110)
+        }
+        
+        selectedLabel.snp.makeConstraints {
+            $0.left.right.equalTo(safe)
+            $0.top.equalTo(selectionView.snp.top).offset(20)
+        }
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(setUpTapGesture))
         selectionView.addGestureRecognizer(tap)
@@ -88,25 +104,6 @@ final class FilmGalleryViewController: BaseViewController {
         collectionView.dataSource = self
         
         thumbnailSize = CGSize(width: 1024 * UIScreen.main.scale, height: 1024 * UIScreen.main.scale)
-    }
-    
-    private func setUpSubViewsConstraints() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        selectionView.translatesAutoresizingMaskIntoConstraints = false
-        selectionView.heightAnchor.constraint(equalToConstant: 110).isActive = true
-        selectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        selectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        selectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        
-        selectedLabel.translatesAutoresizingMaskIntoConstraints = false
-        selectedLabel.topAnchor.constraint(equalTo: selectionView.topAnchor, constant: 20).isActive = true
-        selectedLabel.leftAnchor.constraint(equalTo: selectionView.leftAnchor).isActive = true
-        selectedLabel.rightAnchor.constraint(equalTo: selectionView.rightAnchor).isActive = true
     }
     
     private func setUpFetchAsset() {

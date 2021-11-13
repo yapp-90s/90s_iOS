@@ -19,13 +19,16 @@ final class FilmsViewModel : ViewModelType {
     init(dependency : Dependency) {
         self.dependency = dependency
         
-        setMockData()
+        // setMockData
+        output.films.accept(FilmFactory().createDefaultData())
     }
     
     init(films : Film) {
         self.dependency = Dependency(film: films)
         
-        bindToRepository()
+        if let f = dependency.film {
+            output.films.accept([f])
+        }
     }
     
     func getStateData(state : FilmStateType) -> [Film]{
@@ -39,16 +42,6 @@ final class FilmsViewModel : ViewModelType {
             .dispose()
         
         return array
-    }
-    
-    private func setMockData() {
-        output.films.accept(FilmFactory().createDefaultData())
-    }
-    
-    private func bindToRepository() {
-        if let f = dependency.film {
-            output.films.accept([f])
-        }
     }
 }
 

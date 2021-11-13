@@ -7,11 +7,12 @@
 
 import UIKit
 import Photos
+import SnapKit
 
 final class FilmGalleryCollectionViewCell: UICollectionViewCell {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.backgroundColor = .orange
+        iv.image = UIImage(named: "default_img")
         
         return iv
     }()
@@ -56,17 +57,16 @@ final class FilmGalleryCollectionViewCell: UICollectionViewCell {
         addSubview(imageView)
         addSubview(selectImageView)
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        imageView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        imageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        let safe = self.contentView.safeAreaLayoutGuide
         
-        selectImageView.translatesAutoresizingMaskIntoConstraints = false
-        selectImageView.widthAnchor.constraint(equalToConstant: 34).isActive = true
-        selectImageView.heightAnchor.constraint(equalToConstant: 34).isActive = true
-        selectImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        selectImageView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        imageView.snp.makeConstraints {
+            $0.edges.equalTo(safe)
+        }
+        
+        selectImageView.snp.makeConstraints {
+            $0.top.right.equalTo(safe)
+            $0.width.height.equalTo(34)
+        }
     }
     
     func bindImageView(_ image: UIImage?) {

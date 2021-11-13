@@ -9,6 +9,8 @@ import UIKit
 import PhotosUI
 import SnapKit
 
+// TODO: - 할 일 : RxCollectionView 변환,
+
 /// 필름 정보와 사진을 보여주는 VC
 final class FilmListDetailViewController: BaseViewController, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
     private let filmImageView : UIImageView = {
@@ -173,27 +175,25 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         
         emptyAddMoreButton.rx.tap.bind { _ in
             if let film = self.films {
-                self.setPhPicker(photoMax: film.maxCount, photoFill: film.count)
+                    self.setPhPicker(photoMax: film.maxCount, photoFill: film.count)
             }
         }.disposed(by: disposeBag)
     }
     
+    /// iOS 14 이후, 갤러리 선택
     private func setPhPicker(photoMax maxCount : Int, photoFill fillCount : Int) {
-            if #available(iOS 14.0, *) {
-                var configuration = PHPickerConfiguration()
-                configuration.filter = .images
-                configuration.selectionLimit = maxCount - fillCount
-                
-                let picker = PHPickerViewController(configuration: configuration)
-                picker.delegate = self
-                self.present(picker, animated: true)
-            } else {
-                let picker = UIImagePickerController()
-                picker.sourceType = .photoLibrary
-                picker.mediaTypes = ["public.image", "public.movie"]
-                picker.delegate = self
-                self.present(picker, animated: true)
-            }
+//            if #available(iOS 14.0, *) {
+//                var configuration = PHPickerConfiguration()
+//                configuration.filter = .images
+//                configuration.selectionLimit = maxCount - fillCount
+//
+//                let picker = PHPickerViewController(configuration: configuration)
+//                picker.delegate = self
+//                self.present(picker, animated: true)
+//            } else {
+                let nextVC = FilmGalleryViewController()
+                self.navigationController?.pushViewController(nextVC, animated: true)
+//            }
     }
     
     func bindViewModel(film : Film){
@@ -250,8 +250,8 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            if let film = films {
+        if let film = films {
+            if indexPath.row == 0 && film.maxCount > film.count {
                 setPhPicker(photoMax: film.maxCount, photoFill: film.count)
             }
         }

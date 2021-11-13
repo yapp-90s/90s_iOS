@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class FilmGallerySelectedCollectionViewCell: UICollectionViewCell {
     private let imageView : UIImageView = {
@@ -33,11 +34,9 @@ final class FilmGallerySelectedCollectionViewCell: UICollectionViewCell {
     private func setUpSubViews() {
         addSubview(imageView)
         
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        imageView.snp.makeConstraints {
+            $0.edges.equalTo(contentView.safeAreaLayoutGuide)
+        }
     }
     
     func bindImageView(photo image: UIImage) {
