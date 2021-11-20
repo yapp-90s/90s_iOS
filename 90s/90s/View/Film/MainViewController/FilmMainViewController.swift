@@ -16,20 +16,19 @@ protocol FilmMainViewControllerDelegate {
     func presentCreateVC()
 }
 
-
 final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private let collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
         
         cv.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
-        cv.register(FilmMainPhotoCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID)
+        cv.register(PinterestCollectionViewCell.self, forCellWithReuseIdentifier: PinterestCollectionViewCell.cellID)
         return cv
     }()
     
     // MARK: Property
     
-    private let viewModel = PhotoViewModel(dependency: .init())
+    private let viewModel = FilmsViewModel(dependency: .init())
     
     // MARK: Life Cycles
     
@@ -59,7 +58,8 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmMainPhotoCollectionViewCell.cellID, for: indexPath) as! FilmMainPhotoCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PinterestCollectionViewCell.cellID, for: indexPath) as! PinterestCollectionViewCell
+            
             cell.bindViewModel(image: element.url)
             return cell
         })
@@ -69,11 +69,13 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
             header.delegate = self
             return header
         }
-
-        viewModel.output.photoSectionViewModel
-            .bind(to: collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+         
+        viewModel.output.photos
+            .map { [FilmMainSectionModel(header: "", items: $0)] }
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
-        let layout = FilmPinterestLayout()
+        let layout = PinterestLayout()
         layout.delegate = self
         collectionView.collectionViewLayout = layout
     }
@@ -90,12 +92,10 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 }
 
 
-extension FilmMainViewController : FilmPinterestLayoutDelegate {
+extension FilmMainViewController : PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        if let index = viewModel.output.photoSectionViewModel.value.first,
-           let image = UIImage(named: index.items[indexPath.row].url) {
-            return image.size.height
-        }
-        return 200
+        let index = viewModel.output.photos.value[indexPath.row]
+        
+        return index.height
     }
 }

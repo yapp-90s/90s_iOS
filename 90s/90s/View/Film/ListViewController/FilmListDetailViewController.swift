@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import PhotosUI
 import SnapKit
-import QBImagePickerController
+
+// TODO: - 할 일 : RxCollectionView 변환,
 
 /// 필름 정보와 사진을 보여주는 VC
-final class FilmListDetailViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+final class FilmListDetailViewController: BaseViewController, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
     private let filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -87,20 +89,22 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         return btn
     }()
     
-    private let imagePickerController : QBImagePickerController = {
-        let imagePicker = QBImagePickerController()
-        imagePicker.overrideUserInterfaceStyle = .light
-        imagePicker.allowsMultipleSelection = true
-        imagePicker.showsNumberOfSelectedAssets = true
-        return imagePicker
-    }()
+    private var film : Film
+    private var selectPhotos = [UIImage]()
     
-    private var films : Film?
-
+    init(film : Film) {
+        self.film = film
+        super.init(nibName: nil, bundle: nil)
+        bindViewModel()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubViews()
-        setUpButtons()
     }
 
     private func setUpSubViews() {
@@ -120,7 +124,6 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        imagePickerController.delegate = self
         
         let safe = view.safeAreaLayoutGuide
         
@@ -179,28 +182,42 @@ final class FilmListDetailViewController: BaseViewController, UIImagePickerContr
             $0.height.equalTo(57)
             $0.top.equalTo(emptyImageView.snp.bottom).offset(50)
         }
-    }
-    
-    private func setUpButtons() {
-        emptyAddMoreButton.rx.tap.bind {
-            self.present(self.imagePickerController, animated: true)
+        
+        emptyAddMoreButton.rx.tap.bind { _ in
+            self.setPhPicker(photoMax: self.film.maxCount, photoFill: self.film.count)
         }.disposed(by: disposeBag)
     }
     
-    func bindViewModel(film : Film){
+    /// iOS 14 이후, 갤러리 선택
+    private func setPhPicker(photoMax maxCount : Int, photoFill fillCount : Int) {
+//            if #available(iOS 14.0, *) {
+//                var configuration = PHPickerConfiguration()
+//                configuration.filter = .images
+//                configuration.selectionLimit = maxCount - fillCount
+//
+//                let picker = PHPickerViewController(configuration: configuration)
+//                picker.delegate = self
+//                self.present(picker, animated: true)
+//            } else {
+        let nextVC = FilmGalleryViewController(film: film)
+                self.navigationController?.pushViewController(nextVC, animated: true)
+//            }
+    }
+    
+    func bindViewModel(){
+
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
+            guard let self = self else {return}
+            self.filmImageView.image = UIImage(named: self.film.filmType.image)
         }
         filmNameLabel.text = film.name
         filmDateLabel.text = film.createdAt
         filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
-        filmTypeLabel.text = film.state.text()
-        
-        films = film
+        filmTypeLabel.text = film.filmState.text()
         
         if film.maxCount != film.photos.count && film.photos.count > 0 {
             let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
-            films?.addAtFirst(photo)
+            self.film.addAtFirst(photo)
         } else {
             printButton.isHidden = true
         }
@@ -226,33 +243,50 @@ extension FilmListDetailViewController : UICollectionViewDelegateFlowLayout {
 
 extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let f = films {
-            return f.photos.count
-        }
-        return 0
+        return film.photos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
-        if let f = films {
-            cell.bindViewModel(item: f.photos[indexPath.row], isScaleFill: true)
-        }
+        
+        cell.bindViewModel(item: film.photos[indexPath.row], isScaleFill: true)
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            present(imagePickerController, animated: true)
+        if indexPath.row == 0 && film.maxCount > film.count {
+            setPhPicker(photoMax: film.maxCount, photoFill: film.count)
         }
     }
 }
 
-extension FilmListDetailViewController : QBImagePickerControllerDelegate {
-    func qb_imagePickerControllerDidCancel(_ imagePickerController: QBImagePickerController!) {
-        dismiss(animated: true)
+extension FilmListDetailViewController : UIImagePickerControllerDelegate {
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        selectPhotos = []
+        
+        for photo in results {
+            let provider = photo.itemProvider
+    
+            if provider.canLoadObject(ofClass: UIImage.self) {
+                provider.loadObject(ofClass: UIImage.self) { image, error in
+                    DispatchQueue.main.async { [self] in
+                        self.selectPhotos.append(image as! UIImage)
+                    }
+                }
+            }
+        }
+        // TODO : 현재 필름의 사진 목록에 추가하기
     }
     
-    func qb_imagePickerController(_ imagePickerController: QBImagePickerController!, didFinishPickingAssets assets: [Any]!) {
-        dismiss(animated: true)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        selectPhotos = []
+        
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            selectPhotos.append(image)
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import SnapKit
 
+/// 필름 "인화할 시간!" 테이블 셀
 final class FilmListPrintTableViewCell: UITableViewCell {
     private var printBackgroundView : UIView = {
         let view = UIView(frame: .zero)
@@ -55,7 +56,7 @@ final class FilmListPrintTableViewCell: UITableViewCell {
         return btn
     }()
     
-    static let cellID = "filmListPrintCell"
+    static let cellID = "FilmListPrintTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -106,10 +107,10 @@ final class FilmListPrintTableViewCell: UITableViewCell {
     }
     
     func bindViewModel(film: Film) {
-        filmTypeLabel.text = film.filmType.name.rawValue
+        filmTypeLabel.text = film.filmType.rawValue
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
+            self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
     }
 }

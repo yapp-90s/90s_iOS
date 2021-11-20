@@ -10,20 +10,15 @@ import Foundation
 struct FilmResponse: Codable {
     var uid : Int
     var name : String
-    var filmType : FilmType?
+    var filmType : FilmFilterType
     var user : User?
     var createdAt : String
     var printStartAt : String
     var printEndAt : String
     
     var film: Film {
-        return Film(uid: uid,
-                    name: name,
-                    filmType: .init(uid: 0, code: 0, name: .Create, createdAt: Date().toString),
-                    user: user,
-                    printStartAt: printStartAt,
-                    printEndAt: printEndAt,
-                    photos: [],
-                    maxCount: 36)
+        return Film(uid: uid, name: name, filmType: .Create, user: user,
+                    printStartAt: printStartAt, printEndAt: printEndAt,
+                    photos: [], maxCount: 36)
     }
 }

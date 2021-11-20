@@ -19,8 +19,11 @@ final class FilmListViewController: BaseViewController {
         tv.showsVerticalScrollIndicator = false
         tv.separatorStyle = .none
         
-        tv.register(FilmListTableViewCell.self, forCellReuseIdentifier: FilmListTableViewCell.cellId)
+        // 필름 리스트를 보여주는 테이블 셀
+        tv.register(FilmInfoTableViewCell.self, forCellReuseIdentifier: FilmInfoTableViewCell.cellId)
+        // 필름 "인화할 시간!" 테이블 셀
         tv.register(FilmListPrintTableViewCell.self, forCellReuseIdentifier: FilmListPrintTableViewCell.cellID)
+        // 필름 섹션 안내 문구 테이블 셀
         tv.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.cellID)
         
         return tv
@@ -82,7 +85,6 @@ final class FilmListViewController: BaseViewController {
         tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "내 필름"
-        view.backgroundColor = .black
     }
 
     private func setUpSubViews(){
@@ -134,8 +136,9 @@ final class FilmListViewController: BaseViewController {
                 return cell
             }
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: FilmListTableViewCell.cellId) as! FilmListTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: FilmInfoTableViewCell.cellId) as! FilmInfoTableViewCell
             let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
+            cell.showStateImage(show: true)
             cell.bindViewModel(film: item, isCreate: false)
             cell.isEditStarted(value: self.isEditingMode)
             cell.isEditCellSelected(value: value)
@@ -151,8 +154,7 @@ final class FilmListViewController: BaseViewController {
             .subscribe(onNext: { [weak self] item in
                 if let bool = self?.isEditingMode {
                     if !bool {
-                        let nextVC = FilmListDetailViewController()
-                        nextVC.bindViewModel(film: item)
+                        let nextVC = FilmListDetailViewController(film: item)
                         self?.navigationController?.pushViewController(nextVC, animated: true)
                     }
                 }
@@ -164,7 +166,7 @@ final class FilmListViewController: BaseViewController {
                 if let bool = self?.isEditingMode,
                    let array = self?.deleteFilmIndexPath {
                    
-                    if let cell = self?.tableView.cellForRow(at: indexPath) as? FilmListTableViewCell {
+                    if let cell = self?.tableView.cellForRow(at: indexPath) as? FilmInfoTableViewCell {
                         if bool {
                             if array.contains(indexPath) {
                                 cell.isEditCellSelected(value: !bool)

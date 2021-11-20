@@ -7,15 +7,16 @@
 
 import UIKit
 
-protocol FilmPinterestLayoutDelegate : AnyObject {
+/// 높이 기준으로 사진을 나열한 콜렉션 레이아웃
+protocol PinterestLayoutDelegate : AnyObject {
     func collectionView( _ collectionView : UICollectionView, heightForPhotoAtIndexPath indexPath : IndexPath) -> CGFloat
 }
 
-final class FilmPinterestLayout: UICollectionViewLayout {
-    weak var delegate : FilmPinterestLayoutDelegate?
+// 사용시 heightForPhotoAtIndexPath 함수로 이미지 높이 지정
+final class PinterestLayout: UICollectionViewLayout {
+    weak var delegate : PinterestLayoutDelegate?
     
     private let numberOfColumns = 2
-    
     private var cache : [UICollectionViewLayoutAttributes] = []
 
     private var contentHeight : CGFloat = 0
@@ -95,7 +96,7 @@ final class FilmPinterestLayout: UICollectionViewLayout {
         return visibileLayoutAttributes
     }
     
-    /// 요구된 레이아웃 정보를 collectionView로 제공
+    /// 요구된 레이아웃 정보를 CollectionView로 제공
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.item]
     }

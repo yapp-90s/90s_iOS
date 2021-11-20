@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
-import QBImagePickerController
+
 
 final class FilmCreateCompleteViewController: BaseViewController {
     private let infoLabel : UILabel = {
@@ -115,13 +115,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         return button
     }()
     
-    private let imagePicker : QBImagePickerController = {
-        let ip = QBImagePickerController()
-        ip.allowsMultipleSelection = true
-        ip.showsNumberOfSelectedAssets = true
-        return ip
-    }()
-    
     var film : Film
     var delegate : FilmCreateViewControllerDelegate?
     private var isPopUpAppeared = false
@@ -149,7 +142,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         view.addSubview(filmView)
         view.addSubview(completeButton)
         
-        imagePicker.delegate = self
         setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
         
         filmView.addSubview(filmImageView)
@@ -274,7 +266,8 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         popUpAddButton.rx.tap.bind {
-            self.present(self.imagePicker, animated: true, completion: nil)
+            let nextVC = FilmGalleryViewController(film: self.film)
+            self.navigationController?.pushViewController(nextVC, animated: true)
             self.updatePopUpView()
         }.disposed(by: disposeBag)
     }
@@ -283,10 +276,9 @@ final class FilmCreateCompleteViewController: BaseViewController {
         updatePopUpView()
         
         FilmService.shared.create(film: (film.uid, film.name)) { result in
-            print("input :", self.film.uid, self.film.name)
             switch result {
             case let .success(response) :
-                print("FilmCreate - success request")
+                print("FilmCreate - success request", response)
             case let .failure(error) :
                 print("FilmCreate - error on creating film :", error)
             }
@@ -317,12 +309,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
     
     func bindViewModel(film : Film) {
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
+            self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
         
         filmNameLabel.text = film.name
-        filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.name.rawValue)
-        filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filmType.name.printDaysCount)시간")
+        filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.rawValue)
+        filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filmType.printDaysCount)시간")
         filmCountLabel = UILabel.createNormalBoldLabel(normal: "사진 개수", bold: "\(film.count)장")
         filmDateLabel = UILabel.createNormalBoldLabel(normal: "생성일", bold: film.createdAt)
     }
@@ -336,12 +328,3 @@ final class FilmCreateCompleteViewController: BaseViewController {
     }
 }
 
-extension FilmCreateCompleteViewController : QBImagePickerControllerDelegate {
-    func qb_imagePickerControllerDidCancel(_ imagePickerController: QBImagePickerController!) {
-        dismiss(animated: true)
-    }
-    
-    func qb_imagePickerController(_ imagePickerController: QBImagePickerController!, didFinishPickingAssets assets: [Any]!) {
-        dismiss(animated: true)
-    }
-}

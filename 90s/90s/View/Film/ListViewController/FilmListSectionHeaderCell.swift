@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+/// 필름 섹션 안내 문구 테이블 셀
 final class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
     private var headerTitle : UILabel = {
         let label = UILabel(frame: .zero)

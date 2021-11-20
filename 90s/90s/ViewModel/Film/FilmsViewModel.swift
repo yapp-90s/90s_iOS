@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+/// Usage : FilmMainViewController
 final class FilmsViewModel : ViewModelType {
     private(set) var dependency : Dependency
     private(set) var input = Input()
@@ -19,48 +20,49 @@ final class FilmsViewModel : ViewModelType {
     init(dependency : Dependency) {
         self.dependency = dependency
         
-        setMockData()
-    }
-    
-    init(films : Film) {
-        self.dependency = Dependency(film: films)
+        // setMockData
+        output.films.accept(dependency.filmFactory)
         
-        bindToRepository()
+        var photoArray : [Photo] = []
+        dependency.filmFactory.forEach { photoArray.append(contentsOf: $0.photos) }
+        output.photos.accept(photoArray)
     }
     
-    func getStateData(state : FilmStateType) -> [Film]{
+    init(films : [Film]) {
+        self.dependency = Dependency(films: Observable.from(optional: films))
+        
+        output.films.accept(films)
+        
+        var photoArray : [Photo] = []
+        films.forEach { photoArray.append(contentsOf: $0.photos)}
+        output.photos.accept(photoArray)
+    }
+    
+     func getStateData(state : FilmStateType) -> [Film]{
         var array : [Film] = []
         
         output.films
-            .map { $0.filter { $0.state == state }}
+            .map { $0.filter { $0.filmState == state }}
             .subscribe(onNext: {
                 array.append(contentsOf: $0)
             })
-            .dispose()
+            .disposed(by: disposeBag)
         
         return array
-    }
-    
-    private func setMockData() {
-        output.films.accept(FilmFactory().createDefaultData())
-    }
-    
-    private func bindToRepository() {
-        if let f = dependency.film {
-            output.films.accept([f])
-        }
     }
 }
 
 
 extension FilmsViewModel {
     struct Dependency {
-        var film : Film?
+        weak var films : Observable<[Film]>?
+        let filmFactory = FilmFactory().createDefaultUserData()
     }
     struct Input {
         var selectFilm = PublishSubject<Film>()
     }
     struct Output {
         var films = BehaviorRelay<[Film]>(value: [])
+        var photos = BehaviorRelay<[Photo]>(value: [])
     }
 }

@@ -10,6 +10,11 @@ import RxDataSources
 struct FilmMainSectionModel  {
     var header : String
     var items : [Photo]
+    
+    init(header: String, items: [Photo]) {
+        self.header = header
+        self.items = items
+    }
 }
 
 extension FilmMainSectionModel : SectionModelType {

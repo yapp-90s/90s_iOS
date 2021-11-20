@@ -50,7 +50,7 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Property
     
-    static let cellID = "headerCell"
+    static let cellID = "FilmMainHeaderCollectionViewCell"
     private let viewModel = FilmsViewModel(dependency: .init())
     private var disposeBag = DisposeBag()
     var delegate : FilmMainViewControllerDelegate?

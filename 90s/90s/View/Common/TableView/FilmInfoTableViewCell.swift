@@ -10,8 +10,8 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-/// 필름 리스트를 보여주는 테이블 셀
-final class FilmListTableViewCell: UITableViewCell {
+/// 필름 정보를 보여주는 테이블 셀
+final class FilmInfoTableViewCell: UITableViewCell {
     private var filmTitleLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Film_Title
@@ -76,7 +76,7 @@ final class FilmListTableViewCell: UITableViewCell {
     
     // MARK: - Property
     
-    static let cellId = "filmListCell"
+    static let cellId = "FilmInfoTableViewCell"
     
     private var disposeBag = DisposeBag()
     private var testFilmValue : (Film, Bool)?
@@ -90,7 +90,6 @@ final class FilmListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
     }
-
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -180,13 +179,17 @@ final class FilmListTableViewCell: UITableViewCell {
         }
     }
     
+    func showStateImage(show value : Bool) {
+        filmTypeImageView.isHidden = !value
+    }
+    
     func bindViewModel(film: Film, isCreate: Bool){
         testFilmValue = (film, isCreate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmTitleImageView.image = UIImage(named: film.filmType.name.image)
-            self?.filmTypeImageView.image = UIImage(named: film.state.image())
-            self?.createInsideImages(type: film.filmType.name, photo: film.photos)
+            self?.filmTitleImageView.image = UIImage(named: film.filmType.image)
+            self?.filmTypeImageView.image = UIImage(named: film.filmState.image())
+            self?.createInsideImages(type: film.filmType, photo: film.photos)
         }
         
         filmTitleLabel.text = film.name
@@ -196,7 +199,7 @@ final class FilmListTableViewCell: UITableViewCell {
         case true:
             filmTypeImageView.isHidden = true
             filmNewLabel.isHidden = true
-            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDaysCount)시간 소요"
+            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
         case false:
             filmCount_DateLabel.text = "\(film.count)/\(film.maxCount)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
         }

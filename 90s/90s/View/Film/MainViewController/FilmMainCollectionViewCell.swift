@@ -25,7 +25,7 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    static let cellID = "filmCell"
+    static let cellID = "FilmMainCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,7 +54,7 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
     
     func bindItem(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image) 
+            self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
         filmImageLabel.text = film.name
     }

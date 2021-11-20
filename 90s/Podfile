@@ -23,7 +23,4 @@ target '90s' do
  pod 'RxKakaoSDKUser'
  
  
- # Film - temporary custom gallery
- pod 'QBImagePickerController'
- 
 end

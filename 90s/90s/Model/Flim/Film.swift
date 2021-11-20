@@ -10,7 +10,7 @@ import Foundation
 struct Film : Codable {
     let uid: Int
     var name: String
-    var filmType : FilmType
+    var filmType : FilmFilterType
     var user : User?
     
     var createdAt = Date().toString
@@ -22,7 +22,7 @@ struct Film : Codable {
     
     let maxCount: Int
     
-    var state : FilmStateType {
+    var filmState : FilmStateType {
         get {
             if maxCount == -1 {
                 return .create
