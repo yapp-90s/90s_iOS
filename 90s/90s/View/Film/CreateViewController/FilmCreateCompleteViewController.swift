@@ -266,7 +266,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         popUpAddButton.rx.tap.bind {
-            let nextVC = FilmGalleryViewController()
+            let nextVC = FilmGalleryViewController(film: self.film)
             self.navigationController?.pushViewController(nextVC, animated: true)
             self.updatePopUpView()
         }.disposed(by: disposeBag)

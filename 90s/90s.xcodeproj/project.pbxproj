@@ -578,7 +578,6 @@
 			isa = PBXGroup;
 			children = (
 				9B8EC892269EC4D60010BFA9 /* Common */,
-				9B8EC891269EC4C40010BFA9 /* Profile */,
 				9B8EC8A0269EC6E30010BFA9 /* Photo */,
 				9B75E28926799B110067667D /* Film */,
 				6525007C264C4C2700C1524D /* Album */,
@@ -966,13 +965,6 @@
 				9B8EC86E269EBCCC0010BFA9 /* User.swift */,
 			);
 			path = User;
-			sourceTree = "<group>";
-		};
-		9B8EC891269EC4C40010BFA9 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		9B8EC892269EC4D60010BFA9 /* Common */ = {

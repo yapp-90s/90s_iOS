@@ -31,7 +31,8 @@ final class FilmCreateViewController: BaseViewController {
         return label
     }()
     
-    private let viewModel = FilmsViewModel(films: .init())
+    
+    private let viewModel : Observable<[Film]> = Observable.from(optional: FilmFactory().createFilmCategoryList())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,13 +64,12 @@ final class FilmCreateViewController: BaseViewController {
     }
     
     private func setUpTableView(){
-        viewModel.output.films
-            .map { $0.filter { $0.filmState != .create} }
-            .bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
-                cell.selectionStyle = .none
-                cell.bindViewModel(film: element, isCreate: true)
+        
+        viewModel.bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
+            cell.selectionStyle = .none
+            cell.bindViewModel(film: element, isCreate: true)
         }.disposed(by: disposeBag)
-
+        
         tableView.rx.modelSelected(Film.self).subscribe(onNext: { indexPath in
             let nextVC = FilmCreateDetailViewController()
             nextVC.film = indexPath

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final class FilmCreateDetailViewController: BaseViewController {
     private var collectionView : UICollectionView = {
@@ -37,6 +38,12 @@ final class FilmCreateDetailViewController: BaseViewController {
         collectionView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+    
+    private func setUpCollectionView() {
+        Observable.from(optional: film.photos).bind(to: collectionView.rx.items(cellIdentifier: FilmCreateDetailCollectionViewCell.cellID, cellType: FilmCreateDetailCollectionViewCell.self)) { index, element, cell in
+            cell.bindViewModel(image: element.url)
+        }.disposed(by: disposeBag)
     }
 }
 

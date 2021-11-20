@@ -20,7 +20,7 @@ final class FilmService {
     private init() {}
     
     func create(film data: FilmAPI.FilmData, completionHandler : @escaping (Result<Film, Error>) -> Void) {
-        provider.request(.create(data)) { result in
+        provider.request(.create(data: data)) { result in
             do {
                 let response = try result.get()
                 let value = try response.map(FilmResponse.self)

@@ -38,7 +38,7 @@ final class FilmsViewModel : ViewModelType {
         output.photos.accept(photoArray)
     }
     
-    func getStateData(state : FilmStateType) -> [Film]{
+     func getStateData(state : FilmStateType) -> [Film]{
         var array : [Film] = []
         
         output.films

@@ -45,20 +45,23 @@ final class FilmGallerySelectedViewController: BaseViewController {
     
     // MARK: - Properties
     
+    var film : Film!
+    
     var viewModel : [UIImage] = []
     
     private var photos : [UIImage] = []
     
     // MARK: - Life Cycle
 
-    init(_ viewModel : [UIImage]) {
+    init(_ viewModel: [UIImage], film: Film) {
         self.viewModel = viewModel
+        self.film = film
         super.init(nibName: nil, bundle: nil)
         bind()
     }
     
-    convenience init(photo array : [UIImage]){
-        self.init([])
+    convenience init(photo array : [UIImage], film: Film){
+        self.init([], film: film)
         self.photos = array
         collectionView.reloadData()
     }
@@ -121,7 +124,14 @@ final class FilmGallerySelectedViewController: BaseViewController {
     }
     
     private func bind() {
-//        self.completeButton.rx.tap.bind(to: <#T##Void...##Void#>)
+        self.completeButton.rx.tap
+            .asDriver().drive(onNext: {
+                var array : [Photo] = []
+//                photos.forEach { array.append()}
+//                film.photos.
+//                film.photos.append(contentsOf: photos)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

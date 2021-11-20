@@ -12,9 +12,10 @@ enum FilmAPI {
     typealias JWT = (String)
     typealias FilmArray = [Film]
     
-    case create(_ data : FilmData)
+    case create(data: FilmData)
     case getFilms
     case startPrinting
+    case filmDelete(filmUid : String, data: FilmData)
 }
 
 
@@ -24,12 +25,13 @@ extension FilmAPI : BaseTarget {
         case .create: return "film/create"
         case .getFilms: return "film/getFilms"
         case .startPrinting: return "film/startPrinting"
+        case .filmDelete(let filmUid, _): return "film/delete/\(filmUid)"
         }
     }
     
     var method: Method {
         switch self {
-        case .create:
+        case .create, .filmDelete:
             return .post
         case .getFilms, .startPrinting:
             return .get
@@ -51,12 +53,17 @@ extension FilmAPI : BaseTarget {
             ], encoding: JSONEncoding.default)
         case .getFilms, .startPrinting:
             return .requestPlain
+        case .filmDelete(_ ,let film):
+            return .requestParameters(parameters: [
+                "filmCode" : film.filmCode,
+                "name" : film.name
+            ], encoding: JSONEncoding.default)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .create:
+        case .create, .filmDelete:
             return [
                 "Content-Type" : "application/json",
                 "X-AUTH-TOKEN" : "\(JWT.self)",

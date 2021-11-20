@@ -46,6 +46,7 @@ final class FilmGalleryViewController: BaseViewController {
     
     private var fetchResult : PHFetchResult<PHAsset>?
     private var phAssetArray : [UIImage] = []
+    var film: Film
     
     private var thumbnailSize = CGSize.zero
     private var selectedPhotosIndexPath : [IndexPath] = [] {
@@ -72,6 +73,15 @@ final class FilmGalleryViewController: BaseViewController {
         super.viewDidLoad()
         
         setUpSubViews()
+    }
+    
+    init(film : Film) {
+        self.film = film
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Methods
@@ -130,8 +140,7 @@ final class FilmGalleryViewController: BaseViewController {
                 selectedPhotos.append(phAssetArray[$0.item])
             }
             
-            let nextVC = FilmGallerySelectedViewController(photo: selectedPhotos)
-            
+            let nextVC = FilmGallerySelectedViewController(photo: selectedPhotos, film: self.film)
             self.navigationController?.pushViewController(nextVC, animated: true)
         }
     }

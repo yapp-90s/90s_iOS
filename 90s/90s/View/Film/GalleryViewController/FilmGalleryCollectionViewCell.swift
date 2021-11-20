@@ -33,6 +33,7 @@ final class FilmGalleryCollectionViewCell: UICollectionViewCell {
     }
     
     static let cellID = "FilmGalleryCollectionViewCell"
+    var film: Film!
     
     // MARK: - LifeCycle
     

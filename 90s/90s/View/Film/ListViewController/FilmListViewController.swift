@@ -154,8 +154,7 @@ final class FilmListViewController: BaseViewController {
             .subscribe(onNext: { [weak self] item in
                 if let bool = self?.isEditingMode {
                     if !bool {
-                        let nextVC = FilmListDetailViewController()
-                        nextVC.bindViewModel(film: item)
+                        let nextVC = FilmListDetailViewController(film: item)
                         self?.navigationController?.pushViewController(nextVC, animated: true)
                     }
                 }
