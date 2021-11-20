@@ -275,12 +275,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
     private func handleCompleteButton(){
         updatePopUpView()
         
-        FilmService.shared.create(film: (film.uid, film.name)) { result in
+        FilmService.shared.create(film: (film.filmType.id, film.name)) { result in
             switch result {
             case let .success(response) :
-                print("FilmCreate - success request", response)
+                print("FilmCreateCompleteVC - success request : createFilm, ", response)
             case let .failure(error) :
-                print("FilmCreate - error on creating film :", error)
+                print("FilmCreateCompleteVC - error : createFilm, ", error)
             }
         }
     }

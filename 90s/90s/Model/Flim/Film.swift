@@ -91,7 +91,13 @@ enum FilmFilterType : String, Codable {
     case ForgetMeNot = "ForgetMeNot"
     
     var id : Int {
-        self.hashValue
+        switch self {
+        case .Create : return 0
+        case .None : return 1001
+        case .Mono : return 1002
+        case .MossPink : return 1003
+        case .ForgetMeNot : return 1004
+        }
     }
     
     var printDaysCount : Int {

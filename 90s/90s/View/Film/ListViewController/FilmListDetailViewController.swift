@@ -200,7 +200,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
 //                self.present(picker, animated: true)
 //            } else {
         let nextVC = FilmGalleryViewController(film: film)
-                self.navigationController?.pushViewController(nextVC, animated: true)
+        self.navigationController?.pushViewController(nextVC, animated: true)
 //            }
     }
     

@@ -28,7 +28,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     
     // MARK: Property
     
-    private let viewModel = FilmsViewModel(dependency: .init())
+    private var viewModel = FilmsViewModel(dependency: .init())
     
     // MARK: Life Cycles
     
@@ -42,6 +42,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
+        requestFilmList()
     }
     
     // MARK: Method
@@ -59,7 +60,6 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PinterestCollectionViewCell.cellID, for: indexPath) as! PinterestCollectionViewCell
-            
             cell.bindViewModel(image: element.url)
             return cell
         })
@@ -78,6 +78,19 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         let layout = PinterestLayout()
         layout.delegate = self
         collectionView.collectionViewLayout = layout
+    }
+    
+    private func requestFilmList() {
+        print("request!!")
+        FilmService.shared.getFilm() { result in
+            print("result =" , result)
+            switch result {
+            case let .success(response):
+                print("FilmMainVC - success request : getFilm, ", response)
+            case let .failure(error):
+                print("FilmMainVC - error : getFilm, ", error)
+            }
+        }
     }
 }
 

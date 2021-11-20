@@ -22,10 +22,10 @@ enum PhotoAPI {
 extension PhotoAPI : BaseTarget {
     var path : String {
         switch self {
-        case .download : return "photo/download"
+        case .download(let photoUid) : return "photo/download\(photoUid)"
         case .upload : return "photo/upload"
-        case .getPhotoInfosByFilm(let uid) : return "photo/getPhotoInfosByFilm/\(uid)"
-        case .delete(let uid): return "photo/delete/\(uid)"
+        case .getPhotoInfosByFilm(let filmUid) : return "photo/getPhotoInfosByFilm/\(filmUid)"
+        case .delete(let filmUid): return "photo/delete/\(filmUid)"
         }
     }
     

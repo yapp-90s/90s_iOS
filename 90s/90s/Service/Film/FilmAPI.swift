@@ -46,10 +46,10 @@ extension FilmAPI : BaseTarget {
     */
     var task: Task {
         switch self {
-        case .create(let film):
+        case .create(let filmData):
             return .requestParameters(parameters: [
-                "filmCode" : film.filmCode,
-                "name" : film.name
+                "filmCode" : filmData.filmCode,
+                "name" : filmData.name
             ], encoding: JSONEncoding.default)
         case .getFilms, .startPrinting:
             return .requestPlain

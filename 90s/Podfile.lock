@@ -1,47 +1,41 @@
 PODS:
   - Alamofire (5.4.4)
   - Differentiator (4.0.1)
-<<<<<<< HEAD
+  - KakaoSDK (2.8.1):
+    - KakaoSDKAuth (= 2.8.1)
+    - KakaoSDKCommon (= 2.8.1)
+    - KakaoSDKLink (= 2.8.1)
+    - KakaoSDKNavi (= 2.8.1)
+    - KakaoSDKStory (= 2.8.1)
+    - KakaoSDKTalk (= 2.8.1)
+    - KakaoSDKTemplate (= 2.8.1)
+    - KakaoSDKUser (= 2.8.1)
+  - KakaoSDKAuth (2.8.1):
+    - KakaoSDKCommon (= 2.8.1)
+  - KakaoSDKCommon (2.8.1):
+    - KakaoSDKCommon/Common (= 2.8.1)
+    - KakaoSDKCommon/Network (= 2.8.1)
+  - KakaoSDKCommon/Common (2.8.1)
+  - KakaoSDKCommon/Network (2.8.1):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.8.1)
+  - KakaoSDKLink (2.8.1):
+    - KakaoSDKCommon (= 2.8.1)
+    - KakaoSDKTemplate (= 2.8.1)
+  - KakaoSDKNavi (2.8.1):
+    - KakaoSDKCommon/Common (= 2.8.1)
+  - KakaoSDKStory (2.8.1):
+    - KakaoSDKUser (= 2.8.1)
+  - KakaoSDKTalk (2.8.1):
+    - KakaoSDKTemplate (= 2.8.1)
+    - KakaoSDKUser (= 2.8.1)
+  - KakaoSDKTemplate (2.8.1):
+    - KakaoSDKCommon/Common (= 2.8.1)
+  - KakaoSDKUser (2.8.1):
+    - KakaoSDKAuth (= 2.8.1)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
-=======
-  - KakaoSDK (2.8.0):
-    - KakaoSDKAuth (= 2.8.0)
-    - KakaoSDKCommon (= 2.8.0)
-    - KakaoSDKLink (= 2.8.0)
-    - KakaoSDKNavi (= 2.8.0)
-    - KakaoSDKStory (= 2.8.0)
-    - KakaoSDKTalk (= 2.8.0)
-    - KakaoSDKTemplate (= 2.8.0)
-    - KakaoSDKUser (= 2.8.0)
-  - KakaoSDKAuth (2.8.0):
-    - KakaoSDKCommon (= 2.8.0)
-  - KakaoSDKCommon (2.8.0):
-    - KakaoSDKCommon/Common (= 2.8.0)
-    - KakaoSDKCommon/Network (= 2.8.0)
-  - KakaoSDKCommon/Common (2.8.0)
-  - KakaoSDKCommon/Network (2.8.0):
-    - Alamofire (~> 5.1)
-    - KakaoSDKCommon/Common (= 2.8.0)
-  - KakaoSDKLink (2.8.0):
-    - KakaoSDKCommon (= 2.8.0)
-    - KakaoSDKTemplate (= 2.8.0)
-  - KakaoSDKNavi (2.8.0):
-    - KakaoSDKCommon/Common (= 2.8.0)
-  - KakaoSDKStory (2.8.0):
-    - KakaoSDKUser (= 2.8.0)
-  - KakaoSDKTalk (2.8.0):
-    - KakaoSDKTemplate (= 2.8.0)
-    - KakaoSDKUser (= 2.8.0)
-  - KakaoSDKTemplate (2.8.0):
-    - KakaoSDKCommon/Common (= 2.8.0)
-  - KakaoSDKUser (2.8.0):
-    - KakaoSDKAuth (= 2.8.0)
-  - Moya (14.0.0):
-    - Moya/Core (= 14.0.0)
-  - Moya/Core (14.0.0):
->>>>>>> 492420d02a7d309a84772ab6ab65dbdfd1a70643
     - Alamofire (~> 5.0)
   - Realm (10.19.0):
     - Realm/Headers (= 10.19.0)
@@ -60,28 +54,24 @@ PODS:
     - Differentiator (~> 4.0)
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
-<<<<<<< HEAD
-  - RxRelay (5.1.3):
-=======
-  - RxKakaoSDKAuth (2.8.0):
-    - KakaoSDKAuth (= 2.8.0)
-    - RxKakaoSDKCommon (= 2.8.0)
-  - RxKakaoSDKCommon (2.8.0):
-    - RxKakaoSDKCommon/Common (= 2.8.0)
-    - RxKakaoSDKCommon/Network (= 2.8.0)
-  - RxKakaoSDKCommon/Common (2.8.0):
-    - KakaoSDKCommon/Common (= 2.8.0)
+  - RxKakaoSDKAuth (2.8.1):
+    - KakaoSDKAuth (= 2.8.1)
+    - RxKakaoSDKCommon (= 2.8.1)
+  - RxKakaoSDKCommon (2.8.1):
+    - RxKakaoSDKCommon/Common (= 2.8.1)
+    - RxKakaoSDKCommon/Network (= 2.8.1)
+  - RxKakaoSDKCommon/Common (2.8.1):
+    - KakaoSDKCommon/Common (= 2.8.1)
     - RxCocoa
     - RxSwift
-  - RxKakaoSDKCommon/Network (2.8.0):
-    - KakaoSDKCommon/Network (= 2.8.0)
+  - RxKakaoSDKCommon/Network (2.8.1):
+    - KakaoSDKCommon/Network (= 2.8.1)
     - RxAlamofire (~> 5.2)
-    - RxKakaoSDKCommon/Common (= 2.8.0)
-  - RxKakaoSDKUser (2.8.0):
-    - KakaoSDKUser (= 2.8.0)
-    - RxKakaoSDKAuth (= 2.8.0)
-  - RxRelay (5.1.1):
->>>>>>> 492420d02a7d309a84772ab6ab65dbdfd1a70643
+    - RxKakaoSDKCommon/Common (= 2.8.1)
+  - RxKakaoSDKUser (2.8.1):
+    - KakaoSDKUser (= 2.8.1)
+    - RxKakaoSDKAuth (= 2.8.1)
+  - RxRelay (5.1.3):
     - RxSwift (~> 5)
   - RxSwift (5.1.3)
   - SnapKit (5.0.1)
@@ -133,47 +123,29 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
-<<<<<<< HEAD
+  KakaoSDK: ea02b7f95458c184dc5b1c45a4fb685f6107c0bb
+  KakaoSDKAuth: 3cf74660531ac85cd2c7931df8d90d562b0a8fe2
+  KakaoSDKCommon: 701ef2a9b92215a4bf131b2a6139c3586b5e8d99
+  KakaoSDKLink: 727eb79fcf1728e678af8c715c9e9213bd679206
+  KakaoSDKNavi: 39cc71c6a99d1c06f8153cdedcad0ddcbbe0605b
+  KakaoSDKStory: 117bd123c86d7490f037abb920d5fcf69ebcc1c4
+  KakaoSDKTalk: 14a62541fbe93bfeafae8751e58d7212d3642431
+  KakaoSDKTemplate: 1e47d4d711cdae4250e8750cf6ce76652736e73e
+  KakaoSDKUser: c4bdbca17b05ce7a25c67176ac68b6b0c8b1db56
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   Realm: 869ab2a7e3bdfa6bf06d8723251539f504e6f602
   RealmSwift: f1f51c4a02fe826e5cea623b5441992f06bdc942
-=======
-  KakaoSDK: 31885e28f795ea568ff3537e5ee2cb44a9906dd0
-  KakaoSDKAuth: 614d5c1b2c52f0e25436765c52bfb27b522bf116
-  KakaoSDKCommon: 54ab936e6fc31ddaa78b056a6796db0d4be33923
-  KakaoSDKLink: 944f21e87962f83f6b687c99dc2c8edd8f6e902e
-  KakaoSDKNavi: b9723872afc731063bb72b604c2f28e838ba07d4
-  KakaoSDKStory: 4d866b5988c06397b023930b61f1ca3a105f3eab
-  KakaoSDKTalk: 46327e18da9fdcc558688f11eb6be1ae4118ea21
-  KakaoSDKTemplate: 4d118c0f051de0031ba294b8be275ef08944b69b
-  KakaoSDKUser: 24a737aa1e17b75579cb9e392062811d19d40045
-  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
-  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  Realm: ad3c5cd762e5a5bc02080fc55aa04a0e43f98575
-  RealmSwift: 316e450478fb01e06ece4438dda42f407c5f51d2
->>>>>>> 492420d02a7d309a84772ab6ab65dbdfd1a70643
   RxAlamofire: 8e144c62dcc01d68dcb366bfc542eb6dd46bab78
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
-<<<<<<< HEAD
+  RxKakaoSDKAuth: dad91020fa60619b432cde5752055a12acb6ce68
+  RxKakaoSDKCommon: 872604c9ab07c1bc6cc517b6732e0774052f2f5d
+  RxKakaoSDKUser: c2a1de28cdad13578f63714b40ee47fd8985f839
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
-=======
-  RxKakaoSDKAuth: c449c82c8d57233e34d562659b0e80651d6fb474
-  RxKakaoSDKCommon: 4e208b52b8570061749fa35e50855897df50db10
-  RxKakaoSDKUser: 7a62842bccffdf232a33e49ed8fd4e54104aef7c
-  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
-  RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
->>>>>>> 492420d02a7d309a84772ab6ab65dbdfd1a70643
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftLint: e5c7f1fba68eccfc51509d5b2ce1699f5502e0c7
 
-<<<<<<< HEAD
-PODFILE CHECKSUM: 829489ac533131b6c31b31edbd063e0cd3f081f2
+PODFILE CHECKSUM: 425cc61e408b31332c83aaa1611f1effa59e080b
 
 COCOAPODS: 1.10.1
-=======
-PODFILE CHECKSUM: ed914fa601567c53c8b861f5cb9db3daea1a5236
-
-COCOAPODS: 1.10.2
->>>>>>> 492420d02a7d309a84772ab6ab65dbdfd1a70643

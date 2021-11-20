@@ -9,10 +9,12 @@ import RxSwift
 import RxRelay
 
 struct AlbumProvider {
+    // input
     private static let albumRelay = BehaviorRelay<[String: (album: Album, count: Int, updatedAt: Date)]>(value: [:])
     private static let albumObservable = albumRelay
         .asObservable()
         .subscribeOn(SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
+    // output
     static let observable: Observable<[Album]> = albumObservable.map { $0.map { $0.value.album } }
     private static let queue = DispatchQueue(label: "RepoProvider.RxMVVMTexture.com", qos: .utility)
     
