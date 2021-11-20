@@ -187,9 +187,9 @@ final class FilmInfoTableViewCell: UITableViewCell {
         testFilmValue = (film, isCreate)
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmTitleImageView.image = UIImage(named: film.filmType.name.image)
-            self?.filmTypeImageView.image = UIImage(named: film.state.image())
-            self?.createInsideImages(type: film.filmType.name, photo: film.photos)
+            self?.filmTitleImageView.image = UIImage(named: film.filmType.image)
+            self?.filmTypeImageView.image = UIImage(named: film.filmState.image())
+            self?.createInsideImages(type: film.filmType, photo: film.photos)
         }
         
         filmTitleLabel.text = film.name
@@ -199,7 +199,7 @@ final class FilmInfoTableViewCell: UITableViewCell {
         case true:
             filmTypeImageView.isHidden = true
             filmNewLabel.isHidden = true
-            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.name.printDaysCount)시간 소요"
+            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
         case false:
             filmCount_DateLabel.text = "\(film.count)/\(film.maxCount)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
         }

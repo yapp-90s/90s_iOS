@@ -198,12 +198,12 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
     
     func bindViewModel(film : Film){
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
+            self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
         filmNameLabel.text = film.name
         filmDateLabel.text = film.createdAt
         filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
-        filmTypeLabel.text = film.state.text()
+        filmTypeLabel.text = film.filmState.text()
         
         films = film
         

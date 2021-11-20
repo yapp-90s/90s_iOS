@@ -30,7 +30,11 @@ extension Photo: Equatable {
     }
     
     var image: UIImage {
-        return UIImage(named: "photo\(Int.random(in: 1...4)).png")!
+        return UIImage(named: "test_pic\(Int.random(in: 1...4)).png")!
+    }
+    
+    var height: CGFloat {
+        return image.size.height
     }
 }
 

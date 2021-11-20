@@ -10,7 +10,7 @@ import SnapKit
 import Photos
 import RxSwift
 
-// TODO: - 할 일 : ViewModel 생성, RxCollectionView 변환, 이미지 분할 Call
+// TODO: - 할 일 : ViewModel 생성, RxCollectionView 변환, 이미지 분할 -> Rx 바인딩
 
 final class FilmGalleryViewController: BaseViewController {
 

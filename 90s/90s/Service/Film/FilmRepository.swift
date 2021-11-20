@@ -16,9 +16,9 @@ final class FilmRepository {
     
     private init() {
         films = filmsRelay.asObservable().map {
-            $0.map { FilmsViewModel(films: $0) }}
+            $0.map { FilmsViewModel(films: [$0]) }}
         
-        filmsRelay.accept(FilmFactory().createDefaultData())
+        filmsRelay.accept(FilmFactory().createDefaultUserData())
     }
     
     func add(film: Film) {

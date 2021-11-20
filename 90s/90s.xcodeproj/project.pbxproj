@@ -157,7 +157,6 @@
 		9B878D7D25E405010024CFAA /* FilmListSectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */; };
 		9B8CB357269C2F4900549035 /* ProfileLeaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */; };
 		9B8EC866269EBA200010BFA9 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8EC865269EBA200010BFA9 /* Profile.swift */; };
-		9B8EC86A269EBC620010BFA9 /* FilmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8EC869269EBC620010BFA9 /* FilmType.swift */; };
 		9B8EC86F269EBCCC0010BFA9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8EC86E269EBCCC0010BFA9 /* User.swift */; };
 		9B8EC88C269EC35E0010BFA9 /* FilmAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8EC88B269EC35E0010BFA9 /* FilmAPI.swift */; };
 		9B8EC8A2269EC6ED0010BFA9 /* PhotoAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8EC8A1269EC6ED0010BFA9 /* PhotoAPI.swift */; };
@@ -356,7 +355,6 @@
 		9B878D7C25E405010024CFAA /* FilmListSectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionHeaderCell.swift; sourceTree = "<group>"; };
 		9B8CB356269C2F4900549035 /* ProfileLeaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLeaveViewController.swift; sourceTree = "<group>"; };
 		9B8EC865269EBA200010BFA9 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		9B8EC869269EBC620010BFA9 /* FilmType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmType.swift; sourceTree = "<group>"; };
 		9B8EC86E269EBCCC0010BFA9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		9B8EC88B269EC35E0010BFA9 /* FilmAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmAPI.swift; sourceTree = "<group>"; };
 		9B8EC8A1269EC6ED0010BFA9 /* PhotoAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAPI.swift; sourceTree = "<group>"; };
@@ -551,7 +549,6 @@
 			children = (
 				653F7D7F259884D4002CD12A /* Film.swift */,
 				9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */,
-				9B8EC869269EBC620010BFA9 /* FilmType.swift */,
 				9B3746FA2630260100E412B0 /* FilmListSectionData.swift */,
 			);
 			path = Flim;
@@ -1341,7 +1338,6 @@
 				4CDA3C5F264FA16B00EEE12C /* BaseTarget.swift in Sources */,
 				4CE649F925E0DEC80093D238 /* PhotoDecorateViewController.swift in Sources */,
 				65F73D872721D133001313B5 /* TemplatePortraBlack.swift in Sources */,
-				9B8EC86A269EBC620010BFA9 /* FilmType.swift in Sources */,
 				65F73D852721D133001313B5 /* MoodyPaperImageView.swift in Sources */,
 				4C1F80ED25F35D1800E98A0B /* DecoratePhotoView.swift in Sources */,
 				657ED69D2630A395008823BC /* CoverViewModel.swift in Sources */,

@@ -31,7 +31,7 @@ final class FilmCreateViewController: BaseViewController {
         return label
     }()
     
-    private let viewModel = FilmsViewModel(dependency: .init())
+    private let viewModel = FilmsViewModel(films: .init())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +64,7 @@ final class FilmCreateViewController: BaseViewController {
     
     private func setUpTableView(){
         viewModel.output.films
-            .map { $0.filter { $0.state != .create} }
+            .map { $0.filter { $0.filmState != .create} }
             .bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
                 cell.selectionStyle = .none
                 cell.bindViewModel(film: element, isCreate: true)

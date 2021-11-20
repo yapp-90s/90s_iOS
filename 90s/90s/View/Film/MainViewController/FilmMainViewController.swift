@@ -16,7 +16,6 @@ protocol FilmMainViewControllerDelegate {
     func presentCreateVC()
 }
 
-
 final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private let collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
@@ -29,7 +28,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     
     // MARK: Property
     
-    private let viewModel = PhotoViewModel(dependency: .init())
+    private let viewModel = FilmsViewModel(dependency: .init())
     
     // MARK: Life Cycles
     
@@ -60,6 +59,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PinterestCollectionViewCell.cellID, for: indexPath) as! PinterestCollectionViewCell
+            
             cell.bindViewModel(image: element.url)
             return cell
         })
@@ -69,9 +69,11 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
             header.delegate = self
             return header
         }
-
-        viewModel.output.photoSectionViewModel
-            .bind(to: collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+         
+        viewModel.output.photos
+            .map { [FilmMainSectionModel(header: "", items: $0)] }
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
         let layout = PinterestLayout()
         layout.delegate = self
@@ -92,10 +94,8 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 
 extension FilmMainViewController : PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        if let index = viewModel.output.photoSectionViewModel.value.first,
-           let image = UIImage(named: index.items[indexPath.row].url) {
-            return image.size.height
-        }
-        return 200
+        let index = viewModel.output.photos.value[indexPath.row]
+        
+        return index.height
     }
 }

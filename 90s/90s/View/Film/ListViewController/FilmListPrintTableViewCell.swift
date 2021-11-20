@@ -107,10 +107,10 @@ final class FilmListPrintTableViewCell: UITableViewCell {
     }
     
     func bindViewModel(film: Film) {
-        filmTypeLabel.text = film.filmType.name.rawValue
+        filmTypeLabel.text = film.filmType.rawValue
         
         DispatchQueue.main.async { [weak self] in
-            self?.filmImageView.image = UIImage(named: film.filmType.name.image)
+            self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
     }
 }

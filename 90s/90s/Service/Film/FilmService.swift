@@ -14,7 +14,7 @@ final class FilmService {
     
     let provider = MoyaProvider<FilmAPI>()
     
-    var filmType : FilmType?
+    var filmType : FilmFilterType?
     var user : User?
     
     private init() {}
