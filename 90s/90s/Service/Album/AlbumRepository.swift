@@ -37,31 +37,31 @@ final class AlbumRepository {
     private func fetchMockData() {
         queue.sync {
             var dummyAlbums: [Album] = [
-                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
+                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .sweetLittleMemories, photos: [
                     .init(photoUid: 0, url: "", date: "2020.01.03"),
                     .init(photoUid: 1, url: "", date: "2020.01.04"),
                     .init(photoUid: 2, url: "", date: "2020.01.05")
                 ]),
-                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
+                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .candy, photos: [
                     .init(photoUid: 3, url: "", date: "2020.01.03"),
                     .init(photoUid: 4, url: "", date: "2020.01.03"),
                     .init(photoUid: 5, url: "", date: "2020.01.03"),
                     .init(photoUid: 6, url: "", date: "2020.01.03")
                 ]),
-                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
+                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .yic, photos: [
                     .init(photoUid: 7, url: "", date: "2020.01.03"),
                     .init(photoUid: 8, url: "", date: "2020.01.03")
                 ]),
-                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
+                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .stickyBubble, photos: [
                     .init(photoUid: 9, url: "", date: "2020.01.03"),
                     .init(photoUid: 10, url: "", date: "2020.01.03"),
                     .init(photoUid: 11, url: "", date: "2020.01.03"),
                     .init(photoUid: 12, url: "", date: "2020.01.03")
                 ]),
-                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
+                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .youMakeMeCloudy, photos: [
                     .init(photoUid: 13, url: "", date: "2020.01.03")
                 ]),
-                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
+                .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .sweetLittleMemories, photos: [
                     .init(photoUid: 14, url: "", date: "2020.01.03"),
                     .init(photoUid: 15, url: "", date: "2020.01.03"),
                     .init(photoUid: 16, url: "", date: "2020.01.03"),
@@ -72,6 +72,13 @@ final class AlbumRepository {
                 return l.createdAt < r.createdAt
             }
             albumsRelay.accept(dummyAlbums)
+        }
+    }
+    
+    func all() -> [Album] {
+        queue.sync {
+            let albums = albumsRelay.value
+            return albums
         }
     }
     
@@ -89,8 +96,9 @@ final class AlbumRepository {
         }
     }
     
-    func add(album: Album) -> Bool {
+    func add(albumCreate: AlbumCreate) -> Bool {
         queue.sync {
+            let album = Album(id: "", name: albumCreate.name.value, createdAt: "albumCreate.date.value", updatedAt: "albumCreate.date.value", totalPaper: 10, cover: albumCreate.cover.value)
             var albums = albumsRelay.value
             albums.insert(album, at: 0)
             albumsRelay.accept(albums)

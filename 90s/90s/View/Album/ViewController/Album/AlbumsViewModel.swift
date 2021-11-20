@@ -37,7 +37,7 @@ extension AlbumsViewModel {
     }
     
     struct Output {
-        let createViewModel: Observable<AlbumCreateViewModel>
+        let createViewModel: Observable<AlbumCoverViewModel>
         let selectedMakingAlbum: Observable<AlbumViewModel>
         let selectedAlbum: Observable<AlbumViewModel>
         
@@ -45,7 +45,7 @@ extension AlbumsViewModel {
         
         init(input: Input, dependency: Dependency) {
             createViewModel = input.createAlbumButton
-                .map { _ in .init() }
+                .map { _ in .init(dependency: .init(coverService: CoverService.shared, albumRepository: .shared)) }
                 .asObservable()
             
             selectedMakingAlbum = input.selectMakingAlbum

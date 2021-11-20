@@ -11,7 +11,7 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
-final class AlbumCreatePreviewViewController: UIViewController {
+final class AlbumCompleteViewController: UIViewController {
     
     private lazy var topBar: UIView = {
         let view = UIView()
@@ -66,6 +66,7 @@ final class AlbumCreatePreviewViewController: UIViewController {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.font = .Popup_Title
         label.textColor = .white
         self.contentsView.addSubview(label)
         return label
@@ -116,10 +117,10 @@ final class AlbumCreatePreviewViewController: UIViewController {
         return button
     }()
     
-    private let viewModel: AlbumCreateViewModel
+    private let viewModel: AlbumCompleteViewModel
     private let disposeBag = DisposeBag()
     
-    init(viewModel: AlbumCreateViewModel) {
+    init(viewModel: AlbumCompleteViewModel) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -218,31 +219,30 @@ final class AlbumCreatePreviewViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.selectedCover
+        viewModel.output.albumCreate.cover
             .map { $0.image }
-            .asDriver()
-            .drive(imageView.rx.image)
+            .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
         
-        viewModel.nameRelay
+        viewModel.output.albumCreate.name
             .bind(to: nameLabel.rx.text)
             .disposed(by: disposeBag)
         
-        viewModel.selectedCoverRelay
+        viewModel.output.albumCreate.cover
             .map { "커버     \($0.name)" }
             .bind(to: coverNameLabel.rx.text)
             .disposed(by: disposeBag)
         
         
-        viewModel.selectedTemplateRelay
+        viewModel.output.albumCreate.template
             .map { "템플릿  \($0.name)" }
             .bind(to: templateNameLabel.rx.text)
             .disposed(by: disposeBag)
         
         
-        viewModel.createDate
+        viewModel.output.albumCreate.date
             .map { "생성일  \($0.toString)" }
-            .drive(createDateLabel.rx.text)
+            .bind(to: createDateLabel.rx.text)
             .disposed(by: disposeBag)
         
         
@@ -260,7 +260,7 @@ final class AlbumCreatePreviewViewController: UIViewController {
         
         button.rx.tap
             .subscribe(onNext: { _ in
-                AlbumRepository.shared.add(album: .init(id: "", name: "", createdAt: "", updatedAt: "", totalPaper: 0, cover: .empty))
+                AlbumRepository.shared.add(albumCreate: self.viewModel.output.albumCreate)
                 DispatchQueue.main.async {
                     self.dismiss(animated: true)
                 }

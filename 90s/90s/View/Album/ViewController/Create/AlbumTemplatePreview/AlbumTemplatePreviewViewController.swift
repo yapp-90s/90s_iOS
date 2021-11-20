@@ -12,7 +12,7 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
-final class AlbumTemplateViewController: UIViewController {
+final class AlbumTemplatePreviewViewController: UIViewController {
     
     private let TEMPLATE_HEIGHT_SCALE: CGFloat = 1.662538
     
@@ -69,10 +69,10 @@ final class AlbumTemplateViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: AlbumCreateViewModel
+    private let viewModel: AlbumTemplatePreviewViewModel
     private let disposeBag = DisposeBag()
     
-    init(viewModel: AlbumCreateViewModel) {
+    init(viewModel: AlbumTemplatePreviewViewModel) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -141,12 +141,11 @@ final class AlbumTemplateViewController: UIViewController {
             return cell
         })
         
-        viewModel.templateSection
+        viewModel.output.templateSection
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.selectedTemplateRelay.value
-            .name
+        viewModel.output.albumCreate.name
             .bind(to: descriptionLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -162,15 +161,16 @@ final class AlbumTemplateViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-//        viewModel.next
-//            .subscribe { _ in
-//                self.createAlbum()
-//            }.disposed(by: disposeBag)
+        viewModel.output.next
+            .subscribe { _ in
+                self.createAlbum()
+            }.disposed(by: disposeBag)
         
     }
     
     private func createAlbum() {
-        let vc = AlbumCreatePreviewViewController(viewModel: viewModel)
+        let vm = viewModel.viewModelForAlbumCreatePreviewViewModel()
+        let vc = AlbumCompleteViewController(viewModel: vm)
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)
         }

@@ -1,5 +1,5 @@
 //
-//  AlbumCreateTemplateViewController.swift
+//  AlbumCreateNameViewController.swift
 //  90s
 //
 //  Created by 김진우 on 2021/04/10.
@@ -11,38 +11,36 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
-final class AlbumCreateTemplateViewController: UIViewController {
-    
-    let SCREEN_WIDTH: CGFloat = UIScreen.main.bounds.width
+class AlbumNameViewController: UIViewController {
     
     private lazy var topBar: UIView = {
         let view = UIView()
         self.view.addSubview(view)
         return view
     }()
-
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         topBar.addSubview(label)
-        label.text = "앨범 만들기(3/3)"
+        label.text = "앨범 만들기(2/3)"
         label.font = .Sub_Head
         return label
     }()
-
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(.init(named: "back"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
-
+    
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setImage(.init(named: "close"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
-
+    
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -54,29 +52,44 @@ final class AlbumCreateTemplateViewController: UIViewController {
     
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .green
         self.view.addSubview(imageView)
         return imageView
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let cellWidth = (SCREEN_WIDTH - 47) / 2
-        let cellHeight = cellWidth * 1.664634 + 30
-        layout.itemSize = .init(width: cellWidth, height: cellHeight)
-        layout.sectionInset = .init(top: 24, left: 18, bottom: 24, right: 18)
-        layout.minimumLineSpacing = 18
-        layout.minimumInteritemSpacing = 11
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(TemplateCollectionViewCell.self, forCellWithReuseIdentifier: TemplateCollectionViewCell.identifier)
-        collectionView.showsVerticalScrollIndicator = false
-        self.view.addSubview(collectionView)
-        return collectionView
+    private lazy var textField: UITextField = {
+        let textField = UITextField()
+        textField.font = .Large_Text_Bold
+        textField.placeholder = "지은이의 앨범"
+        textField.textAlignment = .center
+        self.view.addSubview(textField)
+        return textField
     }()
     
-    private let viewModel: AlbumCreateViewModel
+    private lazy var textFieldLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        self.view.addSubview(view)
+        return view
+    }()
+    
+    private lazy var button: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = .Btn_Text
+        button.setTitle("확인", for: .normal)
+        button.isEnabled = false
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.white, for: .disabled)
+        button.backgroundColor = .Warm_Gray
+        button.layer.cornerRadius = 6
+        self.view.addSubview(button)
+        return button
+    }()
+    
+    private let viewModel: AlbumNameViewModel
     private let disposeBag = DisposeBag()
     
-    init(viewModel: AlbumCreateViewModel) {
+    init(viewModel: AlbumNameViewModel) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -130,37 +143,50 @@ final class AlbumCreateTemplateViewController: UIViewController {
             $0.left.equalTo(descriptionLabel.snp.right).offset(18 * layoutScale)
         }
         
-        collectionView.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(29 * layoutScale)
-            $0.left.right.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        textField.snp.makeConstraints {
+            $0.width.equalTo(118 * layoutScale)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(24 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
         }
         
+        textFieldLine.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.equalTo(textField.snp.bottom).offset(12 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
+        }
+        
+        button.snp.makeConstraints {
+            $0.height.equalTo(56 * layoutScale)
+            $0.top.equalTo(textFieldLine.snp.bottom).offset(21 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
+        }
     }
-    typealias TemplateSectionModel = SectionModel<String, TemplateViewModel>
-    typealias TemplateDataSource = RxCollectionViewSectionedReloadDataSource<TemplateSectionModel>
     
     private func bindViewModel() {
-        
-        let dataSource = TemplateDataSource(configureCell: { (datasource, collectionView, indexPath, item) in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateCollectionViewCell.identifier, for: indexPath) as! TemplateCollectionViewCell
-            cell.bind(viewModel: item)
-            return cell
-        })
-        
-        viewModel.templateSection
-            .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        viewModel.selectedCover
+        viewModel.output.albumCreate.cover
             .map { $0.image }
-            .asDriver()
-            .drive(coverImageView.rx.image)
+            .bind(to: coverImageView.rx.image)
             .disposed(by: disposeBag)
         
-        collectionView.rx.itemSelected
-            .map { self.viewModel.templateSection.value.first!.items[$0.item] }
-            .bind(to: viewModel.selectTempalte)
+        textField.rx.text
+            .orEmpty
+            .subscribe { text in
+                if !(text.element?.isEmpty ?? false) {
+                    self.button.backgroundColor = .retroOrange
+                    self.button.isEnabled = true
+                } else {
+                    self.button.backgroundColor = .Warm_Gray
+                    self.button.isEnabled = false
+                }
+            }.disposed(by: disposeBag)
+        
+        textField.rx.text
+            .filter { $0 != nil }
+            .map { $0! }
+            .bind(to: viewModel.input.name)
             .disposed(by: disposeBag)
         
         backButton.rx.tap
@@ -175,14 +201,20 @@ final class AlbumCreateTemplateViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.selectedTemplate
-            .subscribe({ _ in
+        button.rx.tap
+            .bind(to: viewModel.input.next)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.next
+            .subscribe(onNext: { _ in
                 self.createAlbum()
-            }).disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func createAlbum() {
-        let vc = AlbumTemplateViewController(viewModel: self.viewModel)
+        let vm = viewModel.viewModelForAlbumCreateTemplate()
+        let vc = AlbumTemplateViewController(viewModel: vm)
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)
         }

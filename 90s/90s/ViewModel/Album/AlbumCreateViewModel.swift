@@ -9,6 +9,17 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+class AlbumCreate {
+    var cover = BehaviorRelay<AlbumCover>(value: .sweetLittleMemories)
+    var name = BehaviorRelay<String>(value: "")
+    var template = BehaviorRelay<Template>(value: .init(name: "", imageName: ""))
+    var date = BehaviorRelay<Date>(value: .init())
+    
+    init() {
+        cover.accept(.sweetLittleMemories)
+    }
+}
+
 final class AlbumCreateViewModel {
     // MARK: - Input
     let selectCover: PublishRelay<AlbumCover> = .init()
@@ -21,10 +32,10 @@ final class AlbumCreateViewModel {
     let aaa: PublishSubject<Int> = .init()
     
     // MARK: - Output
-    typealias CoverSectionModel = SectionModel<String, CoverViewModel>
+//    typealias CoverSectionModel = SectionModel<String, CoverViewModel>
     typealias TemplateSectionModel = SectionModel<String, TemplateViewModel>
     let selectedCover: Driver<AlbumCover>
-    let coverSection: BehaviorRelay<[CoverSectionModel]> = .init(value: [])
+//    let coverSection: BehaviorRelay<[CoverSectionModel]> = .init(value: [])
     let name: Driver<String>
     let selectedTemplate: PublishSubject<TemplateViewModel> = .init()
     let createDate: Driver<Date>
@@ -50,16 +61,16 @@ final class AlbumCreateViewModel {
     }
     
     private func bind() {
-        CoverService.shared
-            .viewModels()
-            .map({ [CoverSectionModel.init(model: "", items: $0)] })
-            .bind(to: coverSection)
-            .disposed(by: disposeBag)
+//        CoverService.shared
+//            .viewModels()
+//            .map({ [CoverSectionModel.init(model: "", items: $0)] })
+//            .bind(to: coverSection)
+//            .disposed(by: disposeBag)
         
-        TemplateService.shared.viewModels()
-            .map { [TemplateSectionModel.init(model: "", items: $0)] }
-            .bind(to: templateSection)
-            .disposed(by: disposeBag)
+//        TemplateService.shared.viewModels()
+//            .map { [TemplateSectionModel.init(model: "", items: $0)] }
+//            .bind(to: templateSection)
+//            .disposed(by: disposeBag)
         
         next.subscribe(onNext:  {
             print("A")

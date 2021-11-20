@@ -110,9 +110,6 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
             .disposed(by: disposeBag)
         
         viewModel.date
-            .do(onNext: { date in
-                print(date)
-            })
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
     }

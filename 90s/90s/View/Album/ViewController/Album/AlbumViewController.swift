@@ -43,12 +43,12 @@ class AlbumViewController: UIViewController {
     // MARK: - Property
     private let viewModel: AlbumsViewModel
     private let disposeBag = DisposeBag()
-    let sections: [AlbumSection] = [
+    lazy var sections: [AlbumSection] = [
         AlbumCreateSection(),
         AlbumBannerSection(),
-        AlbumTitleHeaderSection(),
+        AlbumTitleHeaderSection(delegate: nil),
         AlbumCoverSection(),
-        AlbumTitleHeaderSection(),
+        AlbumTitleHeaderSection(delegate: self),
         AlbumPreviewSection()
     ]
     
@@ -67,31 +67,12 @@ class AlbumViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Method
     private func setupUI() {
         navigationController?.title = "앨범 만들기(1/3)"
         
         collectionView.snp.makeConstraints {
             $0.top.left.bottom.right.equalToSuperview()
         }
-    }
-    
-    private func bindAction() {
-        collectionView.rx.itemSelected
-            .filter { $0.section == 0 }
-            .map { _ in () }
-            .bind(to: viewModel.input.createAlbumButton)
-            .disposed(by: disposeBag)
-        
-        collectionView.rx.itemSelected
-            .filter { $0.section == 3 }
-            .bind(to: viewModel.input.selectMakingAlbum)
-            .disposed(by: disposeBag)
-        
-        collectionView.rx.itemSelected
-            .filter { $0.section == 5 }
-            .bind(to: viewModel.input.selectAlbum)
-            .disposed(by: disposeBag)
     }
     
     private func bindState() {
@@ -116,8 +97,28 @@ class AlbumViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func createAlbum(_ viewModel: AlbumCreateViewModel) {
-        let vc = AlbumCreateCoverViewController(viewModel: viewModel)
+    private func bindAction() {
+        collectionView.rx.itemSelected
+            .filter { $0.section == 0 }
+            .map { _ in () }
+            .bind(to: viewModel.input.createAlbumButton)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .filter { $0.section == 3 }
+            .bind(to: viewModel.input.selectMakingAlbum)
+            .disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .filter { $0.section == 5 }
+            .bind(to: viewModel.input.selectAlbum)
+            .disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - Method
+    private func createAlbum(_ viewModel: AlbumCoverViewModel) {
+        let vc = AlbumCoverViewController(viewModel: viewModel)
         let naviVC = UINavigationController(rootViewController: vc)
         naviVC.modalPresentationStyle = .overFullScreen
         naviVC.navigationBar.isHidden = true
@@ -135,6 +136,16 @@ class AlbumViewController: UIViewController {
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
         let vc = UIViewController()
+        DispatchQueue.main.async {
+            self.present(vc, animated: true)
+        }
+    }
+}
+
+extension AlbumViewController: AlbumTitleHeaderCellDelegate {
+    func touchButton() {
+        let vc = AlbumListViewController(viewModel: .init(dependency: .init(albumRepository: .shared)))
+        vc.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }
