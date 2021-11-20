@@ -11,7 +11,7 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
-class AlbumCreateCoverViewController: UIViewController {
+class AlbumCoverViewController: UIViewController {
     
     // MARK: - UI Component
     private lazy var topBar: UIView = {
@@ -91,27 +91,21 @@ class AlbumCreateCoverViewController: UIViewController {
     }()
     
     // MARK: - Property
-    private let viewModel: AlbumCreateViewModel
+    private let viewModel: AlbumCoverViewModel
     private let disposeBag = DisposeBag()
     
     // MARK: - Init
-    init(viewModel: AlbumCreateViewModel) {
+    init(viewModel: AlbumCoverViewModel) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
+        setupUI()
+        bindState()
+        bindAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupUI()
-        bindViewModel()
-        bindCollectionView()
     }
     
     private func setupUI() {
@@ -165,50 +159,63 @@ class AlbumCreateCoverViewController: UIViewController {
     typealias CoverSectionModel = SectionModel<String, CoverViewModel>
     typealias CoverDataSource = RxCollectionViewSectionedReloadDataSource<CoverSectionModel>
     
-    private func bindCollectionView() {
+    private func bindState() {
         let dataSource = CoverDataSource(configureCell: { (datasource, collectionView, indexPath, item) in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as! CoverCollectionViewCell
             cell.bind(viewModel: item)
             return cell
         })
         
-        viewModel.coverSection
+        viewModel.output.coverSection
             .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        viewModel.output.selectedCover
+            .map { $0.image }
+            .bind(to: coverImageView.rx.image)
+            .disposed(by: disposeBag)
+
+        viewModel.output.next
+            .subscribe { _ in
+                self.createAlbum()
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.close
+            .bind { _ in
+                self.close()
+            }
             .disposed(by: disposeBag)
     }
     
-    private func bindViewModel() {
-        
-        viewModel.selectedCover
-            .map { $0.image }
-            .asDriver()
-            .drive(coverImageView.rx.image)
-            .disposed(by: disposeBag)
+    private func bindAction() {
         
         collectionView.rx
             .itemSelected
-            .map { value in
-                self.createAlbum()
-                return self.viewModel.coverSection.value.first!.items[value.item].cover.value
-            }
-            .bind(to: viewModel.selectCover)
+            .bind(to: viewModel.input.selectCover)
             .disposed(by: disposeBag)
         
         button.rx.tap
-            .bind(to: viewModel.next)
+            .bind(to: viewModel.input.next)
             .disposed(by: disposeBag)
         
         closeButton.rx.tap
-            .subscribe(onNext: { _ in
-                self.dismiss(animated: true, completion: nil)
-            })
+            .bind(to: viewModel.input.close)
             .disposed(by: disposeBag)
+        
+        viewModel.input.selectCover.accept(.init(item: 0, section: 0))
     }
     
     private func createAlbum() {
-        let vc = AlbumCreateNameViewController(viewModel: viewModel)
+        let vc = AlbumNameViewController(viewModel: viewModel.viewModelForCreateNameAlbum())
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    private func close() {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true)
         }
     }
 }

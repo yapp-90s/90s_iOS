@@ -27,6 +27,7 @@ class AlbumCreateCollectionViewCell: UICollectionViewCell {
     
     lazy var createButton: UIButton = {
         let button = UIButton()
+        button.isUserInteractionEnabled = false
         button.backgroundColor = .retroOrange
         button.setTitleColor(.white, for: .normal)
         button.setTitle("앨범 만들기", for: .normal)

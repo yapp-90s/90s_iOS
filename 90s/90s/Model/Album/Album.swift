@@ -14,7 +14,6 @@ struct Album: Codable {
     var createdAt: String
     var updatedAt: String
     var completedAt: String?
-    //    let template: AlbumLayout
     let totalPaper: Int
     let cover: AlbumCover
     private(set) var photos: [Photo] = []
