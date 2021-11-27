@@ -7,7 +7,9 @@
 
 import UIKit
 
-class PhoneAuthenticationViewController: UIViewController {
+class PhoneAuthenticationViewController: BaseViewController {
+    
+    // MARK: - Views
     
     private let phoneNumberTextField: LabelTextFieldView = {
         let textFieldView = LabelTextFieldView(label: "휴대폰 번호", placeholder: "010-1234-1234")
@@ -53,7 +55,21 @@ class PhoneAuthenticationViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
-
+    
+    // MARK: - View Life Cycle
+    
+    let viewModel: PhoneAuthenticationViewModel
+    
+    init(viewModel: PhoneAuthenticationViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.viewModel = PhoneAuthenticationViewModel(dependency: .init())
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
