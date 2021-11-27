@@ -29,17 +29,17 @@ final class PhotoViewModel : ViewModelType {
     
     private func setMockData() -> [Photo] {
         return [
-            Photo(photoUid: 0, url: "test_pic1", date: "0"),
-            Photo(photoUid: 1, url: "test_pic2", date: "0"),
-            Photo(photoUid: 2, url: "test_pic3", date: "0"),
-            Photo(photoUid: 3, url: "test_pic4", date: "0"),
-            Photo(photoUid: 4, url: "test_pic1", date: "0"),
-            Photo(photoUid: 5, url: "test_pic2", date: "0"),
-            Photo(photoUid: 6, url: "test_pic3", date: "0"),
-            Photo(photoUid: 7, url: "test_pic4", date: "0"),
-            Photo(photoUid: 8, url: "test_pic1", date: "0"),
-            Photo(photoUid: 9, url: "test_pic2", date: "0"),
-            Photo(photoUid: 10, url: "test_pic3", date: "0"),
+            Photo(photoUid: 0, filmUid: -10, url: "test_pic1"),
+            Photo(photoUid: 1, filmUid: -10, url: "test_pic2"),
+            Photo(photoUid: 2, filmUid: -10, url: "test_pic3"),
+            Photo(photoUid: 3, filmUid: -10, url: "test_pic4"),
+            Photo(photoUid: 4, filmUid: -10, url: "test_pic1"),
+            Photo(photoUid: 5, filmUid: -10, url: "test_pic2"),
+            Photo(photoUid: 6, filmUid: -10, url: "test_pic3"),
+            Photo(photoUid: 7, filmUid: -10, url: "test_pic4"),
+            Photo(photoUid: 8, filmUid: -10, url: "test_pic1"),
+            Photo(photoUid: 9, filmUid: -10, url: "test_pic2"),
+            Photo(photoUid: 10, filmUid: -10, url: "test_pic3"),
         ]
     }
 }

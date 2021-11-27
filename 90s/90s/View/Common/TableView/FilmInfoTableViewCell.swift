@@ -201,7 +201,7 @@ final class FilmInfoTableViewCell: UITableViewCell {
             filmNewLabel.isHidden = true
             filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
         case false:
-            filmCount_DateLabel.text = "\(film.count)/\(film.maxCount)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
+            filmCount_DateLabel.text = "\(film.count)/\(film.filmType.max)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
         }
         
         if Date().dateToString() == film.createdAt {
@@ -209,7 +209,7 @@ final class FilmInfoTableViewCell: UITableViewCell {
         }
     }
     
-    private func createInsideImages(type : FilmFilterType, photo : [Photo]) {
+    private func createInsideImages(type : FilmType, photo : [Photo]) {
         let repeatCount = min(photo.count, type.maxCountImageView)
        
         for i in 0..<repeatCount  {

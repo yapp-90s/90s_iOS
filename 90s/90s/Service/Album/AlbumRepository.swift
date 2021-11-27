@@ -26,34 +26,34 @@ final class AlbumRepository {
     private func fetchMockData() {
         var dummyAlbums: [Album] = [
             .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
-                .init(photoUid: 0, url: "", date: "2020.01.03"),
-                .init(photoUid: 1, url: "", date: "2020.01.04"),
-                .init(photoUid: 2, url: "", date: "2020.01.05")
+                .init(photoUid: 0, filmUid: -100, url: ""),
+                .init(photoUid: 1, filmUid: -100, url: ""),
+                .init(photoUid: 2, filmUid: -100, url: "")
             ]),
             .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
-                .init(photoUid: 3, url: "", date: "2020.01.03"),
-                .init(photoUid: 4, url: "", date: "2020.01.03"),
-                .init(photoUid: 5, url: "", date: "2020.01.03"),
-                .init(photoUid: 6, url: "", date: "2020.01.03")
+                .init(photoUid: 3, filmUid: -101, url: ""),
+                .init(photoUid: 4, filmUid: -101, url: ""),
+                .init(photoUid: 5, filmUid: -101, url: ""),
+                .init(photoUid: 6, filmUid: -101, url: "")
             ]),
             .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
-                .init(photoUid: 7, url: "", date: "2020.01.03"),
-                .init(photoUid: 8, url: "", date: "2020.01.03")
+                .init(photoUid: 7, filmUid: -102, url: ""),
+                .init(photoUid: 8, filmUid: -102, url: "")
             ]),
             .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
-                .init(photoUid: 9, url: "", date: "2020.01.03"),
-                .init(photoUid: 10, url: "", date: "2020.01.03"),
-                .init(photoUid: 11, url: "", date: "2020.01.03"),
-                .init(photoUid: 12, url: "", date: "2020.01.03")
+                .init(photoUid: 9, filmUid: -103, url: ""),
+                .init(photoUid: 10, filmUid: -103, url: ""),
+                .init(photoUid: 11, filmUid: -103, url: ""),
+                .init(photoUid: 12, filmUid: -103, url: "")
             ]),
             .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
-                .init(photoUid: 13, url: "", date: "2020.01.03")
+                .init(photoUid: 13, filmUid: -104, url: "")
             ]),
             .init(id: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .empty, photos: [
-                .init(photoUid: 14, url: "", date: "2020.01.03"),
-                .init(photoUid: 15, url: "", date: "2020.01.03"),
-                .init(photoUid: 16, url: "", date: "2020.01.03"),
-                .init(photoUid: 17, url: "", date: "2020.01.03")
+                .init(photoUid: 14, filmUid: -105, url: ""),
+                .init(photoUid: 15, filmUid: -106, url: ""),
+                .init(photoUid: 16, filmUid: -107, url: ""),
+                .init(photoUid: 17, filmUid: -108, url: "")
             ])
         ]
         dummyAlbums.sort { (l, r) -> Bool in

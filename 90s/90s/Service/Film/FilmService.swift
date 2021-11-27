@@ -14,7 +14,7 @@ final class FilmService {
     
     let provider = MoyaProvider<FilmAPI>()
     
-    var filmType : FilmFilterType?
+    var filmType : FilmType?
     var user : User?
     
     private init() {}
@@ -32,7 +32,6 @@ final class FilmService {
     }
     
     func getFilm(completionHandler : @escaping (Result<[Film], Error>) -> Void) {
-        print(FilmAPI.getFilms)
         provider.request(.getFilms) { result in
             do {
                 let response = try result.get()

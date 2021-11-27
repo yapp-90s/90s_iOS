@@ -7,16 +7,20 @@
 
 import UIKit
 
-
-// 필름에 추가된 후
 struct Photo : Codable {
     let photoUid : Int
-    var filmUid : Int = -1
+    let filmUid : Int
     let url: String
-    let date: String
     
-    func isEqual(id: Int) -> Bool {
-        return self == id
+    let createdAt: String
+    let updatedAt: String
+    
+    init(photoUid : Int, filmUid : Int, url : String) {
+        self.photoUid = photoUid
+        self.filmUid = filmUid
+        self.url = url
+        self.createdAt = "\(Date())"
+        self.updatedAt = "\(Date())"
     }
 }
 
@@ -27,6 +31,10 @@ extension Photo: Equatable {
     
     static func ==(lhs: Photo, rhs: Int) -> Bool {
         return lhs.photoUid == rhs
+    }
+    
+    func isEqual(id: Int) -> Bool {
+        return self == id
     }
     
     var image: UIImage {

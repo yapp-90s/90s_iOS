@@ -93,7 +93,7 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
         }
         
         nameLabel.text = film.name
-        many_countTimeLabel.text = "\(film.maxCount)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
+        many_countTimeLabel.text = "\(film.filmType.max)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
         
         createButton.rx.tap.bind {
             self.delegate?.presentFilmCreateVC(film: film)

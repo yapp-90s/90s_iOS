@@ -184,7 +184,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         }
         
         emptyAddMoreButton.rx.tap.bind { _ in
-            self.setPhPicker(photoMax: self.film.maxCount, photoFill: self.film.count)
+            self.setPhPicker(photoMax: self.film.filmType.max, photoFill: self.film.count)
         }.disposed(by: disposeBag)
     }
     
@@ -212,11 +212,11 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         }
         filmNameLabel.text = film.name
         filmDateLabel.text = film.createdAt
-        filmCountLabel.text = "\(film.count)/\(film.maxCount)장"
+        filmCountLabel.text = "\(film.count)/\(film.filmType.max)장"
         filmTypeLabel.text = film.filmState.text()
         
-        if film.maxCount != film.photos.count && film.photos.count > 0 {
-            let photo = Photo(photoUid: 0, url: "film_add_photo", date: "")
+        if film.filmType.max != film.photos.count && film.photos.count > 0 {
+            let photo = Photo(photoUid: 0, filmUid: film.uid, url: "film_add_photo")
             self.film.addAtFirst(photo)
         } else {
             printButton.isHidden = true
@@ -255,8 +255,8 @@ extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 && film.maxCount > film.count {
-            setPhPicker(photoMax: film.maxCount, photoFill: film.count)
+        if indexPath.row == 0 && film.filmType.max > film.count {
+            setPhPicker(photoMax: film.filmType.max, photoFill: film.count)
         }
     }
 }
