@@ -11,7 +11,7 @@ class PhoneAuthenticationViewController: BaseViewController {
     
     // MARK: - Views
     
-    private let phoneNumberTextField: LabelTextFieldView = {
+    private let phoneNumberTextFieldView: LabelTextFieldView = {
         let textFieldView = LabelTextFieldView(label: "휴대폰 번호", placeholder: "010-1234-1234")
         textFieldView.label.textColor = .white
         textFieldView.underline.width = 1
@@ -26,7 +26,7 @@ class PhoneAuthenticationViewController: BaseViewController {
         return view
     }()
     
-    private let authenticationTextField: LabelTextFieldView = {
+    private let authenticationTextFieldView: LabelTextFieldView = {
         let textFieldView = LabelTextFieldView(label: "인증번호", placeholder: "인증번호 4자리 입력")
         textFieldView.labelTrailingSpacing = 48
         textFieldView.label.textColor = .white
@@ -73,43 +73,68 @@ class PhoneAuthenticationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupViews()
+        self.bind()
     }
     
     private func setupViews() {
-        self.view.addSubview(self.phoneNumberTextField)
+        self.title = "휴대폰 번호 인증"
+        self.view.addSubview(self.phoneNumberTextFieldView)
         self.view.addSubview(authNumberView)
-        self.authNumberView.addSubview(self.authenticationTextField)
+        self.authNumberView.addSubview(self.authenticationTextFieldView)
         self.authNumberView.addSubview(self.retryButton)
         self.view.addSubview(self.authenticationCompleteButton)
         
-        self.phoneNumberTextField.snp.makeConstraints { maker in
+        self.phoneNumberTextFieldView.snp.makeConstraints { maker in
             maker.top.equalTo(self.view.safeAreaLayoutGuide).offset(35)
             maker.leading.trailing.equalToSuperview()
             maker.height.equalTo(75)
         }
         self.authNumberView.snp.makeConstraints { maker in
-            maker.top.equalTo(self.phoneNumberTextField.snp.bottom)
+            maker.top.equalTo(self.phoneNumberTextFieldView.snp.bottom)
             maker.leading.trailing.equalToSuperview()
             maker.height.equalTo(75)
         }
-        self.authenticationTextField.snp.makeConstraints { maker in
+        self.authenticationTextFieldView.snp.makeConstraints { maker in
             maker.top.leading.bottom.equalToSuperview()
         }
         self.retryButton.snp.makeConstraints { maker in
             maker.trailing.equalToSuperview().inset(18)
-            maker.leading.equalTo(self.authenticationTextField.snp.trailing)
+            maker.leading.equalTo(self.authenticationTextFieldView.snp.trailing)
             maker.height.equalTo(35)
             maker.width.equalTo(78)
             maker.centerY.equalToSuperview()
         }
         
-        self.phoneNumberTextField.inset = .init(top: 15, left: 18, bottom: 15, right: 18)
-        self.authenticationTextField.inset = .init(top: 15, left: 18, bottom: 15, right: 12)
+        self.phoneNumberTextFieldView.inset = .init(top: 15, left: 18, bottom: 15, right: 18)
+        self.authenticationTextFieldView.inset = .init(top: 15, left: 18, bottom: 15, right: 12)
         
         self.authenticationCompleteButton.snp.makeConstraints { maker in
             maker.top.equalTo(self.authNumberView.snp.bottom).offset(21)
             maker.leading.trailing.equalToSuperview().inset(18)
             maker.height.equalTo(57)
         }
+    }
+    
+    private func bind() {
+        
+        // Output
+        self.viewModel.output.isEnableRequestPhoneSms
+            .subscribe(onNext: { [weak self] isEnabled in
+                self?.updateCompleButton(isEnabled: isEnabled)
+            })
+            .disposed(by: self.disposeBag)
+        
+        // Input
+        self.phoneNumberTextFieldView.textField.rx.text.orEmpty
+            .bind(to: self.viewModel.input.phoneNumberChanged)
+            .disposed(by: self.disposeBag)
+        
+        self.authenticationCompleteButton.rx.tap
+            .bind(to: self.viewModel.input.)
+    }
+    
+    private func updateCompleButton(isEnabled: Bool) {
+        self.authenticationCompleteButton.isEnabled = isEnabled
+        self.authenticationCompleteButton.backgroundColor = isEnabled ? .retroOrange : .Cool_Gray
     }
 }
