@@ -16,6 +16,8 @@ import Moya
 
 class LoginService {
     
+    typealias CertificationNumber = String
+    
     let userManager: UserManager
     let provider = MoyaProvider<LoginAPI>()
     
@@ -64,7 +66,7 @@ class LoginService {
             return UserApi.shared.rx.loginWithKakaoAccount().map { $0.accessToken }
         }
     }
-    var disposeBag = DisposeBag()
+    
     func requestEmail(type: LoginType) -> Single<String> {
         switch type {
         case .kakao:
@@ -84,6 +86,12 @@ class LoginService {
         default:
             return .just("")
         }
+    }
+    
+    func requestCheckPhoneNumber(_ phoneNumber: String) -> Single<CertificationNumber> {
+        return self.provider.rx.request(.checkPhoneNumber(phoneNumber))
+            .map(CertificationNumberResponse.self)
+            .map { $0.num }
     }
 }
 

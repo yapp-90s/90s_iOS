@@ -66,7 +66,7 @@ class PhoneAuthenticationViewController: BaseViewController {
     }
     
     required init?(coder: NSCoder) {
-        self.viewModel = PhoneAuthenticationViewModel(dependency: .init())
+        self.viewModel = PhoneAuthenticationViewModel(dependency: .init(loginService: LoginService()))
         super.init(coder: coder)
     }
     
@@ -130,7 +130,8 @@ class PhoneAuthenticationViewController: BaseViewController {
             .disposed(by: self.disposeBag)
         
         self.authenticationCompleteButton.rx.tap
-            .bind(to: self.viewModel.input.)
+            .bind(to: self.viewModel.input.requestPhoneSms)
+            .disposed(by: self.disposeBag)
     }
     
     private func updateCompleButton(isEnabled: Bool) {

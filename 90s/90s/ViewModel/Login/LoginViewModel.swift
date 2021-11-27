@@ -12,11 +12,17 @@ final class LoginViewModel: ViewModelType {
     
     private(set) var dependency: Dependency
     private(set) var input = Input()
-    private(set) var output = Output()
+    private(set) var output: Output
     private(set) var disposeBag = DisposeBag()
     
     required init(dependency: Dependency) {
         self.dependency = dependency
+        
+        self.output = Output(
+            phoneAuthenticationViewModel: PhoneAuthenticationViewModel(
+                dependency: .init(loginService: dependency.loginService)
+            )
+        )
         
         self.input.requestLoginStream
             .subscribe(onNext: { [weak self] loginType in
@@ -68,7 +74,7 @@ extension LoginViewModel {
     }
     
     struct Output {
-        var phoneAuthenticationViewModel = PhoneAuthenticationViewModel(dependency: .init())
+        var phoneAuthenticationViewModel: PhoneAuthenticationViewModel
         var signUpNeeded = PublishSubject<Void>()
     }
 }
