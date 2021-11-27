@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class LoginViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -85,7 +86,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     ]
     
     private let viewModel: LoginViewModel
-    
+
     // MARK: - View Life Cycle
     
     init(viewModel: LoginViewModel) {
@@ -101,6 +102,12 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
         super.viewDidLoad()
         self.setupViews()
         self.setupCollectionView()
+        self.bind()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func setupViews() {
@@ -153,9 +160,22 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
         self.introCollectionView.register(reusable: IntroCollectionViewCell.self)
     }
     
+    private func bind() {
+        self.viewModel.output.signUpNeeded
+            .subscribe(onNext: { [weak self] _ in
+                self?.pushToPhoneAuthentication()
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func pushToPhoneAuthentication() {
+        let viewController = PhoneAuthenticationViewController(viewModel: self.viewModel.output.phoneAuthenticationViewModel)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     @objc
     private func kakaoLoginDidTap(_ sender: UIButton) {
-        self.viewModel.requestLogin(type: .kakao)
+        self.viewModel.input.requestLoginStream.onNext(.kakao)
     }
     
     @objc
