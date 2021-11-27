@@ -36,7 +36,7 @@ class LoginService {
                     return self.requestLogin(type: .kakao, email: email)
                 }
                 .catchError({ error -> Observable<LoginOAuthToken?> in
-                    return .just(LoginOAuthToken("", ""))
+                    return .error(error)
                 })
                 .asObservable()
         default:

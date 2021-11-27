@@ -39,6 +39,10 @@ final class LoginViewModel: ViewModelType {
                         // 회원가입
                         self.output.signUpNeeded.onNext(())
                     }
+                }, onError: { error in
+                    // FIXME: 테스트용 임시 코드 -> 얼럿 띄워주는 형태로 수정
+                    print("❌ API Error: \(error.localizedDescription)")
+                    self.output.signUpNeeded.onNext(())
                 })
                 .disposed(by: disposeBag)
         case .google:
