@@ -81,9 +81,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     }
     
     private func requestFilmList() {
-        print("request!!")
         FilmService.shared.getFilm() { result in
-            print("result =" , result)
             switch result {
             case let .success(response):
                 print("FilmMainVC - success request : getFilm, ", response)
