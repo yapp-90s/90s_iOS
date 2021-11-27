@@ -169,8 +169,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     private func pushToPhoneAuthentication() {
-        let viewController = PhoneAuthenticationViewController(viewModel: self.viewModel.output.phoneAuthenticationViewModel)
-        self.navigationController?.pushViewController(viewController, animated: true)
+        // TODO: - 폰인증
     }
     
     @objc

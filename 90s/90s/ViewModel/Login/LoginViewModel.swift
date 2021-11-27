@@ -64,7 +64,6 @@ extension LoginViewModel {
     }
     
     struct Output {
-        var phoneAuthenticationViewModel = PhoneAuthenticationViewModel(dependency: .init())
         var signUpNeeded = PublishSubject<Void>()
     }
 }
