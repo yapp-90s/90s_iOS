@@ -25,14 +25,20 @@ final class LoginViewModel: ViewModelType {
             .disposed(by: self.disposeBag)
     }
     
-    func requestLogin(type loginType: LoginType) {
+    private func requestLogin(type loginType: LoginType) {
         let service = self.dependency.loginService
         
         switch loginType {
         case .kakao:
-            service.requestKakaoLogin()
-                .subscribe(onNext: { oauth in
-                    
+            service.requestLogin(.kakao)
+                .subscribe(onNext: { [weak self] loginOAuth in
+                    guard let self = self else { return }
+                    if let _ = loginOAuth {
+                        // 로그인
+                    } else {
+                        // 회원가입
+                        self.output.signUpNeeded.onNext(())
+                    }
                 })
                 .disposed(by: disposeBag)
         case .google:
@@ -40,6 +46,10 @@ final class LoginViewModel: ViewModelType {
         case .apple:
             return
         }
+    }
+    
+    private func requestKakaoEmail() {
+        
     }
 }
 
@@ -53,5 +63,7 @@ extension LoginViewModel {
         var requestLoginStream = PublishSubject<LoginType>()
     }
     
-    struct Output { }
+    struct Output {
+        var signUpNeeded = PublishSubject<Void>()
+    }
 }

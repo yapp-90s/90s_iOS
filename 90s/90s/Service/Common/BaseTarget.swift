@@ -11,7 +11,7 @@ protocol BaseTarget: TargetType { }
 
 extension BaseTarget {
     var baseURL: URL {
-        return URL(string: "http://49.50.162.246:8080/")!
+        return URL(string: "http://133.186.220.56/")!
     }
     
     // 테스트하는 동안 API의 가짜 객체를 제공
