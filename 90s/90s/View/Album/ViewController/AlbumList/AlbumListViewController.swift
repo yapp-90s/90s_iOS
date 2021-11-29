@@ -27,6 +27,7 @@ final class AlbumListViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
+        button.setImage(.init(named: "navigationBar_back"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
@@ -155,7 +156,7 @@ final class AlbumListViewController: UIViewController {
     
     private func dismiss() {
         DispatchQueue.main.async {
-            self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

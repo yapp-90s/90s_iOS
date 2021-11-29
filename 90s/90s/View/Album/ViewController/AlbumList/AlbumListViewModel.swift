@@ -45,8 +45,8 @@ extension AlbumListViewModel {
         let edit: Observable<Void>
         
         init(input: Input, dependency: Dependency) {
-            albumSection = dependency.albumRepository.albums
-                .map { [.init(model: "", items: $0)] }
+            albumSection = dependency.albumRepository.completeAlbums
+                .map { [.init(model: "", items: $0.map { .init(album: $0) })] }
             
             back = input.back
                 .asObservable()

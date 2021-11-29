@@ -60,16 +60,16 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         label.snp.makeConstraints {
-            $0.height.equalTo(24 * layoutScale)
-            $0.top.equalToSuperview().offset(12 * layoutScale)
-            $0.left.equalToSuperview().offset(18 * layoutScale)
-            $0.right.equalToSuperview().offset(-18 * layoutScale)
-            $0.bottom.equalToSuperview().offset(-12 * layoutScale)
+            $0.height.equalTo(24)
+            $0.top.equalToSuperview().offset(12)
+            $0.left.equalToSuperview().offset(18)
+            $0.right.equalToSuperview().offset(-18)
+            $0.bottom.equalToSuperview().offset(-12)
         }
         
         button.snp.makeConstraints {
             $0.height.equalTo(24 * layoutScale)
-            $0.trailing.equalToSuperview().offset(-18 * layoutScale)
+            $0.trailing.equalToSuperview().offset(-18)
             $0.centerY.equalToSuperview()
         }
     }

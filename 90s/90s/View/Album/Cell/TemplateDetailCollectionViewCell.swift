@@ -46,6 +46,10 @@ final class TemplateDetailCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(imageView.snp.width).multipliedBy(1.662538)
             $0.top.left.bottom.right.equalToSuperview()
         }
+        
+        imageView.layer.cornerRadius = 4
+        imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
     }
     
     func bind(viewModel: TemplateViewModel) {

@@ -113,6 +113,8 @@ class AlbumViewController: UIViewController {
             .filter { $0.section == 5 }
             .bind(to: viewModel.input.selectAlbum)
             .disposed(by: disposeBag)
+        
+        viewModel.input.refresh.accept(())
     }
     
     
@@ -145,9 +147,8 @@ class AlbumViewController: UIViewController {
 extension AlbumViewController: AlbumTitleHeaderCellDelegate {
     func touchButton() {
         let vc = AlbumListViewController(viewModel: .init(dependency: .init(albumRepository: .shared)))
-        vc.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.present(vc, animated: true)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

@@ -14,11 +14,11 @@ struct AlbumPreviewSection: AlbumSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(187 * layoutScale))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(187))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 0, leading: 18 * layoutScale, bottom: 0, trailing: 18 * layoutScale)
+        section.contentInsets = .init(top: 0, leading: 18, bottom: 0, trailing: 18)
         return section
     }
     

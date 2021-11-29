@@ -30,7 +30,7 @@ class AlbumCoverViewController: UIViewController {
     
     private lazy var closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(.init(named: "close"), for: .normal)
+        button.setImage(.init(named: "navigationBar_close"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
