@@ -9,7 +9,7 @@ import Foundation
 
 import SnapKit
 
-final class TemplateGrass: UIView {
+final class TemplateGrass: UIView, TemplateView {
     
     let scale = UIScreen.main.bounds.width / 323
     var currentIndex: Int = -1

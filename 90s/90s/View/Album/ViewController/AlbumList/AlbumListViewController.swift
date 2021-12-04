@@ -27,6 +27,7 @@ final class AlbumListViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
+        button.setImage(.init(named: "navigationBar_back"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
@@ -67,6 +68,15 @@ final class AlbumListViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var deleteButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .retroOrange
+        button.titleLabel?.font = .Btn_Text
+        button.setTitleColor(.white, for: .normal)
+        view.addSubview(button)
+        return button
+    }()
+    
     // MARK: - Property
     private let viewModel: AlbumListViewModel
     private let disposeBag = DisposeBag()
@@ -88,25 +98,25 @@ final class AlbumListViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .black
         topBar.snp.makeConstraints {
-            $0.height.equalTo(52 * layoutScale)
+            $0.height.equalTo(52)
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
         
         backButton.snp.makeConstraints {
-            $0.width.height.equalTo(34 * layoutScale)
-            $0.leading.equalToSuperview().offset(9 * layoutScale)
+            $0.width.height.equalTo(34)
+            $0.leading.equalToSuperview().offset(9)
             $0.centerY.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints {
-            $0.height.equalTo(24 * layoutScale)
+            $0.height.equalTo(24)
             $0.center.equalToSuperview()
         }
         
         editButton.snp.makeConstraints {
-            $0.width.height.equalTo(34 * layoutScale)
-            $0.trailing.equalToSuperview().offset(-9 * layoutScale)
+            $0.width.height.equalTo(34)
+            $0.trailing.equalToSuperview().offset(-9)
             $0.centerY.equalToSuperview()
         }
         
@@ -114,28 +124,37 @@ final class AlbumListViewController: UIViewController {
             $0.top.equalTo(topBar.snp.bottom)
             $0.leading.bottom.trailing.equalToSuperview()
         }
+        
+        deleteButton.snp.makeConstraints {
+            $0.height.equalTo(60)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+        }
     }
     
     private func bindState() {
-        let dataSource = AlbumDataSource(configureCell: { _, colelctionView, indexPath, viewModel in
+        let dataSource = AlbumListViewModel.AlbumCoverDataSource(configureCell: { _, colelctionView, indexPath, viewModel in
             let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCoverCell.identifier, for: indexPath) as! AlbumCoverCell
             cell.viewModel = viewModel
             return cell
         })
+        
         viewModel.output.albumSection
             .bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
-        
-        viewModel.output.edit
-            .bind { isEdit in
-                
-            }
             .disposed(by: disposeBag)
         
         viewModel.output.back
             .bind { _ in
                 self.dismiss()
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.selectedAlbumsID
+            .do(onNext: { ids in
+                self.deleteButton.setTitle("\(ids.count)개 앨범 삭제", for: .normal)
+            })
+            .map { $0.isEmpty }
+            .bind(to: deleteButton.rx.isHidden)
             .disposed(by: disposeBag)
     }
     
@@ -155,7 +174,7 @@ final class AlbumListViewController: UIViewController {
     
     private func dismiss() {
         DispatchQueue.main.async {
-            self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }

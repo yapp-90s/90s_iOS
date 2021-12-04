@@ -11,13 +11,14 @@ struct AlbumCover: Codable {
     var uid: Int
     var name: String
     var fileName: String
+    var code: Int
 //    var mainColor: UIColor? = nil
 //    var subColor: UIColor? = nil
 }
 
 extension AlbumCover {
     static var empty: AlbumCover {
-        .init(uid: 0, name: "AlbumSweetLittleMemories", fileName: "")
+        .init(uid: 0, name: "AlbumSweetLittleMemories", fileName: "", code: 0)
     }
     
     var image: UIImage {
@@ -28,11 +29,15 @@ extension AlbumCover {
 }
 
 extension AlbumCover {
-    static let sweetLittleMemories: AlbumCover = .init(uid: 0, name: "Sweet Little Memories", fileName: "AlbumSweetLittleMemories")
-    static let youMakeMeCloudy: AlbumCover = .init(uid: 1, name: "You Make Me Cloudy", fileName: "AlbumYouMakeMeCloudy")
-    static let stickyBubble: AlbumCover = .init(uid: 2, name: "Sticky Bubble", fileName: "AlbumStickyBubble")
-    static let candy: AlbumCover = .init(uid: 3, name: "Candy", fileName: "AlbumCandy")
-    static let yic: AlbumCover = .init(uid: 4, name: "YIC", fileName: "AlbumYIC")
+    static var random: AlbumCover {
+        let list = [sweetLittleMemories, youMakeMeCloudy, stickyBubble, candy, yic]
+        return list.randomElement() ?? .yic
+    }
+    static let sweetLittleMemories: AlbumCover = .init(uid: 0, name: "Sweet Little Memories", fileName: "AlbumSweetLittleMemories", code: 1000)
+    static let youMakeMeCloudy: AlbumCover = .init(uid: 1, name: "You Make Me Cloudy", fileName: "AlbumYouMakeMeCloudy", code: 1001)
+    static let stickyBubble: AlbumCover = .init(uid: 2, name: "Sticky Bubble", fileName: "AlbumStickyBubble", code: 1002)
+    static let candy: AlbumCover = .init(uid: 3, name: "Candy", fileName: "AlbumCandy", code: 1003)
+    static let yic: AlbumCover = .init(uid: 4, name: "YIC", fileName: "AlbumYIC", code: 1004)
 }
 //extension AlbumCover {
 //    static let copy: AlbumCover = .init(uid: 0, name: "1990 Copy", path: "albumcover1990Copy.png")

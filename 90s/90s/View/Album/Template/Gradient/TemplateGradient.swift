@@ -9,7 +9,7 @@ import Foundation
 
 import SnapKit
 
-final class TemplateGradient: UIView {
+final class TemplateGradient: UIView, TemplateView {
     
     let scale = UIScreen.main.bounds.width / 323
     

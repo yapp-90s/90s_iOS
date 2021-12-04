@@ -21,10 +21,10 @@ struct AlbumProvider {
     static func addAndUpdate(_ album: Album) {
         queue.sync {
             var albumValue = self.albumRelay.value
-            if let record = albumValue[album.id] {
-                albumValue[album.id] = (album: album, count: record.count + 1, updatedAt: Date())
+            if let record = albumValue[album.uid] {
+                albumValue[album.uid] = (album: album, count: record.count + 1, updatedAt: Date())
             } else {
-                albumValue[album.id] = (album: album, count: 1, updatedAt: Date())
+                albumValue[album.uid] = (album: album, count: 1, updatedAt: Date())
             }
             self.albumRelay.accept(albumValue)
         }
@@ -33,8 +33,8 @@ struct AlbumProvider {
     static func update(_ album: Album) {
         queue.async {
             var albumValue = self.albumRelay.value
-            if let record = albumValue[album.id] {
-                albumValue[album.id] = (album: album, count: record.count, updatedAt: Date())
+            if let record = albumValue[album.uid] {
+                albumValue[album.uid] = (album: album, count: record.count, updatedAt: Date())
             }
             self.albumRelay.accept(albumValue)
         }

@@ -36,7 +36,7 @@ final class AlbumViewModel: AlbumViewModelOutput, AlbumViewModelInput {
     let updateAlbum = PublishRelay<Album>()
     
     init(album: Album) {
-        self.id = album.id
+        self.id = album.uid
         
         AlbumProvider.addAndUpdate(album)
         let albumObserver = AlbumProvider.observable(id: id)

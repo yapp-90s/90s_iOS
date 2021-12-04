@@ -67,29 +67,29 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         coverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10 * layoutScale)
-            $0.left.equalToSuperview().offset(8 * layoutScale)
-            $0.width.height.equalTo(52 * layoutScale)
+            $0.top.equalToSuperview().offset(10)
+            $0.left.equalToSuperview().offset(8)
+            $0.width.height.equalTo(52)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.height.equalTo(14 * layoutScale)
-            $0.left.equalTo(coverImageView.snp.right).offset(12 * layoutScale)
-            $0.top.equalToSuperview().offset(18 * layoutScale)
+            $0.height.equalTo(14)
+            $0.left.equalTo(coverImageView.snp.right).offset(12)
+            $0.top.equalToSuperview().offset(18)
         }
         
         nameLabel.snp.makeConstraints {
-            $0.height.equalTo(18 * layoutScale)
-            $0.left.equalTo(coverImageView.snp.right).offset(12 * layoutScale)
-            $0.top.equalTo(dateLabel.snp.bottom).offset(4 * layoutScale)
+            $0.height.equalTo(18)
+            $0.left.equalTo(coverImageView.snp.right).offset(12)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(4)
         }
         
         button.snp.makeConstraints {
-            $0.width.height.equalTo(37 * layoutScale)
-            $0.top.equalToSuperview().offset(17 * layoutScale)
-            $0.right.equalToSuperview().offset(-18 * layoutScale)
-            $0.left.equalTo(dateLabel.snp.right).offset(12 * layoutScale)
-            $0.left.equalTo(nameLabel.snp.right).offset(12 * layoutScale)
+            $0.width.height.equalTo(37)
+            $0.top.equalToSuperview().offset(17)
+            $0.right.equalToSuperview().offset(-18)
+            $0.left.equalTo(dateLabel.snp.right).offset(12)
+            $0.left.equalTo(nameLabel.snp.right).offset(12)
         }
         
 //        imageCollectionView.snp.makeConstraints {

@@ -38,10 +38,10 @@ class AlbumBannerCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         imageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(15 * layoutScale)
-            $0.left.equalToSuperview().offset(18 * layoutScale)
-            $0.right.equalToSuperview().offset(-15 * layoutScale)
-            $0.bottom.equalToSuperview().offset(-18 * layoutScale)
+            $0.top.equalToSuperview().offset(15)
+            $0.left.equalToSuperview().offset(18)
+            $0.right.equalToSuperview().offset(-15)
+            $0.bottom.equalToSuperview().offset(-18)
         }
     }
 }

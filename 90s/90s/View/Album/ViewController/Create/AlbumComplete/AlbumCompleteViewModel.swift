@@ -29,19 +29,33 @@ final class AlbumCompleteViewModel: ViewModelType {
 extension AlbumCompleteViewModel {
     struct Dependency {
         let albumCreate: AlbumCreate
+        let repository = AlbumRepository.shared
     }
     
     struct Input {
-        let next = PublishRelay<Void>()
+        let back = PublishRelay<Void>()
+        let close = PublishRelay<Void>()
+        let complete = PublishRelay<Void>()
     }
     
     struct Output {
         let albumCreate: AlbumCreate
-        let next: Observable<Void>
+        let back: Observable<Void>
+        let close: Observable<Void>
+        let complete: Observable<Void>
         
         init(input: Input, dependency: Dependency) {
             self.albumCreate = dependency.albumCreate
-            self.next = input.next.asObservable()
+            
+            self.back = input.back.asObservable()
+            
+            self.close = input.close.asObservable()
+            
+            self.complete = input.complete
+                .map { _ in dependency.albumCreate }
+                .map(dependency.repository.create.accept)
+                .map { _ in () }
+                .asObservable()
         }
     }
 }

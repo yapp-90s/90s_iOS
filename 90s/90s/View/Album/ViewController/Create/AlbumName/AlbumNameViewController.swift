@@ -29,14 +29,14 @@ class AlbumNameViewController: UIViewController {
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
-        button.setImage(.init(named: "back"), for: .normal)
+        button.setImage(.init(named: "navigationBar_back"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
     
     private lazy var closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(.init(named: "close"), for: .normal)
+        button.setImage(.init(named: "navigationBar_close"), for: .normal)
         topBar.addSubview(button)
         return button
     }()
@@ -93,17 +93,14 @@ class AlbumNameViewController: UIViewController {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
+        
+        setupUI()
+        bindState()
+        bindAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupUI()
-        bindViewModel()
     }
     
     private func setupUI() {
@@ -165,12 +162,20 @@ class AlbumNameViewController: UIViewController {
         }
     }
     
-    private func bindViewModel() {
+    private func bindState() {
         viewModel.output.albumCreate.cover
             .map { $0.image }
             .bind(to: coverImageView.rx.image)
             .disposed(by: disposeBag)
         
+        viewModel.output.next
+            .subscribe(onNext: { _ in
+                self.createAlbum()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindAction() {
         textField.rx.text
             .orEmpty
             .subscribe { text in
@@ -191,25 +196,31 @@ class AlbumNameViewController: UIViewController {
         
         backButton.rx.tap
             .subscribe(onNext: { _ in
-                self.navigationController?.popViewController(animated: true)
+                self.back()
             })
             .disposed(by: disposeBag)
         
         closeButton.rx.tap
             .subscribe(onNext: { _ in
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss()
             })
             .disposed(by: disposeBag)
         
         button.rx.tap
             .bind(to: viewModel.input.next)
             .disposed(by: disposeBag)
-        
-        viewModel.output.next
-            .subscribe(onNext: { _ in
-                self.createAlbum()
-            })
-            .disposed(by: disposeBag)
+    }
+    
+    private func back() {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    private func dismiss() {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     private func createAlbum() {

@@ -9,14 +9,24 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+struct AlbumCreateAttach: Codable {
+    let name: String
+    let layoutCode: Int
+    let coverCode: Int
+}
+
 class AlbumCreate {
     var cover = BehaviorRelay<AlbumCover>(value: .sweetLittleMemories)
     var name = BehaviorRelay<String>(value: "")
-    var template = BehaviorRelay<Template>(value: .init(name: "", imageName: ""))
+    var template = BehaviorRelay<Template>(value: .init(name: "", imageName: "", code: 0))
     var date = BehaviorRelay<Date>(value: .init())
     
     init() {
         cover.accept(.sweetLittleMemories)
+    }
+    
+    var attach: AlbumCreateAttach {
+        return .init(name: name.value, layoutCode: template.value.code, coverCode: cover.value.code)
     }
 }
 
@@ -42,7 +52,7 @@ final class AlbumCreateViewModel {
     let templateSection: BehaviorRelay<[TemplateSectionModel]> = .init(value: [])
     
     let selectedCoverRelay = BehaviorRelay<AlbumCover>(value: .empty)
-    let selectedTemplateRelay = BehaviorRelay<TemplateViewModel>(value: TemplateViewModel(template: Template(name: "", imageName: "")))
+    let selectedTemplateRelay = BehaviorRelay<TemplateViewModel>(value: TemplateViewModel(template: Template(name: "", imageName: "", code: 0)))
     let nameRelay = BehaviorRelay<String>(value: "")
     let dateRelay = BehaviorRelay<Date>(value: Date())
     

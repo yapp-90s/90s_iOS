@@ -8,15 +8,21 @@
 import UIKit
 
 struct Album: Codable {
-    let id: String //var index: Int!
-    var user: [String] = []
+    let uid: String
+    var user: [String]? = []
     let name: String
     var createdAt: String
     var updatedAt: String
     var completedAt: String?
     let totalPaper: Int
     let cover: AlbumCover
+//    let template: Template
     private(set) var photos: [Photo] = []
+    
+//    enum CodingKeys: String, CodingKey {
+//        case cover = "albumCover"
+//        case
+//    }
 }
 
 extension Album {
