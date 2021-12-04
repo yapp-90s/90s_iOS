@@ -167,6 +167,7 @@
 		9B739C5D260379C200CF659C /* FilmPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B739C5C260379C200CF659C /* FilmPopupView.swift */; };
 		9B75E28B26799B1E0067667D /* FilmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B75E28A26799B1E0067667D /* FilmRepository.swift */; };
 		9B7FD9E6269451D0000B52B7 /* ProfileMainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7FD9E5269451D0000B52B7 /* ProfileMainTableViewCell.swift */; };
+		9B810FF6275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B810FF5275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift */; };
 		9B82455A27521459004B41EC /* FilmType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B82455927521459004B41EC /* FilmType.swift */; };
 		9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5C25E0F4110024CFAA /* FilmListViewController.swift */; };
 		9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B878D5F25E0F48A0024CFAA /* FilmInfoTableViewCell.swift */; };
@@ -382,6 +383,7 @@
 		9B739C5C260379C200CF659C /* FilmPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmPopupView.swift; sourceTree = "<group>"; };
 		9B75E28A26799B1E0067667D /* FilmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmRepository.swift; sourceTree = "<group>"; };
 		9B7FD9E5269451D0000B52B7 /* ProfileMainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMainTableViewCell.swift; sourceTree = "<group>"; };
+		9B810FF5275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSelectPhotoByFilmViewController.swift; sourceTree = "<group>"; };
 		9B82455927521459004B41EC /* FilmType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmType.swift; sourceTree = "<group>"; };
 		9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		9B878D5C25E0F4110024CFAA /* FilmListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListViewController.swift; sourceTree = "<group>"; };
@@ -839,6 +841,7 @@
 			isa = PBXGroup;
 			children = (
 				657962182748E49C005780C0 /* AlbumSelectPhotoViewController.swift */,
+				9B810FF5275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift */,
 				650D41E8273FA0DF001C4D85 /* Album */,
 				659C9AFB2748A97400697167 /* AlbumList */,
 				657962172748DB51005780C0 /* Create */,
@@ -1434,6 +1437,7 @@
 				6597D78B26621E0900670A15 /* Color.swift in Sources */,
 				653F7D80259884D4002CD12A /* Film.swift in Sources */,
 				36F9020026F5AD4900CC4915 /* ShareActionSheetViewController.swift in Sources */,
+				9B810FF6275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift in Sources */,
 				65EBDF6F2618528D00E51612 /* AlbumBannerCollectionViewCell.swift in Sources */,
 				652BC1D025E0D62A00DC8E90 /* FilmMainViewController.swift in Sources */,
 				6588AE1B2642841B00487AB9 /* TemplateDetailCollectionViewCell.swift in Sources */,

@@ -89,8 +89,12 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         return btn
     }()
     
+    // MARK: - Property
+    
     private var film : Film
     private var selectPhotos = [UIImage]()
+    
+    // MARK: - LifeCycle
     
     init(film : Film) {
         self.film = film
@@ -106,6 +110,8 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         super.viewDidLoad()
         setUpSubViews()
     }
+    
+    // MARK: - Methods
 
     private func setUpSubViews() {
         view.overrideUserInterfaceStyle = .dark
@@ -187,25 +193,13 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
             self.setPhPicker(photoMax: self.film.filmType.max, photoFill: self.film.count)
         }.disposed(by: disposeBag)
     }
-    
-    /// iOS 14 이후, 갤러리 선택
+
     private func setPhPicker(photoMax maxCount : Int, photoFill fillCount : Int) {
-//            if #available(iOS 14.0, *) {
-//                var configuration = PHPickerConfiguration()
-//                configuration.filter = .images
-//                configuration.selectionLimit = maxCount - fillCount
-//
-//                let picker = PHPickerViewController(configuration: configuration)
-//                picker.delegate = self
-//                self.present(picker, animated: true)
-//            } else {
         let nextVC = FilmGalleryViewController(film: film)
         self.navigationController?.pushViewController(nextVC, animated: true)
-//            }
     }
     
-    func bindViewModel(){
-
+    func bindViewModel() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {return}
             self.filmImageView.image = UIImage(named: self.film.filmType.image)
