@@ -1080,9 +1080,9 @@
 				9BAFD44226A55A6B00561E34 /* FilmViewModel.swift */,
 				9BA3FF5525FDF4B5000D2A2E /* FilmsViewModel.swift */,
 				9B878C0525DA7F660024CFAA /* PhotoViewModel.swift */,
-				9BC436B2267332910081D3E8 /* FilmMainSectionModel.swift */,
 				9B12872D26B774AF00590B59 /* FilmListViewModel.swift */,
 				9BF3E434273F7689002C8110 /* GalleryViewModel.swift */,
+				9BC436B2267332910081D3E8 /* FilmMainSectionModel.swift */,
 			);
 			path = Film;
 			sourceTree = "<group>";

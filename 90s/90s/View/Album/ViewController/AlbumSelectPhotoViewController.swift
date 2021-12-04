@@ -52,10 +52,6 @@ final class AlbumSelectPhotoViewController: BaseViewController {
     private var filmViewModel = FilmListViewModel(dependency: .init())
     
     // MARK: - LifeCycle
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
 
     init(photoViewModel : FilmsViewModel, filmViewModel: FilmListViewModel) {
         self.photoViewModel = photoViewModel

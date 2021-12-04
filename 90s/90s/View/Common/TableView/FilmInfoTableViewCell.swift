@@ -202,9 +202,11 @@ final class FilmInfoTableViewCell: UITableViewCell {
             filmTypeImageView.isHidden = true
             filmCount_DateLabel.text = "\(film.count)장 · \(film.createdAt)"
         default :
-            separateLine.isHidden = false
+            separateLine.isHidden = true
             filmTypeImageView.isHidden = false
-            filmCount_DateLabel.text = "\(film.count)/\(film.filmType.max)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
+            
+            // TODO: 남은 시간 - 현재 시간 계산식
+            filmCount_DateLabel.text = "\(film.count)/\(film.filmType.max)장 · \(film.filmType.printDaysCount)시간 남음"
         }
     }
     

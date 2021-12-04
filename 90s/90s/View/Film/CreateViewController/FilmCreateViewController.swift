@@ -64,15 +64,13 @@ final class FilmCreateViewController: BaseViewController {
     }
     
     private func setUpTableView(){
-        
         viewModel.bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
             cell.selectionStyle = .none
             cell.bindViewModel(film: element, type: .create)
         }.disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(Film.self).subscribe(onNext: { indexPath in
-            let nextVC = FilmCreateDetailViewController()
-            nextVC.film = indexPath
+        tableView.rx.modelSelected(Film.self).subscribe(onNext: { film in
+            let nextVC = FilmCreateDetailViewController(viewModel: film)
             nextVC.delegate = self
             self.navigationController?.pushViewController(nextVC, animated: true)
         }).disposed(by: disposeBag)
