@@ -16,8 +16,15 @@ final class CoverService {
     private let covers = BehaviorRelay<[AlbumCover]>(value: [])
     
     private init() {
-        covers.accept([])
-//        covers.accept([Copy(), Paradiso(), HappilyEverAfter(), FavoriteThings(), AwesomeMix(), LessButBetter(), SretroClub(), OneAndOnlyCopy()])
+        covers.accept([.sweetLittleMemories, .youMakeMeCloudy, .stickyBubble, .candy, .yic])
+    }
+    
+    func all() -> [AlbumCover] {
+        return covers.value
+    }
+    
+    func pickCover(_ index: Int) -> AlbumCover {
+        return covers.value[index]
     }
     
     func viewModels() -> Observable<[CoverViewModel]> {

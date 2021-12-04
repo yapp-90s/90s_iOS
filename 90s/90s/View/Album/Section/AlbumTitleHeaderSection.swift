@@ -9,6 +9,11 @@ import UIKit
 
 struct AlbumTitleHeaderSection: AlbumSection {
     let numberOfItems = 1
+    var delegate: AlbumTitleHeaderCellDelegate?
+    
+    init(delegate: AlbumTitleHeaderCellDelegate?) {
+        self.delegate = delegate
+    }
     
     func layoutSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -24,6 +29,10 @@ struct AlbumTitleHeaderSection: AlbumSection {
     
     func configureCell(collectionView: UICollectionView, indexPath: IndexPath, item: AlbumSectionItem) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumTitleHeaderCollectionViewCell.identifier, for: indexPath) as! AlbumTitleHeaderCollectionViewCell
+        if indexPath.section == 4 {
+            cell.isButtton = true
+            cell.delegate = delegate
+        }
         
         return cell
     }

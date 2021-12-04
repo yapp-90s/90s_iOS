@@ -14,6 +14,7 @@ target '90s' do
  pod 'RealmSwift'
  pod 'SwiftLint'
  pod 'Moya'
+ pod 'Moya/RxSwift'
 
  pod 'KakaoSDK'
  pod 'RxKakaoSDKCommon'

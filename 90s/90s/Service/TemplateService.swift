@@ -26,6 +26,14 @@ final class TemplateService {
         ])
     }
     
+    func all() -> [Template] {
+        return templates.value
+    }
+    
+    func pickTemplate(_ index: Int) -> Template {
+        return templates.value[index]
+    }
+    
     func viewModels() -> Observable<[TemplateViewModel]> {
         let templates = self.templates.value
         let templateViewModels = templates.map { TemplateViewModel(template: $0) }
