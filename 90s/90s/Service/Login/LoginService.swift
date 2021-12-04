@@ -7,6 +7,11 @@
 
 import Foundation
 import RxSwift
+import KakaoSDKCommon
+import KakaoSDKUser
+import KakaoSDKAuth
+import RxKakaoSDKUser
+import RxKakaoSDKAuth
 import Moya
 
 class LoginService {
@@ -14,18 +19,16 @@ class LoginService {
     typealias CertificationNumber = String
     
     let userManager: UserManager
-    let kakaoSDKService: KakaoSDKService
     let provider = MoyaProvider<LoginAPI>()
     
-    init(userManager: UserManager = .shared, kakaoSDKService: KakaoSDKService = KakaoSDKServiceImp()) {
+    init(userManager: UserManager = .shared) {
         self.userManager = userManager
-        self.kakaoSDKService = kakaoSDKService
     }
     
     func requestLogin(_ type: LoginType) -> Observable<LoginOAuthToken?> {
         switch type {
         case .kakao:
-            return self.kakaoSDKService.requestKakaoLogin()
+            return self.requestKakaoLogin()
                 .flatMap { [weak self] _ -> Single<String> in
                     guard let self = self else { return .error(APIError.networkFail) }
                     return self.requestEmail(type: .kakao)
@@ -56,10 +59,30 @@ class LoginService {
             })
     }
     
+    func requestKakaoLogin() -> Observable<String> {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            return UserApi.shared.rx.loginWithKakaoTalk().map { $0.accessToken }
+        } else {
+            return UserApi.shared.rx.loginWithKakaoAccount().map { $0.accessToken }
+        }
+    }
+    
     func requestEmail(type: LoginType) -> Single<String> {
         switch type {
         case .kakao:
-            return self.kakaoSDKService.requestEmail()
+            return UserApi.shared.rx.me()
+                .map({ (user) -> KakaoSDKUser.User in
+                    var scopes = [String]()
+                    if (user.kakaoAccount?.emailNeedsAgreement == true) { scopes.append("account_email") }
+                    if (scopes.count > 0) {
+                        
+                        throw SdkError(scopes:scopes)
+                    } else {
+                        return user
+                    }
+                })
+                .retryWhen(Auth.shared.rx.incrementalAuthorizationRequired())
+                .map { $0.kakaoAccount?.email ?? "" }
         default:
             return .just("")
         }
