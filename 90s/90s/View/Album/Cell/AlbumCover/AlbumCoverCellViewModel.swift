@@ -31,20 +31,30 @@ extension AlbumCoverCellViewModel {
     
     struct Dependency {
         let albumViewModel: AlbumViewModel
+        let isEdit: Bool
+        let isSelected: Bool
     }
     
     struct Input {
-        let edit = PublishRelay<Bool>()
+//        let select = PublishRelay<Void>()
     }
     
     struct Output {
-        let isEdit: Observable<Bool>
+        private let disposeBag = DisposeBag()
         let albumViewModel: AlbumViewModel
+        let isEdit: Observable<Bool>
+        let isSelected: BehaviorRelay<Bool>
         
         init(input: Input, dependency: Dependency) {
             self.albumViewModel = dependency.albumViewModel
-            self.isEdit = input.edit
-                .asObservable()
+            
+            self.isEdit = Observable.just(dependency.isEdit)
+            isSelected = .init(value: dependency.isSelected)
+//            let selected = isSelected.value
+//            input.select
+//                .map { _ in !selected }
+//                .bind(to: isSelected)
+//                .disposed(by: disposeBag)
         }
     }
 }

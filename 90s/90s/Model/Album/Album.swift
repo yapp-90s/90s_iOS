@@ -16,6 +16,7 @@ struct Album: Codable {
     var completedAt: String?
     let totalPaper: Int
     let cover: AlbumCover
+//    let template: Template
     private(set) var photos: [Photo] = []
     
 //    enum CodingKeys: String, CodingKey {
