@@ -2,7 +2,7 @@
 //  AlbumViewController.swift
 //  90s
 //
-//  Created by 김진우 on 2021/12/01.
+//  Created by 김진우 on 2021/02/07.
 //
 
 import UIKit
@@ -11,8 +11,9 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
+let layoutScale = UIScreen.main.bounds.width / 375
 
-class AlbumViewController: UIViewController {
+class AlbumsViewController: UIViewController {
     
     // MARK: - UI Component
     private lazy var collectionViewLayout: UICollectionViewLayout = {
@@ -136,23 +137,14 @@ class AlbumViewController: UIViewController {
     }
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
-//        switch albumViewModel.template {
-//        case ....:
-//            return TemplateView()
-//        }
-        
         let vc = UIViewController()
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }
     }
-    
-//    private func templateToTemplateView() -> TemplateView {
-//        
-//    }
 }
 
-extension AlbumViewController: AlbumTitleHeaderCellDelegate {
+extension AlbumsViewController: AlbumTitleHeaderCellDelegate {
     func touchButton() {
         let vc = AlbumListViewController(viewModel: .init(dependency: .init(albumRepository: .shared)))
         DispatchQueue.main.async {

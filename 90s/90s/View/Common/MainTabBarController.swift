@@ -16,7 +16,7 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupUI() {
-        let albumVC = AlbumViewController(viewModel: AlbumsViewModel(dependency: .init(albumRepository: .shared)))
+        let albumVC = AlbumsViewController(viewModel: AlbumsViewModel(dependency: .init(albumRepository: .shared)))
         let albumNaviVC = UINavigationController(rootViewController: albumVC)
         albumNaviVC.setNavigationBarHidden(true, animated: false)
         albumNaviVC.tabBarItem = UITabBarItem(title: "앨범", image: .init(named: "Gnb_Album_Inact"), tag: 0)
