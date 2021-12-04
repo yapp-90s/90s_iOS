@@ -30,6 +30,7 @@ final class AlbumSelectPhotoViewController: BaseViewController {
     private let photoCollectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
+//        cv.isHidden = true
         
         cv.register(PinterestCollectionViewCell.self, forCellWithReuseIdentifier: PinterestCollectionViewCell.cellID)
         return cv
@@ -80,7 +81,7 @@ final class AlbumSelectPhotoViewController: BaseViewController {
     private func setUpNavigatorBar() {
         setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
         tabBarController?.tabBar.isHidden = true
-        navigationItem.title = "사진 선택"
+        navigationItem.title = "사진선택"
     }
     
     private func setUpSubviews() {
@@ -104,12 +105,12 @@ final class AlbumSelectPhotoViewController: BaseViewController {
         }
         
         photoCollectionView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
+            $0.top.equalTo(printedPhotoButton.snp.bottom).offset(20)
             $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
 
         filmTableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
+            $0.top.equalTo(printedPhotoButton.snp.bottom).offset(20)
             $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -119,15 +120,14 @@ final class AlbumSelectPhotoViewController: BaseViewController {
     }
 }
 
-// MARK: select photo
+// MARK: 인화된 사진 로직
+
 extension AlbumSelectPhotoViewController : UICollectionViewDelegateFlowLayout, PinterestLayoutDelegate {
     private func setUpCollectionViewDataSource(){
-        let layout = PinterestLayout()
+        let layout = PinterestLayout(headerHeight: 0)
         layout.delegate = self
         
         photoCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        
-        photoCollectionView.collectionViewLayout = layout
         
         photoViewModel.output.photos
             .bind(to: photoCollectionView.rx.items(cellIdentifier: PinterestCollectionViewCell.cellID, cellType: PinterestCollectionViewCell.self)) { index, element, cell in
@@ -142,6 +142,8 @@ extension AlbumSelectPhotoViewController : UICollectionViewDelegateFlowLayout, P
                 self.navigationController?.pushViewController(nextVC, animated: true)
             })
             .disposed(by: disposeBag)
+        
+        photoCollectionView.collectionViewLayout = layout
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
@@ -151,7 +153,8 @@ extension AlbumSelectPhotoViewController : UICollectionViewDelegateFlowLayout, P
     }
 }
 
-// MARK: select film
+// MARK: 인화된 필름 로직
+
 extension AlbumSelectPhotoViewController {
     private func setUpTableViewViewDataSource() {
         filmTableView.rx.setDelegate(self).disposed(by: disposeBag)
