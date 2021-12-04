@@ -14,7 +14,7 @@ final class FilmService {
     
     let provider = MoyaProvider<FilmAPI>()
     
-    var filmType : FilmFilterType?
+    var filmType : FilmType?
     var user : User?
     
     private init() {}
@@ -49,6 +49,18 @@ final class FilmService {
                 let response = try result.get()
                 let value = try response.map(FilmResponse.self)
                 completionHandler(.success(value.film))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
+    }
+    
+    func filmDelete(filmUid : String, film data: FilmAPI.FilmData, completionHandler : @escaping (Result<successResponse, Error>) -> Void) {
+        provider.request(.filmDelete(filmUid: filmUid, data: data)) { result in
+            do {
+                let response = try result.get()
+                let value = try response.map(successResponse.self)
+                completionHandler(.success(value))
             } catch {
                 completionHandler(.failure(error))
             }

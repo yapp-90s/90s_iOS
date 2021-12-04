@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import RxDataSources
 
 final class FilmCreateDetailViewController: BaseViewController {
     private var collectionView : UICollectionView = {
@@ -20,20 +21,27 @@ final class FilmCreateDetailViewController: BaseViewController {
         return cv
     }()
     
-    var film: Film!
+    let viewModel : Film
     var delegate : FilmCreateViewControllerDelegate?
-
+    
+    init(viewModel: Film) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubViews()
+        setUpCollectionView()
     }
     
     private func setUpSubViews(){
         view.backgroundColor = .black
         view.addSubview(collectionView)
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
         
         collectionView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
@@ -41,35 +49,32 @@ final class FilmCreateDetailViewController: BaseViewController {
     }
     
     private func setUpCollectionView() {
-        Observable.from(optional: film.photos).bind(to: collectionView.rx.items(cellIdentifier: FilmCreateDetailCollectionViewCell.cellID, cellType: FilmCreateDetailCollectionViewCell.self)) { index, element, cell in
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmCreateDetailCollectionViewCell.cellID, for: indexPath) as! FilmCreateDetailCollectionViewCell
             cell.bindViewModel(image: element.url)
-        }.disposed(by: disposeBag)
+            return cell
+        })
+        
+        dataSource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmCreateDetailCollectionReusableView.cellID, for: indexPath) as! FilmCreateDetailCollectionReusableView
+            header.delegate = self.delegate
+            header.bindViewModel(film: self.viewModel)
+            return header
+        }
+        
+        Observable.from(optional: viewModel.photos)
+            .map { [FilmMainSectionModel(header: "", items: $0)]}
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
     }
 }
 
 
-extension FilmCreateDetailViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return film.photos.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmCreateDetailCollectionViewCell.cellID, for: indexPath) as! FilmCreateDetailCollectionViewCell
-        cell.bindViewModel(image: film.photos[indexPath.row].url)
-        return cell
-    }
-    
+extension FilmCreateDetailViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.bounds.width - 36, height: 340)
-    }
-    
-    // MARK: Collection Header Setting
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: FilmCreateDetailCollectionReusableView.cellID, for: indexPath) as! FilmCreateDetailCollectionReusableView
-        header.bindViewModel(film: film)
-        header.delegate = delegate
-        return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

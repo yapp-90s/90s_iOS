@@ -275,12 +275,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
     private func handleCompleteButton(){
         updatePopUpView()
         
-        FilmService.shared.create(film: (film.uid, film.name)) { result in
+        FilmService.shared.create(film: (film.filmType.uid, film.name)) { result in
             switch result {
             case let .success(response) :
-                print("FilmCreate - success request", response)
+                print("FilmCreateCompleteVC - success request : createFilm, ", response)
             case let .failure(error) :
-                print("FilmCreate - error on creating film :", error)
+                print("FilmCreateCompleteVC - error : createFilm, ", error)
             }
         }
     }
@@ -313,7 +313,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }
         
         filmNameLabel.text = film.name
-        filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.rawValue)
+        filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.name)
         filmPrintLabel = UILabel.createNormalBoldLabel(normal: "인화 시간", bold: "\(film.filmType.printDaysCount)시간")
         filmCountLabel = UILabel.createNormalBoldLabel(normal: "사진 개수", bold: "\(film.count)장")
         filmDateLabel = UILabel.createNormalBoldLabel(normal: "생성일", bold: film.createdAt)

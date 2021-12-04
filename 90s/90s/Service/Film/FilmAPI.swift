@@ -46,10 +46,10 @@ extension FilmAPI : BaseTarget {
     */
     var task: Task {
         switch self {
-        case .create(let film):
+        case .create(let filmData):
             return .requestParameters(parameters: [
-                "filmCode" : film.filmCode,
-                "name" : film.name
+                "filmCode" : filmData.filmCode,
+                "name" : filmData.name
             ], encoding: JSONEncoding.default)
         case .getFilms, .startPrinting:
             return .requestPlain
@@ -66,12 +66,12 @@ extension FilmAPI : BaseTarget {
         case .create, .filmDelete:
             return [
                 "Content-Type" : "application/json",
-                "X-AUTH-TOKEN" : "\(JWT.self)",
+                "X-AUTH-TOKEN" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbIlJPTEVfVEVTVEVSIl0sImlhdCI6MTYyNzk2NTE1NywiZXhwIjoyMjU4Njg1MTU3fQ._00DckJgm4nr22A8OE6AEdEx7JGozRkH4gqVrT4rJH0",
                 "Accept" : "application/json"
             ]
         case .getFilms, .startPrinting:
             return [
-                "X-AUTH-TOKEN" : "\(JWT.self)",
+                "X-AUTH-TOKEN" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbIlJPTEVfVEVTVEVSIl0sImlhdCI6MTYyNzk2NTE1NywiZXhwIjoyMjU4Njg1MTU3fQ._00DckJgm4nr22A8OE6AEdEx7JGozRkH4gqVrT4rJH0",
                 "Accept" : "application/json"
             ]
         }

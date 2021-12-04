@@ -14,13 +14,14 @@ struct User : Codable {
     var password : String?
     
     var emailKakao : String
+    var emailApple : String
     var emailGoogle : String
     var phoneNum : String
     
     var created_at : String
     var updated_at : String
     
-    var roles : [Roles]
+    var roles : [String]
     var enabled : Bool
 //    var authorities : [Roles]
 //    var username : String

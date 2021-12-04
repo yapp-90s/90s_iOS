@@ -16,6 +16,7 @@ protocol PinterestLayoutDelegate : AnyObject {
 final class PinterestLayout: UICollectionViewLayout {
     weak var delegate : PinterestLayoutDelegate?
     
+    private var headerHeight : CGFloat = 300
     private let numberOfColumns = 2
     private var cache : [UICollectionViewLayoutAttributes] = []
 
@@ -24,6 +25,11 @@ final class PinterestLayout: UICollectionViewLayout {
         guard let collectionView = collectionView else { return 0 }
         let insets = collectionView.contentInset
         return collectionView.bounds.width - (insets.left + insets.right)
+    }
+    
+    init(headerHeight: CGFloat) {
+        self.headerHeight = headerHeight
+        super.init()
     }
     
     override init() {
@@ -49,7 +55,7 @@ final class PinterestLayout: UICollectionViewLayout {
     
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         var xOffset : [CGFloat] = []
-        var yOffset : [CGFloat] = Array(repeating: 300, count: numberOfColumns)
+        var yOffset : [CGFloat] = Array(repeating: headerHeight, count: numberOfColumns)
         
         for column in 0..<numberOfColumns {
             xOffset.append(CGFloat(column) * columnWidth)
@@ -57,7 +63,7 @@ final class PinterestLayout: UICollectionViewLayout {
         var column = 0
         
         let headerAttribute = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, with: IndexPath(item: 0, section: 0))
-        headerAttribute.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: 300)
+        headerAttribute.frame = CGRect(x: 0, y: 0, width: collectionView.frame.width, height: headerHeight)
         cache.append(headerAttribute)
         
         for item in 0..<collectionView.numberOfItems(inSection: 0) {

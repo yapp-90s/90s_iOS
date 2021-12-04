@@ -57,7 +57,6 @@ final class FilmListViewController: BaseViewController {
     private var deleteFilmIndexPath : Set<IndexPath> = []
 
     private var FilmSection : [FilmListSectionModel] = []
-    private var dataSource : RxTableViewSectionedReloadDataSource<FilmListSectionModel>?
     
     // MARK: - LifeCycle
     
@@ -107,19 +106,32 @@ final class FilmListViewController: BaseViewController {
     }
     
     private func setUpTableViewData() {
+//        viewModel.output.filmSectionViewModel.bind(to: { data in
+//            data.value.forEach { item in
+//                switch item.key {
+//                case .adding:
+//                    let array = item.value
+//                    FilmSection.append(.sectionAdding(items: <#T##[Film]#>))
+//                case .printing:
+//                case .complete:
+//                case default:
+//                    break
+//                }
+//            }
+//        })
         viewModel.output.film_timeToPrint.subscribe(onNext: { data in
             self.FilmSection.append(.sectionTimeToPrint(item: data.first!))
             self.isTimeToPrintExist = true
         }).disposed(by: disposeBag)
-        
+
         viewModel.output.film_adding.subscribe(onNext: { data in
             self.FilmSection.append(.sectionAdding(items: data))
         }).disposed(by: disposeBag)
-        
+
         viewModel.output.film_printing.subscribe(onNext: { data in
             self.FilmSection.append(.sectionPrinting(items: data))
         }).disposed(by: disposeBag)
-        
+
         viewModel.output.film_complete.subscribe(onNext: { data in
             self.FilmSection.append(.sectionCompleted(items: data))
         }).disposed(by: disposeBag)
@@ -128,7 +140,7 @@ final class FilmListViewController: BaseViewController {
     private func setUpTableViewSection(){
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionModel> (configureCell: { dataSource, tableView, indexPath, item in
+        let dataSource = RxTableViewSectionedReloadDataSource<FilmListSectionModel> (configureCell: { dataSource, tableView, indexPath, item in
             if indexPath.section == 0 && self.isTimeToPrintExist {
                 let cell = tableView.dequeueReusableCell(withIdentifier: FilmListPrintTableViewCell.cellID) as! FilmListPrintTableViewCell
                 cell.bindViewModel(film: item)
@@ -138,8 +150,7 @@ final class FilmListViewController: BaseViewController {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmInfoTableViewCell.cellId) as! FilmInfoTableViewCell
             let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
-            cell.showStateImage(show: true)
-            cell.bindViewModel(film: item, isCreate: false)
+            cell.bindViewModel(film: item, type: .adding)
             cell.isEditStarted(value: self.isEditingMode)
             cell.isEditCellSelected(value: value)
             cell.selectionStyle = .none
@@ -147,7 +158,7 @@ final class FilmListViewController: BaseViewController {
         })
         
         Observable.just(FilmSection)
-            .bind(to: tableView.rx.items(dataSource: dataSource!))
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
         tableView.rx.modelSelected(Film.self)
@@ -163,11 +174,10 @@ final class FilmListViewController: BaseViewController {
         
         tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
-                if let bool = self?.isEditingMode,
-                   let array = self?.deleteFilmIndexPath {
-                   
-                    if let cell = self?.tableView.cellForRow(at: indexPath) as? FilmInfoTableViewCell {
-                        if bool {
+                if let bool = self?.isEditingMode {
+                    if bool {
+                        if let array = self?.deleteFilmIndexPath,
+                           let cell = self?.tableView.cellForRow(at: indexPath) as? FilmInfoTableViewCell {
                             if array.contains(indexPath) {
                                 cell.isEditCellSelected(value: !bool)
                                 self?.deleteFilmIndexPath.remove(indexPath)
@@ -176,11 +186,12 @@ final class FilmListViewController: BaseViewController {
                                 self?.deleteFilmIndexPath.update(with: indexPath)
                             }
                             
-                            if let count = self?.deleteFilmIndexPath.count {
-                                let text = count > 0 ? "\(count)개 필름 삭제" : "필름을 선택해주세요"
-                                self?.selectedFilmDeleteButton.setTitle(text, for: .normal)
-                            }
+                            let text = array.count > 0 ? "\(array.count)개 필름 삭제" : "필름을 선택해주세요"
+                            self?.selectedFilmDeleteButton.setTitle(text, for: .normal)
                         }
+                    } else {
+//                        let nextVC = FilmListDetailViewController(film: item)
+//                        self?.navigationController?.pushViewController(nextVC, animated: true)
                     }
                 }
             }).disposed(by: disposeBag)
@@ -220,7 +231,6 @@ final class FilmListViewController: BaseViewController {
     
     @objc private func popUpDeleteButton(){
         popUpAnimation()
-        
     }
 }
 

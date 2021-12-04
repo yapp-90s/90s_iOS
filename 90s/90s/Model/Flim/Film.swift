@@ -10,7 +10,7 @@ import Foundation
 struct Film : Codable {
     let uid: Int
     var name: String
-    var filmType : FilmFilterType
+    var filmType : FilmType
     var user : User?
     
     var createdAt = Date().toString
@@ -19,14 +19,12 @@ struct Film : Codable {
     
     // - None Network Data
     private(set) var photos: [Photo]
-    
-    let maxCount: Int
-    
+   
     var filmState : FilmStateType {
         get {
-            if maxCount == -1 {
+            if filmType.max == -1 {
                 return .create
-            } else if photos.count >= maxCount {
+            } else if photos.count >= filmType.max {
                 return printStartAt != nil ? .complete : .printing
             } else {
                 return .adding
@@ -52,7 +50,7 @@ extension Film {
     }
     
     var isFull: Bool {
-        photos.count == maxCount
+        photos.count == filmType.max
     }
 }
 
@@ -81,63 +79,3 @@ enum FilmStateType : Int, Codable {
         }
     }
 }
-
-/// Film 필터 종류
-enum FilmFilterType : String, Codable {
-    case Create = "Create"
-    case None = "None"
-    case Mono = "Mono"
-    case MossPink = "MossPink"
-    case ForgetMeNot = "ForgetMeNot"
-    
-    var id : Int {
-        self.hashValue
-    }
-    
-    var printDaysCount : Int {
-        return 12
-    }
-    
-    var photoCount : Int {
-        return 36
-    }
-    
-    var image : String {
-        switch self {
-        case .Create : return "film_default"
-        case .None : return "filmroll_none"
-        case .Mono : return "filmroll_mono"
-        case .MossPink : return "filmroll_mosspink"
-        case .ForgetMeNot : return "filmroll_forgetmenot"
-        }
-    }
-    
-    var color : Int {
-        switch self {
-        case .None : return 0x727379
-        case .Mono : return 0x53555A
-        case .MossPink : return 0x8276AF
-        case .ForgetMeNot : return 0x517796
-        default : return 0xFFFFFF
-        }
-    }
-    
-    var imageWidth : Int {
-        switch self {
-        case .None : return 60
-        case .Mono : return 80
-        case .MossPink : return 60
-        case .ForgetMeNot : return 80
-        default: return 0
-        }
-    }
-    
-    var maxCountImageView : Int {
-        switch self {
-        case .None, .MossPink : return 4
-        case .Mono, .ForgetMeNot: return 3
-        default: return 0
-        }
-    }
-}
-
