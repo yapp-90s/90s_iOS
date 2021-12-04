@@ -12,11 +12,12 @@ class PhoneAuthenticationViewController: BaseViewController {
     // MARK: - Views
     
     private let phoneNumberTextFieldView: LabelTextFieldView = {
-        let textFieldView = LabelTextFieldView(label: "휴대폰 번호", placeholder: "010-1234-1234")
+        let textFieldView = LabelTextFieldView(label: "휴대폰 번호", placeholder: "01012341234")
         textFieldView.label.textColor = .white
         textFieldView.underline.width = 1
         textFieldView.underline.color = .gray
         textFieldView.textField.setClearButton(with: UIImage(named: "icon_Delete_Text")!, mode: .whileEditing)
+        textFieldView.textField.keyboardType = .numberPad
         return textFieldView
     }()
     
@@ -27,7 +28,7 @@ class PhoneAuthenticationViewController: BaseViewController {
     }()
     
     private let authenticationTextFieldView: LabelTextFieldView = {
-        let textFieldView = LabelTextFieldView(label: "인증번호", placeholder: "인증번호 4자리 입력")
+        let textFieldView = LabelTextFieldView(label: "인증번호", placeholder: "인증번호 6자리 입력")
         textFieldView.labelTrailingSpacing = 48
         textFieldView.label.textColor = .white
         textFieldView.underline.width = 1
@@ -117,20 +118,44 @@ class PhoneAuthenticationViewController: BaseViewController {
     
     private func bind() {
         
+        // Input
+        self.phoneNumberTextFieldView.textField.rx.text.orEmpty
+            .distinctUntilChanged()
+            .bind(to: self.viewModel.input.phoneNumberChanged)
+            .disposed(by: self.disposeBag)
+        self.authenticationTextFieldView.textField.rx.text.orEmpty
+            .distinctUntilChanged()
+            .bind(to: self.viewModel.input.responseNumberChanged)
+            .disposed(by: self.disposeBag)
+        
+        
+        self.authenticationCompleteButton.rx.tap
+            .bind(to: self.viewModel.input.completeButtonDidTap)
+            .disposed(by: self.disposeBag)
+        
         // Output
-        self.viewModel.output.isEnableRequestPhoneSms
-            .subscribe(onNext: { [weak self] isEnabled in
-                self?.updateCompleButton(isEnabled: isEnabled)
+        self.viewModel.output.authenticationStep
+            .subscribe(onNext: { [weak self] step in
+                let (completeButtonText, isEnabled): (String, Bool)
+                switch step {
+                case .enterPhoneNumber:
+                    (completeButtonText, isEnabled) = ("인증번호 받기", false)
+                case .requestAuthenticationSms:
+                    (completeButtonText, isEnabled) = ("인증번호 받기", true)
+                case .responseAuthenticationSms:
+                    (completeButtonText, isEnabled) = ("인증 완료", false)
+                case .completeAuthentication:
+                    (completeButtonText, isEnabled) = ("인증 완료", true)
+                }
+                
+                self?.authenticationCompleteButton.setTitle(completeButtonText, for: .normal)
+                self?.authenticationCompleteButton.isEnabled = isEnabled
+                self?.authenticationCompleteButton.backgroundColor = isEnabled ? .retroOrange : .Cool_Gray
             })
             .disposed(by: self.disposeBag)
         
-        // Input
-        self.phoneNumberTextFieldView.textField.rx.text.orEmpty
-            .bind(to: self.viewModel.input.phoneNumberChanged)
-            .disposed(by: self.disposeBag)
-        
-        self.authenticationCompleteButton.rx.tap
-            .bind(to: self.viewModel.input.requestPhoneSms)
+        self.viewModel.output.isHiddenAuthenticationTextField
+            .bind(to: self.authNumberView.rx.isHidden)
             .disposed(by: self.disposeBag)
     }
     

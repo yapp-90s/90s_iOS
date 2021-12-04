@@ -11,50 +11,96 @@ import RxRelay
 
 class PhoneAuthenticationViewModel: ViewModelType {
     
+    enum AuthenticationStep {
+        case enterPhoneNumber
+        case requestAuthenticationSms
+        case responseAuthenticationSms
+        case completeAuthentication
+    }
+    
     private(set) var dependency: Dependency
     private(set) var input = Input()
     private(set) var output: Output
     private(set) var disposeBag = DisposeBag()
     
-    private var isEnableRequestPhoneSns = BehaviorSubject<Bool>(value: false)
-    private var candidatePhoneNumber = BehaviorRelay<String>(value: "")
-    private var certifiactionNumber = ""
+    private let validPhoneNumberLengthRange = 10...11
+    private let validResponseNumberLength = 6
+    
+    private var candidatePhoneNumber = ""
+    private var candidateAuthenticationResponseNumber = ""
+    private var authenticationResponseNumber = ""
+    
+    private var authenticationStep = BehaviorRelay<AuthenticationStep>(value: .enterPhoneNumber)
+    private var isHiddenAuthenticationTextField = BehaviorSubject<Bool>(value: true)
     
     required init(dependency: Dependency) {
         self.dependency = dependency
         
         self.output = Output(
-            isEnableRequestPhoneSms: self.isEnableRequestPhoneSns
+            authenticationStep: self.authenticationStep.asObservable(),
+            isHiddenAuthenticationTextField: self.isHiddenAuthenticationTextField
         )
         
         self.input.phoneNumberChanged
-            .bind(to: self.candidatePhoneNumber)
-            .disposed(by: self.disposeBag)
-        
-        self.candidatePhoneNumber
-            .subscribe(onNext: { [weak self] text in
+            .subscribe(onNext: { [weak self] phoneNumber in
                 guard let self = self else { return }
-                let isValidPhoneNumber = self.validatePhoneNumber(with: text)
-                self.isEnableRequestPhoneSns.onNext(isValidPhoneNumber)
+                self.candidatePhoneNumber = phoneNumber
+                if self.validatePhoneNumber(with: phoneNumber) {
+                    self.authenticationStep.accept(.requestAuthenticationSms)
+                } else {
+                    self.authenticationStep.accept(.enterPhoneNumber)
+                }
             })
             .disposed(by: self.disposeBag)
         
-        self.input.requestPhoneSms
+        self.input.responseNumberChanged
+            .subscribe(onNext: { [weak self] phoneNumber in
+                guard let self = self else { return }
+                guard self.authenticationStep.value == .responseAuthenticationSms ||
+                        self.authenticationStep.value == .completeAuthentication
+                else { return }
+                
+                self.candidateAuthenticationResponseNumber = phoneNumber
+                if self.validateAuthenticationResponseNumber(with: phoneNumber) {
+                    self.authenticationStep.accept(.completeAuthentication)
+                } else {
+                    self.authenticationStep.accept(.responseAuthenticationSms)
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.input.completeButtonDidTap
             .subscribe(onNext: { [weak self] _ in
-                self?.requestPhoneSms()
+                guard let self = self else { return }
+                switch self.authenticationStep.value {
+                case .requestAuthenticationSms:
+                    self.isHiddenAuthenticationTextField.onNext(false)
+                    self.requestPhoneSms()
+                case .completeAuthentication:
+                    if self.authenticationResponseNumber == self.candidateAuthenticationResponseNumber {
+                        // TODO: 인증완료
+                    }
+                default: return
+                }
             })
             .disposed(by: self.disposeBag)
     }
     
     private func validatePhoneNumber(with numberText: String) -> Bool {
         let numbers = numberText.filter { $0.isNumber }
-        return 10...11 ~= numbers.count
+        return self.validPhoneNumberLengthRange ~= numbers.count
+    }
+    
+    private func validateAuthenticationResponseNumber(with numberText: String) -> Bool {
+        let numbers = numberText.filter { $0.isNumber }
+        return self.validResponseNumberLength == numbers.count
     }
     
     private func requestPhoneSms() {
-        self.dependency.loginService.requestCheckPhoneNumber(self.candidatePhoneNumber.value)
-            .subscribe { [weak self] certifiactionNumber in
-                self?.certifiactionNumber = certifiactionNumber
+        self.dependency.loginService.requestCheckPhoneNumber(self.candidatePhoneNumber)
+            .subscribe { [weak self] authenticationNumber in
+                self?.authenticationResponseNumber = authenticationNumber
+                self?.authenticationStep.accept(.responseAuthenticationSms)
             } onError: { error in
                 // TODO:
                 print(error)
@@ -71,10 +117,12 @@ extension PhoneAuthenticationViewModel {
     
     struct Input {
         var phoneNumberChanged = PublishSubject<String>()
-        var requestPhoneSms = PublishSubject<Void>()
+        var responseNumberChanged = PublishSubject<String>()
+        var completeButtonDidTap = PublishSubject<Void>()
     }
     
     struct Output {
-        var isEnableRequestPhoneSms: Observable<Bool>
+        var authenticationStep: Observable<AuthenticationStep>
+        var isHiddenAuthenticationTextField: Observable<Bool>
     }
 }
