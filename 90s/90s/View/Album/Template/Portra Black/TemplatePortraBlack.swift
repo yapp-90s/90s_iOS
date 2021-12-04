@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class TemplatePortraBlack: UIView {
+final class TemplatePortraBlack: UIView, TemplateView {
     
     let scale = UIScreen.main.bounds.width / 323
     

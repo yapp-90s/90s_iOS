@@ -9,18 +9,10 @@ import UIKit
 
 import SnapKit
 
-final class TemplatePortraWhite: UIView {
+final class TemplatePortraWhite: UIView, TemplateView {
     
     let scale = UIScreen.main.bounds.width / 323
     var currentIndex: Int = -1
-//    enum Kind {
-//        case portraBlack
-//        case portraWhite
-//        case moodyPaper
-//        case grass
-//        case polaroid
-//        case gradient
-//    }: TemplateImageViewDelegate?
     
     lazy var imageView1: PortraWhiteTemplateImageView = {
         let imageView = PortraWhiteTemplateImageView()

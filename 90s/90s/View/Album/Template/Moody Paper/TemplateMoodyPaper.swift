@@ -9,7 +9,7 @@ import Foundation
 
 import SnapKit
 
-final class TemplateMoodyPaper: UIView {
+final class TemplateMoodyPaper: UIView, TemplateView {
     
     let scale = UIScreen.main.bounds.width / 323
     

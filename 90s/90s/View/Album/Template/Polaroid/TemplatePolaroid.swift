@@ -9,7 +9,7 @@ import Foundation
 
 import SnapKit
 
-final class TemplatePolaroid: UIView {
+final class TemplatePolaroid: UIView, TemplateView {
     
     let scale = UIScreen.main.bounds.width / 375
     
