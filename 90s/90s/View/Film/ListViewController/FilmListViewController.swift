@@ -150,8 +150,7 @@ final class FilmListViewController: BaseViewController {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: FilmInfoTableViewCell.cellId) as! FilmInfoTableViewCell
             let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
-            cell.showStateImage(show: true)
-            cell.bindViewModel(film: item, isCreate: false)
+            cell.bindViewModel(film: item, type: .adding)
             cell.isEditStarted(value: self.isEditingMode)
             cell.isEditCellSelected(value: value)
             cell.selectionStyle = .none

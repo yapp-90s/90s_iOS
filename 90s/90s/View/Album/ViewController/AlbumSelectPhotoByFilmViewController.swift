@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import RxSwift
 
+//TODO: 필름, 사진 비어있을 때 비어있다는 이미지 추가
 final class AlbumSelectPhotoByFilmViewController: BaseViewController, UIScrollViewDelegate {
     
     private let filmImageView : UIImageView = {

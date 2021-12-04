@@ -67,7 +67,7 @@ final class FilmCreateViewController: BaseViewController {
         
         viewModel.bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
             cell.selectionStyle = .none
-            cell.bindViewModel(film: element, isCreate: true)
+            cell.bindViewModel(film: element, type: .create)
         }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected(Film.self).subscribe(onNext: { indexPath in

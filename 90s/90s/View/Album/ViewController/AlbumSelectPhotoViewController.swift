@@ -30,18 +30,17 @@ final class AlbumSelectPhotoViewController: BaseViewController {
     private let photoCollectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
-//        cv.isHidden = true
+        cv.isHidden = true
         
         cv.register(PinterestCollectionViewCell.self, forCellWithReuseIdentifier: PinterestCollectionViewCell.cellID)
         return cv
     }()
     
     private let filmTableView : UITableView = {
-        let tv = UITableView(frame: .zero, style: .grouped)
+        let tv = UITableView(frame: .zero)
         tv.showsVerticalScrollIndicator = false
         tv.separatorStyle = .none
-        tv.isHidden = true
-        tv.backgroundColor = .lightGray
+        tv.rowHeight = 230
         
         tv.register(FilmInfoTableViewCell.self, forCellReuseIdentifier: FilmInfoTableViewCell.cellId)
         return tv
@@ -72,6 +71,7 @@ final class AlbumSelectPhotoViewController: BaseViewController {
         super.viewDidLoad()
         setUpNavigatorBar()
         setUpSubviews()
+        setUpButtonAction()
         setUpCollectionViewDataSource()
         setUpTableViewViewDataSource()
     }
@@ -113,6 +113,24 @@ final class AlbumSelectPhotoViewController: BaseViewController {
             $0.top.equalTo(printedPhotoButton.snp.bottom).offset(20)
             $0.left.right.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+    
+    private func setUpButtonAction() {
+        printedPhotoButton.rx.tap
+            .bind(onNext: {
+                self.filmTableView.isHidden = true
+                self.photoCollectionView.isHidden = false
+                self.photoCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        printedFilmButton.rx.tap
+            .bind(onNext: {
+                self.photoCollectionView.isHidden = true
+                self.filmTableView.isHidden = false
+                self.filmTableView.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
     
     @objc private func handleNavigationRightButton() {
@@ -159,13 +177,13 @@ extension AlbumSelectPhotoViewController {
     private func setUpTableViewViewDataSource() {
         filmTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        filmViewModel.output.film_complete
+        Observable.from(optional: filmViewModel.dependency.filmFactory)
+        //filmViewModel.output.film_complete
             .bind(to: filmTableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) {
                 index, element, cell in
-                cell.showStateImage(show: false)
                 cell.isEditStarted(value: false)
                 cell.isEditCellSelected(value: false)
-                cell.bindViewModel(film: element, isCreate: false)
+                cell.bindViewModel(film: element, type: .complete)
                 cell.selectionStyle = .none
             }
             .disposed(by: disposeBag)

@@ -79,7 +79,6 @@ final class FilmInfoTableViewCell: UITableViewCell {
     static let cellId = "FilmInfoTableViewCell"
     
     private var disposeBag = DisposeBag()
-    private var testFilmValue : (Film, Bool)?
     private var isDeleteBtnClicked : Bool = false
     private var imageViewArray : [UIImageView] = [
         .init(frame: .zero), .init(frame: .zero), .init(frame: .zero), .init(frame: .zero)]
@@ -179,13 +178,7 @@ final class FilmInfoTableViewCell: UITableViewCell {
         }
     }
     
-    func showStateImage(show value : Bool) {
-        filmTypeImageView.isHidden = !value
-    }
-    
-    func bindViewModel(film: Film, isCreate: Bool){
-        testFilmValue = (film, isCreate)
-        
+    func bindViewModel(film: Film, type: FilmStateType) {
         DispatchQueue.main.async { [weak self] in
             self?.filmTitleImageView.image = UIImage(named: film.filmType.image)
             self?.filmTypeImageView.image = UIImage(named: film.filmState.image())
@@ -193,19 +186,25 @@ final class FilmInfoTableViewCell: UITableViewCell {
         }
         
         filmTitleLabel.text = film.name
-        separateLine.isHidden = !isCreate
-        
-        switch isCreate {
-        case true:
-            filmTypeImageView.isHidden = true
-            filmNewLabel.isHidden = true
-            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
-        case false:
-            filmCount_DateLabel.text = "\(film.count)/\(film.filmType.max)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
-        }
         
         if Date().dateToString() == film.createdAt {
             filmNewLabel.isHidden = false
+        }
+        
+        switch type {
+        case .create:
+            separateLine.isHidden = true
+            filmTypeImageView.isHidden = true
+            filmNewLabel.isHidden = true
+            filmCount_DateLabel.text = "\(film.count)장 · 인화 \(film.filmType.printDaysCount)시간 소요"
+        case .complete:
+            separateLine.isHidden = true
+            filmTypeImageView.isHidden = true
+            filmCount_DateLabel.text = "\(film.count)장 · \(film.createdAt)"
+        default :
+            separateLine.isHidden = false
+            filmTypeImageView.isHidden = false
+            filmCount_DateLabel.text = "\(film.count)/\(film.filmType.max)장 · \(film.createdAt)시간 남음" // 전체 개수 리턴하는 함수 필요
         }
     }
     
