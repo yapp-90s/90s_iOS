@@ -12,11 +12,17 @@ final class LoginViewModel: ViewModelType {
     
     private(set) var dependency: Dependency
     private(set) var input = Input()
-    private(set) var output = Output()
+    private(set) var output: Output
     private(set) var disposeBag = DisposeBag()
     
     required init(dependency: Dependency) {
         self.dependency = dependency
+        
+        self.output = Output(
+            phoneAuthenticationViewModel: PhoneAuthenticationViewModel(
+                dependency: .init(loginService: dependency.loginService)
+            )
+        )
         
         self.input.requestLoginStream
             .subscribe(onNext: { [weak self] loginType in
@@ -39,6 +45,10 @@ final class LoginViewModel: ViewModelType {
                         // 회원가입
                         self.output.signUpNeeded.onNext(())
                     }
+                }, onError: { error in
+                    // FIXME: 테스트용 임시 코드 -> 얼럿 띄워주는 형태로 수정
+                    print("❌ API Error: \(error.localizedDescription)")
+                    self.output.signUpNeeded.onNext(())
                 })
                 .disposed(by: disposeBag)
         case .google:
@@ -64,6 +74,7 @@ extension LoginViewModel {
     }
     
     struct Output {
+        var phoneAuthenticationViewModel: PhoneAuthenticationViewModel
         var signUpNeeded = PublishSubject<Void>()
     }
 }

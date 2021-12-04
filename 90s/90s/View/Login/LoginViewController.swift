@@ -110,6 +110,11 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     private func setupViews() {
         self.view.addSubview(self.buttonsStackView)
         self.view.addSubview(self.pageControl)
@@ -169,7 +174,8 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     }
     
     private func pushToPhoneAuthentication() {
-        // TODO: - 폰인증
+        let phoneAuthenticationViewController = PhoneAuthenticationViewController(viewModel: self.viewModel.output.phoneAuthenticationViewModel)
+        self.navigationController?.pushViewController(phoneAuthenticationViewController, animated: true)
     }
     
     @objc

@@ -16,6 +16,8 @@ class LabelTextFieldView: UIView {
     
     let label: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
     

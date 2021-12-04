@@ -28,6 +28,11 @@ class BaseNavigationControllerViewController: UINavigationController {
         navigationBar.backIndicatorImage = backButtonBackgroundImage
         navigationBar.backIndicatorTransitionMaskImage = backButtonBackgroundImage
         UIBarButtonItem.appearance().setBackButtonTitlePositionAdjustment(UIOffset(horizontal: 5, vertical: -6), for: .default)
+        
+        navigationBar.backgroundColor = .clear
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.shadowImage = UIImage()
+        view.backgroundColor = .clear
     }
     
     @objc func tappedBackButtonItem() {
