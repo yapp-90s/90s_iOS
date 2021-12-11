@@ -33,6 +33,7 @@ class PhoneAuthenticationViewController: BaseViewController {
         textFieldView.label.textColor = .white
         textFieldView.underline.width = 1
         textFieldView.underline.color = .gray
+        textFieldView.textField.textContentType = .oneTimeCode
         textFieldView.textField.setClearButton(with: UIImage(named: "icon_Delete_Text")!, mode: .whileEditing)
         return textFieldView
     }()
@@ -123,13 +124,17 @@ class PhoneAuthenticationViewController: BaseViewController {
             .distinctUntilChanged()
             .bind(to: self.viewModel.input.phoneNumberChanged)
             .disposed(by: self.disposeBag)
+        
         self.authenticationTextFieldView.textField.rx.text.orEmpty
             .distinctUntilChanged()
             .bind(to: self.viewModel.input.responseNumberChanged)
             .disposed(by: self.disposeBag)
         
-        
         self.authenticationCompleteButton.rx.tap
+            .bind(to: self.viewModel.input.completeButtonDidTap)
+            .disposed(by: self.disposeBag)
+        
+        self.retryButton.rx.tap
             .bind(to: self.viewModel.input.completeButtonDidTap)
             .disposed(by: self.disposeBag)
         
