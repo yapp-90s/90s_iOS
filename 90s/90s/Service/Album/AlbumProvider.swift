@@ -10,7 +10,7 @@ import RxRelay
 
 struct AlbumProvider {
     // input
-    private static let albumRelay = BehaviorRelay<[String: (album: Album, count: Int, updatedAt: Date)]>(value: [:])
+    private static let albumRelay = BehaviorRelay<[Int: (album: Album, count: Int, updatedAt: Date)]>(value: [:])
     private static let albumObservable = albumRelay
         .asObservable()
         .subscribeOn(SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
@@ -40,7 +40,7 @@ struct AlbumProvider {
         }
     }
     
-    static func retain(id: String) {
+    static func retain(id: Int) {
         queue.async {
             var albumValue = self.albumRelay.value
             var record = albumValue[id]
@@ -52,7 +52,7 @@ struct AlbumProvider {
         }
     }
     
-    static func release(id: String) {
+    static func release(id: Int) {
 //        queue.async {
 //            var albumValue = self.albumRelay.value
 //            var record = albumValue[id]
@@ -67,7 +67,7 @@ struct AlbumProvider {
 //        }
     }
     
-    static func album(id: String) -> Album? {
+    static func album(id: Int) -> Album? {
         var album: Album?
         queue.sync {
             album = self.albumRelay.value[id]?.album
@@ -75,7 +75,7 @@ struct AlbumProvider {
         return album
     }
     
-    static func observable(id: String) -> Observable<Album?> {
+    static func observable(id: Int) -> Observable<Album?> {
         return albumObservable
             .map { $0[id] }
             .distinctUntilChanged { $0?.updatedAt == $1?.updatedAt }

@@ -7,22 +7,21 @@
 
 import UIKit
 
-struct Album: Codable {
-    let uid: String
-    var user: [String]? = []
+struct Album {
+    let uid: Int
+    let cover: Cover
+    let template: Template
     let name: String
-    var createdAt: String
-    var updatedAt: String
-    var completedAt: String?
-    let totalPaper: Int
-    let cover: AlbumCover
+    let readCount: Int?
+    let isComplete: Bool
+    let completedAt: String?
+    let photos: [Photo]
+//    let createdAt: String
+//    var updatedAt: String
+    //    var user: [String]? = []
+//    let endAt: String
 //    let template: Template
-    private(set) var photos: [Photo] = []
-    
-//    enum CodingKeys: String, CodingKey {
-//        case cover = "albumCover"
-//        case
-//    }
+//    private(set) var photos: [Photo] = []
 }
 
 extension Album {

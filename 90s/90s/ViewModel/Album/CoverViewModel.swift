@@ -9,9 +9,9 @@ import RxSwift
 import RxRelay
 
 class CoverViewModel {
-    let cover: BehaviorRelay<AlbumCover>
+    let cover: BehaviorRelay<Cover>
     
-    init(albumCover: AlbumCover) {
-        cover = BehaviorRelay<AlbumCover>.init(value: albumCover)
+    init(albumCover: Cover) {
+        cover = BehaviorRelay<Cover>.init(value: albumCover)
     }
 }

@@ -30,6 +30,10 @@ final class TemplateService {
         return templates.value
     }
     
+    func getTemplate(_ code: Int) -> Template? {
+        return templates.value.filter({ $0.code == code }).first
+    }
+    
     func pickTemplate(_ index: Int) -> Template {
         return templates.value[index]
     }

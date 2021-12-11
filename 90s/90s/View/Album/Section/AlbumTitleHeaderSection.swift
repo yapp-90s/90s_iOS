@@ -32,6 +32,7 @@ struct AlbumTitleHeaderSection: AlbumSection {
         if indexPath.section == 4 {
             cell.isButtton = true
             cell.delegate = delegate
+            cell.label.text = "내 앨범"
         }
         
         return cell

@@ -156,6 +156,10 @@ final class AlbumListViewController: UIViewController {
             .map { $0.isEmpty }
             .bind(to: deleteButton.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        viewModel.output.isEdit
+            .bind(to: collectionView.rx.allowsSelection)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction() {

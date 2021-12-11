@@ -8,8 +8,6 @@
 import Foundation
 
 import RxSwift
-import RxRelay
-import Alamofire
 import RxAlamofire
 
 final class AlbumClientStub {
@@ -17,8 +15,10 @@ final class AlbumClientStub {
     static let shared = AlbumClientStub()
     
     private var albums: [Album] = [
-        .init(uid: "0", name: "Dummy Complete", createdAt: "2021-08-01T00:10:38", updatedAt: "2021-08-01T00:10:38", completedAt: "2021-08-01T00:10:38", totalPaper: 9, cover: .candy),
-        .init(uid: "1", name: "Dummy Making", createdAt: "2021-08-01T00:10:38", updatedAt: "2021-08-01T00:10:38", totalPaper: 9, cover: .stickyBubble)
+//        .init(uid: 0, coverUid: 0, createdAt: "2021-08-01T00:10:38", endAt: "2021-08-01T00:10:38", isComplete: false, layoutUid: 0, name: "Dummy Not Complete", readCount: 0, updatedAt: "2021-08-01T00:10:38"),
+//        .init(uid: 0, coverUid: 0, createdAt: "2021-08-01T00:10:38", endAt: "2021-08-01T00:10:38", isComplete: true, layoutUid: 1, name: "Dummy Complete", readCount: 0, updatedAt: "2021-08-01T00:10:38")
+//        .init(uid: 0, name: "Dummy Complete", createdAt: "2021-08-01T00:10:38", updatedAt: "2021-08-01T00:10:38", completedAt: "2021-08-01T00:10:38", totalPaper: 9, cover: .candy),
+//        .init(uid: "1", name: "Dummy Making", createdAt: "2021-08-01T00:10:38", updatedAt: "2021-08-01T00:10:38", totalPaper: 9, cover: .stickyBubble)
     ]
     
     private let queue = DispatchQueue(label: "AlbumClientStub", qos: .utility)
@@ -42,7 +42,7 @@ final class AlbumClientStub {
     
     func create(_ albumCreate: AlbumCreate) -> Bool {
         queue.sync {
-            albums.insert(.init(uid: UUID().uuidString, name: albumCreate.name.value, createdAt: Date().dateToString(), updatedAt: Date().dateToString(), totalPaper: 8, cover: albumCreate.cover.value), at: 0)
+//            albums.insert(.init(uid: UUID().uuidString, name: albumCreate.name.value, createdAt: Date().dateToString(), updatedAt: Date().dateToString(), totalPaper: 8, cover: albumCreate.cover.value), at: 0)
             return true
         }
     }
@@ -77,17 +77,15 @@ final class AlbumClient {
     }
     
     func allAlbum(_ void: Void) -> Observable<[Album]> {
-        return Observable.just([.init(uid: "0", name: "Dummy", createdAt: "2021-08-01T00:10:38", updatedAt: "2021-08-01T00:10:38", totalPaper: 9, cover: .candy)])
-//        return RxAlamofire.request(DanjiRouter.all)
-//            .data()
-//            .decode(type: NetworkResult<[Danji]>.self, decoder: decoder)
-//            .map { $0.data }
-//            .map { $0 }
+        return RxAlamofire.request(AlbumRouter.all)
+            .data()
+            .decode(type: [AlbumResponse].self, decoder: decoder)
+            .map { $0.compactMap { $0.album } }
     }
     
     func all(_ void: Void) -> [Album] {
         return [
-            .init(uid: "", name: "Network Dummy", createdAt: "2021-08-01T00:10:38", updatedAt: "2021-08-01T00:10:38", totalPaper: 8, cover: .candy)
+//            .init(uid: 0, coverUid: 0, createdAt: "2021-08-01T00:10:38", endAt: "2021-08-01T00:10:38", isComplete: false, layoutUid: 0, name: "Dummy Not Complete", readCount: 0, updatedAt: "2021-08-01T00:10:38")
         ]
     }
     

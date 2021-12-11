@@ -9,11 +9,11 @@ import RxSwift
 import RxCocoa
 
 protocol AlbumViewModelOutput {
-    var user: Observable<[String]?> { get }
+//    var user: Observable<[String]?> { get }
     var name: Observable<String?> { get }
     var date: Observable<String?> { get }
-    var maxCount: Observable<Int?> { get }
-    var cover: Observable<AlbumCover?> { get }
+//    var maxCount: Observable<Int?> { get  }
+    var cover: Observable<Cover?> { get }
     var photos: Observable<[Photo]?> { get }
 }
 
@@ -23,15 +23,16 @@ protocol AlbumViewModelInput {
 
 final class AlbumViewModel: AlbumViewModelOutput, AlbumViewModelInput {
     // MARK: - Output
-    var user: Observable<[String]?>
+//    var user: Observable<[String]?>
     var name: Observable<String?>
     var date: Observable<String?>
-    var maxCount: Observable<Int?>
-    var cover: Observable<AlbumCover?>
+//    var maxCount: Observable<Int?>
+    var cover: Observable<Cover?>
+    var template: Observable<Template?>
     var photos: Observable<[Photo]?>
                                                 
     // MARK: - Intput
-    let id: String
+    let id: Int
     let disposeBag = DisposeBag()
     let updateAlbum = PublishRelay<Album>()
     
@@ -43,16 +44,18 @@ final class AlbumViewModel: AlbumViewModelOutput, AlbumViewModelInput {
             .asObservable()
             .share(replay: 1, scope: .whileConnected)
         
-        self.user = albumObserver
-            .map { $0?.user }
+//        self.user = albumObserver
+//            .map { $0?.user }
         self.name = albumObserver
             .map { $0?.name }
         self.date = albumObserver
-            .map { $0?.updatedAt }
-        self.maxCount = albumObserver
-            .map { $0?.totalPaper }
+            .map { $0?.completedAt }
+//        self.maxCount = albumObserver
+//            .map { $0?.totalPaper }
         self.cover = albumObserver
             .map { $0?.cover }
+        self.template = albumObserver
+            .map { $0?.template }
         self.photos = albumObserver
             .map { $0?.photos }
     }

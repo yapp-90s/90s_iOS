@@ -16,9 +16,9 @@ enum AlbumRouter: URLRequestConvertible {
     
     private var baseURL: String {
         #if DEBUG
-        return "http://188.166.182.98:3000"
+        return "http://133.186.220.56"
         #else
-        return "http://188.166.182.98:3000"
+        return "http://133.186.220.56"
         #endif
     }
     
@@ -77,7 +77,7 @@ enum AlbumRouter: URLRequestConvertible {
         case .all, .create, .addPhoto, .complete, .delete:
             return [
                 "Content-Type": "application/json",
-                "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbIlJPTEVfVEVTVEVSIl0sImlhdCI6MTYzNzM5NzA2MiwiZXhwIjoyMjY4MTE3MDYyfQ.-eKPF-bRM6JvVF-PrFAgueZTmGBY9Tc2OSGN40Lo5Mk"
+                "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInJvbGVzIjpbIlJPTEVfVFJZRVIiXSwiaWF0IjoxNjM4ODgyMDI1LCJleHAiOjIyNjk2MDIwMjV9.EmM5wQMBsgjMxk-3dukLooUbjSr_Kb3Sn4e8IuSnQBE"
             ]
         }
     }
@@ -103,7 +103,6 @@ enum AlbumRouter: URLRequestConvertible {
         if let json = body {
             request.httpBody = json
         }
-        print(request.curlString)
         return request
     }
 }
