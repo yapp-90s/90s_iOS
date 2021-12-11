@@ -50,6 +50,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     fileprivate var googleLoginButton: UIButton = {
         let button = UIButton()
+        button.isHidden = true
         button.setTitle("구글로 로그인", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .Medium_Text_Bold
@@ -86,6 +87,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     ]
     
     private let viewModel: LoginViewModel
+    weak var appRootDelegate: AppRootDelegate?
 
     // MARK: - View Life Cycle
     
@@ -168,14 +170,20 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     private func bind() {
         self.viewModel.output.signUpNeeded
-            .subscribe(onNext: { [weak self] _ in
-                self?.pushToPhoneAuthentication()
+            .subscribe(onNext: { [weak self] phoneAuthenticationViewModel in
+                self?.pushToPhoneAuthentication(viewModel: phoneAuthenticationViewModel)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.loginSucceed
+            .subscribe(onNext: { [weak self] in
+                self?.appRootDelegate?.switchToMain()
             })
             .disposed(by: self.disposeBag)
     }
     
-    private func pushToPhoneAuthentication() {
-        let phoneAuthenticationViewController = PhoneAuthenticationViewController(viewModel: self.viewModel.output.phoneAuthenticationViewModel)
+    private func pushToPhoneAuthentication(viewModel: PhoneAuthenticationViewModel) {
+        let phoneAuthenticationViewController = PhoneAuthenticationViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(phoneAuthenticationViewController, animated: true)
     }
     

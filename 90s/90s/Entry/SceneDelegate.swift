@@ -9,29 +9,35 @@ import UIKit
 import RxKakaoSDKAuth
 import KakaoSDKAuth
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+protocol AppRootDelegate: AnyObject {
+    func switchToMain()
+}
 
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppRootDelegate {
+    
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
         window?.overrideUserInterfaceStyle = .dark
-        window?.rootViewController = MainTabBarController()
-//        window?.rootViewController = DecorateContainerViewController()
-
+        let loginViewController = LoginViewController(viewModel: .init(dependency: .init()))
+        loginViewController.appRootDelegate = self
+        window?.rootViewController = BaseNavigationControllerViewController(rootViewController: loginViewController)
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         if let url = URLContexts.first?.url, (AuthApi.isKakaoTalkLoginUrl(url)) {
             _ = AuthController.rx.handleOpenUrl(url: url)
         }
+    }
+    
+    // MARK: - AppRootDelegate
+    
+    func switchToMain() {
+        window?.rootViewController = MainTabBarController()
     }
 }
 

@@ -68,8 +68,7 @@ class PhoneAuthenticationViewController: BaseViewController {
     }
     
     required init?(coder: NSCoder) {
-        self.viewModel = PhoneAuthenticationViewModel(dependency: .init(loginService: LoginService()))
-        super.init(coder: coder)
+        fatalError("Could not use coder")
     }
     
     override func viewDidLoad() {
