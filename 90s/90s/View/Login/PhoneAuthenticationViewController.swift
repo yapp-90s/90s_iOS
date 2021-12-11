@@ -123,13 +123,17 @@ class PhoneAuthenticationViewController: BaseViewController {
             .distinctUntilChanged()
             .bind(to: self.viewModel.input.phoneNumberChanged)
             .disposed(by: self.disposeBag)
+        
         self.authenticationTextFieldView.textField.rx.text.orEmpty
             .distinctUntilChanged()
             .bind(to: self.viewModel.input.responseNumberChanged)
             .disposed(by: self.disposeBag)
         
-        
         self.authenticationCompleteButton.rx.tap
+            .bind(to: self.viewModel.input.completeButtonDidTap)
+            .disposed(by: self.disposeBag)
+        
+        self.retryButton.rx.tap
             .bind(to: self.viewModel.input.completeButtonDidTap)
             .disposed(by: self.disposeBag)
         
