@@ -22,28 +22,27 @@ class LoginService {
         self.kakaoSDKService = kakaoSDKService
     }
     
-    func requestLogin(_ type: LoginType) -> Observable<LoginOAuthToken?> {
-        switch type {
-        case .kakao:
-            return self.kakaoSDKService.requestKakaoLogin()
-                .flatMap { [weak self] _ -> Single<String> in
-                    guard let self = self else { return .error(APIError.networkFail) }
-                    return self.requestEmail(type: .kakao)
-                }
-                .flatMap { [weak self] email -> Single<LoginOAuthToken?> in
-                    guard let self = self else { return .error(APIError.networkFail) }
-                    return self.requestLogin(type: .kakao, email: email)
-                }
-                .catchError({ error -> Observable<LoginOAuthToken?> in
-                    return .error(error)
-                })
-                .asObservable()
-        default:
-            return .just(LoginOAuthToken("", ""))
-        }
+    public func requestKakaoLogin() -> Observable<LoginOAuthToken?> {
+        return self.kakaoSDKService.requestKakaoLogin()
+            .flatMap { [weak self] _ -> Single<String> in
+                guard let self = self else { return .error(APIError.networkFail) }
+                return self.kakaoSDKService.requestEmail()
+            }
+            .flatMap { [weak self] email -> Single<LoginOAuthToken?> in
+                guard let self = self else { return .error(APIError.networkFail) }
+                return self.requestLogin(type: .kakao, email: email)
+            }
+            .catchError({ error -> Observable<LoginOAuthToken?> in
+                return .error(error)
+            })
+            .asObservable()
     }
     
-    func requestLogin(type: LoginType, email: String) -> Single<LoginOAuthToken?> {
+    public func requestAppleLogin(email: String) -> Observable<LoginOAuthToken?> {
+        return self.requestLogin(type: .apple, email: email).asObservable()
+    }
+    
+    private func requestLogin(type: LoginType, email: String) -> Single<LoginOAuthToken?> {
         return self.provider.rx.request(.login(type: .kakao, email: email, phoneNumber: ""))
             .flatMap({ response in
                 if let loginResponse = try? response.map(LoginResponse.self) {
@@ -54,15 +53,6 @@ class LoginService {
                     return .error(APIError.networkFail)
                 }
             })
-    }
-    
-    func requestEmail(type: LoginType) -> Single<String> {
-        switch type {
-        case .kakao:
-            return self.kakaoSDKService.requestEmail()
-        default:
-            return .just("")
-        }
     }
     
     func requestCheckPhoneNumber(_ phoneNumber: String) -> Single<CertificationNumber> {
