@@ -76,11 +76,20 @@ class PhoneAuthenticationViewModel: ViewModelType {
                 case .requestAuthenticationSms:
                     self.isHiddenAuthenticationTextField.onNext(false)
                     self.requestPhoneSms()
+                    self.authenticationStep.accept(.responseAuthenticationSms)
                 case .completeAuthentication:
                     if self.authenticationResponseNumber == self.candidateAuthenticationResponseNumber {
                         // TODO: 인증완료
                     }
                 default: return
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.input.retryButtonDidTap
+            .subscribe(onNext: { [weak self] in
+                if self?.authenticationStep.value == .completeAuthentication {
+                    self?.requestPhoneSms()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -100,7 +109,6 @@ class PhoneAuthenticationViewModel: ViewModelType {
         self.dependency.loginService.requestCheckPhoneNumber(self.candidatePhoneNumber)
             .subscribe { [weak self] authenticationNumber in
                 self?.authenticationResponseNumber = authenticationNumber
-                self?.authenticationStep.accept(.responseAuthenticationSms)
             } onError: { error in
                 // TODO:
                 print(error)
@@ -119,6 +127,7 @@ extension PhoneAuthenticationViewModel {
         var phoneNumberChanged = PublishSubject<String>()
         var responseNumberChanged = PublishSubject<String>()
         var completeButtonDidTap = PublishSubject<Void>()
+        var retryButtonDidTap = PublishSubject<Void>()
     }
     
     struct Output {
