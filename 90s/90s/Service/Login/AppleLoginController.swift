@@ -85,13 +85,7 @@ extension AppleLoginController: ASAuthorizationControllerDelegate {
     }
     
     private func saveUserInKeychain(_ userInfo: CredentialUserInfo) {
-        do {
-            try KeychainItem(service: "com.team-90s", account: "userIdentifier").saveItem(userInfo.identifier)
-            if let email = userInfo.email {
-                try KeychainItem(service: "com.team-90s", account: "email").saveItem(email)
-            }
-        } catch {
-            print("Unable to save userIdentifier to keychain.")
-        }
+        UserManager.shared.appleIdentifier = userInfo.identifier
+        UserManager.shared.appleEmail = userInfo.email
     }
 }
