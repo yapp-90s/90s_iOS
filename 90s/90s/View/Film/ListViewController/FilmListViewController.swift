@@ -70,7 +70,7 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         setUpNavigationBar()
         setUpSubViews()
-        setUpTableViewSection()
+        setUpTableViewDataSource()
     }
     
     // MARK: - Methods
@@ -102,7 +102,7 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
         
     }
 
-    private func setUpTableViewSection(){
+    private func setUpTableViewDataSource(){
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
         let dataSource = RxTableViewSectionedReloadDataSource<FilmSectionModel> (configureCell: { dataSource, tableView, indexPath, item in
@@ -128,11 +128,11 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
         
         tableView.rx.modelSelected(FilmSectionItem.self)
             .subscribe(onNext: { [weak self] film in
-                if let bool = self?.isEditingMode {
-                    if !bool {
-                        let nextVC = FilmListDetailViewController(film: film.returnFilm())
-                        self?.navigationController?.pushViewController(nextVC, animated: true)
-                    }
+                guard let checkSelf = self else { return }
+                
+                if !checkSelf.isEditingMode {
+                    let nextVC = FilmListDetailViewController(viewModel: film.returnFilm())
+                    self?.navigationController?.pushViewController(nextVC, animated: true)
                 }
             }).disposed(by: disposeBag)
         
@@ -198,9 +198,8 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
 
 extension FilmListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.cellID) as! FilmListSectionHeaderCell
-        let sectionItem = viewModel.output.filmSectionViewModel.value[section].items
-        guard let sectionValue = sectionItem.first else { return header }
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.cellID) as? FilmListSectionHeaderCell else { return UIView() }
+        guard let sectionValue = viewModel.output.filmSectionViewModel.value[section].items.first else { return header }
 
         header.backgroundView = UIView(frame: header.bounds)
         header.bindViewModel(text: sectionValue.sectionTitle())

@@ -8,8 +8,7 @@
 import UIKit
 import PhotosUI
 import SnapKit
-
-// TODO: - 할 일 : RxCollectionView 변환,
+import RxSwift
 
 /// 필름 정보와 사진을 보여주는 VC
 final class FilmListDetailViewController: BaseViewController, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
@@ -91,13 +90,13 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
     
     // MARK: - Property
     
-    private var film : Film
+    private var viewModel : Film
     private var selectPhotos = [UIImage]()
     
     // MARK: - LifeCycle
     
-    init(film : Film) {
-        self.film = film
+    init(viewModel : Film) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         bindViewModel()
     }
@@ -109,6 +108,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubViews()
+        setUpCollectionViewDataSource()
     }
     
     // MARK: - Methods
@@ -127,10 +127,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         
         view.addSubview(emptyImageView)
         view.addSubview(emptyAddMoreButton)
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
+  
         let safe = view.safeAreaLayoutGuide
         
         filmImageView.snp.makeConstraints {
@@ -190,30 +187,97 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         }
         
         emptyAddMoreButton.rx.tap.bind { _ in
-            self.setPhPicker(photoMax: self.film.filmType.max, photoFill: self.film.count)
+            self.setPhPicker(photoMax: self.viewModel.filmType.max, photoFill: self.viewModel.count)
         }.disposed(by: disposeBag)
+    }
+    
+    private func setUpCollectionViewDataSource() {
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        Observable.from(optional: viewModel.photos)
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
+                cell.bindViewModel(item: element, isScaleFill: true)
+            }.disposed(by: disposeBag)
+        
+        
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let checkSelf = self else { return }
+                let film = checkSelf.viewModel
+                if indexPath.row == 0 && film.filmType.max > film.count {
+                    checkSelf.setPhPicker(photoMax: film.filmType.max, photoFill: film.count)
+                }
+            }).disposed(by: disposeBag)
     }
 
     private func setPhPicker(photoMax maxCount : Int, photoFill fillCount : Int) {
-        let nextVC = FilmGalleryViewController(film: film)
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        checkGalleryPermission()
+    }
+    
+    /// 사진 권한 상태 체크
+    private func checkGalleryPermission() {
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .authorized:
+            self.presentNextViewController()
+            print("Photo Access : 권한 허용")
+        case .notDetermined, .restricted, .denied :
+            self.requestGalleryPermission()
+            print("Photo Access : 권한 거부")
+        default:
+            break
+        }
+    }
+    
+    /// 사진 권한 요청
+    private func requestGalleryPermission() {
+        PHPhotoLibrary.requestAuthorization() { status in
+            switch status {
+            case .authorized:
+                self.presentNextViewController()
+                print("Photo Access : 권한 허용")
+            case .notDetermined, .restricted, .denied :
+                self.showDeniedPermissonAlert()
+                print("Photo Access : 권한 거부")
+            default:
+                break
+            }
+        }
+     }
+    
+    /// 사진 권한 접근 불가 상태로 갤러리 접근 시 띄우는 알림창
+    private func showDeniedPermissonAlert() {
+        let alert = UIAlertController(title: "사진 권한 요청", message: "사진 권한이 없어 갤러리에 접근이 불가합니다.", preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(confirm)
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentNextViewController() {
+        let nextVC = FilmGalleryViewController(film: viewModel)
+        
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
     
     func bindViewModel() {
+        let photoCount = viewModel.photos.count
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {return}
-            self.filmImageView.image = UIImage(named: self.film.filmType.image)
+            self.filmImageView.image = UIImage(named: self.viewModel.filmType.image)
         }
-        filmNameLabel.text = film.name
-        filmDateLabel.text = film.createdAt
-        filmCountLabel.text = "\(film.count)/\(film.filmType.max)장"
-        filmTypeLabel.text = film.filmState.tagText()
+        filmNameLabel.text = viewModel.name
+        filmDateLabel.text = viewModel.createdAt
+        filmCountLabel.text = "\(viewModel.count)/\(viewModel.filmType.max)장"
+        filmTypeLabel.text = viewModel.filmState.tagText()
         
         
-        if film.filmType.max != film.photos.count && film.photos.count > 0 {    // 사진이 채워지는 중인 경우
-            let photo = Photo(photoUid: 0, filmUid: film.uid, url: "film_add_photo")
-            self.film.addAtFirst(photo)
-        } else if film.count == 0 {     // 사진이 하나도 없는 경우
+        if viewModel.filmType.max != photoCount && photoCount > 0 {    // 사진이 채워지는 중인 경우
+            let photo = Photo(photoUid: 0, filmUid: viewModel.uid, url: "film_add_photo")
+            self.viewModel.addAtFirst(photo)
+        } else if viewModel.count == 0 {     // 사진이 하나도 없는 경우
             emptyImageView.isHidden = false
             emptyAddMoreButton.isHidden = false
             printButton.isHidden = true
@@ -230,27 +294,6 @@ extension FilmListDetailViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let ratio = collectionView.frame.width / 2 - 5
         return CGSize(width: ratio, height: ratio)
-    }
-}
-
-
-extension FilmListDetailViewController : UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return film.photos.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmListCollectionViewCell.cellId, for: indexPath) as! FilmListCollectionViewCell
-        
-        cell.bindViewModel(item: film.photos[indexPath.row], isScaleFill: true)
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 && film.filmType.max > film.count {
-            setPhPicker(photoMax: film.filmType.max, photoFill: film.count)
-        }
     }
 }
 
