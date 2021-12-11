@@ -26,6 +26,8 @@
 		36BB2522275B2FB900AB9B07 /* KakaoSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */; };
 		36D1088A273FAF9600E4F4B7 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D10889273FAF9600E4F4B7 /* LoginAPI.swift */; };
 		36F9020026F5AD4900CC4915 /* ShareActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F901FF26F5AD4900CC4915 /* ShareActionSheetViewController.swift */; };
+		36FAD64A2763A3D000A1E75C /* KeyChainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FAD6492763A3D000A1E75C /* KeyChainItem.swift */; };
+		36FAD64C2763A40B00A1E75C /* AppleLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FAD64B2763A40B00A1E75C /* AppleLoginController.swift */; };
 		4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D025F337C200E98A0B /* BaseViewController.swift */; };
 		4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */; };
 		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
@@ -244,6 +246,9 @@
 		36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSDKService.swift; sourceTree = "<group>"; };
 		36D10889273FAF9600E4F4B7 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		36F901FF26F5AD4900CC4915 /* ShareActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActionSheetViewController.swift; sourceTree = "<group>"; };
+		36FAD6492763A3D000A1E75C /* KeyChainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainItem.swift; sourceTree = "<group>"; };
+		36FAD64B2763A40B00A1E75C /* AppleLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginController.swift; sourceTree = "<group>"; };
+		36FAD64D2763AF7800A1E75C /* 90s.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = 90s.entitlements; sourceTree = "<group>"; };
 		4C1F80D025F337C200E98A0B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewModel.swift; sourceTree = "<group>"; };
 		4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackNavigationBar.swift; sourceTree = "<group>"; };
@@ -380,7 +385,6 @@
 		65F73D7F2721D133001313B5 /* GradientImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientImageView.swift; sourceTree = "<group>"; };
 		65F73D802721D133001313B5 /* TemplateGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateGradient.swift; sourceTree = "<group>"; };
 		65F888FE275B60ED006F29F8 /* AlbumEmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumEmptyCell.swift; sourceTree = "<group>"; };
-		9412B8E40EBFF89B88A5BDDB /* Pods-90s.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-90s.release.xcconfig"; path = "Target Support Files/Pods-90s/Pods-90s.release.xcconfig"; sourceTree = "<group>"; };
 		9B08FF0D26216F7A004DE486 /* FilmCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateViewController.swift; sourceTree = "<group>"; };
 		9B12872D26B774AF00590B59 /* FilmListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListViewModel.swift; sourceTree = "<group>"; };
 		9B30C316268F017C007F3564 /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -492,6 +496,8 @@
 		368F27EF27116F470082089A /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				36FAD64B2763A40B00A1E75C /* AppleLoginController.swift */,
+				36FAD6492763A3D000A1E75C /* KeyChainItem.swift */,
 				36D10889273FAF9600E4F4B7 /* LoginAPI.swift */,
 				368F27F027116F5C0082089A /* LoginService.swift */,
 				36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */,
@@ -874,7 +880,6 @@
 			children = (
 				657962182748E49C005780C0 /* AlbumSelectPhotoViewController.swift */,
 				9B810FF5275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift */,
-				650D41E8273FA0DF001C4D85 /* Album */,
 				65AD480C27569D9B00FE29C6 /* Album */,
 				650D41E8273FA0DF001C4D85 /* Albums */,
 				659C9AFB2748A97400697167 /* AlbumList */,
@@ -1028,14 +1033,6 @@
 				65F888FE275B60ED006F29F8 /* AlbumEmptyCell.swift */,
 			);
 			path = AlbumEmpty;
-			sourceTree = "<group>";
-		};
-		874CEE89B3BE490755A54B5C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				A829FF2A0EAADCA032BD9A97 /* Pods_90s.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9B08FF0A26216ED7004DE486 /* CreateViewController */ = {
@@ -1239,6 +1236,7 @@
 		9BB7612E254EACF4005B7B5A /* 90s */ = {
 			isa = PBXGroup;
 			children = (
+				36FAD64D2763AF7800A1E75C /* 90s.entitlements */,
 				652BC1E325E0D6C600DC8E90 /* Entry */,
 				65426FBF25B2FD1D006124BA /* Resource */,
 				652BC1D525E0D69300DC8E90 /* SupportingFiles */,
@@ -1495,6 +1493,7 @@
 				9BE8E68626032BAB00A6EEBC /* FilmListPrintTableViewCell.swift in Sources */,
 				65EDF98D26404F1E0007D26D /* TemplateCollectionViewCell.swift in Sources */,
 				65D9505E26216F4400A78826 /* AlbumNameViewController.swift in Sources */,
+				36FAD64A2763A3D000A1E75C /* KeyChainItem.swift in Sources */,
 				9B30C327268F01C6007F3564 /* ProfileTermsViewController.swift in Sources */,
 				6597D78B26621E0900670A15 /* Color.swift in Sources */,
 				653F7D80259884D4002CD12A /* Film.swift in Sources */,
@@ -1630,6 +1629,7 @@
 				4C357AE225E1013B00B23E84 /* ScrollingHorizontalStackView.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
+				36FAD64C2763A40B00A1E75C /* AppleLoginController.swift in Sources */,
 				9B5040DE269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift in Sources */,
 				4C357AE225E1013B00B23E84 /* ScrollingHorizontalStackView.swift in Sources */,
 				65F888FF275B60ED006F29F8 /* AlbumEmptyCell.swift in Sources */,
@@ -1839,9 +1839,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = 90s/90s.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NU8G5ASQP7;
+				DEVELOPMENT_TEAM = N23K7ZS482;
 				INFOPLIST_FILE = 90s/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1862,9 +1863,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = 90s/90s.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NU8G5ASQP7;
+				DEVELOPMENT_TEAM = N23K7ZS482;
 				INFOPLIST_FILE = 90s/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
