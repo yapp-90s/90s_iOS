@@ -33,6 +33,7 @@ class PhoneAuthenticationViewController: BaseViewController {
         textFieldView.label.textColor = .white
         textFieldView.underline.width = 1
         textFieldView.underline.color = .gray
+        textFieldView.textField.textContentType = .oneTimeCode
         textFieldView.textField.setClearButton(with: UIImage(named: "icon_Delete_Text")!, mode: .whileEditing)
         return textFieldView
     }()
