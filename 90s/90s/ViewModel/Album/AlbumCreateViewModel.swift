@@ -16,7 +16,7 @@ struct AlbumCreateAttach: Codable {
 }
 
 class AlbumCreate {
-    var cover = BehaviorRelay<AlbumCover>(value: .sweetLittleMemories)
+    var cover = BehaviorRelay<Cover>(value: .sweetLittleMemories)
     var name = BehaviorRelay<String>(value: "")
     var template = BehaviorRelay<Template>(value: .init(name: "", imageName: "", code: 0))
     var date = BehaviorRelay<Date>(value: .init())
@@ -32,7 +32,7 @@ class AlbumCreate {
 
 final class AlbumCreateViewModel {
     // MARK: - Input
-    let selectCover: PublishRelay<AlbumCover> = .init()
+    let selectCover: PublishRelay<Cover> = .init()
     let inputName: PublishRelay<String> = .init()
     let clearName: PublishRelay<Void> = .init()
     let selectTempalte: PublishRelay<TemplateViewModel> = .init()
@@ -44,14 +44,14 @@ final class AlbumCreateViewModel {
     // MARK: - Output
 //    typealias CoverSectionModel = SectionModel<String, CoverViewModel>
     typealias TemplateSectionModel = SectionModel<String, TemplateViewModel>
-    let selectedCover: Driver<AlbumCover>
+    let selectedCover: Driver<Cover>
 //    let coverSection: BehaviorRelay<[CoverSectionModel]> = .init(value: [])
     let name: Driver<String>
     let selectedTemplate: PublishSubject<TemplateViewModel> = .init()
     let createDate: Driver<Date>
     let templateSection: BehaviorRelay<[TemplateSectionModel]> = .init(value: [])
     
-    let selectedCoverRelay = BehaviorRelay<AlbumCover>(value: .empty)
+    let selectedCoverRelay = BehaviorRelay<Cover>(value: .sweetLittleMemories)
     let selectedTemplateRelay = BehaviorRelay<TemplateViewModel>(value: TemplateViewModel(template: Template(name: "", imageName: "", code: 0)))
     let nameRelay = BehaviorRelay<String>(value: "")
     let dateRelay = BehaviorRelay<Date>(value: Date())

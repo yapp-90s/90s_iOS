@@ -54,8 +54,8 @@ extension AlbumsViewModel {
             
             Observable.zip(dependency.albumRepository.makeingAlbums, dependency.albumRepository.completeAlbums)
                 .do(onNext: { (a, b) in
-                    print(a)
-                    print(b)
+                    print("making: \(a.map { $0.uid })")
+                    print("complete: \(b.map { $0.uid })")
                 })
                 .map { (makingAlbums, completeAlbums) in
                     return [

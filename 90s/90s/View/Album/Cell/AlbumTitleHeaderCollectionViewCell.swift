@@ -35,6 +35,9 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     
     lazy var button: UIButton = {
         let button = UIButton()
+        button.semanticContentAttribute = .forceRightToLeft
+        button.imageEdgeInsets = .init(top: 0, left: 13 * layoutScale, bottom: 0, right: 0)
+        button.setImage(.init(named: "show_arrow"), for: .normal)
         button.setTitle("총 00개", for: .normal)
         button.setTitleColor(.gray, for: .normal)
         button.isHidden = true

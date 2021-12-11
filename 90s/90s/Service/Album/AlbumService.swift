@@ -14,7 +14,7 @@ final class AlbumService {
     
     static let shared = AlbumService()
     
-    var cover: AlbumCover?
+    var cover: Cover?
     var name: String?
     var template: Template?
     
@@ -25,7 +25,11 @@ final class AlbumService {
             do {
                 let response = try result.get()
                 let value = try response.map(AlbumResponse.self)
-                completeHandler(.success(value.album))
+                if let album = value.album {
+                    completeHandler(.success(album))
+                } else {
+                    completeHandler(.failure(NSError(domain: "parsing", code: 0, userInfo: nil)))
+                }
             } catch {
                 completeHandler(.failure(error))
             }

@@ -12,15 +12,15 @@ struct Photo : Codable {
     let filmUid : Int
     let url: String
     
-    let createdAt: String
-    let updatedAt: String
+//    let createdAt: String
+//    let updatedAt: String
     
     init(photoUid : Int, filmUid : Int, url : String) {
         self.photoUid = photoUid
         self.filmUid = filmUid
         self.url = url
-        self.createdAt = "\(Date())"
-        self.updatedAt = "\(Date())"
+//        self.createdAt = "\(Date())"
+//        self.updatedAt = "\(Date())"
     }
 }
 

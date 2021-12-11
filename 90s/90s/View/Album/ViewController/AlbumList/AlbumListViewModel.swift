@@ -45,12 +45,13 @@ extension AlbumListViewModel {
         let isEdit: BehaviorRelay<Bool> = .init(value: false)
         let albumSection: BehaviorRelay<[AlbumsCoverSectionModel]> = .init(value: [])
         let back: Observable<Void>
-        let selectedAlbumsID: BehaviorRelay<[String]> = .init(value: [])
+        let selectedAlbumsID: BehaviorRelay<[Int]> = .init(value: [])
         
         init(input: Input, dependency: Dependency) {
             Observable.combineLatest(dependency.albumRepository.completeAlbums, isEdit, selectedAlbumsID)
                 .map { (albums, isEdit, ids) in
-                    [.init(model: "", items: albums.map { .init(dependency: .init(albumViewModel: AlbumViewModel(album: $0), isEdit: isEdit, isSelected: ids.contains($0.uid))) })]
+                    [.init(model: "", items: albums.map { .init(dependency: .init(albumViewModel: .init(album: $0), isEdit: isEdit, isSelected: ids.contains($0.uid))) })]
+//                    [.init(model: "", items: albums.map { .init(dependency: .init(albumViewModel: AlbumViewModel(album: $0), isEdit: isEdit, isSelected: ids.contains($0.uid))) })]
                 }
                 .bind(to: albumSection)
                 .disposed(by: disposeBag)

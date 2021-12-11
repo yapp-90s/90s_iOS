@@ -21,7 +21,7 @@ final class AlbumRepository {
     
     private let queue = DispatchQueue(label: "AlbumRepository", qos: .utility)
     private let makingAlbumsRelay = BehaviorRelay<[Album]>(value: []) // Legacy
-    private let client: AlbumClientStub = .shared
+    private let client: AlbumClient = .shared
     private let disposeBag = DisposeBag()
     
     private let albumsRelay = BehaviorRelay<[Album]>(value: [])
@@ -35,20 +35,20 @@ final class AlbumRepository {
     
     // MARK: - Output
     let event = PublishSubject<AlbumEvent>()
-    let albums: Observable<[AlbumViewModel]>
+//    let albums: Observable<[AlbumViewModel]>
     let allAlbums: Observable<[Album]>
     let completeAlbums: Observable<[Album]>
     let makeingAlbums: Observable<[Album]>
     
     private init() {
-        albums = albumsRelay // Legacy
-            .asObservable()
-            .map { $0.map { AlbumViewModel(album: $0)} }
-            .subscribeOn(SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
+//        albums = albumsRelay // Legacy
+//            .asObservable()
+//            .map { $0.map { AlbumViewModel(album: $0)} }
+//            .subscribeOn(SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
         
         allAlbums = albumsRelay
             .asObservable()
-            .subscribeOn(SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
+            .subscribe(on: SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
         
         completeAlbums = allAlbums
             .map { $0.filter { $0.completedAt != nil } }
@@ -59,44 +59,44 @@ final class AlbumRepository {
         bindAction()
     }
     
-    private func bindActionDummy() {
-        requestAll
-            .map(client.all(_:))
-            .bind(to: albumsRelay)
-            .disposed(by: disposeBag)
-        
-        create
-            .map(client.create(_:))
-            .filter { $0 }
-            .map { _ in () }
-            .bind(to: requestAll)
-            .disposed(by: disposeBag)
-        
-        addPhoto
-            .map(client.addPhoto(_:))
-            .filter { $0 }
-            .map { _ in () }
-            .bind(to: requestAll)
-            .disposed(by: disposeBag)
-        
-        complete
-            .map(client.complte(_:))
-            .filter { $0 }
-            .map { _ in () }
-            .bind(to: requestAll)
-            .disposed(by: disposeBag)
-        
-        delete
-            .map(client.delete(_:))
-            .filter { $0 }
-            .map { _ in () }
-            .bind(to: requestAll)
-            .disposed(by: disposeBag)
-    }
+//    private func bindActionDummy() {
+//        requestAll
+//            .flatMap(client.allAlbum(_:))
+//            .bind(to: albumsRelay)
+//            .disposed(by: disposeBag)
+//
+//        create
+//            .map(client.create(_:))
+//            .filter { $0 }
+//            .map { _ in () }
+//            .bind(to: requestAll)
+//            .disposed(by: disposeBag)
+//
+//        addPhoto
+//            .map(client.addPhoto(_:))
+//            .filter { $0 }
+//            .map { _ in () }
+//            .bind(to: requestAll)
+//            .disposed(by: disposeBag)
+//
+//        complete
+//            .map(client.complte(_:))
+//            .filter { $0 }
+//            .map { _ in () }
+//            .bind(to: requestAll)
+//            .disposed(by: disposeBag)
+//
+//        delete
+//            .map(client.delete(_:))
+//            .filter { $0 }
+//            .map { _ in () }
+//            .bind(to: requestAll)
+//            .disposed(by: disposeBag)
+//    }
     
     private func bindAction() {
         requestAll
-            .map(client.all(_:))
+            .flatMap(client.allAlbum(_:))
             .bind(to: albumsRelay)
             .disposed(by: disposeBag)
         
@@ -163,16 +163,17 @@ final class AlbumRepository {
     
     func add(albumCreate: AlbumCreate) -> Bool {
         queue.sync {
-            let album = Album(uid: UUID().uuidString, name: albumCreate.name.value, createdAt: albumCreate.date.value.dateToString(), updatedAt: albumCreate.date.value.dateToString(), totalPaper: 10, cover: albumCreate.cover.value)
-            var albums = albumsRelay.value
-            albums.insert(album, at: 0)
-            albumsRelay.accept(albums)
+//            let album = Album(uid: <#T##Int#>, cover: <#T##Cover#>, template: <#T##Template#>, name: <#T##String#>, readCount: <#T##Int?#>, isComplete: <#T##Bool#>, completedAt: <#T##String?#>, photos: <#T##[Photo]#>)
+//            let album = Album(uid: UUID().uuidString, name: albumCreate.name.value, createdAt: albumCreate.date.value.dateToString(), updatedAt: albumCreate.date.value.dateToString(), totalPaper: 10, cover: albumCreate.cover.value)
+//            var albums = albumsRelay.value
+//            albums.insert(album, at: 0)
+//            albumsRelay.accept(albums)
             event.onNext(.add)
             return true
         }
     }
     
-    func update(id: String, album: Album) -> Bool {
+    func update(id: Int, album: Album) -> Bool {
         queue.sync {
             var albums = albumsRelay.value
             if let index = albums.firstIndex(where: { $0.uid == id }) {
@@ -185,7 +186,7 @@ final class AlbumRepository {
         }
     }
     
-    func delete(id: String) -> Bool {
+    func delete(id: Int) -> Bool {
         queue.sync {
             var albums = albumsRelay.value
             if let index = albums.firstIndex(where: { $0.uid == id }) {

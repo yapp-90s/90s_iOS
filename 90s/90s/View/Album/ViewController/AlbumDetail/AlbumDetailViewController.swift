@@ -12,7 +12,7 @@ import SnapKit
 import RxDataSources
 
 
-class AlbumViewController: UIViewController {
+class AlbumDetailViewController: UIViewController {
     
     // MARK: - UI Component
     private lazy var collectionViewLayout: UICollectionViewLayout = {
@@ -152,7 +152,7 @@ class AlbumViewController: UIViewController {
 //    }
 }
 
-extension AlbumViewController: AlbumTitleHeaderCellDelegate {
+extension AlbumDetailViewController: AlbumTitleHeaderCellDelegate {
     func touchButton() {
         let vc = AlbumListViewController(viewModel: .init(dependency: .init(albumRepository: .shared)))
         DispatchQueue.main.async {

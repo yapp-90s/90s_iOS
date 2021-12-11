@@ -48,7 +48,7 @@ extension AlbumCoverViewModel {
     
     struct Output {
         let coverSection: Observable<[CoverSectionModel]>
-        let selectedCover: Observable<AlbumCover>
+        let selectedCover: Observable<Cover>
         let next: Observable<Void>
         let close: Observable<Void>
         let albumCreate: AlbumCreate = .init()
