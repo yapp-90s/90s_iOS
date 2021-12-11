@@ -23,6 +23,10 @@ class PhoneAuthenticationViewModel: ViewModelType {
     private(set) var output: Output
     private(set) var disposeBag = DisposeBag()
     
+    private var loginService: LoginService {
+        self.dependency.loginService
+    }
+    
     private let validPhoneNumberLengthRange = 10...11
     private let validResponseNumberLength = 6
     
@@ -35,7 +39,6 @@ class PhoneAuthenticationViewModel: ViewModelType {
     
     required init(dependency: Dependency) {
         self.dependency = dependency
-        
         self.output = Output(
             authenticationStep: self.authenticationStep.asObservable(),
             isHiddenAuthenticationTextField: self.isHiddenAuthenticationTextField
@@ -79,7 +82,7 @@ class PhoneAuthenticationViewModel: ViewModelType {
                     self.authenticationStep.accept(.responseAuthenticationSms)
                 case .completeAuthentication:
                     if self.authenticationResponseNumber == self.candidateAuthenticationResponseNumber {
-                        // TODO: 인증완료
+                        self.signUp(with: self.candidatePhoneNumber)
                     }
                 default: return
                 }
@@ -115,12 +118,39 @@ class PhoneAuthenticationViewModel: ViewModelType {
             }
             .disposed(by: self.disposeBag)
     }
+    
+    private func makePhoneNumberFormat(_ phoneNumber: String) -> String {
+        var resultPhoneNumber = ""
+        let insertHyphenIndices = phoneNumber.count == 11 ? [2, 6] : [2, 5]
+        for (idx, char) in phoneNumber.enumerated() where char.isNumber {
+            resultPhoneNumber.append(char)
+            if insertHyphenIndices.contains(idx) {
+                resultPhoneNumber.append(contentsOf: "-")
+            }
+        }
+        return resultPhoneNumber
+    }
+    
+    private func signUp(with phoneNumer: String) {
+        let phoneNumber = self.makePhoneNumberFormat(self.candidatePhoneNumber)
+        self.loginService.requestSignUp(phoneNumber: phoneNumber)
+            .subscribe(onNext: { [weak self] loginOAuthToken in
+                if let loginOAuthToken = loginOAuthToken {
+                    self?.loginService.saveUserToken(loginOAuthToken.oAuthToken)
+                    self?.dependency.loginSucceedPublisher.onNext(())
+                } else {
+                    // TODO: handle Sign Up Fail
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
 }
 
 extension PhoneAuthenticationViewModel {
     
     struct Dependency {
         let loginService: LoginService
+        let loginSucceedPublisher: PublishSubject<Void>
     }
     
     struct Input {

@@ -14,12 +14,27 @@ class UserManager {
     
     private let serviceIdentifier = "com.team-90s"
     
+    public func saveToken(_ token: String) {
+        try? KeychainItem(service: self.serviceIdentifier, account: "token").saveItem(token)
+    }
+    
     public func saveUserEmail(_ email: String) {
         try? KeychainItem(service: self.serviceIdentifier, account: "email").saveItem(email)
     }
 
     public var userEmail: String? {
         return try? KeychainItem(service: self.serviceIdentifier, account: "email").readItem()
+    }
+    
+    public var token: String {
+        do {
+            return try KeychainItem(service: self.serviceIdentifier, account: "token").readItem()
+        } catch {
+            #if DEBUG
+            print("❌ Not Found User Token, \(error)")
+            #endif
+            return ""
+        }
     }
 
     public var appleIdentifier: String {
