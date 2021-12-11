@@ -50,6 +50,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     fileprivate var googleLoginButton: UIButton = {
         let button = UIButton()
+        button.isHidden = true
         button.setTitle("구글로 로그인", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .Medium_Text_Bold
