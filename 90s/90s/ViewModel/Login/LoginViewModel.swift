@@ -53,8 +53,7 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
             .subscribe(onNext: { [weak self] loginOAuth in
                 guard let self = self else { return }
                 if let loginOAuth = loginOAuth {
-                    self.loginService.saveUserToken(loginOAuth.oAuthToken)
-                    self.loginSucceedPublisher.onNext(())
+                    self.login(with: loginOAuth.oAuthToken)
                 } else {
                     self.needSignUp()
                 }
@@ -64,6 +63,11 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
                 self.needSignUp()
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func login(with token: String) {
+        self.loginService.saveUserToken(token)
+        self.loginSucceedPublisher.onNext(())
     }
     
     private func needSignUp() {
@@ -77,8 +81,7 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
                 .subscribe(onNext: { [weak self] loginOAuth in
                     guard let self = self else { return }
                     if let loginOAuth = loginOAuth {
-                        self.loginService.saveUserToken(loginOAuth.oAuthToken)
-                        self.loginSucceedPublisher.onNext(())
+                        self.login(with: loginOAuth.oAuthToken)
                     } else {
                         self.needSignUp()
                     }
