@@ -8,18 +8,31 @@
 import Foundation
 
 class UserManager {
+    
     static let shared = UserManager()
     private init() { }
     
-    private struct Keys {
-        static let oAuthToken = "oAuthToken"
+    private let serviceIdentifier = "com.team-90s"
+
+    public var appleIdentifier: String {
+        get { (try? KeychainItem(service: self.serviceIdentifier, account: "identifier").readItem()) ?? "" }
+        set {
+            do {
+                try KeychainItem(service: self.serviceIdentifier, account: "identifier").saveItem(newValue)
+            } catch let error {
+                #if DEBUG
+                print("❌ Set saveItem \(newValue), \(error)")
+                #endif
+            }
+        }
     }
     
-    func getOAuthToken() -> String? {
-        UserDefaults.standard.string(forKey: Keys.oAuthToken)
-    }
-    
-    func saveOAuthToken(_ token: String) {
-        UserDefaults.standard.set(token, forKey: Keys.oAuthToken)
+    public var appleEmail: String? {
+        get { try? KeychainItem(service: self.serviceIdentifier, account: "email").readItem() }
+        set {
+            if let email = newValue {
+                try? KeychainItem(service: self.serviceIdentifier, account: "email").saveItem(email)
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class LoginViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class LoginViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, AppleLoginPresentable {
     
     // MARK: - Views
     
@@ -92,6 +92,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     init(viewModel: LoginViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.setupAppleLoginPresentaion(self)
     }
     
     required init?(coder: NSCoder) {
@@ -190,7 +191,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     @objc
     private func appleLoginDidTap(_ sender: UIButton) {
-        
+        self.viewModel.input.requestLoginStream.onNext(.apple)
     }
     
     // MARK: - UICollectionView DataSource, UICollectionView Delegate
