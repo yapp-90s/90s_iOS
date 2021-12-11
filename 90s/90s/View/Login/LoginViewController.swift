@@ -86,6 +86,7 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     ]
     
     private let viewModel: LoginViewModel
+    weak var appRootDelegate: AppRootDelegate?
 
     // MARK: - View Life Cycle
     
@@ -170,6 +171,12 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
         self.viewModel.output.signUpNeeded
             .subscribe(onNext: { [weak self] phoneAuthenticationViewModel in
                 self?.pushToPhoneAuthentication(viewModel: phoneAuthenticationViewModel)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.loginSucceed
+            .subscribe(onNext: { [weak self] in
+                self?.appRootDelegate?.switchToMain()
             })
             .disposed(by: self.disposeBag)
     }
