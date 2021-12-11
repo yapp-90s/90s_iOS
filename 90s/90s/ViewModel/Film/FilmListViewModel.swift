@@ -25,37 +25,46 @@ final class FilmListViewModel : ViewModelType {
     private func bind() {
         FilmRepository.shared.films.bind(to: input.filmsViewModel).disposed(by: disposeBag)
         
-        FilmRepository.shared.films.map { films in
-            films.flatMap { $0.getStateData(state: .printing).filter { $0.printStartAt == nil }}
-        }.bind(to: output.film_timeToPrint)
-        .disposed(by: disposeBag)
-
-        FilmRepository.shared.films.map { films in
-            films.flatMap { $0.getStateData(state: .adding)}
-        }.bind(to: output.film_adding)
-        .disposed(by: disposeBag)
-
-        FilmRepository.shared.films.map { films in
-            films.flatMap { $0.getStateData(state: .printing)}
-        }.bind(to: output.film_printing)
-        .disposed(by: disposeBag)
-
-        FilmRepository.shared.films.map { films in
-            films.flatMap { $0.getStateData(state: .complete)}
-        }.bind(to: output.film_complete)
-        .disposed(by: disposeBag)
+        var filmSectionList : [FilmSectionModel] = []
         
-        var filmList : [FilmStateType : Film?] = [
-            .create : nil,
-            .adding : nil,
-            .printing : nil,
-            .complete : nil
-        ]
-        
+        var addArray = FilmSectionModel.init(items: [])
+        var timeArray = FilmSectionModel.init(items: [])
+        var printArray = FilmSectionModel.init(items: [])
+        var completeArray = FilmSectionModel.init(items: [])
+    
         dependency.filmFactory.forEach { film in
-            filmList.updateValue(film, forKey: film.filmState)
+            var new : FilmSectionItem
+            switch film.filmState {
+            case .create: break
+            case .adding:
+                new = .statusAdding(films: film)
+                addArray.items.append(new)
+            case .timeprint:
+                new = .statusTimeToPrint(film: film)
+                timeArray.items.append(new)
+            case .printing:
+                new = .statusTimeToPrint(film: film)
+                printArray.items.append(new)
+            case .complete:
+                new = .statusCompleted(films: film)
+                completeArray.items.append(new)
+            }
         }
-        output.filmSectionViewModel.accept(filmList)
+
+        if !timeArray.items.isEmpty {
+            filmSectionList.append(timeArray)
+        }
+        if !addArray.items.isEmpty {
+            filmSectionList.append(addArray)
+        }
+        if !printArray.items.isEmpty {
+            filmSectionList.append(printArray)
+        }
+        if !completeArray.items.isEmpty {
+            filmSectionList.append(completeArray)
+        }
+        
+        output.filmSectionViewModel.accept(filmSectionList)
     }
 }
 
@@ -67,10 +76,6 @@ extension FilmListViewModel {
         var filmsViewModel = PublishSubject<[FilmsViewModel]>()
     }
     struct Output {
-        var filmSectionViewModel = BehaviorRelay<[FilmStateType : Film?]>(value: [:])
-        let film_timeToPrint = BehaviorSubject<[Film]>(value: [])
-        let film_adding = BehaviorSubject<[Film]>(value: [])
-        let film_printing = BehaviorSubject<[Film]>(value: [])
-        let film_complete = BehaviorSubject<[Film]>(value: [])
+        var filmSectionViewModel = BehaviorRelay<[FilmSectionModel]>(value: [])
     }
 }

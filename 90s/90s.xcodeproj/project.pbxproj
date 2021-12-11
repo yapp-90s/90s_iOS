@@ -169,7 +169,7 @@
 		9B3746ED26301CCC00E412B0 /* FilmCreateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746EC26301CCC00E412B0 /* FilmCreateDetailViewController.swift */; };
 		9B3746F326301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */; };
 		9B3746F726301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */; };
-		9B3746FB2630260100E412B0 /* FilmListSectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746FA2630260100E412B0 /* FilmListSectionData.swift */; };
+		9B3746FB2630260100E412B0 /* FilmListSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746FA2630260100E412B0 /* FilmListSectionModel.swift */; };
 		9B38AC9A26A5A9B5000DD6B5 /* PhotoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */; };
 		9B494FDB2689596B009878E9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B494FDA2689596B009878E9 /* ProfileViewController.swift */; };
 		9B4ECE7B264FAEF800A2F033 /* FilmFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */; };
@@ -394,7 +394,7 @@
 		9B3746EC26301CCC00E412B0 /* FilmCreateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailViewController.swift; sourceTree = "<group>"; };
 		9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionReusableView.swift; sourceTree = "<group>"; };
-		9B3746FA2630260100E412B0 /* FilmListSectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionData.swift; sourceTree = "<group>"; };
+		9B3746FA2630260100E412B0 /* FilmListSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionModel.swift; sourceTree = "<group>"; };
 		9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResponse.swift; sourceTree = "<group>"; };
 		9B494FDA2689596B009878E9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmFactory.swift; sourceTree = "<group>"; };
@@ -674,7 +674,7 @@
 				653F7D7F259884D4002CD12A /* Film.swift */,
 				9B82455927521459004B41EC /* FilmType.swift */,
 				9B4ECE7A264FAEF800A2F033 /* FilmFactory.swift */,
-				9B3746FA2630260100E412B0 /* FilmListSectionData.swift */,
+				9B3746FA2630260100E412B0 /* FilmListSectionModel.swift */,
 			);
 			path = Flim;
 			sourceTree = "<group>";
@@ -1602,7 +1602,7 @@
 				4CE649F625E0DEC80093D238 /* AddAlbumViewController.swift in Sources */,
 				9BC35EEF26315EC80062B24C /* FilmCreateCompleteViewController.swift in Sources */,
 				36817CAC26EC9E6100DCFFEF /* CloseEditActionSheetViewController.swift in Sources */,
-				9B3746FB2630260100E412B0 /* FilmListSectionData.swift in Sources */,
+				9B3746FB2630260100E412B0 /* FilmListSectionModel.swift in Sources */,
 				65426FC125B2FD61006124BA /* Typography.swift in Sources */,
 				65B2657F25CE8E2300ED9CEA /* StickerPack.swift in Sources */,
 				65059A3F261CADED0092DB6B /* BannerViewModel.swift in Sources */,
@@ -1848,7 +1848,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Team-90s.iOS.-0s";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Team-90s.Orenzy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1872,7 +1872,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Team-90s.iOS.-0s";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Team-90s.Orenzy";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

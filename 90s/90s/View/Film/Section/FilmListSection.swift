@@ -6,9 +6,9 @@
 //
 
 import UIKit
-
-protocol FilmListSection {
-    var numberOfItems : Int { get }
-    func layoutSection() -> NSCollectionLayoutSection
-    func configureCell(collectionView: UICollectionView, indexPath: IndexPath, item: FilmListSectionItem) -> UICollectionViewCell
-}
+//
+//protocol FilmListSection {
+//    var numberOfItems : Int { get }
+//    func layoutSection() -> NSCollectionLayoutSection
+//    func configureCell(collectionView: UICollectionView, indexPath: IndexPath, item: FilmListSectionItem) -> UICollectionViewCell
+//}
