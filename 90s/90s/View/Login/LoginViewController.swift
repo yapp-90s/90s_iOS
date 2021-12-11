@@ -168,14 +168,14 @@ class LoginViewController: BaseViewController, UICollectionViewDataSource, UICol
     
     private func bind() {
         self.viewModel.output.signUpNeeded
-            .subscribe(onNext: { [weak self] _ in
-                self?.pushToPhoneAuthentication()
+            .subscribe(onNext: { [weak self] phoneAuthenticationViewModel in
+                self?.pushToPhoneAuthentication(viewModel: phoneAuthenticationViewModel)
             })
             .disposed(by: self.disposeBag)
     }
     
-    private func pushToPhoneAuthentication() {
-        let phoneAuthenticationViewController = PhoneAuthenticationViewController(viewModel: self.viewModel.output.phoneAuthenticationViewModel)
+    private func pushToPhoneAuthentication(viewModel: PhoneAuthenticationViewModel) {
+        let phoneAuthenticationViewController = PhoneAuthenticationViewController(viewModel: viewModel)
         self.navigationController?.pushViewController(phoneAuthenticationViewController, animated: true)
     }
     

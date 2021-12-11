@@ -12,7 +12,7 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
     
     private(set) var dependency: Dependency
     private(set) var input = Input()
-    private(set) var output: Output
+    private(set) var output = Output()
     private(set) var disposeBag = DisposeBag()
     
     private var loginService: LoginService {
@@ -21,20 +21,13 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
     
     required init(dependency: Dependency) {
         self.dependency = dependency
-        
-        self.output = Output(
-            phoneAuthenticationViewModel: PhoneAuthenticationViewModel(
-                dependency: .init(loginService: dependency.loginService)
-            )
-        )
+        self.dependency.appleLoginController.delegate = self
         
         self.input.requestLoginStream
             .subscribe(onNext: { [weak self] loginType in
                 self?.requestLogin(type: loginType)
             })
             .disposed(by: self.disposeBag)
-        
-        self.dependency.appleLoginController.delegate = self
     }
     
     public func setupAppleLoginPresentaion(_ presentation: AppleLoginPresentable) {
@@ -51,12 +44,14 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
                         // 로그인
                     } else {
                         // 회원가입
-                        self.output.signUpNeeded.onNext(())
+                        let phoneAuthViewModel = PhoneAuthenticationViewModel(dependency: .init(loginService: self.loginService))
+                        self.output.signUpNeeded.onNext(phoneAuthViewModel)
                     }
                 }, onError: { error in
                     // FIXME: 테스트용 임시 코드 -> 얼럿 띄워주는 형태로 수정
                     print("❌ API Error: \(error.localizedDescription)")
-                    self.output.signUpNeeded.onNext(())
+                    let phoneAuthViewModel = PhoneAuthenticationViewModel(dependency: .init(loginService: self.loginService))
+                    self.output.signUpNeeded.onNext(phoneAuthViewModel)
                 })
                 .disposed(by: disposeBag)
         case .google:
@@ -70,10 +65,12 @@ final class LoginViewModel: ViewModelType, AppleLoginControllerDelegate {
         if let email = userInfo.email {
             self.loginService.requestAppleLogin(email: email)
                 .subscribe(onNext: { [weak self] loginOAuth in
+                    guard let self = self else { return }
                     if let _ = loginOAuth {
                         // 로그인
                     } else {
-                        self?.output.signUpNeeded.onNext(())
+                        let phoneAuthViewModel = PhoneAuthenticationViewModel(dependency: .init(loginService: self.loginService))
+                        self.output.signUpNeeded.onNext(phoneAuthViewModel)
                     }
                 })
                 .disposed(by: self.disposeBag)
@@ -99,7 +96,6 @@ extension LoginViewModel {
     }
     
     struct Output {
-        var phoneAuthenticationViewModel: PhoneAuthenticationViewModel
-        var signUpNeeded = PublishSubject<Void>()
+        var signUpNeeded = PublishSubject<PhoneAuthenticationViewModel>()
     }
 }

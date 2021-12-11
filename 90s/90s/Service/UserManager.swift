@@ -13,6 +13,14 @@ class UserManager {
     private init() { }
     
     private let serviceIdentifier = "com.team-90s"
+    
+    public func saveUserEmail(_ email: String) {
+        try? KeychainItem(service: self.serviceIdentifier, account: "email").saveItem(email)
+    }
+
+    public var userEmail: String? {
+        return try? KeychainItem(service: self.serviceIdentifier, account: "email").readItem()
+    }
 
     public var appleIdentifier: String {
         get { (try? KeychainItem(service: self.serviceIdentifier, account: "identifier").readItem()) ?? "" }
@@ -28,10 +36,10 @@ class UserManager {
     }
     
     public var appleEmail: String? {
-        get { try? KeychainItem(service: self.serviceIdentifier, account: "email").readItem() }
+        get { try? KeychainItem(service: self.serviceIdentifier, account: "appleEmail").readItem() }
         set {
             if let email = newValue {
-                try? KeychainItem(service: self.serviceIdentifier, account: "email").saveItem(email)
+                try? KeychainItem(service: self.serviceIdentifier, account: "appleEmail").saveItem(email)
             }
         }
     }

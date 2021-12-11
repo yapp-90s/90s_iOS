@@ -22,11 +22,16 @@ class LoginService {
         self.kakaoSDKService = kakaoSDKService
     }
     
+    // MARK: - Public
+    
     public func requestKakaoLogin() -> Observable<LoginOAuthToken?> {
         return self.kakaoSDKService.requestKakaoLogin()
             .flatMap { [weak self] _ -> Single<String> in
                 guard let self = self else { return .error(APIError.networkFail) }
                 return self.kakaoSDKService.requestEmail()
+            }
+            .do { email in
+                self.userManager.saveUserEmail(email)
             }
             .flatMap { [weak self] email -> Single<LoginOAuthToken?> in
                 guard let self = self else { return .error(APIError.networkFail) }
@@ -39,8 +44,17 @@ class LoginService {
     }
     
     public func requestAppleLogin(email: String) -> Observable<LoginOAuthToken?> {
+        self.userManager.saveUserEmail(email)
         return self.requestLogin(type: .apple, email: email).asObservable()
     }
+    
+    public func requestCheckPhoneNumber(_ phoneNumber: String) -> Single<CertificationNumber> {
+        return self.provider.rx.request(.checkPhoneNumber(phoneNumber))
+            .map(CertificationNumberResponse.self)
+            .map { $0.num }
+    }
+    
+    // MARK: - Private
     
     private func requestLogin(type: LoginType, email: String) -> Single<LoginOAuthToken?> {
         return self.provider.rx.request(.login(type: .kakao, email: email, phoneNumber: ""))
@@ -53,12 +67,6 @@ class LoginService {
                     return .error(APIError.networkFail)
                 }
             })
-    }
-    
-    func requestCheckPhoneNumber(_ phoneNumber: String) -> Single<CertificationNumber> {
-        return self.provider.rx.request(.checkPhoneNumber(phoneNumber))
-            .map(CertificationNumberResponse.self)
-            .map { $0.num }
     }
 }
 
