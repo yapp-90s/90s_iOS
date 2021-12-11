@@ -207,19 +207,18 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         filmNameLabel.text = film.name
         filmDateLabel.text = film.createdAt
         filmCountLabel.text = "\(film.count)/\(film.filmType.max)장"
-        filmTypeLabel.text = film.filmState.text()
+        filmTypeLabel.text = film.filmState.tagText()
         
-        if film.filmType.max != film.photos.count && film.photos.count > 0 {
+        
+        if film.filmType.max != film.photos.count && film.photos.count > 0 {    // 사진이 채워지는 중인 경우
             let photo = Photo(photoUid: 0, filmUid: film.uid, url: "film_add_photo")
             self.film.addAtFirst(photo)
-        } else {
-            printButton.isHidden = true
-        }
-        
-        if film.count == 0 {
+        } else if film.count == 0 {     // 사진이 하나도 없는 경우
             emptyImageView.isHidden = false
             emptyAddMoreButton.isHidden = false
             printButton.isHidden = true
+        } else {                        // 사진이 다 찬 경우
+            printButton.isHidden = false
         }
         
         collectionView.reloadData()
