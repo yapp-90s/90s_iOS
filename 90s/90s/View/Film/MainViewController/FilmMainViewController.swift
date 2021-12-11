@@ -14,6 +14,7 @@ import RxDataSources
 protocol FilmMainViewControllerDelegate {
     func presentListVC()
     func presentCreateVC()
+    func presentDetailVC(viewModel: Film)
 }
 
 final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
@@ -67,8 +68,10 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         dataSource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as! FilmMainHeaderCollectionViewCell
             header.delegate = self
+            
             return header
         }
+        
          
         viewModel.output.photos
             .map { [FilmMainSectionModel(header: "", items: $0)] }
@@ -97,8 +100,13 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
     func presentListVC() {
         navigationController?.pushViewController(FilmListViewController(viewModel: .init(dependency: .init())), animated: true)
     }
+    
     func presentCreateVC() {
         navigationController?.pushViewController(FilmCreateViewController(), animated: true)
+    }
+    
+    func presentDetailVC(viewModel: Film) {
+        navigationController?.pushViewController(FilmListDetailViewController(viewModel: viewModel), animated: true)
     }
 }
 

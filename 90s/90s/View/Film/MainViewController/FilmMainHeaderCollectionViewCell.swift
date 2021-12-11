@@ -126,6 +126,9 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         collectionView.rx.itemSelected.subscribe(onNext: { indexPath in
             if indexPath.row == 0 {
                 self.delegate?.presentCreateVC()
+            } else {
+                let film = self.viewModel.output.films.value[indexPath.row]
+                self.delegate?.presentDetailVC(viewModel: film)
             }
         }).disposed(by: disposeBag)
         
