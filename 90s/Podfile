@@ -9,7 +9,7 @@ target '90s' do
  pod 'SnapKit', '~> 5.0.0'
  pod 'RxSwift' 
  pod 'RxCocoa'
- pod 'RxDataSources', '~> 4.0'
+ pod 'RxDataSources'
  pod 'RxAlamofire'
  pod 'RealmSwift'
  pod 'SwiftLint'

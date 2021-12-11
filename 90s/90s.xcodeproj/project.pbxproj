@@ -1846,7 +1846,7 @@
 				CODE_SIGN_ENTITLEMENTS = 90s/90s.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NU8G5ASQP7;
+				DEVELOPMENT_TEAM = N23K7ZS482;
 				INFOPLIST_FILE = 90s/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1870,7 +1870,7 @@
 				CODE_SIGN_ENTITLEMENTS = 90s/90s.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NU8G5ASQP7;
+				DEVELOPMENT_TEAM = N23K7ZS482;
 				INFOPLIST_FILE = 90s/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

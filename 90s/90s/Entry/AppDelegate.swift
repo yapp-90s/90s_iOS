@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        RxKakaoSDKCommon.initSDK(appKey: "9e142b2bf8f1bb10976efdb1322c0c61")
+        RxKakaoSDKCommon.RxKakaoSDK.initSDK(appKey: "9e142b2bf8f1bb10976efdb1322c0c61")
         return true
     }
 
