@@ -104,6 +104,8 @@ class AddAlbumViewController: BaseViewController {
     // MARK: - Initialize
     
     private func bind() {
+        
+        // Input
         self.downloadButton.rx.tap
             .bind(to: viewModel.input.downloadImage)
             .disposed(by: self.disposeBag)
@@ -116,6 +118,7 @@ class AddAlbumViewController: BaseViewController {
             .bind(to: self.viewModel.input.tappedAddToAlbum)
             .disposed(by: self.disposeBag)
         
+        // Output
         self.viewModel.output.isLoading
             .bind(to: indicator.rx.isAnimating)
             .disposed(by: self.disposeBag)
@@ -129,6 +132,12 @@ class AddAlbumViewController: BaseViewController {
         self.viewModel.output.shareImage
             .subscribe(onNext: { [weak self] decoratedImage in
                 self?.shareImage(decoratedImage)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.addToAlbumCompleted
+            .subscribe(onNext: { [weak self] in
+                self?.popToAlbum()
             })
             .disposed(by: self.disposeBag)
     }
@@ -211,6 +220,11 @@ class AddAlbumViewController: BaseViewController {
         let activityVC = UIActivityViewController(activityItems: [item], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
         self.present(activityVC, animated: true, completion: nil)
+    }
+    
+    private func popToAlbum() {
+        // TODO: pop할 뷰컨 확인 필요
+        self.navigationController?.popToViewController(ofClass: AlbumDetailViewController.self, animated: true)
     }
     
     @objc private func tappedCloseBarButton() {

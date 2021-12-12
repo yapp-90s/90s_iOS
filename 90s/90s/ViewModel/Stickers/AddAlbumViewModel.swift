@@ -16,9 +16,14 @@ class AddAlbumViewModel: ViewModelType {
     private(set) var output: Output
     private(set) var disposeBag = DisposeBag()
     
+    private var addToAlbumPublisher = PublishSubject<Void>()
+    
     required init(dependency: Dependency) {
         self.dependency = dependency
-        self.output = Output(decoratedImage: BehaviorRelay<Data>.init(value: dependency.decoratedImage))
+        self.output = Output(
+            decoratedImage: BehaviorRelay<Data>.init(value: dependency.decoratedImage),
+            addToAlbumCompleted: self.addToAlbumPublisher
+        )
         
         self.input.downloadImage
             .subscribe(onNext: { [weak self] in
@@ -43,6 +48,7 @@ class AddAlbumViewModel: ViewModelType {
                 guard let self = self else { return }
                 let _ = self.dependency.decoratedImage
                 // TODO: album에 추가
+                self.addToAlbumPublisher.onNext(())
             })
             .disposed(by: self.disposeBag)
         
@@ -81,5 +87,6 @@ extension AddAlbumViewModel {
         var isLoading = BehaviorSubject<Bool>(value: false)
         var showCloseEdit = PublishSubject<Void>()
         var shareImage = PublishSubject<Data>()
+        var addToAlbumCompleted: Observable<Void>
     }
 }
