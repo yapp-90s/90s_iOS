@@ -203,10 +203,13 @@ class AddAlbumViewController: BaseViewController {
         self.present(closeEditActionSheetViewController, animated: true, completion: nil)
     }
     
-    private func shareImage(_ image: Data) {
-        let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+    private func shareImage(_ imageData: Data) {
+        guard let image = UIImage(data: imageData) else { return }
+        let placeholder = "한 장 한 장 소중히 간직했던 그때 그 감성으로 즐기는 나만의 사진첩 Orenzy"
+        let item = ShareItem(image: image, placeholder: placeholder)
+        
+        let activityVC = UIActivityViewController(activityItems: [item], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
-                
         self.present(activityVC, animated: true, completion: nil)
     }
     
