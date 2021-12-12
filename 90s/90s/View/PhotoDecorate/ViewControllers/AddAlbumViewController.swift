@@ -101,10 +101,6 @@ class AddAlbumViewController: BaseViewController {
         setupLayouts()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     // MARK: - Initialize
     
     private func bind() {
@@ -114,6 +110,10 @@ class AddAlbumViewController: BaseViewController {
         
         self.shareButton.rx.tap
             .bind(to: self.viewModel.input.tappedShareButton)
+            .disposed(by: self.disposeBag)
+        
+        self.addToAlbumButton.rx.tap
+            .bind(to: self.viewModel.input.tappedAddToAlbum)
             .disposed(by: self.disposeBag)
         
         self.viewModel.output.isLoading

@@ -10,6 +10,7 @@ import RxSwift
 import RxRelay
 
 class AddAlbumViewModel: ViewModelType {
+    
     private(set) var dependency: Dependency
     private(set) var input = Input()
     private(set) var output: Output
@@ -20,7 +21,7 @@ class AddAlbumViewModel: ViewModelType {
         self.output = Output(decoratedImage: BehaviorRelay<Data>.init(value: dependency.decoratedImage))
         
         self.input.downloadImage
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] in
                 self?.output.isLoading.onNext(true)
                 self?.dependency.imageService.saveImage(dependency.decoratedImage)
             })
@@ -32,8 +33,16 @@ class AddAlbumViewModel: ViewModelType {
             .disposed(by: self.disposeBag)
         
         self.input.tappedCloseButton
-            .subscribe(onNext: { [weak self] _ in
+            .subscribe(onNext: { [weak self] in
                 self?.output.showCloseEdit.onNext(())
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.input.tappedAddToAlbum
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                let _ = self.dependency.decoratedImage
+                // TODO: album에 추가
             })
             .disposed(by: self.disposeBag)
         
@@ -64,6 +73,7 @@ extension AddAlbumViewModel {
         var downloadImage = PublishSubject<Void>()
         var tappedShareButton = PublishSubject<Void>()
         var tappedCloseButton = PublishSubject<Void>()
+        var tappedAddToAlbum = PublishSubject<Void>()
     }
     
     struct Output {
