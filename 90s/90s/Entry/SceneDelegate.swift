@@ -37,7 +37,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppRootDelegate {
     // MARK: - AppRootDelegate
     
     func switchToMain() {
-        window?.rootViewController = MainTabBarController()
+        self.window?.rootViewController = MainTabBarController()
+        self.window?.rootViewController?.view.alpha = 0
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) {
+            self.window?.rootViewController?.view.alpha = 1
+        }
     }
 }
 
