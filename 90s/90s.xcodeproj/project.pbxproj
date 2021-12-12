@@ -29,6 +29,7 @@
 		36FAD64A2763A3D000A1E75C /* KeyChainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FAD6492763A3D000A1E75C /* KeyChainItem.swift */; };
 		36FAD64C2763A40B00A1E75C /* AppleLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FAD64B2763A40B00A1E75C /* AppleLoginController.swift */; };
 		36FAD6512765E6B700A1E75C /* ShareItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FAD6502765E6B700A1E75C /* ShareItem.swift */; };
+		36FAD6532765FDA300A1E75C /* UINavigationController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FAD6522765FDA300A1E75C /* UINavigationController+.swift */; };
 		4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D025F337C200E98A0B /* BaseViewController.swift */; };
 		4C1F80D825F33B0200E98A0B /* StickerPackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */; };
 		4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */; };
@@ -252,6 +253,7 @@
 		36FAD64B2763A40B00A1E75C /* AppleLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginController.swift; sourceTree = "<group>"; };
 		36FAD64D2763AF7800A1E75C /* 90s.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = 90s.entitlements; sourceTree = "<group>"; };
 		36FAD6502765E6B700A1E75C /* ShareItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareItem.swift; sourceTree = "<group>"; };
+		36FAD6522765FDA300A1E75C /* UINavigationController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+.swift"; sourceTree = "<group>"; };
 		4C1F80D025F337C200E98A0B /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4C1F80D725F33B0200E98A0B /* StickerPackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerPackViewModel.swift; sourceTree = "<group>"; };
 		4C1F80E025F3409600E98A0B /* PackNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackNavigationBar.swift; sourceTree = "<group>"; };
@@ -595,6 +597,7 @@
 				36529076270AEA770060BEDE /* Reusable.swift */,
 				3672178A271AF2D700FEDE51 /* UITextField+.swift */,
 				6549FC9327536BA500534E03 /* URLRequest+.swift */,
+				36FAD6522765FDA300A1E75C /* UINavigationController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1559,6 +1562,7 @@
 				9BA3FF5625FDF4B5000D2A2E /* FilmsViewModel.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
 				65F73D832721D133001313B5 /* PolaroidImageView.swift in Sources */,
+				36FAD6532765FDA300A1E75C /* UINavigationController+.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
 				4CDA3C5F264FA16B00EEE12C /* BaseTarget.swift in Sources */,
