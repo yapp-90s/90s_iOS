@@ -13,6 +13,8 @@ final class FilmGalleryCollectionViewCell: UICollectionViewCell {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "default_img")
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         
         return iv
     }()

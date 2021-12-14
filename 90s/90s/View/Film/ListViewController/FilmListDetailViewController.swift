@@ -11,7 +11,7 @@ import SnapKit
 import RxSwift
 
 /// 필름 정보와 사진을 보여주는 VC
-final class FilmListDetailViewController: BaseViewController, UINavigationControllerDelegate, PHPickerViewControllerDelegate {
+final class FilmListDetailViewController: BaseViewController, UINavigationControllerDelegate, PHPickerViewControllerDelegate, UIScrollViewDelegate {
     private let filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -47,7 +47,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         label.text = "장"
         return label
     }()
-    
+ 
     private var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -197,6 +197,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         Observable.from(optional: viewModel.photos)
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
                 cell.bindViewModel(item: element, isScaleFill: true)
+                
             }.disposed(by: disposeBag)
         
         
@@ -208,6 +209,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
                     checkSelf.setPhPicker(photoMax: film.filmType.max, photoFill: film.count)
                 }
             }).disposed(by: disposeBag)
+        
     }
 
     private func setPhPicker(photoMax maxCount : Int, photoFill fillCount : Int) {
