@@ -23,8 +23,6 @@ final class FilmListSectionHeaderCell: UITableViewHeaderFooterView {
         return label
     }()
     
-    static let cellID = "FilmListSectionHeaderCell"
-
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         setUpSubView()

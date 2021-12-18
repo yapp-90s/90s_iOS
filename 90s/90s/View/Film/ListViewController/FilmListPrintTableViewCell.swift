@@ -56,8 +56,6 @@ final class FilmListPrintTableViewCell: UITableViewCell {
         return btn
     }()
     
-    static let cellID = "FilmListPrintTableViewCell"
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubViews()
