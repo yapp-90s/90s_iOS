@@ -1,3 +1,4 @@
+
 //
 //  FilmGalleryViewController.swift
 //  90s
@@ -10,19 +11,25 @@ import SnapKit
 import Photos
 import RxSwift
 
-// TODO: - 할 일 : ViewModel 생성, RxCollectionView 변환, 이미지 분할 -> Rx 바인딩
+// TODO: - 할 일 : ViewModel 생성, 이미지 분할 -> Rx 바인딩
 
-final class FilmGalleryViewController: BaseViewController {
-
+final class FilmGalleryViewController: BaseViewController, UIScrollViewDelegate {
     private let collectionView : UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        cv.showsVerticalScrollIndicator = false
+        cv.register(FilmGalleryCollectionViewCell.self, forCellWithReuseIdentifier: FilmGalleryCollectionViewCell.cellID)
+        
+        return cv
+    }()
+    
+    private var collecitonViewFlowLayout : UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
+        layout.itemSize = CGSize(width: 200, height: 200)
         
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.showsVerticalScrollIndicator = false
-        
-        cv.register(FilmGalleryCollectionViewCell.self, forCellWithReuseIdentifier: FilmGalleryCollectionViewCell.cellID)
-        return cv
+        return layout
     }()
     
     private let selectionView : UIView = {
@@ -46,9 +53,11 @@ final class FilmGalleryViewController: BaseViewController {
     
     private var fetchResult : PHFetchResult<PHAsset>?
     private var phAssetArray : [UIImage] = []
-    var film: Film
-    
-    private var thumbnailSize = CGSize.zero
+    private var thumbnailSize = CGSize.zero {
+        didSet {
+            thumbnailSize = CGSize(width: 1024 * UIScreen.main.scale, height: 1024 * UIScreen.main.scale)
+        }
+    }
     private var selectedPhotosIndexPath : [IndexPath] = [] {
         didSet {
             if selectedPhotosIndexPath.count > 0 {
@@ -59,20 +68,15 @@ final class FilmGalleryViewController: BaseViewController {
         }
     }
     
-    // MARK: - LifeCycle
+    let film: Film
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        fetchResult = nil
-        phAssetArray = []
-        
-        setUpFetchAsset()
-    }
+    // MARK: - LifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpSubViews()
+        setUpFetchAsset()
+        setUpCollectionViewDataSource()
     }
     
     init(film : Film) {
@@ -98,8 +102,9 @@ final class FilmGalleryViewController: BaseViewController {
         }
         
         selectionView.snp.makeConstraints {
-            $0.bottom.left.right.equalTo(safe)
-            $0.height.equalTo(110)
+            $0.left.right.equalTo(safe)
+            $0.top.equalTo(safe.snp.bottom).offset(-60)
+            $0.bottom.equalTo(view.snp.bottom)
         }
         
         selectedLabel.snp.makeConstraints {
@@ -110,10 +115,34 @@ final class FilmGalleryViewController: BaseViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(setUpTapGesture))
         selectionView.addGestureRecognizer(tap)
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        let width = view.frame.width / 3 - 3.5
+        collecitonViewFlowLayout.itemSize = CGSize(width: width, height: width)
+        collectionView.collectionViewLayout = collecitonViewFlowLayout
+    }
+    
+    private func setUpCollectionViewDataSource() {
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        thumbnailSize = CGSize(width: 1024 * UIScreen.main.scale, height: 1024 * UIScreen.main.scale)
+        Observable.from(optional: phAssetArray)
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmGalleryCollectionViewCell.cellID, cellType: FilmGalleryCollectionViewCell.self)) { indexPath, element, cell in
+                cell.bindImageView(element)
+            }.disposed(by: disposeBag)
+        
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let checkSelf = self else { return }
+                
+            let cell = checkSelf.collectionView.cellForItem(at: indexPath) as! FilmGalleryCollectionViewCell
+            let result = checkSelf.selectedPhotosIndexPath.contains(indexPath)
+
+            if result {
+                checkSelf.selectedPhotosIndexPath.removeAll(where: { $0 == indexPath })
+            } else {
+                checkSelf.selectedPhotosIndexPath.append(indexPath)
+            }
+            
+            cell.bindSelectImageView(isSelected: !result)
+        }).disposed(by: disposeBag)
     }
     
     private func setUpFetchAsset() {
@@ -126,8 +155,9 @@ final class FilmGalleryViewController: BaseViewController {
         let targetSize = CGSize(width: 450, height: 450)
         
         fetchResult?.enumerateObjects { object, index, stop in
-            PHImageManager.default().requestImage(for: object as PHAsset, targetSize: targetSize, contentMode: .aspectFit, options: options) { [weak self] image, info in
-                self?.phAssetArray.append(image!)
+            PHImageManager.default().requestImage(for: object as PHAsset, targetSize: targetSize, contentMode: .aspectFit, options: options) { [weak self] result, info in
+                guard let image = result else { return }
+                self?.phAssetArray.append(image)
             }
         }
     }
@@ -146,42 +176,5 @@ final class FilmGalleryViewController: BaseViewController {
     }
 }
 
-
-extension FilmGalleryViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return phAssetArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmGalleryCollectionViewCell.cellID, for: indexPath) as! FilmGalleryCollectionViewCell
-        cell.bindImageView(phAssetArray[indexPath.item])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! FilmGalleryCollectionViewCell
-        let result = selectedPhotosIndexPath.contains(indexPath)
-        
-        if result {
-            selectedPhotosIndexPath.removeAll(where: { $0 == indexPath })
-        } else {
-            selectedPhotosIndexPath.append(indexPath)
-        }
-        cell.bindSelectImageView(isSelected: !result)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width / 3 - 3.5
-        return CGSize(width: width, height: width)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
-    }
-        
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
-    }
-}
 
 
