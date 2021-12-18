@@ -18,4 +18,12 @@ extension BaseTarget {
     var sampleData: Data {
         return Data()
     }
+    
+    var headers: [String : String]? {
+        return [
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-AUTH-TOKEN": UserManager.shared.token
+        ]
+    }
 }

@@ -68,11 +68,4 @@ extension LoginAPI: BaseTarget {
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
-    
-    var headers: [String : String]? {
-        return [
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        ]
-    }
 }
