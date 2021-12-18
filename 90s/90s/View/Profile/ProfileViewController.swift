@@ -137,13 +137,25 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         ("약관 · 개인정보 처리방침", false)
     ])
     
+    let viewModel: ProfileViewModel
+    
     // MARK: - LifeCycle
-
+    
+    init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubviews()
         setUpTableView()
         setUpManageButton()
+        bind()
     }
     
     private func setUpSubviews() {
@@ -297,5 +309,14 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         manageButton.rx.tap.bind {
             self.navigationController?.pushViewController(ProfileEditViewController(), animated: true)
         }.disposed(by: disposeBag)
+    }
+    
+    private func bind() {
+        
+        // output
+        self.viewModel.output.albumCount
+            .map { "\($0)개" }
+            .bind(to: albumCountLabel.rx.text)
+            .disposed(by: self.disposeBag)
     }
 }

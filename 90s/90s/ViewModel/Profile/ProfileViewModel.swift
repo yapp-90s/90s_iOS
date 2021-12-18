@@ -12,19 +12,25 @@ final class ProfileViewModel: ViewModelType {
     
     private(set) var dependency: Dependency
     private(set) var input = Input()
-    private(set) var output = Output()
+    private(set) var output: Output
     private(set) var disposeBag = DisposeBag()
     
     required init(dependency: Dependency) {
         self.dependency = dependency
+        
+        self.output = Output(albumCount: self.dependency.albumCountObserver)
     }
 }
 
 extension ProfileViewModel {
     
-    struct Dependency { }
+    struct Dependency {
+        var albumCountObserver: Observable<Int>
+    }
     
     struct Input { }
     
-    struct Output { }
+    struct Output {
+        var albumCount: Observable<Int>
+    }
 }
