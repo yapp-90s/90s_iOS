@@ -32,6 +32,10 @@ extension UICollectionView {
     func register<T: UICollectionViewCell>(reusable: T.Type) {
         self.register(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
+    
+    func registerHeader<T: UICollectionViewCell>(reusable: T.Type) {
+        self.register(T.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: T.reuseIdentifier)
+    }
 }
 
 // MARK: - UITableViewCell, UITableView
