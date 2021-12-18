@@ -20,8 +20,8 @@ final class ProfileViewModel: ViewModelType {
         
         self.output = Output(
             albumCount: self.dependency.albumCountObserver,
-            photoCount: .just(0),
-            filmCount: .just(0)
+            photoCount: self.dependency.photoCountObserver,
+            filmCount: self.dependency.filmCountObserver
         )
     }
 }
@@ -30,6 +30,8 @@ extension ProfileViewModel {
     
     struct Dependency {
         var albumCountObserver: Observable<Int>
+        var photoCountObserver: Observable<Int>
+        var filmCountObserver: Observable<Int>
     }
     
     struct Input { }

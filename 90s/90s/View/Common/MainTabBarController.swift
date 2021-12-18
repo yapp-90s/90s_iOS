@@ -25,7 +25,12 @@ class MainTabBarController: UITabBarController {
         filmVC.tabBarItem = UITabBarItem(title: "필름", image: .init(named: "Gnb_Film_Inact"), tag: 1)
         
         let profileViewModel = ProfileViewModel.init(
-            dependency: .init(albumCountObserver: AlbumProvider.observable.map({ $0.count }))
+            dependency: .init(
+                albumCountObserver: AlbumProvider.observable.map({ $0.count }),
+                // TODO: 인화된 사진 Observer 추가
+                photoCountObserver: .just(0),
+                filmCountObserver: FilmRepository.shared.films.map({ $0.count })
+            )
         )
         let profileVC = BaseNavigationControllerViewController(
             rootViewController: ProfileViewController(viewModel: profileViewModel)
