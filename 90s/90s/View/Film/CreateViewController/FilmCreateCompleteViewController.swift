@@ -16,7 +16,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
         return label
     }()
 
-    private var filmView: UIView = {
+    private let filmView: UIView = {
+        let view = UIView(frame: .zero)
+        return view
+    }()
+    
+    private let filmLabelView : UIView = {
         let view = UIView(frame: .zero)
         return view
     }()
@@ -33,12 +38,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         let label = UILabel(frame: .zero)
         label.font = .Popup_Title
         return label
-    }()
-    
-    private var filmSeperateView : UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
-        return view
     }()
     
     private var filmTypeLabel : UILabel = {
@@ -76,6 +75,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
         view.layer.cornerRadius = 15
+        view.backgroundColor = .warmGray
         return view
     }()
     
@@ -115,7 +115,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         return button
     }()
     
-    var film : Film
+    let film : Film
     var delegate : FilmCreateViewControllerDelegate?
     private var isPopUpAppeared = false
     
@@ -138,19 +138,21 @@ final class FilmCreateCompleteViewController: BaseViewController {
 
     private func setUpSubViews(){
         view.backgroundColor = .black
+        
         view.addSubview(infoLabel)
         view.addSubview(filmView)
         view.addSubview(completeButton)
         
-        setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
-        
         filmView.addSubview(filmImageView)
         filmView.addSubview(filmNameLabel)
-        filmView.addSubview(filmSeperateView)
-        filmView.addSubview(filmTypeLabel)
-        filmView.addSubview(filmPrintLabel)
-        filmView.addSubview(filmCountLabel)
-        filmView.addSubview(filmDateLabel)
+        filmView.addSubview(filmLabelView)
+        
+        filmLabelView.addSubview(filmTypeLabel)
+        filmLabelView.addSubview(filmPrintLabel)
+        filmLabelView.addSubview(filmCountLabel)
+        filmLabelView.addSubview(filmDateLabel)
+        
+        setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
         
         let safe = view.safeAreaLayoutGuide
         
@@ -163,38 +165,37 @@ final class FilmCreateCompleteViewController: BaseViewController {
             $0.left.equalTo(64)
             $0.right.equalTo(-64)
             $0.top.equalTo(infoLabel.snp.bottom).offset(34)
-            $0.height.equalTo(378)
+            $0.height.equalTo(369)
         }
         
         completeButton.snp.makeConstraints {
             $0.left.equalTo(45)
             $0.right.equalTo(-45)
             $0.height.equalTo(57)
-            $0.top.equalTo(filmView.snp.bottom).offset(30)
+            $0.top.equalTo(filmView.snp.bottom).offset(44)
         }
         
         filmImageView.snp.makeConstraints {
-            $0.top.equalTo(filmView.snp.top).offset(25)
-            $0.left.equalTo(filmView.snp.left).offset(61)
-            $0.right.equalTo(filmView.snp.right).offset(-61)
-            $0.height.equalTo(173)
+            $0.top.equalTo(filmView.snp.top).offset(26)
+            $0.centerX.equalTo(filmView.snp.centerX)
+            $0.width.equalTo(105)
+            $0.height.equalTo(164)
         }
         
         filmNameLabel.snp.makeConstraints {
-            $0.top.equalTo(filmImageView.snp.bottom).offset(17)
+            $0.top.equalTo(filmImageView.snp.bottom).offset(16)
             $0.centerX.equalTo(filmImageView.snp.centerX)
         }
         
-        filmSeperateView.snp.makeConstraints {
+        filmLabelView.snp.makeConstraints {
             $0.top.equalTo(filmNameLabel.snp.bottom).offset(16)
-            $0.left.equalTo(filmView.snp.left).offset(24)
-            $0.right.equalTo(filmView.snp.right).offset(-24)
-            $0.height.equalTo(1)
+            $0.left.right.equalTo(filmView)
+            $0.bottom.equalTo(filmView.snp.bottom)
         }
         
         filmTypeLabel.snp.makeConstraints {
-            $0.left.equalTo(filmView.snp.left).offset(24)
-            $0.top.equalTo(filmSeperateView.snp.bottom).offset(17)
+            $0.left.equalTo(filmLabelView.snp.left).offset(24)
+            $0.top.equalTo(filmLabelView.snp.top).offset(17)
         }
         
         filmPrintLabel.snp.makeConstraints {
@@ -203,19 +204,18 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }
         
         filmCountLabel.snp.makeConstraints {
-            $0.left.equalTo(filmView.snp.left).offset(24)
+            $0.left.equalTo(filmLabelView.snp.left).offset(24)
             $0.top.equalTo(filmPrintLabel.snp.bottom).offset(9)
         }
         
         filmDateLabel.snp.makeConstraints {
-            $0.left.equalTo(filmView.snp.left).offset(24)
+            $0.left.equalTo(filmLabelView.snp.left).offset(24)
             $0.top.equalTo(filmCountLabel.snp.bottom).offset(9)
         }
     }
     
     private func setUpPopUpSubViews(){
         view.addSubview(popUpView)
-        popUpView.backgroundColor = .warmGray
         popUpView.addSubview(popUpImageView)
         popUpView.addSubview(popUpInfoLabel)
         popUpView.addSubview(popUpCancleButton)
@@ -311,6 +311,9 @@ final class FilmCreateCompleteViewController: BaseViewController {
         DispatchQueue.main.async { [weak self] in
             self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
+        
+        filmView.backgroundColor = UIColor.colorRGBHex(hex: film.filmType.filmTypeInfoBackgroundColor)
+        filmLabelView.backgroundColor = UIColor.colorRGBHex(hex: film.filmType.filmTypeInfoLabelBackgroundColor)
         
         filmNameLabel.text = film.name
         filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.name)
