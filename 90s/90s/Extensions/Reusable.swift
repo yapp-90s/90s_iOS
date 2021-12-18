@@ -42,6 +42,8 @@ extension UICollectionView {
 
 extension UITableViewCell: Reusable { }
 
+extension UITableViewHeaderFooterView: Reusable { }
+
 extension UITableView {
     
     func dequeueReusableCell<T: UITableViewCell>(_ type: T.Type, forIndexPath indexPath: IndexPath) -> T {
@@ -53,5 +55,9 @@ extension UITableView {
     
     func register<T: UITableViewCell>(reusable: T.Type) {
         self.register(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+    }
+    
+    func registerHeader<T: UITableViewHeaderFooterView>(reusable: T.Type) {
+        self.register(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
     }
 }
