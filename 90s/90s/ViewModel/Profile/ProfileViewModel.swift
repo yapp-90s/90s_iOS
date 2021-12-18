@@ -18,7 +18,11 @@ final class ProfileViewModel: ViewModelType {
     required init(dependency: Dependency) {
         self.dependency = dependency
         
-        self.output = Output(albumCount: self.dependency.albumCountObserver)
+        self.output = Output(
+            albumCount: self.dependency.albumCountObserver,
+            photoCount: .just(0),
+            filmCount: .just(0)
+        )
     }
 }
 
@@ -32,5 +36,7 @@ extension ProfileViewModel {
     
     struct Output {
         var albumCount: Observable<Int>
+        var photoCount: Observable<Int>
+        var filmCount: Observable<Int>
     }
 }

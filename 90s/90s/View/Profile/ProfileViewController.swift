@@ -318,5 +318,15 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
             .map { "\($0)개" }
             .bind(to: albumCountLabel.rx.text)
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.photoCount
+            .map { "\($0)장" }
+            .bind(to: photoCountLabel.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.filmCount
+            .map { "\($0)통" }
+            .bind(to: filmCountLabel.rx.text)
+            .disposed(by: self.disposeBag)
     }
 }
