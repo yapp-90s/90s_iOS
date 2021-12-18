@@ -16,7 +16,7 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
     private let collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsHorizontalScrollIndicator = false
-        cv.register(FilmGallerySelectedCollectionViewCell.self, forCellWithReuseIdentifier: FilmGallerySelectedCollectionViewCell.cellID)
+        cv.register(reusable: FilmGallerySelectedCollectionViewCell.self)
         
         return cv
     }()
@@ -49,19 +49,15 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
     
     // MARK: - Properties
     
-    var film : Film!
-    
-    var viewModel : [UIImage] = []
-    
+    private var film : Film
     private var photos : [UIImage] = []
     
     // MARK: - Life Cycle
 
-    init(_ viewModel: [UIImage], film: Film) {
-        self.viewModel = viewModel
+    init(_ photos: [UIImage], film: Film) {
+        self.photos = photos
         self.film = film
         super.init(nibName: nil, bundle: nil)
-        bind()
     }
     
     convenience init(photo array : [UIImage], film: Film){
@@ -95,7 +91,7 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
             $0.left.equalTo(safe).offset(45)
             $0.right.equalTo(safe).offset(-45)
             $0.height.equalTo(60)
-            $0.bottom.equalTo(safe).offset(-100)
+            $0.bottom.equalTo(safe).offset(-80)
         }
         
         infoLabel.snp.makeConstraints {
@@ -105,8 +101,18 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
         
         collectionView.snp.makeConstraints {
             $0.top.left.right.equalTo(safe)
-            $0.bottom.equalTo(infoLabel).offset(16)
+            $0.bottom.equalTo(infoLabel.snp.top).offset(-16)
         }
+        
+        self.completeButton.rx.tap
+            .asDriver().drive(onNext: {
+//                self.requestUploadPhotos()
+//                var array : [Photo] = []
+//                photos.forEach { array.append()}
+//                film.photos.
+//                film.photos.append(contentsOf: photos)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setUpCollectionViewDataSource() {
@@ -117,7 +123,7 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
 
         Observable.from(optional: photos)
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmGallerySelectedCollectionViewCell.cellID, cellType: FilmGallerySelectedCollectionViewCell.self)) { indexPath, element, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmGallerySelectedCollectionViewCell.reuseIdentifier, cellType: FilmGallerySelectedCollectionViewCell.self)) { indexPath, element, cell in
                 cell.bindImageView(photo: element)
             }.disposed(by: disposeBag)
     }
@@ -136,18 +142,6 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
         
         infoLabel.attributedText = attributedString
-    }
-    
-    private func bind() {
-        self.completeButton.rx.tap
-            .asDriver().drive(onNext: {
-                self.requestUploadPhotos()
-//                var array : [Photo] = []
-//                photos.forEach { array.append()}
-//                film.photos.
-//                film.photos.append(contentsOf: photos)
-            })
-            .disposed(by: disposeBag)
     }
     
     private func requestUploadPhotos() {
