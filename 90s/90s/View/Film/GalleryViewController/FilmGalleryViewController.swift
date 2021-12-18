@@ -17,7 +17,7 @@ final class FilmGalleryViewController: BaseViewController, UIScrollViewDelegate 
     private let collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
-        cv.register(FilmGalleryCollectionViewCell.self, forCellWithReuseIdentifier: FilmGalleryCollectionViewCell.cellID)
+        cv.register(reusable: FilmGalleryCollectionViewCell.self)
         
         return cv
     }()
@@ -68,7 +68,7 @@ final class FilmGalleryViewController: BaseViewController, UIScrollViewDelegate 
         }
     }
     
-    let film: Film
+    private let film: Film
     
     // MARK: - LifeCycle
 
@@ -124,7 +124,7 @@ final class FilmGalleryViewController: BaseViewController, UIScrollViewDelegate 
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         Observable.from(optional: phAssetArray)
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmGalleryCollectionViewCell.cellID, cellType: FilmGalleryCollectionViewCell.self)) { indexPath, element, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmGalleryCollectionViewCell.reuseIdentifier, cellType: FilmGalleryCollectionViewCell.self)) { indexPath, element, cell in
                 cell.bindImageView(element)
             }.disposed(by: disposeBag)
         

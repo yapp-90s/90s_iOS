@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 import RxSwift
 
-
 final class FilmCreateCompleteViewController: BaseViewController {
     private let infoLabel : UILabel = {
         let label = UILabel.createSpacingLabel(text: "필름이\n완성되었습니다!")
@@ -115,14 +114,14 @@ final class FilmCreateCompleteViewController: BaseViewController {
         return button
     }()
     
-    let film : Film
-    var delegate : FilmCreateViewControllerDelegate?
+    private let viewModel : Film
     private var isPopUpAppeared = false
+    var delegate : FilmCreateViewControllerDelegate?
     
-    init(film : Film) {
-        self.film = film
+    init(viewModel : Film) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        bindViewModel(film: film)
+        bindViewModel(film: viewModel)
     }
     
     required init?(coder: NSCoder) {
@@ -266,7 +265,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         popUpAddButton.rx.tap.bind {
-            let nextVC = FilmGalleryViewController(film: self.film)
+            let nextVC = FilmGalleryViewController(film: self.viewModel)
             self.navigationController?.pushViewController(nextVC, animated: true)
             self.updatePopUpView()
         }.disposed(by: disposeBag)
@@ -275,7 +274,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
     private func handleCompleteButton(){
         updatePopUpView()
         
-        FilmService.shared.create(film: (film.filmType.uid, film.name)) { result in
+        FilmService.shared.create(film: (viewModel.filmType.uid, viewModel.name)) { result in
             switch result {
             case let .success(response) :
                 print("FilmCreateCompleteVC - success request : createFilm, ", response)

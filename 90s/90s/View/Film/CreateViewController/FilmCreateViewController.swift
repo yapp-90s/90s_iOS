@@ -20,8 +20,8 @@ final class FilmCreateViewController: BaseViewController {
         tv.showsHorizontalScrollIndicator = false
         tv.separatorStyle = .none
         tv.rowHeight = 250
+        tv.register(reusable: FilmInfoTableViewCell.self)
         
-        tv.register(FilmInfoTableViewCell.self, forCellReuseIdentifier: FilmInfoTableViewCell.cellId)
         return tv
     }()
     
@@ -64,7 +64,7 @@ final class FilmCreateViewController: BaseViewController {
     }
     
     private func setUpTableView(){
-        viewModel.bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
+        viewModel.bind(to: tableView.rx.items(cellIdentifier: FilmInfoTableViewCell.reuseIdentifier, cellType: FilmInfoTableViewCell.self)) { index, element, cell in
             cell.selectionStyle = .none
             cell.bindViewModel(film: element, type: .create)
         }.disposed(by: disposeBag)
@@ -80,8 +80,7 @@ final class FilmCreateViewController: BaseViewController {
 
 extension FilmCreateViewController : FilmCreateViewControllerDelegate {
     func presentFilmCreateVC(film: Film) {
-        let nextVC = FilmCreateNameViewController()
-        nextVC.film = film
+        let nextVC = FilmCreateNameViewController(viewModel: film)
         nextVC.delegate = self
         navigationController?.pushViewController(nextVC, animated: true)
     }

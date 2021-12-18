@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
+final class FilmCreateDetailCollectionViewHeaderCell: UICollectionViewCell {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true
@@ -40,7 +40,6 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
         return button
     }()
     
-    static let cellID = "FilmCreateDetailCollectionReusableView"
     private var disposeBag = DisposeBag()
     
     var delegate : FilmCreateViewControllerDelegate?

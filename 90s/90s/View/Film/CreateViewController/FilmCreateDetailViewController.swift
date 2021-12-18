@@ -16,12 +16,13 @@ final class FilmCreateDetailViewController: BaseViewController {
         layout.scrollDirection = .vertical
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.register(FilmCreateDetailCollectionViewCell.self, forCellWithReuseIdentifier: FilmCreateDetailCollectionViewCell.cellID)
-        cv.register(FilmCreateDetailCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmCreateDetailCollectionReusableView.cellID)
+        cv.register(reusable: FilmCreateDetailCollectionViewCell.self)
+        cv.registerHeader(reusable: FilmCreateDetailCollectionViewHeaderCell.self)
+    
         return cv
     }()
     
-    let viewModel : Film
+    private let viewModel : Film
     var delegate : FilmCreateViewControllerDelegate?
     
     init(viewModel: Film) {
@@ -52,13 +53,13 @@ final class FilmCreateDetailViewController: BaseViewController {
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmCreateDetailCollectionViewCell.cellID, for: indexPath) as! FilmCreateDetailCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmCreateDetailCollectionViewCell.reuseIdentifier, for: indexPath) as! FilmCreateDetailCollectionViewCell
             cell.bindViewModel(image: element.url)
             return cell
         })
         
         dataSource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmCreateDetailCollectionReusableView.cellID, for: indexPath) as! FilmCreateDetailCollectionReusableView
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmCreateDetailCollectionViewHeaderCell.reuseIdentifier, for: indexPath) as! FilmCreateDetailCollectionViewHeaderCell
             header.delegate = self.delegate
             header.bindViewModel(film: self.viewModel)
             return header

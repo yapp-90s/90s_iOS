@@ -15,8 +15,6 @@ final class FilmCreateDetailCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    static let cellID = "FilmCreateDetailCollectionViewCell"
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpSubViews()

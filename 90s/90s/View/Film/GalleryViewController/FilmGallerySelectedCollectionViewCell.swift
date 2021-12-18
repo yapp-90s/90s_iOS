@@ -15,8 +15,6 @@ final class FilmGallerySelectedCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
-    static let cellID = "FilmGallerySelectedCollectionViewCell"
-    
     override func prepareForReuse() {
         super.prepareForReuse()
     }
@@ -40,6 +38,8 @@ final class FilmGallerySelectedCollectionViewCell: UICollectionViewCell {
     }
     
     func bindImageView(photo image: UIImage) {
-        self.imageView.image = image
+        DispatchQueue.main.async { [weak self] in
+            self?.imageView.image = image
+        }
     }
 }

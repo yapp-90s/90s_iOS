@@ -39,7 +39,8 @@ final class AlbumSelectPhotoByFilmViewController: BaseViewController, UIScrollVi
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsVerticalScrollIndicator = false
-        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
+        cv.register(reusable: FilmListCollectionViewCell.self)
+       
         return cv
     }()
     
@@ -101,7 +102,7 @@ final class AlbumSelectPhotoByFilmViewController: BaseViewController, UIScrollVi
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         Observable.from(optional: viewModel.photos)
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId, cellType: FilmListCollectionViewCell.self)) { index, element, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.reuseIdentifier, cellType: FilmListCollectionViewCell.self)) { index, element, cell in
                 cell.bindViewModel(item: element, isScaleFill: false)
             }
             .disposed(by: disposeBag)

@@ -32,7 +32,6 @@ final class FilmGalleryCollectionViewCell: UICollectionViewCell {
         return CGSize(width: (UIScreen.main.bounds.width / 3) * scale, height: 100 * scale)
     }
     
-    static let cellID = "FilmGalleryCollectionViewCell"
     var film: Film!
     
     // MARK: - LifeCycle
