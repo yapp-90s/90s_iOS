@@ -177,7 +177,7 @@
 		9B30C327268F01C6007F3564 /* ProfileTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B30C326268F01C6007F3564 /* ProfileTermsViewController.swift */; };
 		9B3746ED26301CCC00E412B0 /* FilmCreateDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746EC26301CCC00E412B0 /* FilmCreateDetailViewController.swift */; };
 		9B3746F326301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */; };
-		9B3746F726301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */; };
+		9B3746F726301FED00E412B0 /* FilmCreateDetailCollectionViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionViewHeaderCell.swift */; };
 		9B3746FB2630260100E412B0 /* FilmListSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3746FA2630260100E412B0 /* FilmListSectionModel.swift */; };
 		9B38AC9A26A5A9B5000DD6B5 /* PhotoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */; };
 		9B494FDB2689596B009878E9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B494FDA2689596B009878E9 /* ProfileViewController.swift */; };
@@ -411,7 +411,7 @@
 		9B30C326268F01C6007F3564 /* ProfileTermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTermsViewController.swift; sourceTree = "<group>"; };
 		9B3746EC26301CCC00E412B0 /* FilmCreateDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailViewController.swift; sourceTree = "<group>"; };
 		9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionViewCell.swift; sourceTree = "<group>"; };
-		9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionReusableView.swift; sourceTree = "<group>"; };
+		9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionViewHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmCreateDetailCollectionViewHeaderCell.swift; sourceTree = "<group>"; };
 		9B3746FA2630260100E412B0 /* FilmListSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmListSectionModel.swift; sourceTree = "<group>"; };
 		9B38AC9926A5A9B5000DD6B5 /* PhotoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResponse.swift; sourceTree = "<group>"; };
 		9B494FDA2689596B009878E9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -1082,7 +1082,7 @@
 			children = (
 				9B08FF0D26216F7A004DE486 /* FilmCreateViewController.swift */,
 				9B3746EC26301CCC00E412B0 /* FilmCreateDetailViewController.swift */,
-				9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift */,
+				9B3746F626301FED00E412B0 /* FilmCreateDetailCollectionViewHeaderCell.swift */,
 				9B3746F226301F2E00E412B0 /* FilmCreateDetailCollectionViewCell.swift */,
 				9BC35EE2263143020062B24C /* FilmCreateNameViewController.swift */,
 				9BC35EEE26315EC70062B24C /* FilmCreateCompleteViewController.swift */,
@@ -1528,7 +1528,7 @@
 				65F73D842721D133001313B5 /* TemplatePolaroid.swift in Sources */,
 				4C1F80E125F3409600E98A0B /* PackNavigationBar.swift in Sources */,
 				4C1F80D125F337C200E98A0B /* BaseViewController.swift in Sources */,
-				9B3746F726301FED00E412B0 /* FilmCreateDetailCollectionReusableView.swift in Sources */,
+				9B3746F726301FED00E412B0 /* FilmCreateDetailCollectionViewHeaderCell.swift in Sources */,
 				9BA3FF5F25FE13E1000D2A2E /* FilmListDetailViewController.swift in Sources */,
 				65AD480E27569DA900FE29C6 /* AlbumDetailViewController.swift in Sources */,
 				4C8E3D97260F31500090481C /* BaseNavigationControllerViewController.swift in Sources */,
