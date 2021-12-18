@@ -223,7 +223,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         
         popUpView.snp.makeConstraints {
             $0.left.right.equalTo(0)
-            $0.height.equalTo(300)
+            $0.height.equalTo(270)
             $0.top.equalTo(view.snp.bottom)
         }
         
@@ -291,13 +291,13 @@ final class FilmCreateCompleteViewController: BaseViewController {
         if isPopUpAppeared == true {
             popUpView.snp.remakeConstraints {
                 $0.left.right.equalTo(0)
-                $0.height.equalTo(300)
-                $0.top.equalTo(view.snp.bottom).offset(-300)
+                $0.height.equalTo(270)
+                $0.top.equalTo(view.snp.bottom).offset(-270)
             }
         } else {
             popUpView.snp.remakeConstraints {
                 $0.left.right.equalTo(0)
-                $0.height.equalTo(300)
+                $0.height.equalTo(270)
                 $0.top.equalTo(view.snp.bottom)
             }
         }
