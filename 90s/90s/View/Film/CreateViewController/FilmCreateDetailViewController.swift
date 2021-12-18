@@ -78,6 +78,6 @@ extension FilmCreateDetailViewController : UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.bounds.width, height: 175)
+        return CGSize(width: view.bounds.width, height: 205)
     }
 }

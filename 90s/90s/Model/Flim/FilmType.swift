@@ -39,16 +39,38 @@ struct FilmType : Codable {
         default   : return "film_default"
         }
     }
-    var color : Int {
+//    var color : Int {
+//        switch code {
+//        case 1001 : return 0x727379
+//        case 1002 : return 0x53555A
+//        case 1003 : return 0x8276AF
+//        case 1004 : return 0x517796
+//        default   : return 0xFFFFFF
+//        }
+//    }
+    /// 필름 생성의 필름 introView 바탕 색
+    var filmTypeInfoBackgroundColor : Int {
         switch code {
-        case 1001 : return 0x727379
-        case 1002 : return 0x53555A
-        case 1003 : return 0x8276AF
-        case 1004 : return 0x517796
-        default   : return 0xFFFFFF
+        case 1001 : return 0x606064
+        case 1002 : return 0x35363B
+        case 1003 : return 0x665C8F
+        case 1004 : return 0x3F5B73
+        default   : return 0
         }
     }
     
+    /// 필름 생성의 필름 introView - labelView 바탕 색
+    var filmTypeInfoLabelBackgroundColor : Int {
+        switch code {
+        case 1001 : return 0x727379
+        case 1002 : return 0x4A4B51
+        case 1003 : return 0x8276AF
+        case 1004 : return 0x517796
+        default   : return 0
+        }
+    }
+
+    /// 필름 별 이미지 가로 크기
     var imageWidth : Int {
         switch code {
         case 1001 : return 60
@@ -59,6 +81,7 @@ struct FilmType : Codable {
         }
     }
     
+    /// 필름 목록에서 보여줄 수 있는 필름 속 이미지 개수
     var maxCountImageView : Int {
         switch code {
         case 1001, 1003 : return 4

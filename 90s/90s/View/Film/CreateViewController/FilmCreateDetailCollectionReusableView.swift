@@ -63,10 +63,10 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
         isUserInteractionEnabled = true
         
         imageView.snp.makeConstraints {
-            $0.width.equalTo(100)
-            $0.height.equalTo(134)
-            $0.top.equalTo(20)
-            $0.left.equalTo(18)
+            $0.width.equalTo(105)
+            $0.height.equalTo(164)
+            $0.top.equalTo(10)
+            $0.left.equalTo(10)
         }
         
         nameLabel.snp.makeConstraints {
