@@ -7,21 +7,25 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
-// TODO: - 할 일 : ViewModel 생성, RxCollectionView 변환, 앨범 사진 데이터 추가 로직
+// TODO: - 할 일 : ViewModel 생성, 앨범 사진 데이터 추가 로직
 
-final class FilmGallerySelectedViewController: BaseViewController {
+final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewDelegate {
     
     private let collectionView : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsHorizontalScrollIndicator = false
-        
         cv.register(FilmGallerySelectedCollectionViewCell.self, forCellWithReuseIdentifier: FilmGallerySelectedCollectionViewCell.cellID)
         
         return cv
+    }()
+    
+    private let collectionViewFlowLayout : UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        return layout
     }()
     
     private let infoLabel : UILabel = {
@@ -75,6 +79,7 @@ final class FilmGallerySelectedViewController: BaseViewController {
         
         setUpSubViews()
         setInfoView()
+        setUpCollectionViewDataSource()
     }
     
     // MARK: - Methods
@@ -86,25 +91,35 @@ final class FilmGallerySelectedViewController: BaseViewController {
         
         let safe = view.safeAreaLayoutGuide
         
-        collectionView.snp.makeConstraints {
-            $0.top.left.right.equalTo(safe)
-            $0.height.equalTo(450)
+        completeButton.snp.makeConstraints {
+            $0.left.equalTo(safe).offset(45)
+            $0.right.equalTo(safe).offset(-45)
+            $0.height.equalTo(60)
+            $0.bottom.equalTo(safe).offset(-100)
         }
         
         infoLabel.snp.makeConstraints {
             $0.left.right.equalTo(safe)
-            $0.top.equalTo(collectionView.snp.bottom).offset(14)
+            $0.bottom.equalTo(completeButton.snp.top).offset(-45)
         }
         
-        completeButton.snp.makeConstraints {
-            $0.top.equalTo(infoLabel.snp.bottom).offset(50)
-            $0.left.equalTo(safe).offset(45)
-            $0.right.equalTo(safe).offset(-45)
-            $0.height.equalTo(60)
+        collectionView.snp.makeConstraints {
+            $0.top.left.right.equalTo(safe)
+            $0.bottom.equalTo(infoLabel).offset(16)
         }
+    }
+    
+    private func setUpCollectionViewDataSource() {
+        let itemSize = CGSize(width: view.frame.width - 10, height: 400)
+        collectionViewFlowLayout.itemSize = itemSize
+        collectionView.collectionViewLayout = collectionViewFlowLayout
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+
+        Observable.from(optional: photos)
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmGallerySelectedCollectionViewCell.cellID, cellType: FilmGallerySelectedCollectionViewCell.self)) { indexPath, element, cell in
+                cell.bindImageView(photo: element)
+            }.disposed(by: disposeBag)
     }
     
     private func setInfoView() {
@@ -149,20 +164,3 @@ final class FilmGallerySelectedViewController: BaseViewController {
     }
 }
 
-extension FilmGallerySelectedViewController : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilmGallerySelectedCollectionViewCell.cellID, for: indexPath) as! FilmGallerySelectedCollectionViewCell
-        
-        cell.bindImageView(photo: photos[indexPath.item])
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 10, height: 400)
-    }
-}

@@ -84,8 +84,8 @@ struct FilmType : Codable {
     /// 필름 목록에서 보여줄 수 있는 필름 속 이미지 개수
     var maxCountImageView : Int {
         switch code {
-        case 1001, 1003 : return 4
-        case 1002, 1004 : return 3
+        case 1001, 1003 : return 3
+        case 1002, 1004 : return 2
         default         : return 0
         }
     }
