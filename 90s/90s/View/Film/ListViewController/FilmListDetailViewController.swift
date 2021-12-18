@@ -58,7 +58,8 @@ final class FilmListDetailViewController: BaseViewController, UIScrollViewDelega
     private var collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
-        cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
+        cv.register(reusable: FilmListCollectionViewCell.self)
+        
         return cv
     }()
     
@@ -200,8 +201,13 @@ final class FilmListDetailViewController: BaseViewController, UIScrollViewDelega
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         Observable.from(optional: viewModel.photos)
+<<<<<<< HEAD
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
                 cell.bindViewModel(item: element)
+=======
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.reuseIdentifier , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
+                cell.bindViewModel(item: element, isScaleFill: true)
+>>>>>>> 679c510 (Film - FilmMainViewController change register code)
             }.disposed(by: disposeBag)
         
         collectionView.rx.itemSelected

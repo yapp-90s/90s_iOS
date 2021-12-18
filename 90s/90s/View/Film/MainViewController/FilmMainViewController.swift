@@ -21,9 +21,9 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private let collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
+        cv.registerHeader(reusable: FilmMainHeaderCollectionViewCell.self)
+        cv.register(reusable: PinterestCollectionViewCell.self)
         
-        cv.register(FilmMainHeaderCollectionViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID)
-        cv.register(PinterestCollectionViewCell.self, forCellWithReuseIdentifier: PinterestCollectionViewCell.cellID)
         return cv
     }()
     
@@ -66,7 +66,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         })
         
         dataSource.configureSupplementaryView = { dataSource, collectionView, kind, indexPath -> UICollectionReusableView in
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.cellID, for: indexPath) as! FilmMainHeaderCollectionViewCell
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FilmMainHeaderCollectionViewCell.reuseIdentifier, for: indexPath) as! FilmMainHeaderCollectionViewCell
             header.delegate = self
             
             return header

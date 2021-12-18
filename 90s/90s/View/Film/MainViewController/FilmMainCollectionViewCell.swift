@@ -25,8 +25,6 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    static let cellID = "FilmMainCollectionViewCell"
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpSubviews()
@@ -42,7 +40,6 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
         
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(133)
-            $0.width.equalTo(88)
             $0.top.left.right.equalTo(self)
         }
         

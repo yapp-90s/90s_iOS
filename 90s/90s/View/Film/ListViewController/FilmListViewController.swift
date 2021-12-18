@@ -19,11 +19,11 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
         tv.separatorStyle = .none
         
         // 필름 리스트를 보여주는 테이블 셀
-        tv.register(FilmInfoTableViewCell.self, forCellReuseIdentifier: FilmInfoTableViewCell.cellId)
+        tv.register(reusable: FilmInfoTableViewCell.self)
         // 필름 "인화할 시간!" 테이블 셀
-        tv.register(FilmListPrintTableViewCell.self, forCellReuseIdentifier: FilmListPrintTableViewCell.cellID)
+        tv.register(reusable: FilmListPrintTableViewCell.self)
         // 필름 섹션 안내 문구 테이블 셀
-        tv.register(FilmListSectionHeaderCell.self, forHeaderFooterViewReuseIdentifier: FilmListSectionHeaderCell.cellID)
+        tv.registerHeader(reusable: FilmListSectionHeaderCell.self)
         
         return tv
     }()
@@ -107,13 +107,13 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
         
         let dataSource = RxTableViewSectionedReloadDataSource<FilmSectionModel> (configureCell: { dataSource, tableView, indexPath, item in
             if indexPath.section == 0 && self.isTimeToPrintExist {
-                let cell = tableView.dequeueReusableCell(withIdentifier: FilmListPrintTableViewCell.cellID) as! FilmListPrintTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: FilmListPrintTableViewCell.reuseIdentifier) as! FilmListPrintTableViewCell
                 cell.bindViewModel(film: item.returnFilm())
                 cell.selectionStyle = .none
                 return cell
             }
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: FilmInfoTableViewCell.cellId) as! FilmInfoTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: FilmInfoTableViewCell.reuseIdentifier) as! FilmInfoTableViewCell
             let value = self.deleteFilmIndexPath.contains(indexPath) ? true : false
             cell.bindViewModel(film: item.returnFilm(), type: .adding)
             cell.isEditStarted(value: self.isEditingMode)
@@ -198,7 +198,7 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
 
 extension FilmListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.cellID) as? FilmListSectionHeaderCell else { return UIView() }
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.reuseIdentifier) as? FilmListSectionHeaderCell else { return UIView() }
         guard let sectionValue = viewModel.output.filmSectionViewModel.value[section].items.first else { return header }
 
         header.backgroundView = UIView(frame: header.bounds)
