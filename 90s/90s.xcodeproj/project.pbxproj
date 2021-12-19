@@ -11,6 +11,7 @@
 		360F001E2748EEE200DF61C7 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360F001D2748EEE200DF61C7 /* APIError.swift */; };
 		360F00202748F06500DF61C7 /* PhoneAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360F001F2748F06500DF61C7 /* PhoneAuthenticationViewModel.swift */; };
 		36188EF7276DC03F00C87188 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36188EF6276DC03F00C87188 /* ProfileViewModel.swift */; };
+		3623370E276F09AC002BC06D /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3623370D276F09AC002BC06D /* PushManager.swift */; };
 		36529073270823710060BEDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529072270823710060BEDE /* LoginViewController.swift */; };
 		36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */; };
 		36529077270AEA770060BEDE /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529076270AEA770060BEDE /* Reusable.swift */; };
@@ -235,6 +236,7 @@
 		360F001D2748EEE200DF61C7 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		360F001F2748F06500DF61C7 /* PhoneAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthenticationViewModel.swift; sourceTree = "<group>"; };
 		36188EF6276DC03F00C87188 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		3623370D276F09AC002BC06D /* PushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		36529072270823710060BEDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroCollectionViewCell.swift; sourceTree = "<group>"; };
 		36529076270AEA770060BEDE /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
@@ -835,6 +837,7 @@
 				6521BF6725BC1CB800580EB5 /* Box */,
 				6521BF6625BC1CA200580EB5 /* Album */,
 				9BAFB2B4269813EC001FE934 /* Profile */,
+				3623370D276F09AC002BC06D /* PushManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1644,6 +1647,7 @@
 				4C357ADB25E0EC2500B23E84 /* StickerPackViewController.swift in Sources */,
 				659E3BAC2621743600051864 /* AlbumTemplatePreviewViewController.swift in Sources */,
 				659E3BB626219B2D00051864 /* AlbumCreateViewModel.swift in Sources */,
+				3623370E276F09AC002BC06D /* PushManager.swift in Sources */,
 				9BD618CC27395D490025F1FB /* FilmGallerySelectedViewController.swift in Sources */,
 				65739EA9263F0A3D009AA160 /* TemplateViewModel.swift in Sources */,
 				65F73D892721D133001313B5 /* PortraWhiteImageView.swift in Sources */,
