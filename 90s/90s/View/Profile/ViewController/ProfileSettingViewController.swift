@@ -17,7 +17,7 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         tv.separatorStyle = .none
         tv.rowHeight = 70
         
-        tv.register(ProfileSettingTableViewCell.self, forCellReuseIdentifier: ProfileSettingTableViewCell.cellID)
+        tv.register(reusable: ProfileSettingTableViewCell.self)
         return tv
     }()
     
@@ -149,7 +149,7 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.cellID, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
+        Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.reuseIdentifier, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
             switch element {
             case .eventAlarm:
                 cell.bindViewModel(title: element.description, hasSwitch: true)

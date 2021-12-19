@@ -29,8 +29,6 @@ class ProfileSettingTableViewCell: UITableViewCell {
         return view
     }()
     
-    static let cellID = "ProfileSettingTableViewCell"
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubviews()
