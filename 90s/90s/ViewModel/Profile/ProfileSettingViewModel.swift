@@ -17,9 +17,14 @@ final class ProfileSettingViewModel: ViewModelType {
     private(set) var disposeBag = DisposeBag()
     
     private var isReceivingEventStream: BehaviorSubject<Bool>
+    private var loggedOutPublisher = PublishSubject<Void>()
     
     private var pushManager: PushManager {
         return self.dependency.pushManager
+    }
+    
+    private var userManager: UserManager {
+        return self.dependency.userManager
     }
     
     private var profileService: ProfileService {
@@ -29,13 +34,23 @@ final class ProfileSettingViewModel: ViewModelType {
     required init(dependency: Dependency) {
         self.dependency = dependency
         self.isReceivingEventStream = BehaviorSubject<Bool>(value: self.dependency.pushManager.isReceivingEvent)
-        self.output = Output(isReceivingEvent: self.isReceivingEventStream)
+        self.output = Output(
+            isReceivingEvent: self.isReceivingEventStream,
+            loggedOut: self.loggedOutPublisher
+        )
         
         self.input.toggleReceivingEvent
             .subscribe(onNext: { [weak self] isOn in
                 if self?.pushManager.isReceivingEvent != isOn {
                     self?.updateReceivingEvent(isOn: isOn)
                 }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.input.logout
+            .subscribe(onNext: { [weak self] in
+                self?.userManager.deleteToken()
+                self?.loggedOutPublisher.onNext(())
             })
             .disposed(by: self.disposeBag)
     }
@@ -55,14 +70,17 @@ extension ProfileSettingViewModel {
     
     struct Dependency {
         let pushManager: PushManager = .shared
+        let userManager: UserManager = .shared
         let profileService: ProfileService
     }
     
     struct Input {
         var toggleReceivingEvent = PublishSubject<Bool>()
+        var logout = PublishSubject<Void>()
     }
     
     struct Output {
         var isReceivingEvent: Observable<Bool>
+        var loggedOut: Observable<Void>
     }
 }
