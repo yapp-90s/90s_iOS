@@ -177,16 +177,22 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     }
     
     private func setUpButtonEvent() {
-        signoutButton.rx.tap.bind {
-            self.leaveView.isHidden = false
-        }.disposed(by: disposeBag)
+        signoutButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.leaveView.isHidden = false
+            })
+            .disposed(by: disposeBag)
         
-        notLeaveButton.rx.tap.bind {
-            self.leaveView.isHidden = true
-        }.disposed(by: disposeBag)
+        notLeaveButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.leaveView.isHidden = true
+            })
+            .disposed(by: disposeBag)
         
-        leaveButton.rx.tap.bind {
-            self.navigationController?.present(ProfileLeaveViewController(), animated: true)
-        }.disposed(by: disposeBag)
+        leaveButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.navigationController?.present(ProfileLeaveViewController(), animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 }
