@@ -18,6 +18,10 @@ class UserManager {
         try? KeychainItem(service: self.serviceIdentifier, account: "token").saveItem(token)
     }
     
+    public func deleteToken() {
+        try? KeychainItem(service: self.serviceIdentifier, account: "token").deleteItem()
+    }
+    
     public func saveUserEmail(_ email: String) {
         try? KeychainItem(service: self.serviceIdentifier, account: "email").saveItem(email)
     }
