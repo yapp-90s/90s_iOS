@@ -100,31 +100,31 @@ final class ProfileLeaveViewController: BaseViewController, UIScrollViewDelegate
         }.disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .subscribe(onNext: { indexPath in
-                let cell = self.tableView.cellForRow(at: indexPath) as! ProfileLeaveTableViewCell
-                cell.changeImageView(isClicked: true)
+            .subscribe(onNext: { [weak self] indexPath in
+                let cell = self?.tableView.cellForRow(at: indexPath) as? ProfileLeaveTableViewCell
+                cell?.changeImageView(isClicked: true)
                 
-                self.leaveButton.backgroundColor = .retroOrange
-                self.leaveButton.isEnabled = true
+                self?.leaveButton.backgroundColor = .retroOrange
+                self?.leaveButton.isEnabled = true
             }).disposed(by: disposeBag)
         
         tableView.rx.itemDeselected
-            .subscribe(onNext: { indexPath in
-                let cell = self.tableView.cellForRow(at: indexPath) as! ProfileLeaveTableViewCell
-                cell.changeImageView(isClicked: false)
+            .subscribe(onNext: { [weak self] indexPath in
+                let cell = self?.tableView.cellForRow(at: indexPath) as? ProfileLeaveTableViewCell
+                cell?.changeImageView(isClicked: false)
                 
-                self.leaveButton.backgroundColor = .Cool_Gray
-                self.leaveButton.isEnabled = false
+                self?.leaveButton.backgroundColor = .Cool_Gray
+                self?.leaveButton.isEnabled = false
             }).disposed(by: disposeBag)
     }
     
     private func setUpButtonEvent() {
-        closeButton.rx.tap.bind {
-            self.dismiss(animated: true)
+        closeButton.rx.tap.bind { [weak self] in
+            self?.dismiss(animated: true)
         }.disposed(by: disposeBag)
         
-        leaveButton.rx.tap.bind {
-            self.dismiss(animated: true)
+        leaveButton.rx.tap.bind { [weak self] in
+            self?.dismiss(animated: true)
         }.disposed(by: disposeBag)
     }
 }
