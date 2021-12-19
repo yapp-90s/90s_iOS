@@ -9,7 +9,7 @@ import Foundation
 
 public class PushManager {
     
-    public let shared: PushManager = PushManager()
+    public static let shared: PushManager = PushManager()
     private init() { }
     
     private struct Key {
@@ -20,8 +20,7 @@ public class PushManager {
         return UserDefaults.standard.bool(forKey: Key.isReceivingEvent)
     }
     
-    func toggleReceivingEvent() {
-        let receivingEvent = UserDefaults.standard.bool(forKey: Key.isReceivingEvent)
-        UserDefaults.standard.set(!receivingEvent, forKey: Key.isReceivingEvent)
+    func updateReceivingEvent(isOn: Bool) {
+        UserDefaults.standard.set(isOn, forKey: Key.isReceivingEvent)
     }
 }

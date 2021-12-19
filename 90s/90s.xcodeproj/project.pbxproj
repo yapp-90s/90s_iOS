@@ -11,6 +11,7 @@
 		360F001E2748EEE200DF61C7 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360F001D2748EEE200DF61C7 /* APIError.swift */; };
 		360F00202748F06500DF61C7 /* PhoneAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360F001F2748F06500DF61C7 /* PhoneAuthenticationViewModel.swift */; };
 		36188EF7276DC03F00C87188 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36188EF6276DC03F00C87188 /* ProfileViewModel.swift */; };
+		3623370C276F0834002BC06D /* ProfileSettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3623370B276F0834002BC06D /* ProfileSettingViewModel.swift */; };
 		3623370E276F09AC002BC06D /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3623370D276F09AC002BC06D /* PushManager.swift */; };
 		36529073270823710060BEDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529072270823710060BEDE /* LoginViewController.swift */; };
 		36529075270AEA080060BEDE /* IntroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */; };
@@ -236,6 +237,7 @@
 		360F001D2748EEE200DF61C7 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		360F001F2748F06500DF61C7 /* PhoneAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthenticationViewModel.swift; sourceTree = "<group>"; };
 		36188EF6276DC03F00C87188 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		3623370B276F0834002BC06D /* ProfileSettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewModel.swift; sourceTree = "<group>"; };
 		3623370D276F09AC002BC06D /* PushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		36529072270823710060BEDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		36529074270AEA080060BEDE /* IntroCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 			isa = PBXGroup;
 			children = (
 				36188EF6276DC03F00C87188 /* ProfileViewModel.swift */,
+				3623370B276F0834002BC06D /* ProfileSettingViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1624,6 +1627,7 @@
 				9BAFD44326A55A6B00561E34 /* FilmViewModel.swift in Sources */,
 				657ED69A2630A33E008823BC /* CoverCollectionViewCell.swift in Sources */,
 				65962603262C319000277B80 /* TemplateService.swift in Sources */,
+				3623370C276F0834002BC06D /* ProfileSettingViewModel.swift in Sources */,
 				65F73D822721D133001313B5 /* GrassImageView.swift in Sources */,
 				9B8CB357269C2F4900549035 /* ProfileLeaveViewController.swift in Sources */,
 				4CE649F625E0DEC80093D238 /* AddAlbumViewController.swift in Sources */,
