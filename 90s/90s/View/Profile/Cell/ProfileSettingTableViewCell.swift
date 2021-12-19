@@ -7,6 +7,24 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+
+final class ProfileSettingTableViewCellViewModel {
+    
+    var title: String
+    var switchObservable: Observable<Bool>?
+    var toggleSwitchPublisher: PublishSubject<Bool>?
+    
+    init(
+        title: String,
+        switchObservable: Observable<Bool>? = nil,
+        toggleSwitchPublisher: PublishSubject<Bool>? = nil
+    ) {
+        self.title = title
+        self.switchObservable = switchObservable
+        self.toggleSwitchPublisher = toggleSwitchPublisher
+    }
+}
 
 class ProfileSettingTableViewCell: UITableViewCell {
     
@@ -28,6 +46,8 @@ class ProfileSettingTableViewCell: UITableViewCell {
         view.backgroundColor = .black
         return view
     }()
+    
+    var disposeBag = DisposeBag()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -57,8 +77,22 @@ class ProfileSettingTableViewCell: UITableViewCell {
         self.accessoryView = switchButton
     }
     
-    func bindViewModel(title: String, hasSwitch: Bool = true) {
-        titleLabel.text = title
-        switchButton.isHidden = !hasSwitch
+    func bind(viewModel: ProfileSettingTableViewCellViewModel) {
+        titleLabel.text = viewModel.title
+        switchButton.isHidden = viewModel.switchObservable == nil
+        
+        viewModel.switchObservable?
+            .bind(to: switchButton.rx.isOn)
+            .disposed(by: disposeBag)
+        
+        switchButton.rx
+            .isOn.changed
+            .debounce(.milliseconds(800), scheduler: MainScheduler.instance)
+            .distinctUntilChanged().asObservable()
+            .subscribe(onNext: { isOn in
+                guard let togglePublisher = viewModel.toggleSwitchPublisher else { return }
+                togglePublisher.onNext(isOn)
+            })
+            .disposed(by: disposeBag)
     }
 }
