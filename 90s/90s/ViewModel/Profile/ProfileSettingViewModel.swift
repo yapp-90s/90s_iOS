@@ -22,6 +22,10 @@ final class ProfileSettingViewModel: ViewModelType {
         return self.dependency.pushManager
     }
     
+    private var profileService: ProfileService {
+        return self.dependency.profileService
+    }
+    
     required init(dependency: Dependency) {
         self.dependency = dependency
         self.isReceivingEventStream = BehaviorSubject<Bool>(value: self.dependency.pushManager.isReceivingEvent)
@@ -30,8 +34,18 @@ final class ProfileSettingViewModel: ViewModelType {
         self.input.toggleReceivingEvent
             .subscribe(onNext: { [weak self] isOn in
                 if self?.pushManager.isReceivingEvent != isOn {
-                    self?.pushManager.updateReceivingEvent(isOn: isOn)
+                    self?.updateReceivingEvent(isOn: isOn)
                 }
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    func updateReceivingEvent(isOn: Bool) {
+        self.profileService.updateReceivingEvent(isOn: isOn)
+            .subscribe(onSuccess: { [weak self] response in
+                self?.pushManager.updateReceivingEvent(isOn: isOn)
+            }, onFailure: { error in
+                // TODO: handle update receiving event fail
             })
             .disposed(by: self.disposeBag)
     }
@@ -40,7 +54,8 @@ final class ProfileSettingViewModel: ViewModelType {
 extension ProfileSettingViewModel {
     
     struct Dependency {
-        let pushManager: PushManager
+        let pushManager: PushManager = .shared
+        let profileService: ProfileService
     }
     
     struct Input {

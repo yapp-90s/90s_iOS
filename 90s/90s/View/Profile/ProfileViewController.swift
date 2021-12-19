@@ -303,7 +303,7 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         tableView.rx.modelSelected(SettingList.self).subscribe(onNext: { item in
             switch item {
             case .setting :
-                let profileSettingViewModel = ProfileSettingViewModel(dependency: .init(pushManager: .shared))
+                let profileSettingViewModel = ProfileSettingViewModel(dependency: .init(profileService: ProfileService()))
                 self.navigationController?.pushViewController(ProfileSettingViewController(viewModel: profileSettingViewModel), animated: true)
             case .faq:
                 self.navigationController?.pushViewController(ProfileFAQViewController(), animated: true)
