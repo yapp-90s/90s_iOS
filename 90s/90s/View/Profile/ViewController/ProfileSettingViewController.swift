@@ -89,10 +89,12 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     }
     
     let viewModel: ProfileSettingViewModel
+    weak var appRootDelegate: AppRootDelegate?
     
     init(viewModel: ProfileSettingViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.appRootDelegate = UIApplication.shared.connectedScenes.first?.delegate as? AppRootDelegate
     }
     
     required init?(coder: NSCoder) {
@@ -102,8 +104,7 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubviews()
-        setUpTableView()
-        setUpButtonEvent()
+        bind()
     }
  
     private func setUpSubviews() {
@@ -158,7 +159,7 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         }
     }
     
-    private func setUpTableView() {
+    private func bind() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
         Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.reuseIdentifier, cellType: ProfileSettingTableViewCell.self)) { [weak self] index, element, cell in
@@ -174,9 +175,20 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
             }
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
-    }
-    
-    private func setUpButtonEvent() {
+        
+        viewModel.output.loggedOut
+            .subscribe(onNext: { [weak self] _ in
+                self?.appRootDelegate?.switchToLogin()
+            })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(SettingList.self)
+            .filter { $0 == .logout }
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.input.logout.onNext(())
+            })
+            .disposed(by: disposeBag)
+        
         signoutButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.leaveView.isHidden = false

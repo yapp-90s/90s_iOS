@@ -11,6 +11,7 @@ import KakaoSDKAuth
 
 protocol AppRootDelegate: AnyObject {
     func switchToMain()
+    func switchToLogin()
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppRootDelegate {
@@ -38,6 +39,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppRootDelegate {
     
     func switchToMain() {
         self.window?.rootViewController = MainTabBarController()
+        self.window?.rootViewController?.view.alpha = 0
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) {
+            self.window?.rootViewController?.view.alpha = 1
+        }
+    }
+    
+    func switchToLogin() {
+        self.window?.rootViewController = LoginViewController(viewModel: .init(dependency: .init()))
         self.window?.rootViewController?.view.alpha = 0
         UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) {
             self.window?.rootViewController?.view.alpha = 1
