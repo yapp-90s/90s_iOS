@@ -17,7 +17,7 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         tv.separatorStyle = .none
         tv.rowHeight = 70
         
-        tv.register(ProfileSettingTableViewCell.self, forCellReuseIdentifier: ProfileSettingTableViewCell.cellID)
+        tv.register(reusable: ProfileSettingTableViewCell.self)
         return tv
     }()
     
@@ -73,11 +73,19 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
         return button
     }()
     
-    private var items = Observable.just([
-        ("마케팅 이벤트 알림", true),
-        ("인화 알림", false),
-        ("로그아웃", false)
-    ])
+    // MARK: - Properties
+    
+    enum SettingList: CaseIterable, CustomStringConvertible {
+        case eventAlarm
+        case logout
+        
+        var description: String {
+            switch self {
+            case .eventAlarm: return "마케팅 이벤트 알림"
+            case .logout: return "로그아웃"
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,16 +149,12 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        items.bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.cellID, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
-            cell.bindViewModel(name: element.0)
-            
-            if element.0 != "로그아웃" {
-                let switchView = UISwitch()
-                switchView.isOn = element.1
-                switchView.onTintColor = .retroOrange
-                cell.accessoryView = switchView
-                
-                // 온/오프 변경 되었을 때 저장 안됨
+        Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.reuseIdentifier, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
+            switch element {
+            case .eventAlarm:
+                cell.bindViewModel(title: element.description, hasSwitch: true)
+            case .logout:
+                cell.bindViewModel(title: element.description, hasSwitch: false)
             }
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)

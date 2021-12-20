@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class ProfileMainTableViewCell: UITableViewCell {
+    
     private let titleLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Profile_Menu_Text
@@ -36,9 +37,6 @@ class ProfileMainTableViewCell: UITableViewCell {
         return view
     }()
     
-    static let cellID = "ProfileMainTableViewCell"
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubviews()
@@ -48,7 +46,7 @@ class ProfileMainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUpSubviews(){
+    private func setUpSubviews() {
         addSubview(titleLabel)
         addSubview(pointView)
         addSubview(nextImageView)
@@ -80,8 +78,8 @@ class ProfileMainTableViewCell: UITableViewCell {
         }
     }
     
-    func bindViewModel(element: (String, Bool)) {
-        titleLabel.text = element.0
-        pointView.isHidden = !element.1
+    func configure(title: String, isUpdated: Bool = false) {
+        titleLabel.text = title
+        pointView.isHidden = !isUpdated
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 
 class ProfileSettingTableViewCell: UITableViewCell {
+    
     private let titleLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Profile_Menu_Text
@@ -16,19 +17,18 @@ class ProfileSettingTableViewCell: UITableViewCell {
         return label
     }()
     
-//    private var switchButton : UISwitch = {
-//        let sbutton = UISwitch(frame: .zero)
-//        return sbutton
-//    }()
-//
+    private var switchButton: UISwitch = {
+        let switchButton = UISwitch(frame: .zero)
+        switchButton.onTintColor = .retroOrange
+        return switchButton
+    }()
+
     private let spacingView : UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = .black
         return view
     }()
     
-    static let cellID = "ProfileSettingTableViewCell"
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setUpSubviews()
@@ -53,9 +53,12 @@ class ProfileSettingTableViewCell: UITableViewCell {
             $0.height.equalTo(4)
             $0.left.right.bottom.equalToSuperview()
         }
+        
+        self.accessoryView = switchButton
     }
     
-    func bindViewModel(name: String) {
-        titleLabel.text = name
+    func bindViewModel(title: String, hasSwitch: Bool = true) {
+        titleLabel.text = title
+        switchButton.isHidden = !hasSwitch
     }
 }

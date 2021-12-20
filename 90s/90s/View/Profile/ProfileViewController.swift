@@ -119,7 +119,7 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         tv.rowHeight = 65
         tv.isScrollEnabled = false
         
-        tv.register(ProfileMainTableViewCell.self, forCellReuseIdentifier: ProfileMainTableViewCell.cellID)
+        tv.register(reusable: ProfileMainTableViewCell.self)
         return tv
     }()
     
@@ -131,11 +131,21 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
         return btn
     }()
     
-    private let items = Observable.just([
-        ("설정", true),
-        ("자주 묻는 질문", false),
-        ("약관 · 개인정보 처리방침", false)
-    ])
+    // MARK: - Properties
+    
+    enum SettingList: CaseIterable, CustomStringConvertible {
+        case setting
+        case faq
+        case privacyPolicyTerms
+        
+        var description: String {
+            switch self {
+            case .setting: return "설정"
+            case .faq: return "자주 묻는 질문"
+            case .privacyPolicyTerms: return "약관 · 개인정보 처리방침"
+            }
+        }
+    }
     
     let viewModel: ProfileViewModel
     
@@ -285,23 +295,20 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        items.bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.cellID, cellType: ProfileMainTableViewCell.self)) { index, element, cell in
-            cell.bindViewModel(element: element)
+        Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.reuseIdentifier, cellType: ProfileMainTableViewCell.self)) { index, settingList, cell in
+            cell.configure(title: settingList.description)
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
         
-        tableView.rx.modelSelected((String, Bool).self).subscribe(onNext: { item in
-            switch item.0 {
-            case "설정" :
+        tableView.rx.modelSelected(SettingList.self).subscribe(onNext: { item in
+            switch item {
+            case .setting :
                 self.navigationController?.pushViewController(ProfileSettingViewController(), animated: true)
-            case "자주 묻는 질문":
+            case .faq:
                 self.navigationController?.pushViewController(ProfileFAQViewController(), animated: true)
-            case "약관 개인정보 처리방침":
+            case .privacyPolicyTerms:
                 self.navigationController?.pushViewController(ProfileTermsViewController(), animated: true)
-            default:
-                print("none")
             }
-            
         }).disposed(by: disposeBag)
     }
     
@@ -312,7 +319,6 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     private func bind() {
-        
         // output
         self.viewModel.output.albumCount
             .map { "\($0)개" }

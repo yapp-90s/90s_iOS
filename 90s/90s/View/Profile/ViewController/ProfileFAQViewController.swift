@@ -16,7 +16,7 @@ final class ProfileFAQViewController: BaseViewController, UIScrollViewDelegate {
         tv.rowHeight = 65
         tv.showsVerticalScrollIndicator = false
         
-        tv.register(ProfileMainTableViewCell.self, forCellReuseIdentifier: ProfileMainTableViewCell.cellID)
+        tv.register(reusable: ProfileMainTableViewCell.self)
         return tv
     }()
     
@@ -46,9 +46,9 @@ final class ProfileFAQViewController: BaseViewController, UIScrollViewDelegate {
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        items.bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.cellID, cellType: ProfileMainTableViewCell.self
+        items.bind(to: tableView.rx.items(cellIdentifier: ProfileMainTableViewCell.reuseIdentifier, cellType: ProfileMainTableViewCell.self
         )) { index, element, cell in
-            cell.bindViewModel(element: (element, false))
+            cell.configure(title: element)
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)
     }
