@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 
 final class ProfileSettingViewController: BaseViewController, UIScrollViewDelegate {
+    
     private var tableView : UITableView = {
         let tv = UITableView(frame: .zero)
         tv.isScrollEnabled = false
@@ -86,6 +87,17 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
             }
         }
     }
+    
+    let viewModel: ProfileSettingViewModel
+    
+    init(viewModel: ProfileSettingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("Could not use coder")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,12 +161,16 @@ final class ProfileSettingViewController: BaseViewController, UIScrollViewDelega
     private func setUpTableView() {
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.reuseIdentifier, cellType: ProfileSettingTableViewCell.self)) { index, element, cell in
+        Observable.just(SettingList.allCases).bind(to: tableView.rx.items(cellIdentifier: ProfileSettingTableViewCell.reuseIdentifier, cellType: ProfileSettingTableViewCell.self)) { [weak self] index, element, cell in
             switch element {
             case .eventAlarm:
-                cell.bindViewModel(title: element.description, hasSwitch: true)
+                cell.bind(
+                    viewModel: .init(title: element.description,
+                                     switchObservable: self?.viewModel.output.isReceivingEvent,
+                                     toggleSwitchPublisher: self?.viewModel.input.toggleReceivingEvent)
+                )
             case .logout:
-                cell.bindViewModel(title: element.description, hasSwitch: false)
+                cell.bind(viewModel: .init(title: element.description))
             }
             cell.selectionStyle = .none
         }.disposed(by: disposeBag)

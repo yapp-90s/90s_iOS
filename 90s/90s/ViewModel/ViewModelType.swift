@@ -8,6 +8,7 @@
 import RxSwift
 
 protocol ViewModelType {
+    
     associatedtype Dependency
     associatedtype Input
     associatedtype Output
