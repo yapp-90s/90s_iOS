@@ -196,7 +196,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         
         Observable.from(optional: viewModel.photos)
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
-                cell.bindViewModel(item: element, isScaleFill: true)
+                cell.bindViewModel(item: element)
                 
             }.disposed(by: disposeBag)
         
