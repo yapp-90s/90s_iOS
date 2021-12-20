@@ -91,24 +91,28 @@ final class ProfileEditViewController: BaseViewController {
     private func setUpTextField() {
         nameTextField.rx.controlEvent([.editingChanged])
             .asObservable()
-            .subscribe(onNext: { _ in
-                guard let text = self.nameTextField.text else { return }
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self,
+                      let trimmedText = self.nameTextField.text?.trimmingCharacters(in: .whitespaces)
+                else {
+                    return
+                }
                 
-                if !text.trimmingCharacters(in: .whitespaces).isEmpty {
-                    self.name = text
-                    self.editButton.backgroundColor = .retroOrange
-                    self.editButton.isEnabled = true
-                } else {
+                if trimmedText.isEmpty {
                     self.editButton.backgroundColor = .warmGray
                     self.editButton.isEnabled = false
+                } else {
+                    self.name = trimmedText
+                    self.editButton.backgroundColor = .retroOrange
+                    self.editButton.isEnabled = true
                 }
             }).disposed(by: disposeBag)
     }
     
     private func setUpEditButton() {
-        editButton.rx.tap.bind {
+        editButton.rx.tap.bind { [weak self] in
             /// 이름 변경 네트워킹 코드 삽입
-            self.navigationController?.popViewController(animated: true)
+            self?.navigationController?.popViewController(animated: true)
         }.disposed(by: disposeBag)
     }
 }
