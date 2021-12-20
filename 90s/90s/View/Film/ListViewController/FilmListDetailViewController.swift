@@ -11,7 +11,7 @@ import SnapKit
 import RxSwift
 
 /// 필름 정보와 사진을 보여주는 VC
-final class FilmListDetailViewController: BaseViewController, UINavigationControllerDelegate, PHPickerViewControllerDelegate, UIScrollViewDelegate {
+final class FilmListDetailViewController: BaseViewController, UIScrollViewDelegate {
     private let filmImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.image = UIImage(named: "film_default")
@@ -47,12 +47,16 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         label.text = "장"
         return label
     }()
- 
-    private var collectionView : UICollectionView = {
+    
+    private var collectionViewFlowLayout : UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return layout
+    }()
+ 
+    private var collectionView : UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
         cv.register(FilmListCollectionViewCell.self, forCellWithReuseIdentifier: FilmListCollectionViewCell.cellId)
         return cv
@@ -109,6 +113,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         super.viewDidLoad()
         setUpSubViews()
         setUpCollectionViewDataSource()
+        setUpCollectionViewFlowLayout()
     }
     
     // MARK: - Methods
@@ -197,9 +202,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         Observable.from(optional: viewModel.photos)
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
                 cell.bindViewModel(item: element)
-                
             }.disposed(by: disposeBag)
-        
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
@@ -209,7 +212,12 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
                     checkSelf.setPhPicker(photoMax: film.filmType.max, photoFill: film.count)
                 }
             }).disposed(by: disposeBag)
-        
+    }
+    
+    private func setUpCollectionViewFlowLayout() {
+        let cellSize = (view.frame.width - 36) / 2 - 5
+        collectionViewFlowLayout.itemSize = CGSize(width: cellSize, height: cellSize)
+        collectionView.collectionViewLayout = collectionViewFlowLayout
     }
 
     private func setPhPicker(photoMax maxCount : Int, photoFill fillCount : Int) {
@@ -288,14 +296,6 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         }
         
         collectionView.reloadData()
-    }
-}
-
-
-extension FilmListDetailViewController : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let ratio = collectionView.frame.width / 2 - 5
-        return CGSize(width: ratio, height: ratio)
     }
 }
 

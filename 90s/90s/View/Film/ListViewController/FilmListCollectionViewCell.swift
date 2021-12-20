@@ -36,10 +36,7 @@ final class FilmListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func bindViewModel(item: Photo, isScaleFill: Bool){
-        if isScaleFill {
-//            imageView.contentMode = .scaleToFill
-        }
+    func bindViewModel(item: Photo){
         DispatchQueue.main.async { [weak self] in
             self?.imageView.image = UIImage(named: item.url)
         }
