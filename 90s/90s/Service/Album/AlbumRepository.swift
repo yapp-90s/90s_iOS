@@ -101,8 +101,8 @@ final class AlbumRepository {
             .disposed(by: disposeBag)
         
         create
-            .map(client.create(_:))
-            .filter { $0 }
+            .flatMap(client.create(_:))
+            .filter { $0 != nil }
             .map { _ in () }
             .bind(to: requestAll)
             .disposed(by: disposeBag)
