@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 class AlbumPreviewCollectionViewCell: UICollectionViewCell {
     
@@ -114,6 +115,31 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
         
         viewModel.date
             .bind(to: dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.photos
+            .bind { photos in
+                if let photos = photos {
+                    DispatchQueue.main.async {
+                        var count = 0
+                        self.imageStackView.subviews.forEach { subView in
+                            self.imageStackView.removeArrangedSubview(subView)
+                            subView.removeFromSuperview()
+                        }
+                        for photo in photos {
+                            count += 1
+                            let imageView = UIImageView()
+                            imageView.clipsToBounds = true
+                            imageView.contentMode = .scaleAspectFill
+                            imageView.kf.setImage(with: URL(string: photo.url))
+                            self.imageStackView.addArrangedSubview(imageView)
+                            if count >= 5 {
+                                break
+                            }
+                        }
+                    }
+                }
+            }
             .disposed(by: disposeBag)
     }
 }
