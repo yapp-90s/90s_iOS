@@ -11,7 +11,7 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
-final class AlbumListViewController: UIViewController {
+final class AlbumListViewController: BaseViewController {
     
     private let albumHeightScale: CGFloat = 1.172839
     
@@ -44,6 +44,7 @@ final class AlbumListViewController: UIViewController {
     private lazy var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("편집", for: .normal)
+        button.setTitle("완료", for: .selected)
         button.setTitleColor(.white, for: .normal)
 //        button.titleLabel?.font = .
         topBar.addSubview(button)
@@ -79,7 +80,7 @@ final class AlbumListViewController: UIViewController {
     
     // MARK: - Property
     private let viewModel: AlbumListViewModel
-    private let disposeBag = DisposeBag()
+//    private let disposeBag = DisposeBag()
     
     init(viewModel: AlbumListViewModel) {
         self.viewModel = viewModel
@@ -159,6 +160,10 @@ final class AlbumListViewController: UIViewController {
         
         viewModel.output.isEdit
             .bind(to: collectionView.rx.allowsSelection)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isEdit
+            .bind(to: editButton.rx.isSelected)
             .disposed(by: disposeBag)
     }
     

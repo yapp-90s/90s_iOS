@@ -13,7 +13,7 @@ import RxDataSources
 
 let layoutScale = UIScreen.main.bounds.width / 375
 
-class AlbumsViewController: UIViewController {
+class AlbumsViewController: BaseViewController {
     
     // MARK: - UI Component
     private lazy var collectionViewLayout: UICollectionViewLayout = {
@@ -42,7 +42,6 @@ class AlbumsViewController: UIViewController {
     
     // MARK: - Property
     private let viewModel: AlbumsViewModel
-    private let disposeBag = DisposeBag()
     lazy var sections: [AlbumSection] = [
         AlbumCreateSection(),
         AlbumBannerSection(),
@@ -52,6 +51,7 @@ class AlbumsViewController: UIViewController {
         AlbumPreviewSection()
     ]
     
+    // MARK: - Init
     init(viewModel: AlbumsViewModel) {
         self.viewModel = viewModel
         
@@ -62,7 +62,6 @@ class AlbumsViewController: UIViewController {
         bindAction()
     }
     
-    // MARK: - Init
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -73,6 +72,16 @@ class AlbumsViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.left.right.equalToSuperview()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func bindState() {
