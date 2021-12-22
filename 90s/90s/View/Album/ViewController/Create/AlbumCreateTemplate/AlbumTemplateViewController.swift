@@ -25,7 +25,7 @@ final class AlbumTemplateViewController: UIViewController {
         let label = UILabel()
         topBar.addSubview(label)
         label.text = "앨범 만들기(3/3)"
-        label.font = .Sub_Head
+        label.font = .subHead
         return label
     }()
 
@@ -46,7 +46,7 @@ final class AlbumTemplateViewController: UIViewController {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.font = .Sub_Head
+        label.font = .subHead
         label.text = "이 앨범은 어떤 앨범인가요?\n이름을 정해주세요:)"
         self.view.addSubview(label)
         return label
@@ -60,12 +60,12 @@ final class AlbumTemplateViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let cellWidth = (SCREEN_WIDTH - 47) / 2
-        let cellHeight = cellWidth * 1.664634 + 30
+        let cellWidth = (SCREEN_WIDTH - 47 * layoutScale) / 2
+        let cellHeight = cellWidth * 1.664634 + 31 * layoutScale
         layout.itemSize = .init(width: cellWidth, height: cellHeight)
-        layout.sectionInset = .init(top: 24, left: 18, bottom: 24, right: 18)
-        layout.minimumLineSpacing = 18
-        layout.minimumInteritemSpacing = 11
+        layout.sectionInset = .init(top: 24 * layoutScale, left: 18 * layoutScale, bottom: 24 * layoutScale, right: 18 * layoutScale)
+        layout.minimumLineSpacing = 18 * layoutScale
+        layout.minimumInteritemSpacing = 11 * layoutScale
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TemplateCollectionViewCell.self, forCellWithReuseIdentifier: TemplateCollectionViewCell.identifier)
         collectionView.showsVerticalScrollIndicator = false
@@ -116,14 +116,15 @@ final class AlbumTemplateViewController: UIViewController {
         }
         
         descriptionLabel.snp.makeConstraints {
+            $0.height.equalTo(46 * layoutScale)
             $0.top.equalTo(topBar.snp.bottom).offset(29 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
         }
         
         coverImageView.snp.makeConstraints {
-            $0.width.height.equalTo(44 * layoutScale)
-            $0.top.equalTo(topBar.snp.bottom).offset(30 * layoutScale)
-            $0.right.equalToSuperview().offset(-17 * layoutScale)
+            $0.width.height.equalTo(52 * layoutScale)
+            $0.top.equalTo(topBar.snp.bottom).offset(26 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
             $0.left.equalTo(descriptionLabel.snp.right).offset(18 * layoutScale)
         }
         

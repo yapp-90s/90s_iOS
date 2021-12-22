@@ -108,12 +108,12 @@ final class AlbumListViewController: UIViewController {
             $0.leading.equalToSuperview().offset(9)
             $0.centerY.equalToSuperview()
         }
-        
+
         titleLabel.snp.makeConstraints {
             $0.height.equalTo(24)
             $0.center.equalToSuperview()
         }
-        
+
         editButton.snp.makeConstraints {
             $0.width.height.equalTo(34)
             $0.trailing.equalToSuperview().offset(-9)
@@ -166,7 +166,7 @@ final class AlbumListViewController: UIViewController {
         backButton.rx.tap
             .bind(to: viewModel.input.back)
             .disposed(by: disposeBag)
-        
+
         editButton.rx.tap
             .bind(to: viewModel.input.edit)
             .disposed(by: disposeBag)

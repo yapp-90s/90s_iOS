@@ -41,11 +41,14 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    lazy var imageCollectionView: UICollectionView = {
-        let collectionView = UICollectionView()
-        collectionView.backgroundColor = .blue
-        self.addSubview(collectionView)
-        return collectionView
+    lazy var imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.backgroundColor = .blue
+        stackView.axis = .horizontal
+        stackView.spacing = 6 * layoutScale
+        stackView.distribution = .fillEqually
+        self.addSubview(stackView)
+        return stackView
     }()
     
     // MARK: - Init
@@ -67,37 +70,37 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         coverImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
-            $0.left.equalToSuperview().offset(8)
-            $0.width.height.equalTo(52)
+            $0.top.equalToSuperview().offset(10 * layoutScale)
+            $0.left.equalToSuperview()
+            $0.width.height.equalTo(52 * layoutScale)
         }
         
         dateLabel.snp.makeConstraints {
-            $0.height.equalTo(14)
-            $0.left.equalTo(coverImageView.snp.right).offset(12)
-            $0.top.equalToSuperview().offset(18)
+            $0.height.equalTo(14 * layoutScale)
+            $0.left.equalTo(coverImageView.snp.right).offset(12 * layoutScale)
+            $0.top.equalToSuperview().offset(18 * layoutScale)
         }
         
         nameLabel.snp.makeConstraints {
-            $0.height.equalTo(18)
-            $0.left.equalTo(coverImageView.snp.right).offset(12)
-            $0.top.equalTo(dateLabel.snp.bottom).offset(4)
+            $0.height.equalTo(18 * layoutScale)
+            $0.left.equalTo(coverImageView.snp.right).offset(12 * layoutScale)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(4 * layoutScale)
         }
         
         button.snp.makeConstraints {
-            $0.width.height.equalTo(37)
-            $0.top.equalToSuperview().offset(17)
-            $0.right.equalToSuperview().offset(-18)
-            $0.left.equalTo(dateLabel.snp.right).offset(12)
-            $0.left.equalTo(nameLabel.snp.right).offset(12)
+            $0.width.height.equalTo(37 * layoutScale)
+            $0.top.equalToSuperview().offset(17 * layoutScale)
+            $0.right.equalToSuperview()
+            $0.left.equalTo(dateLabel.snp.right).offset(12 * layoutScale)
+            $0.left.equalTo(nameLabel.snp.right).offset(12 * layoutScale)
         }
         
-//        imageCollectionView.snp.makeConstraints {
-//            $0.top.equalTo(coverImageView.snp.bottom).offset(6)
-//            $0.left.equalToSuperview().offset(18)
-//            $0.right.equalToSuperview().offset(-18)
-//            $0.bottom.equalToSuperview().offset(-10)
-//        }
+        imageStackView.snp.makeConstraints {
+            $0.top.equalTo(coverImageView.snp.bottom).offset(6 * layoutScale)
+            $0.left.equalToSuperview()
+            $0.right.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-10 * layoutScale)
+        }
     }
     
     func bind(viewModel: AlbumViewModel) {

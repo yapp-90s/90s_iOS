@@ -68,10 +68,10 @@ class AlbumsViewController: UIViewController {
     }
     
     private func setupUI() {
-        navigationController?.title = "앨범 만들기(1/3)"
-        
         collectionView.snp.makeConstraints {
-            $0.top.left.bottom.right.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20 * layoutScale)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.left.right.equalToSuperview()
         }
     }
     
@@ -124,6 +124,7 @@ class AlbumsViewController: UIViewController {
         let naviVC = UINavigationController(rootViewController: vc)
         naviVC.modalPresentationStyle = .overFullScreen
         naviVC.navigationBar.isHidden = true
+        
         DispatchQueue.main.async {
             self.present(naviVC, animated: false)
         }
@@ -131,6 +132,7 @@ class AlbumsViewController: UIViewController {
     
     private func showMakingAlbum(_ albumViewModel: AlbumViewModel) {
         let vc = UIViewController()
+        
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }
@@ -138,6 +140,7 @@ class AlbumsViewController: UIViewController {
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
         let vc = UIViewController()
+        
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }

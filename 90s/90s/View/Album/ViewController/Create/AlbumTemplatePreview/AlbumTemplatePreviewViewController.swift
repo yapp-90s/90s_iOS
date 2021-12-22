@@ -31,7 +31,7 @@ final class AlbumTemplatePreviewViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .Large_Text_Bold
+        label.font = .LargeTextBold
         label.textColor = .white
         self.view.addSubview(label)
         return label
@@ -46,7 +46,7 @@ final class AlbumTemplatePreviewViewController: UIViewController {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.setTitle("결정하기", for: .normal)
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .retroOrange
         button.layer.cornerRadius = 6
@@ -59,16 +59,19 @@ final class AlbumTemplatePreviewViewController: UIViewController {
         layout.sectionInset = .init(top: 20 * layoutScale, left: 26 * layoutScale, bottom: 20 * layoutScale, right: 26 * layoutScale)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 12 * layoutScale
+//        let height = view.safeAreaLayoutGuide.
         let width = UIScreen.main.bounds.width - 52 * layoutScale
         layout.itemSize = .init(width: width, height: width * TEMPLATE_HEIGHT_SCALE)
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TemplateDetailCollectionViewCell.self, forCellWithReuseIdentifier: TemplateDetailCollectionViewCell.identifier)
+        collectionView.delegate = self
 //        collectionView.isPagingEnabled = true
         self.view.addSubview(collectionView)
         return collectionView
     }()
     
+    private var currentIndex: CGFloat = 0
     private let viewModel: AlbumTemplatePreviewViewModel
     private let disposeBag = DisposeBag()
     
@@ -103,13 +106,13 @@ final class AlbumTemplatePreviewViewController: UIViewController {
         tagLabel.snp.makeConstraints {
             $0.width.equalTo(37 * layoutScale)
             $0.height.equalTo(18 * layoutScale)
-            $0.top.equalTo(topBar.snp.bottom).offset(21 * layoutScale)
+            $0.top.equalTo(topBar.snp.bottom).offset(10 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
         }
         
         descriptionLabel.snp.makeConstraints {
             $0.height.equalTo(24 * layoutScale)
-            $0.top.equalTo(tagLabel.snp.bottom).offset(7 * layoutScale)
+            $0.top.equalTo(tagLabel.snp.bottom).offset(5 * layoutScale)
             $0.left.equalTo(18 * layoutScale)
         }
         
@@ -122,7 +125,7 @@ final class AlbumTemplatePreviewViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(40 * layoutScale)
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(33 * layoutScale)
             $0.left.right.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -188,9 +191,27 @@ final class AlbumTemplatePreviewViewController: UIViewController {
     }
 }
 
-extension AlbumTemplateViewController: UIScrollViewDelegate {
+extension AlbumTemplatePreviewViewController: UICollectionViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        let
+        if let cv = scrollView as? UICollectionView {
+            let layout = cv.collectionViewLayout as! UICollectionViewFlowLayout
+            let cellWidth = layout.itemSize.width + layout.minimumLineSpacing
+            
+            var offset = targetContentOffset.pointee
+            let idx = round((offset.x + cv.contentInset.left) / cellWidth)
+            
+            if idx > currentIndex {
+                currentIndex += 1
+            } else if idx < currentIndex {
+                if currentIndex != 0 {
+                    currentIndex -= 1
+                }
+            }
+            
+            offset = CGPoint(x: currentIndex * cellWidth - cv.contentInset.left, y: 0)
+            
+            targetContentOffset.pointee = offset
+        }
 //        https://jintaewoo.tistory.com/33
     }
 }
