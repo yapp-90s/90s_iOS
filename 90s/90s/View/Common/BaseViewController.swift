@@ -45,6 +45,8 @@ class BaseViewController: UIViewController {
                 barButtonItem = UIBarButtonItem(image: UIImage(named: "navigationBar_close"), style: .plain, target: self, action: action)
             case .imgCheck:
                 barButtonItem = UIBarButtonItem(image: UIImage(named: "navigationBar_check")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: action)
+            case .imgBack:
+                barButtonItem = UIBarButtonItem(image: .init(named: "navigationBar_back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: action)
         }
         
         if position == .left {

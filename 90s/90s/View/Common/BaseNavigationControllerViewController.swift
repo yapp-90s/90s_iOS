@@ -19,6 +19,7 @@ class BaseNavigationControllerViewController: UINavigationController {
         case textEdit
         case imgClose
         case imgCheck
+        case imgBack
     }
     
     override func viewDidLoad() {
