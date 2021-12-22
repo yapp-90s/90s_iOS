@@ -17,12 +17,12 @@ final class TemplateService {
     
     private init() {
         templates.accept([
-            Template(name: "PortraBlack", imageName: "Template_Preview_PortraBlack", code: 1001),
-            Template(name: "PortraWhite", imageName: "Template_Preview_PortraWhite", code: 1002),
-            Template(name: "MoodyPaper", imageName: "Template_Preview_MoodyPaper", code: 1003),
-            Template(name: "Grass", imageName: "Template_Preview_Grass", code: 1004),
-            Template(name: "Polaroid", imageName: "Template_Preview_Polaroid", code: 1005),
-            Template(name: "Gradient", imageName: "Template_Preview_Gradient", code: 1006)
+            Template(name: "PortraBlack", imageName: "Template_Preview_PortraBlack", code: 1001, page: 8),
+            Template(name: "PortraWhite", imageName: "Template_Preview_PortraWhite", code: 1002, page: 8),
+            Template(name: "MoodyPaper", imageName: "Template_Preview_MoodyPaper", code: 1003, page: 12),
+            Template(name: "Grass", imageName: "Template_Preview_Grass", code: 1004, page: 12),
+            Template(name: "Polaroid", imageName: "Template_Preview_Polaroid", code: 1005, page: 12),
+            Template(name: "Gradient", imageName: "Template_Preview_Gradient", code: 1006, page: 12)
         ])
     }
     
@@ -36,6 +36,25 @@ final class TemplateService {
     
     func pickTemplate(_ index: Int) -> Template {
         return templates.value[index]
+    }
+    
+    func getTemplateView(_ template: Template) -> TemplateView? {
+        switch template.code {
+        case 1001:
+            return TemplatePortraBlack()
+        case 1002:
+            return TemplatePortraWhite()
+        case 1003:
+            return TemplateMoodyPaper()
+        case 1004:
+            return TemplateGrass()
+        case 1005:
+            return TemplatePolaroid()
+        case 1006:
+            return TemplateGradient()
+        default:
+            return nil
+        }
     }
     
     func viewModels() -> Observable<[TemplateViewModel]> {

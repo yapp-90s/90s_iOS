@@ -18,7 +18,7 @@ struct AlbumCreateAttach: Codable {
 class AlbumCreate {
     var cover = BehaviorRelay<Cover>(value: .sweetLittleMemories)
     var name = BehaviorRelay<String>(value: "")
-    var template = BehaviorRelay<Template>(value: .init(name: "", imageName: "", code: 0))
+    var template = BehaviorRelay<Template>(value: .init(name: "", imageName: "", code: 0, page: 0))
     var date = BehaviorRelay<Date>(value: .init())
     
     init() {
@@ -52,7 +52,7 @@ final class AlbumCreateViewModel {
     let templateSection: BehaviorRelay<[TemplateSectionModel]> = .init(value: [])
     
     let selectedCoverRelay = BehaviorRelay<Cover>(value: .sweetLittleMemories)
-    let selectedTemplateRelay = BehaviorRelay<TemplateViewModel>(value: TemplateViewModel(template: Template(name: "", imageName: "", code: 0)))
+    let selectedTemplateRelay = BehaviorRelay<TemplateViewModel>(value: TemplateViewModel(template: Template(name: "", imageName: "", code: 0, page: 0)))
     let nameRelay = BehaviorRelay<String>(value: "")
     let dateRelay = BehaviorRelay<Date>(value: Date())
     
