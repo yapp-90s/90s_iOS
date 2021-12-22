@@ -275,7 +275,7 @@ final class FilmListDetailViewController: BaseViewController, UINavigationContro
         
         
         if viewModel.filmType.max != photoCount && photoCount > 0 {    // 사진이 채워지는 중인 경우
-            let photo = Photo(photoUid: 0, filmUid: viewModel.uid, url: "film_add_photo")
+            let photo = Photo(photoUid: 0, paperNum: 0, sequence: 0, url: "film_add_photo")
             self.viewModel.addAtFirst(photo)
         } else if viewModel.count == 0 {     // 사진이 하나도 없는 경우
             emptyImageView.isHidden = false
