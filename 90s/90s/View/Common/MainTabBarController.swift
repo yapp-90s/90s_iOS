@@ -39,7 +39,7 @@ class MainTabBarController: UITabBarController {
         self.tabBar.tintColor = .white
         
         let tabList = [
-//            albumNaviVC,
+            albumNaviVC,
             filmVC,
             profileVC
         ]
