@@ -24,13 +24,15 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.font = .smallText
+        label.textColor = .gray
         self.addSubview(label)
         return label
     }()
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
+        label.font = .inputText
         self.addSubview(label)
         return label
     }()
@@ -44,7 +46,6 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
     
     lazy var imageStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.backgroundColor = .blue
         stackView.axis = .horizontal
         stackView.spacing = 6 * layoutScale
         stackView.distribution = .fillEqually
@@ -114,6 +115,7 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
             .disposed(by: disposeBag)
         
         viewModel.date
+            .map { $0?.dateString }
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
         
