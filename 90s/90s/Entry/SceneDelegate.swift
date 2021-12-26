@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppRootDelegate {
         window?.overrideUserInterfaceStyle = .dark
         let loginViewController = LoginViewController(viewModel: .init(dependency: .init()))
         loginViewController.appRootDelegate = self
-        window?.rootViewController = BaseNavigationControllerViewController(rootViewController: loginViewController)
+        window?.rootViewController = MainTabBarController()
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
