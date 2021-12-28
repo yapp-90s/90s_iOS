@@ -9,15 +9,17 @@ import UIKit
 
 struct Photo : Codable {
     let photoUid : Int
-    let filmUid : Int
+    let paperNum: Int
+    let sequence: Int
     let url: String
     
 //    let createdAt: String
 //    let updatedAt: String
     
-    init(photoUid : Int, filmUid : Int, url : String) {
+    init(photoUid : Int, paperNum : Int, sequence: Int, url : String) {
         self.photoUid = photoUid
-        self.filmUid = filmUid
+        self.paperNum = paperNum
+        self.sequence = sequence
         self.url = url
 //        self.createdAt = "\(Date())"
 //        self.updatedAt = "\(Date())"

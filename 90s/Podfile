@@ -7,7 +7,7 @@ target '90s' do
 
   # Pods for 90s
  pod 'SnapKit', '~> 5.0.0'
- pod 'RxSwift' 
+ pod 'RxSwift'
  pod 'RxCocoa'
  pod 'RxDataSources'
  pod 'RxAlamofire'
@@ -15,6 +15,7 @@ target '90s' do
  pod 'SwiftLint'
  pod 'Moya'
  pod 'Moya/RxSwift'
+ pod 'RxKingfisher'
 
  pod 'KakaoSDK'
  pod 'RxKakaoSDKCommon'

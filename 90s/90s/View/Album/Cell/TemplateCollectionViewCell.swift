@@ -25,6 +25,7 @@ class TemplateCollectionViewCell: UICollectionViewCell {
     
     lazy private(set) var label: UILabel = {
         let label = UILabel()
+        label.font = .mediumText
         self.addSubview(label)
         return label
     }()
@@ -54,8 +55,8 @@ class TemplateCollectionViewCell: UICollectionViewCell {
         }
         
         label.snp.makeConstraints {
-            $0.height.equalTo(24)
-            $0.top.equalTo(imageView.snp.bottom).offset(6)
+            $0.height.equalTo(24 * layoutScale)
+            $0.top.equalTo(imageView.snp.bottom).offset(6 * layoutScale)
             $0.left.right.bottom.equalToSuperview()
         }
     }

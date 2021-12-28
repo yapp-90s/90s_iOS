@@ -89,8 +89,11 @@ final class AlbumClient {
         ]
     }
     
-    func create(_ albumCreate: AlbumCreate) -> Bool {
-        return true
+    func create(_ albumCreate: AlbumCreate) -> Observable<Album?> {
+        return RxAlamofire.request(AlbumRouter.create(albumCreate: albumCreate))
+            .data()
+            .decode(type: AlbumResponse.self, decoder: decoder)
+            .map { $0.album }
     }
     
     func addPhoto(_ photo: Photo) -> Bool {

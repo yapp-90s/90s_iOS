@@ -13,7 +13,7 @@ import RxDataSources
 
 let layoutScale = UIScreen.main.bounds.width / 375
 
-class AlbumsViewController: UIViewController {
+class AlbumsViewController: BaseViewController {
     
     // MARK: - UI Component
     private lazy var collectionViewLayout: UICollectionViewLayout = {
@@ -42,7 +42,6 @@ class AlbumsViewController: UIViewController {
     
     // MARK: - Property
     private let viewModel: AlbumsViewModel
-    private let disposeBag = DisposeBag()
     lazy var sections: [AlbumSection] = [
         AlbumCreateSection(),
         AlbumBannerSection(),
@@ -52,6 +51,7 @@ class AlbumsViewController: UIViewController {
         AlbumPreviewSection()
     ]
     
+    // MARK: - Init
     init(viewModel: AlbumsViewModel) {
         self.viewModel = viewModel
         
@@ -62,17 +62,26 @@ class AlbumsViewController: UIViewController {
         bindAction()
     }
     
-    // MARK: - Init
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupUI() {
-        navigationController?.title = "앨범 만들기(1/3)"
-        
         collectionView.snp.makeConstraints {
-            $0.top.left.bottom.right.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20 * layoutScale)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.left.right.equalToSuperview()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func bindState() {
@@ -124,6 +133,7 @@ class AlbumsViewController: UIViewController {
         let naviVC = UINavigationController(rootViewController: vc)
         naviVC.modalPresentationStyle = .overFullScreen
         naviVC.navigationBar.isHidden = true
+        
         DispatchQueue.main.async {
             self.present(naviVC, animated: false)
         }
@@ -131,6 +141,7 @@ class AlbumsViewController: UIViewController {
     
     private func showMakingAlbum(_ albumViewModel: AlbumViewModel) {
         let vc = UIViewController()
+        
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }
@@ -138,6 +149,7 @@ class AlbumsViewController: UIViewController {
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
         let vc = UIViewController()
+        
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }

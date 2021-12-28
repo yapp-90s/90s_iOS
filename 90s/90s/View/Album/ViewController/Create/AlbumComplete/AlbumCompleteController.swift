@@ -35,7 +35,7 @@ final class AlbumCompleteViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .Sub_Head
+        label.font = .subHead
         label.text = "앨범이\n완성되었습니다!"
         label.numberOfLines = 2
         label.textColor = .white
@@ -66,7 +66,7 @@ final class AlbumCompleteViewController: UIViewController {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .Popup_Title
+        label.font = .popupTitle
         label.textColor = .white
         self.contentsView.addSubview(label)
         return label
@@ -74,6 +74,7 @@ final class AlbumCompleteViewController: UIViewController {
     
     private lazy var coverNameLabel: UILabel = {
         let label = UILabel()
+        label.font = .smallTextBold
         label.textColor = .white
         self.contentsView.addSubview(label)
         return label
@@ -81,6 +82,7 @@ final class AlbumCompleteViewController: UIViewController {
     
     private lazy var templateNameLabel: UILabel = {
         let label = UILabel()
+        label.font = .smallTextBold
         label.textColor = .white
         self.contentsView.addSubview(label)
         return label
@@ -88,6 +90,7 @@ final class AlbumCompleteViewController: UIViewController {
     
     private lazy var createDateLabel: UILabel = {
         let label = UILabel()
+        label.font = .smallTextBold
         label.textColor = .white
         self.contentsView.addSubview(label)
         return label
@@ -109,7 +112,7 @@ final class AlbumCompleteViewController: UIViewController {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.backgroundColor = .retroOrange
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         button.layer.cornerRadius = 6
         button.setTitle("확인", for: .normal)
         button.setTitleColor(.white, for: .normal)

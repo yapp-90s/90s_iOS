@@ -11,4 +11,5 @@ struct Template {
     let name: String
     let imageName: String
     let code: Int
+    let page: Int
 }

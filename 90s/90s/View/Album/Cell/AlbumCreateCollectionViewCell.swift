@@ -19,7 +19,7 @@ class AlbumCreateCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 2
         label.text = "아날로그 감성 듬뿍 담아\n만드는 나만의 앨범"
-        label.font = .Sub_Head
+        label.font = .subHead
         label.textColor = .white
         self.addSubview(label)
         return label
@@ -31,7 +31,7 @@ class AlbumCreateCollectionViewCell: UICollectionViewCell {
         button.backgroundColor = .retroOrange
         button.setTitleColor(.white, for: .normal)
         button.setTitle("앨범 만들기", for: .normal)
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         button.layer.cornerRadius = 6
         self.addSubview(button)
         return button
@@ -55,19 +55,19 @@ class AlbumCreateCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         titleLabel.snp.makeConstraints {
-            $0.height.equalTo(46)
-            $0.top.equalToSuperview().offset(21)
-            $0.left.equalToSuperview().offset(18)
-            $0.bottom.equalToSuperview().offset(-21)
+            $0.height.equalTo(46 * layoutScale)
+            $0.top.equalToSuperview().offset(21 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.bottom.equalToSuperview().offset(-21 * layoutScale)
         }
         
         createButton.snp.makeConstraints {
-            $0.width.equalTo(115)
-            $0.height.equalTo(48)
-            $0.top.equalToSuperview().offset(20)
-            $0.right.equalToSuperview().offset(-18)
+            $0.width.equalTo(115 * layoutScale)
+            $0.height.equalTo(48 * layoutScale)
+            $0.top.equalToSuperview().offset(20 * layoutScale)
+            $0.right.equalToSuperview().offset(-18 * layoutScale)
             $0.left.equalTo(titleLabel.snp.right)
-            $0.bottom.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-20 * layoutScale)
         }
     }
     

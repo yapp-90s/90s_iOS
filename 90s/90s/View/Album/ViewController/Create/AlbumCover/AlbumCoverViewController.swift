@@ -24,7 +24,7 @@ class AlbumCoverViewController: UIViewController {
         let label = UILabel()
         topBar.addSubview(label)
         label.text = "앨범 만들기(1/3)"
-        label.font = .Sub_Head
+        label.font = .subHead
         return label
     }()
     
@@ -56,7 +56,7 @@ class AlbumCoverViewController: UIViewController {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.font = .Sub_Head
+        label.font = .subHead
         label.text = "앨범의 얼굴,\n커버를 선택해 주세요"
         self.view.addSubview(label)
         return label
@@ -85,7 +85,7 @@ class AlbumCoverViewController: UIViewController {
         button.backgroundColor = .retroOrange
         button.layer.cornerRadius = 6
         button.setTitle("이 커버 선택", for: .normal)
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         self.view.addSubview(button)
         return button
     }()
@@ -143,14 +143,14 @@ class AlbumCoverViewController: UIViewController {
         
         collectionView.snp.makeConstraints {
             $0.height.equalTo(118 * layoutScale)
-            $0.top.equalTo(coverImageView.snp.bottom).offset(51 * layoutScale)
+            $0.top.lessThanOrEqualTo(coverImageView.snp.bottom).offset(51 * layoutScale)
             $0.left.right.equalToSuperview()
         }
         
         button.snp.makeConstraints {
             $0.height.equalTo(57 * layoutScale)
-//            $0.top.equalTo(collectionView.snp.bottom).offset(21 * layoutScale)
-            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-21 * layoutScale)
+            $0.top.equalTo(collectionView.snp.bottom).offset(21 * layoutScale)
+//            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-21 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
             $0.right.equalToSuperview().offset(-18 * layoutScale)
         }

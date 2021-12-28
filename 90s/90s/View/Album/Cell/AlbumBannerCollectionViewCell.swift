@@ -16,7 +16,7 @@ class AlbumBannerCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         self.addSubview(imageView)
         imageView.backgroundColor = UIColor.colorRGBHex(hex: 0xBB8BCC)
-        imageView.layer.cornerRadius = 6
+        imageView.layer.cornerRadius = 6 * layoutScale
         return imageView
     }()
     
@@ -38,10 +38,10 @@ class AlbumBannerCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         imageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(15)
-            $0.left.equalToSuperview().offset(18)
-            $0.right.equalToSuperview().offset(-15)
-            $0.bottom.equalToSuperview().offset(-18)
+            $0.top.equalToSuperview().offset(15 * layoutScale)
+            $0.left.equalToSuperview().offset(18 * layoutScale)
+            $0.right.equalToSuperview().offset(-15 * layoutScale)
+            $0.bottom.equalToSuperview().offset(-18 * layoutScale)
         }
     }
 }

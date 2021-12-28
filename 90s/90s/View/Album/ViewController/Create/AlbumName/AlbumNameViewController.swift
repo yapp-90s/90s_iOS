@@ -23,7 +23,7 @@ class AlbumNameViewController: UIViewController {
         let label = UILabel()
         topBar.addSubview(label)
         label.text = "앨범 만들기(2/3)"
-        label.font = .Sub_Head
+        label.font = .subHead
         return label
     }()
     
@@ -44,7 +44,7 @@ class AlbumNameViewController: UIViewController {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
-        label.font = .Sub_Head
+        label.font = .subHead
         label.text = "이 앨범은 어떤 앨범인가요?\n이름을 정해주세요:)"
         self.view.addSubview(label)
         return label
@@ -59,7 +59,7 @@ class AlbumNameViewController: UIViewController {
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.font = .Large_Text_Bold
+        textField.font = .LargeTextBold
         textField.placeholder = "지은이의 앨범"
         textField.textAlignment = .center
         self.view.addSubview(textField)
@@ -75,7 +75,7 @@ class AlbumNameViewController: UIViewController {
     
     private lazy var button: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         button.setTitle("확인", for: .normal)
         button.isEnabled = false
         button.setTitleColor(.white, for: .normal)
