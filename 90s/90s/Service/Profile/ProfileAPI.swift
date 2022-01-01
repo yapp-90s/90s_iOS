@@ -21,7 +21,12 @@ extension ProfileAPI: BaseTarget {
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .updateProfile(let profile):
+            return .post
+        default: return .get
+        }
+        
     }
     
     var task: Task {
