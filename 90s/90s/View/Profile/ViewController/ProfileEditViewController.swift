@@ -60,6 +60,7 @@ final class ProfileEditViewController: BaseViewController {
         setUpSubviews()
         setUpTextField()
         setUpEditButton()
+        bind()
     }
     
     private func setUpSubviews() {
@@ -125,5 +126,22 @@ final class ProfileEditViewController: BaseViewController {
             /// 이름 변경 네트워킹 코드 삽입
             self?.navigationController?.popViewController(animated: true)
         }.disposed(by: disposeBag)
+    }
+    
+    private func bind() {
+        // input
+        self.nameTextField.rx.value.orEmpty
+            .bind(to: self.viewModel.input.nameStream)
+            .disposed(by: self.disposeBag)
+        
+        // output
+        self.viewModel.output.nameObservable
+            .bind(to: nameTextField.rx.text)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.profileImageObservable
+            .map { UIImage(data: $0) }
+            .bind(to: profileImageView.rx.image)
+            .disposed(by: self.disposeBag)
     }
 }
