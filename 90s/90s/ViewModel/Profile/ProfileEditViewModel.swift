@@ -22,7 +22,9 @@ final class ProfileEditViewModel: ViewModelType {
     
     required init(dependency: Dependency = .init()) {
         self.dependency = dependency
-        self.input = Input()
+        self.input = Input(
+            nameStream: self.nameStream
+        )
         self.output = Output(
             nameObservable: self.nameStream.asObservable(),
             profileImageObservable: self.profileImageStream.asObservable(),
@@ -40,7 +42,7 @@ extension ProfileEditViewModel {
     struct Dependency { }
     
     struct Input {
-        var nameStream = BehaviorRelay<String>(value: "")
+        var nameStream: BehaviorRelay<String>
         var editPublisher = PublishSubject<Void>()
     }
     

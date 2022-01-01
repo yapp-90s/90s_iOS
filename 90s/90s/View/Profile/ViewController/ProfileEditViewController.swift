@@ -58,7 +58,6 @@ final class ProfileEditViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubviews()
-        setUpTextField()
         bind()
     }
     
@@ -99,27 +98,6 @@ final class ProfileEditViewController: BaseViewController {
         }
     }
 
-    private func setUpTextField() {
-        nameTextField.rx.controlEvent([.editingChanged])
-            .asObservable()
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self,
-                      let trimmedText = self.nameTextField.text?.trimmingCharacters(in: .whitespaces)
-                else {
-                    return
-                }
-                
-                if trimmedText.isEmpty {
-                    self.editButton.backgroundColor = .warmGray
-                    self.editButton.isEnabled = false
-                } else {
-                    self.name = trimmedText
-                    self.editButton.backgroundColor = .retroOrange
-                    self.editButton.isEnabled = true
-                }
-            }).disposed(by: disposeBag)
-    }
-    
     private func bind() {
         // input
         self.nameTextField.rx.value.orEmpty
@@ -135,6 +113,13 @@ final class ProfileEditViewController: BaseViewController {
             .bind(to: nameTextField.rx.text)
             .disposed(by: self.disposeBag)
         
+        self.viewModel.output.nameObservable
+            .map { $0.isEmpty == false }
+            .subscribe(onNext: { [weak self] isActivate in
+                self?.updateTextField(isActivated: isActivate)
+            })
+            .disposed(by: self.disposeBag)
+        
         self.viewModel.output.profileImageObservable
             .map { UIImage(data: $0) }
             .bind(to: profileImageView.rx.image)
@@ -145,5 +130,15 @@ final class ProfileEditViewController: BaseViewController {
                 self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: self.disposeBag)
+    }
+    
+    private func updateTextField(isActivated: Bool) {
+        if isActivated {
+            self.editButton.backgroundColor = .retroOrange
+            self.editButton.isEnabled = true
+        } else {
+            self.editButton.backgroundColor = .warmGray
+            self.editButton.isEnabled = false
+        }
     }
 }
