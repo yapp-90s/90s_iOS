@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 
 final class ProfileEditViewController: BaseViewController {
+    
     private let profileImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true
@@ -43,6 +44,16 @@ final class ProfileEditViewController: BaseViewController {
     }()
     
     private var name : String = ""
+    private let viewModel: ProfileEditViewModel
+    
+    init(viewModel: ProfileEditViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

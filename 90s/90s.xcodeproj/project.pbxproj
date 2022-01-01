@@ -28,6 +28,7 @@
 		368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27ED27116D5D0082089A /* LoginViewModel.swift */; };
 		368F27F127116F5C0082089A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F027116F5C0082089A /* LoginService.swift */; };
 		368F27F4271170C20082089A /* LoginOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F3271170C20082089A /* LoginOAuth.swift */; };
+		36B57A9F2780007B00F770E0 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57A9E2780007B00F770E0 /* ProfileEditViewModel.swift */; };
 		36BB2522275B2FB900AB9B07 /* KakaoSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */; };
 		36D1088A273FAF9600E4F4B7 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D10889273FAF9600E4F4B7 /* LoginAPI.swift */; };
 		36F9020026F5AD4900CC4915 /* ShareActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F901FF26F5AD4900CC4915 /* ShareActionSheetViewController.swift */; };
@@ -257,6 +258,7 @@
 		368F27ED27116D5D0082089A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		368F27F027116F5C0082089A /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		368F27F3271170C20082089A /* LoginOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuth.swift; sourceTree = "<group>"; };
+		36B57A9E2780007B00F770E0 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
 		36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSDKService.swift; sourceTree = "<group>"; };
 		36D10889273FAF9600E4F4B7 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		36F901FF26F5AD4900CC4915 /* ShareActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			children = (
 				36188EF6276DC03F00C87188 /* ProfileViewModel.swift */,
 				3623370B276F0834002BC06D /* ProfileSettingViewModel.swift */,
+				36B57A9E2780007B00F770E0 /* ProfileEditViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1586,6 +1589,7 @@
 				36233719276F1FEA002BC06D /* ProfileAPI.swift in Sources */,
 				36529073270823710060BEDE /* LoginViewController.swift in Sources */,
 				650D41EC273FA0DF001C4D85 /* AlbumsViewModel.swift in Sources */,
+				36B57A9F2780007B00F770E0 /* ProfileEditViewModel.swift in Sources */,
 				651AED58260EFEAB009135DB /* AlbumCoverCollectionViewCell.swift in Sources */,
 				9BC436B3267332910081D3E8 /* FilmMainSectionModel.swift in Sources */,
 				9BC39C9C2748D113002E7DC7 /* successResponse.swift in Sources */,
