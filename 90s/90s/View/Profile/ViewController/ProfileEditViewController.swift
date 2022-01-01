@@ -110,10 +110,6 @@ final class ProfileEditViewController: BaseViewController {
         
         // output
         self.viewModel.output.nameObservable
-            .bind(to: nameTextField.rx.text)
-            .disposed(by: self.disposeBag)
-        
-        self.viewModel.output.nameObservable
             .map { $0.isEmpty == false }
             .subscribe(onNext: { [weak self] isActivate in
                 self?.updateTextField(isActivated: isActivate)
