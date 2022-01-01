@@ -48,7 +48,7 @@ class PhoneAuthenticationViewModel: ViewModelType {
             .subscribe(onNext: { [weak self] phoneNumber in
                 guard let self = self else { return }
                 self.candidatePhoneNumber = phoneNumber
-                if self.validatePhoneNumber(with: phoneNumber) {
+                if self.isEnablePhoneNumber(text: phoneNumber) {
                     self.authenticationStep.accept(.requestAuthenticationSms)
                 } else {
                     self.authenticationStep.accept(.enterPhoneNumber)
@@ -64,7 +64,7 @@ class PhoneAuthenticationViewModel: ViewModelType {
                 else { return }
                 
                 self.candidateAuthenticationResponseNumber = phoneNumber
-                if self.validateAuthenticationResponseNumber(with: phoneNumber) {
+                if self.isEnableAuthResponseNumber(text: phoneNumber) {
                     self.authenticationStep.accept(.completeAuthentication)
                 } else {
                     self.authenticationStep.accept(.responseAuthenticationSms)
@@ -98,12 +98,12 @@ class PhoneAuthenticationViewModel: ViewModelType {
             .disposed(by: self.disposeBag)
     }
     
-    private func validatePhoneNumber(with numberText: String) -> Bool {
+    private func isEnablePhoneNumber(text numberText: String) -> Bool {
         let numbers = numberText.filter { $0.isNumber }
         return self.validPhoneNumberLengthRange ~= numbers.count
     }
     
-    private func validateAuthenticationResponseNumber(with numberText: String) -> Bool {
+    private func isEnableAuthResponseNumber(text numberText: String) -> Bool {
         let numbers = numberText.filter { $0.isNumber }
         return self.validResponseNumberLength == numbers.count
     }
