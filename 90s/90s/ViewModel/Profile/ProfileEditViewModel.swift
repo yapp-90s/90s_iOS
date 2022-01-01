@@ -18,14 +18,20 @@ final class ProfileEditViewModel: ViewModelType {
     
     private var nameStream = BehaviorRelay<String>(value: "")
     private var profileImageStream = BehaviorRelay<Data>(value: Data())
+    private var editCompletePublisher = PublishSubject<Void>()
     
     required init(dependency: Dependency = .init()) {
         self.dependency = dependency
         self.input = Input()
         self.output = Output(
             nameObservable: self.nameStream.asObservable(),
-            profileImageObservable: self.profileImageStream.asObservable()
+            profileImageObservable: self.profileImageStream.asObservable(),
+            editCompleteObservable: self.editCompletePublisher
         )
+        
+        self.input.editPublisher
+            .bind(to: self.editCompletePublisher)
+            .disposed(by: self.disposeBag)
     }
 }
 
@@ -41,5 +47,6 @@ extension ProfileEditViewModel {
     struct Output {
         var nameObservable: Observable<String>
         var profileImageObservable: Observable<Data>
+        var editCompleteObservable: Observable<Void>
     }
 }

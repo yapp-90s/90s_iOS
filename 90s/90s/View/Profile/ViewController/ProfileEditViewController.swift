@@ -59,7 +59,6 @@ final class ProfileEditViewController: BaseViewController {
         super.viewDidLoad()
         setUpSubviews()
         setUpTextField()
-        setUpEditButton()
         bind()
     }
     
@@ -121,17 +120,14 @@ final class ProfileEditViewController: BaseViewController {
             }).disposed(by: disposeBag)
     }
     
-    private func setUpEditButton() {
-        editButton.rx.tap.bind { [weak self] in
-            /// 이름 변경 네트워킹 코드 삽입
-            self?.navigationController?.popViewController(animated: true)
-        }.disposed(by: disposeBag)
-    }
-    
     private func bind() {
         // input
         self.nameTextField.rx.value.orEmpty
             .bind(to: self.viewModel.input.nameStream)
+            .disposed(by: self.disposeBag)
+        
+        self.editButton.rx.tap
+            .bind(to: self.viewModel.input.editPublisher)
             .disposed(by: self.disposeBag)
         
         // output
@@ -142,6 +138,12 @@ final class ProfileEditViewController: BaseViewController {
         self.viewModel.output.profileImageObservable
             .map { UIImage(data: $0) }
             .bind(to: profileImageView.rx.image)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.editCompleteObservable
+            .subscribe(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
+            })
             .disposed(by: self.disposeBag)
     }
 }
