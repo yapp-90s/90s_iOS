@@ -72,10 +72,22 @@ class AlbumsViewController: BaseViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.left.right.equalToSuperview()
         }
+        
+//        let view3 = ContentEmptyView(viewModel: .init(dependency: .init(emptyType: .albumEmpty)))
+//        view.addSubview(view3)
+//        view3.snp.makeConstraints {
+//            $0.top.leading.trailing.bottom.equalToSuperview()
+//        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let vc = PopupViewController(viewModel: .init(dependency: .init(alertType: .delete)))
+//        vc.modalPresentationStyle = .overFullScreen
+//        DispatchQueue.main.async {
+//            self.present(vc, animated: false, completion: nil)
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -148,8 +160,8 @@ class AlbumsViewController: BaseViewController {
     }
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
-        let vc = UIViewController()
-        
+        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(albumViewModel: albumViewModel)))
+        vc.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }
