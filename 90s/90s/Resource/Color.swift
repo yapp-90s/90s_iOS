@@ -20,6 +20,7 @@ extension UIColor {
     static let Warm_Gray = ColorType.Warm_Gray.create()
     static let Cool_Lightgray = ColorType.Cool_Lightgray.create()
     static let Cool_Gray = ColorType.Cool_Gray.create()
+    static let retroPink = ColorType.Retro_Pink.create()
 }
 
 enum ColorType {
@@ -27,6 +28,7 @@ enum ColorType {
     case Retro_Black
     case Retro_Lightgray
     case Retro_Gray
+    case Retro_Pink
     case Warm_Lightgray
     case Warm_Gray
     case Cool_Lightgray
@@ -42,6 +44,8 @@ enum ColorType {
             return UIColor.colorRGBHex(hex: 0xBEBEBE)
         case .Retro_Gray:
             return UIColor.colorRGBHex(hex: 0x9D9D9D)
+        case .Retro_Pink:
+            return UIColor.colorRGBHex(hex: 0xF64867)
         case .Warm_Lightgray:
             return UIColor.colorRGBHex(hex: 0x575252)
         case .Warm_Gray:
