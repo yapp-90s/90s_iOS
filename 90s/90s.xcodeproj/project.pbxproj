@@ -28,6 +28,7 @@
 		368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27ED27116D5D0082089A /* LoginViewModel.swift */; };
 		368F27F127116F5C0082089A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F027116F5C0082089A /* LoginService.swift */; };
 		368F27F4271170C20082089A /* LoginOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F3271170C20082089A /* LoginOAuth.swift */; };
+		36B57AA92780312300F770E0 /* ToastController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AA82780312300F770E0 /* ToastController.swift */; };
 		36B57AAB2780318D00F770E0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AAA2780318D00F770E0 /* ToastView.swift */; };
 		36B57AAD278036C200F770E0 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AAC278036C200F770E0 /* UIApplication+.swift */; };
 		36BB2522275B2FB900AB9B07 /* KakaoSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */; };
@@ -259,6 +260,7 @@
 		368F27ED27116D5D0082089A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		368F27F027116F5C0082089A /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		368F27F3271170C20082089A /* LoginOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuth.swift; sourceTree = "<group>"; };
+		36B57AA82780312300F770E0 /* ToastController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastController.swift; sourceTree = "<group>"; };
 		36B57AAA2780318D00F770E0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		36B57AAC278036C200F770E0 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSDKService.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 		36B57AA72780311800F770E0 /* Toast */ = {
 			isa = PBXGroup;
 			children = (
+				36B57AA82780312300F770E0 /* ToastController.swift */,
 				36B57AAA2780318D00F770E0 /* ToastView.swift */,
 			);
 			path = Toast;
@@ -564,6 +567,7 @@
 		4C1F80CF25F3379800E98A0B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				36B57AA72780311800F770E0 /* Toast */,
 				9B7060BD271AC2D400DDC95F /* TableView */,
 				9B7060BC271ABB6200DDC95F /* CollectionView */,
 				6533210D25E0D87B00E973BB /* MainTabBarController.swift */,
@@ -1528,6 +1532,7 @@
 				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
 				656AFA50262B53CA001C5E00 /* AlbumCoverViewModel.swift in Sources */,
 				9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */,
+				36B57AA92780312300F770E0 /* ToastController.swift in Sources */,
 				6504E6C02747877500A53AF3 /* AlbumNameViewModel.swift in Sources */,
 				4C2319612674405E00FE0939 /* ImageService.swift in Sources */,
 				9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */,
