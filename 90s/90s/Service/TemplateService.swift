@@ -17,12 +17,12 @@ final class TemplateService {
     
     private init() {
         templates.accept([
-            Template(name: "PortraBlack", imageName: "Template_Preview_PortraBlack", code: 1001, page: 8),
-            Template(name: "PortraWhite", imageName: "Template_Preview_PortraWhite", code: 1002, page: 8),
-            Template(name: "MoodyPaper", imageName: "Template_Preview_MoodyPaper", code: 1003, page: 12),
-            Template(name: "Grass", imageName: "Template_Preview_Grass", code: 1004, page: 12),
-            Template(name: "Polaroid", imageName: "Template_Preview_Polaroid", code: 1005, page: 12),
-            Template(name: "Gradient", imageName: "Template_Preview_Gradient", code: 1006, page: 12)
+            Template(name: "PortraBlack", imageName: "Template_Preview_PortraBlack", code: 1001, page: 8, imageMaxCount: 3),
+            Template(name: "PortraWhite", imageName: "Template_Preview_PortraWhite", code: 1002, page: 8, imageMaxCount: 3),
+            Template(name: "MoodyPaper", imageName: "Template_Preview_MoodyPaper", code: 1003, page: 12, imageMaxCount: 2),
+            Template(name: "Grass", imageName: "Template_Preview_Grass", code: 1004, page: 12, imageMaxCount: 2),
+            Template(name: "Polaroid", imageName: "Template_Preview_Polaroid", code: 1005, page: 12, imageMaxCount: 2),
+            Template(name: "Gradient", imageName: "Template_Preview_Gradient", code: 1006, page: 12, imageMaxCount: 2)
         ])
     }
     
