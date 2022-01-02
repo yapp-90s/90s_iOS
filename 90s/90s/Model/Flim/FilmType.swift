@@ -9,10 +9,10 @@ import Foundation
 
 struct FilmType : Codable {
     enum FilmTypeItem {
-        case None
-        case Mono
-        case MossPink
-        case ForgetMeNot
+        case none
+        case mono
+        case mossPink
+        case forgetMeNot
     }
     
     var uid : Int

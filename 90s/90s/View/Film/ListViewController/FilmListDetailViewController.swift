@@ -201,15 +201,8 @@ final class FilmListDetailViewController: BaseViewController, UIScrollViewDelega
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         Observable.from(optional: viewModel.photos)
-<<<<<<< HEAD
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
-                cell.bindViewModel(item: element)
-=======
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.reuseIdentifier , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
-                cell.bindViewModel(item: element, isScaleFill: true)
->>>>>>> 679c510 (Film - FilmMainViewController change register code)
-            }.disposed(by: disposeBag)
-        
+                cell.bindViewModel(item: element)
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let checkSelf = self else { return }
