@@ -36,12 +36,14 @@ class PhoneAuthenticationViewModel: ViewModelType {
     
     private var authenticationStep = BehaviorRelay<AuthenticationStep>(value: .enterPhoneNumber)
     private var isHiddenAuthenticationTextField = BehaviorSubject<Bool>(value: true)
+    private var errorMessagePublisher = PublishSubject<String>()
     
     required init(dependency: Dependency) {
         self.dependency = dependency
         self.output = Output(
             authenticationStep: self.authenticationStep.asObservable(),
-            isHiddenAuthenticationTextField: self.isHiddenAuthenticationTextField
+            isHiddenAuthenticationTextField: self.isHiddenAuthenticationTextField,
+            signUpFailed: self.errorMessagePublisher
         )
         
         self.input.phoneNumberChanged
@@ -83,6 +85,8 @@ class PhoneAuthenticationViewModel: ViewModelType {
                 case .completeAuthentication:
                     if self.authenticationResponseNumber == self.candidateAuthenticationResponseNumber {
                         self.signUp(with: self.candidatePhoneNumber)
+                    } else {
+                        self.errorMessagePublisher.onNext("인증번호가 맞지 않습니다!")
                     }
                 default: return
                 }
@@ -163,5 +167,6 @@ extension PhoneAuthenticationViewModel {
     struct Output {
         var authenticationStep: Observable<AuthenticationStep>
         var isHiddenAuthenticationTextField: Observable<Bool>
+        var signUpFailed: Observable<String>
     }
 }
