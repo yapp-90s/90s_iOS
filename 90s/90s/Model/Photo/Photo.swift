@@ -24,6 +24,29 @@ struct Photo : Codable {
 //        self.createdAt = "\(Date())"
 //        self.updatedAt = "\(Date())"
     }
+    
+    static func convertToPages(from photos: [Photo], template: Template) -> [Page] {
+        var sortedPhotos: [[Photo?]] = []
+        var result: [Page] = []
+        
+        for index in 0..<template.page {
+            sortedPhotos.append([])
+            for _ in 0..<template.imageMaxCount {
+                sortedPhotos[index].append(nil)
+            }
+        }
+        
+        for photo in photos {
+            sortedPhotos[photo.paperNum][photo.sequence] = photo
+        }
+        
+        for number in 0..<sortedPhotos.count {
+            let page = Page(number: number, images: sortedPhotos[number].map { $0?.image })
+            result.append(page)
+        }
+        
+        return result
+    }
 }
 
 extension Photo: Equatable {
