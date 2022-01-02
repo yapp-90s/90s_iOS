@@ -15,6 +15,7 @@ final class PopupViewController: UIViewController {
     
     private lazy var contentView: UIView = {
         let view = UIView()
+        view.backgroundColor = .Cool_Gray
         self.view.addSubview(view)
         return view
     }()
@@ -27,7 +28,9 @@ final class PopupViewController: UIViewController {
     
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = .Popup_Title
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = .popupTitle
         label.textColor = .white
         contentView.addSubview(label)
         return label
@@ -35,8 +38,10 @@ final class PopupViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .Btn_Text
-        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .Cool_Lightgray
+        button.titleLabel?.font = .buttonText
+        button.setTitleColor(.lightGrey, for: .normal)
+        button.layer.cornerRadius = 8 * layoutScale
         contentView.addSubview(button)
         return button
     }()
@@ -44,8 +49,9 @@ final class PopupViewController: UIViewController {
     private lazy var okButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .retroOrange
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 8 * layoutScale
         contentView.addSubview(button)
         return button
     }()
