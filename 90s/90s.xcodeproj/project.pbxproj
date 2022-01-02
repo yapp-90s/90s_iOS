@@ -136,6 +136,8 @@
 		657ED69D2630A395008823BC /* CoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657ED69C2630A395008823BC /* CoverViewModel.swift */; };
 		657FAFCD27818A180018E353 /* AlbumControlBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FAFCC27818A180018E353 /* AlbumControlBar.swift */; };
 		657FAFCF27819AAB0018E353 /* PopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FAFCE27819AAB0018E353 /* PopupViewModel.swift */; };
+		657FAFD22781AABD0018E353 /* ContentEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FAFD12781AABD0018E353 /* ContentEmptyView.swift */; };
+		657FAFD42781AC830018E353 /* ContentEmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657FAFD32781AC830018E353 /* ContentEmptyViewModel.swift */; };
 		65866D72274EA21E0047AF40 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65866D71274EA21E0047AF40 /* PopupViewController.swift */; };
 		6588AE1B2642841B00487AB9 /* TemplateDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6588AE1A2642841B00487AB9 /* TemplateDetailCollectionViewCell.swift */; };
 		65962600262C301400277B80 /* CoverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659625FF262C301400277B80 /* CoverService.swift */; };
@@ -379,6 +381,8 @@
 		657ED69C2630A395008823BC /* CoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverViewModel.swift; sourceTree = "<group>"; };
 		657FAFCC27818A180018E353 /* AlbumControlBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumControlBar.swift; sourceTree = "<group>"; };
 		657FAFCE27819AAB0018E353 /* PopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewModel.swift; sourceTree = "<group>"; };
+		657FAFD12781AABD0018E353 /* ContentEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentEmptyView.swift; sourceTree = "<group>"; };
+		657FAFD32781AC830018E353 /* ContentEmptyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentEmptyViewModel.swift; sourceTree = "<group>"; };
 		65866D71274EA21E0047AF40 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		6588AE1A2642841B00487AB9 /* TemplateDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		659625FF262C301400277B80 /* CoverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverService.swift; sourceTree = "<group>"; };
@@ -935,6 +939,15 @@
 			path = Create;
 			sourceTree = "<group>";
 		};
+		657FAFD02781AAA40018E353 /* ContentEmptyView */ = {
+			isa = PBXGroup;
+			children = (
+				657FAFD12781AABD0018E353 /* ContentEmptyView.swift */,
+				657FAFD32781AC830018E353 /* ContentEmptyViewModel.swift */,
+			);
+			path = ContentEmptyView;
+			sourceTree = "<group>";
+		};
 		65866D70274EA1FD0047AF40 /* Popup */ = {
 			isa = PBXGroup;
 			children = (
@@ -992,6 +1005,7 @@
 		65AE123425CFEDAA0036147F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				657FAFD02781AAA40018E353 /* ContentEmptyView */,
 				4C1F80CF25F3379800E98A0B /* Common */,
 				36529071270823070060BEDE /* Login */,
 				4CE649F025E0DEC80093D238 /* PhotoDecorate */,
@@ -1649,6 +1663,7 @@
 				36FAD6532765FDA300A1E75C /* UINavigationController+.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
 				652BC1CF25E0D62A00DC8E90 /* PinterestCollectionViewCell.swift in Sources */,
+				657FAFD42781AC830018E353 /* ContentEmptyViewModel.swift in Sources */,
 				4CDA3C5F264FA16B00EEE12C /* BaseTarget.swift in Sources */,
 				652DFFFD274821AA00E67AEA /* AlbumCompleteViewModel.swift in Sources */,
 				650D41EB273FA0DF001C4D85 /* AlbumsViewController.swift in Sources */,
@@ -1695,6 +1710,7 @@
 				657ED69A2630A33E008823BC /* CoverCollectionViewCell.swift in Sources */,
 				65962603262C319000277B80 /* TemplateService.swift in Sources */,
 				3623370C276F0834002BC06D /* ProfileSettingViewModel.swift in Sources */,
+				657FAFD22781AABD0018E353 /* ContentEmptyView.swift in Sources */,
 				65F73D822721D133001313B5 /* GrassImageView.swift in Sources */,
 				9B8CB357269C2F4900549035 /* ProfileLeaveViewController.swift in Sources */,
 				4CE649F625E0DEC80093D238 /* AddAlbumViewController.swift in Sources */,
