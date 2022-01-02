@@ -56,19 +56,36 @@ final class PopupViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Property
     private let disposeBag = DisposeBag()
+    private let viewModel: PopupViewModel
     
-    init() {
+    init(viewModel: PopupViewModel) {
+        self.viewModel = viewModel
+        
         super.init(nibName: nil, bundle: nil)
         
         setupUI()
+        bindState()
+        bindAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let path = UIBezierPath(roundedRect:contentView.bounds, byRoundingCorners:[.topRight, .topLeft], cornerRadii: CGSize(width: 12 * layoutScale, height:  12 * layoutScale))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        contentView.layer.mask = maskLayer
+    }
+    
     private func setupUI() {
+        view.backgroundColor = .actionSheet
+        
         contentView.snp.makeConstraints {
             $0.height.equalTo(contentView.snp.width).multipliedBy(0.722666)
             $0.leading.trailing.equalToSuperview()
@@ -100,5 +117,33 @@ final class PopupViewController: UIViewController {
             $0.top.equalTo(label.snp.bottom).offset(40 * layoutScale)
             $0.trailing.equalToSuperview().offset(-18)
         }
+    }
+    
+    private func bindAction() {
+        cancelButton.rx.tap
+            .bind(to: viewModel.input.reject)
+            .disposed(by: disposeBag)
+        
+        okButton.rx.tap
+            .bind(to: viewModel.input.conform)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindState() {
+        viewModel.output.iconImage
+            .bind(to: imageView.rx.image)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.title
+            .bind(to: label.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.rejectTitle
+            .bind(to: cancelButton.rx.title())
+            .disposed(by: disposeBag)
+        
+        viewModel.output.conformTitle
+            .bind(to: okButton.rx.title())
+            .disposed(by: disposeBag)
     }
 }
