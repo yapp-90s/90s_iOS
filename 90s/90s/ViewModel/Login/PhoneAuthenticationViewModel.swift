@@ -36,19 +36,21 @@ class PhoneAuthenticationViewModel: ViewModelType {
     
     private var authenticationStep = BehaviorRelay<AuthenticationStep>(value: .enterPhoneNumber)
     private var isHiddenAuthenticationTextField = BehaviorSubject<Bool>(value: true)
+    private var errorMessagePublisher = PublishSubject<String>()
     
     required init(dependency: Dependency) {
         self.dependency = dependency
         self.output = Output(
             authenticationStep: self.authenticationStep.asObservable(),
-            isHiddenAuthenticationTextField: self.isHiddenAuthenticationTextField
+            isHiddenAuthenticationTextField: self.isHiddenAuthenticationTextField,
+            signUpFailed: self.errorMessagePublisher
         )
         
         self.input.phoneNumberChanged
             .subscribe(onNext: { [weak self] phoneNumber in
                 guard let self = self else { return }
                 self.candidatePhoneNumber = phoneNumber
-                if self.validatePhoneNumber(with: phoneNumber) {
+                if self.isEnablePhoneNumber(text: phoneNumber) {
                     self.authenticationStep.accept(.requestAuthenticationSms)
                 } else {
                     self.authenticationStep.accept(.enterPhoneNumber)
@@ -64,7 +66,7 @@ class PhoneAuthenticationViewModel: ViewModelType {
                 else { return }
                 
                 self.candidateAuthenticationResponseNumber = phoneNumber
-                if self.validateAuthenticationResponseNumber(with: phoneNumber) {
+                if self.isEnableAuthResponseNumber(text: phoneNumber) {
                     self.authenticationStep.accept(.completeAuthentication)
                 } else {
                     self.authenticationStep.accept(.responseAuthenticationSms)
@@ -83,6 +85,8 @@ class PhoneAuthenticationViewModel: ViewModelType {
                 case .completeAuthentication:
                     if self.authenticationResponseNumber == self.candidateAuthenticationResponseNumber {
                         self.signUp(with: self.candidatePhoneNumber)
+                    } else {
+                        self.errorMessagePublisher.onNext("인증번호가 맞지 않습니다!")
                     }
                 default: return
                 }
@@ -98,12 +102,12 @@ class PhoneAuthenticationViewModel: ViewModelType {
             .disposed(by: self.disposeBag)
     }
     
-    private func validatePhoneNumber(with numberText: String) -> Bool {
+    private func isEnablePhoneNumber(text numberText: String) -> Bool {
         let numbers = numberText.filter { $0.isNumber }
         return self.validPhoneNumberLengthRange ~= numbers.count
     }
     
-    private func validateAuthenticationResponseNumber(with numberText: String) -> Bool {
+    private func isEnableAuthResponseNumber(text numberText: String) -> Bool {
         let numbers = numberText.filter { $0.isNumber }
         return self.validResponseNumberLength == numbers.count
     }
@@ -163,5 +167,6 @@ extension PhoneAuthenticationViewModel {
     struct Output {
         var authenticationStep: Observable<AuthenticationStep>
         var isHiddenAuthenticationTextField: Observable<Bool>
+        var signUpFailed: Observable<String>
     }
 }
