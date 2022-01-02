@@ -130,18 +130,17 @@ final class FilmGalleryViewController: BaseViewController, UIScrollViewDelegate 
         
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
-                guard let checkSelf = self else { return }
+                guard let cell = self?.collectionView.cellForItem(at: indexPath) as? FilmGalleryCollectionViewCell,
+                      let isSelectedPhoto = self?.selectedPhotosIndexPath.contains(indexPath)
+                else { return }
                 
-            let cell = checkSelf.collectionView.cellForItem(at: indexPath) as! FilmGalleryCollectionViewCell
-            let result = checkSelf.selectedPhotosIndexPath.contains(indexPath)
-
-            if result {
-                checkSelf.selectedPhotosIndexPath.removeAll(where: { $0 == indexPath })
-            } else {
-                checkSelf.selectedPhotosIndexPath.append(indexPath)
-            }
+                if isSelectedPhoto {
+                    self?.selectedPhotosIndexPath.removeAll(where: { $0 == indexPath })
+                } else {
+                    self?.selectedPhotosIndexPath.append(indexPath)
+                }
             
-            cell.bindSelectImageView(isSelected: !result)
+                cell.bindSelectImageView(isSelected: !isSelectedPhoto)
         }).disposed(by: disposeBag)
     }
     
