@@ -15,23 +15,46 @@ import RxDataSources
 class AlbumDetailViewController: UIViewController {
     
     // MARK: - UI Component
-    private lazy var collectionViewLayout: UICollectionViewLayout = {
-        var sections = self.sections
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
-            return sections[sectionIndex].layoutSection()
-        }
-        return layout
+    private lazy var topBar: UIView = {
+        let view = UIView()
+        self.view.addSubview(view)
+        return view
+    }()
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(named: "navigationBar_back"), for: .normal)
+        topBar.addSubview(button)
+        return button
+    }()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .topTitle
+        label.textColor = .white
+        topBar.addSubview(label)
+        return label
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.init(named: "navigationBar_close"), for: .normal)
+        topBar.addSubview(button)
+        return button
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
-        
-        collectionView.register(AlbumTitleHeaderCollectionViewCell.self, forCellWithReuseIdentifier: AlbumTitleHeaderCollectionViewCell.identifier)
-        collectionView.register(AlbumCreateCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCreateCollectionViewCell.identifier)
-        collectionView.register(AlbumBannerCollectionViewCell.self, forCellWithReuseIdentifier: AlbumBannerCollectionViewCell.identifier)
-        collectionView.register(AlbumCoverCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCoverCollectionViewCell.identifier)
-        collectionView.register(AlbumPreviewCollectionViewCell.self, forCellWithReuseIdentifier: AlbumPreviewCollectionViewCell.identifier)
-        
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        let width = UIScreen.main.bounds.width
+        let height = width * 1.586666
+        layout.itemSize = .init(width: width, height: height)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isPagingEnabled = true
+        collectionView.register(TemplateCell.self, forCellWithReuseIdentifier: TemplateCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(collectionView)
@@ -39,19 +62,17 @@ class AlbumDetailViewController: UIViewController {
         return collectionView
     }()
     
-    // MARK: - Property
-    private let viewModel: AlbumsViewModel
-    private let disposeBag = DisposeBag()
-    lazy var sections: [AlbumSection] = [
-        AlbumCreateSection(),
-        AlbumBannerSection(),
-        AlbumTitleHeaderSection(delegate: nil),
-        AlbumCoverSection(),
-        AlbumTitleHeaderSection(delegate: self),
-        AlbumPreviewSection()
-    ]
+    private lazy var contorlBar: AlbumControlBar = {
+        let controlBar = AlbumControlBar()
+        view.addSubview(controlBar)
+        return controlBar
+    }()
     
-    init(viewModel: AlbumsViewModel) {
+    // MARK: - Property
+    private let viewModel: AlbumDetailViewModel
+    private let disposeBag = DisposeBag()
+    
+    init(viewModel: AlbumDetailViewModel) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -67,89 +88,95 @@ class AlbumDetailViewController: UIViewController {
     }
     
     private func setupUI() {
-        navigationController?.title = "앨범 만들기(1/3)"
+        view.backgroundColor = .black
+        
+        topBar.snp.makeConstraints {
+            $0.height.equalTo(52 * layoutScale)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+        }
+        
+        backButton.snp.makeConstraints {
+            $0.width.height.equalTo(34 * layoutScale)
+            $0.leading.equalToSuperview().offset(9 * layoutScale)
+            $0.centerY.equalToSuperview()
+        }
+
+        titleLabel.snp.makeConstraints {
+            $0.height.equalTo(24 * layoutScale)
+            $0.center.equalToSuperview()
+        }
+
+        closeButton.snp.makeConstraints {
+            $0.width.height.equalTo(34 * layoutScale)
+            $0.trailing.equalToSuperview().offset(-9 * layoutScale)
+            $0.centerY.equalToSuperview()
+        }
         
         collectionView.snp.makeConstraints {
-            $0.top.left.bottom.right.equalToSuperview()
+            $0.height.equalTo(collectionView.snp.width).multipliedBy(1.586666)
+            $0.top.lessThanOrEqualTo(topBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        
+        contorlBar.snp.makeConstraints {
+            $0.height.equalTo(84 * layoutScale)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
     
     private func bindState() {
-        let dataSource = RxCollectionViewSectionedReloadDataSource<AlbumSectionModel>(configureCell: { (datasource, collectionView, indexPath, item) in
-            return self.sections[indexPath.section].configureCell(collectionView: collectionView, indexPath: indexPath, item: item)
+        viewModel.output.title
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        let dataSource = TemplateDataSource(configureCell: { (dataSource, collectionView, indexPath, item) in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateCell.identifier, for: indexPath) as! TemplateCell
+            cell.bind(viewModel: item)
+            return cell
         })
         
-        viewModel.output.albumSection
+        viewModel.output.pageSection
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.output.createViewModel
-            .bind { self.createAlbum($0) }
+        viewModel.output.back
+            .bind { _ in
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
             .disposed(by: disposeBag)
         
-        viewModel.output.selectedMakingAlbum
-            .bind { self.showMakingAlbum($0) }
+        viewModel.output.close
+            .bind { _ in
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
             .disposed(by: disposeBag)
         
-        viewModel.output.selectedAlbum
-            .bind { self.showAlbum($0) }
+        viewModel.output.controlBarIsHidden
+            .bind(to: contorlBar.rx.isHidden)
             .disposed(by: disposeBag)
     }
     
     private func bindAction() {
+        backButton.rx.tap
+            .bind(to: viewModel.input.back)
+            .disposed(by: disposeBag)
+        
+        closeButton.rx.tap
+            .bind(to: viewModel.input.close)
+            .disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
-            .filter { $0.section == 0 }
             .map { _ in () }
-            .bind(to: viewModel.input.createAlbumButton)
+            .bind(to: viewModel.input.controlBarToggle)
             .disposed(by: disposeBag)
-        
-        collectionView.rx.itemSelected
-            .filter { $0.section == 3 }
-            .bind(to: viewModel.input.selectMakingAlbum)
-            .disposed(by: disposeBag)
-        
-        collectionView.rx.itemSelected
-            .filter { $0.section == 5 }
-            .bind(to: viewModel.input.selectAlbum)
-            .disposed(by: disposeBag)
-        
-        viewModel.input.refresh.accept(())
     }
-    
-    
-    // MARK: - Method
-    private func createAlbum(_ viewModel: AlbumCoverViewModel) {
-        let vc = AlbumCoverViewController(viewModel: viewModel)
-        let naviVC = UINavigationController(rootViewController: vc)
-        naviVC.modalPresentationStyle = .overFullScreen
-        naviVC.navigationBar.isHidden = true
-        DispatchQueue.main.async {
-            self.present(naviVC, animated: false)
-        }
-    }
-    
-    private func showMakingAlbum(_ albumViewModel: AlbumViewModel) {
-        let vc = UIViewController()
-        DispatchQueue.main.async {
-            self.present(vc, animated: true)
-        }
-    }
-    
-    private func showAlbum(_ albumViewModel: AlbumViewModel) {
-//        switch albumViewModel.template {
-//        case ....:
-//            return TemplateView()
-//        }
-        
-        let vc = UIViewController()
-        DispatchQueue.main.async {
-            self.present(vc, animated: true)
-        }
-    }
-    
-//    private func templateToTemplateView() -> TemplateView {
-//        
-//    }
 }
 
 extension AlbumDetailViewController: AlbumTitleHeaderCellDelegate {
