@@ -29,6 +29,7 @@
 		368F27F127116F5C0082089A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F027116F5C0082089A /* LoginService.swift */; };
 		368F27F4271170C20082089A /* LoginOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F3271170C20082089A /* LoginOAuth.swift */; };
 		36B57AAB2780318D00F770E0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AAA2780318D00F770E0 /* ToastView.swift */; };
+		36B57AAD278036C200F770E0 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AAC278036C200F770E0 /* UIApplication+.swift */; };
 		36BB2522275B2FB900AB9B07 /* KakaoSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */; };
 		36D1088A273FAF9600E4F4B7 /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36D10889273FAF9600E4F4B7 /* LoginAPI.swift */; };
 		36F9020026F5AD4900CC4915 /* ShareActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F901FF26F5AD4900CC4915 /* ShareActionSheetViewController.swift */; };
@@ -259,6 +260,7 @@
 		368F27F027116F5C0082089A /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		368F27F3271170C20082089A /* LoginOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuth.swift; sourceTree = "<group>"; };
 		36B57AAA2780318D00F770E0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		36B57AAC278036C200F770E0 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		36BB2521275B2FB900AB9B07 /* KakaoSDKService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSDKService.swift; sourceTree = "<group>"; };
 		36D10889273FAF9600E4F4B7 /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		36F901FF26F5AD4900CC4915 /* ShareActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				6549FC9327536BA500534E03 /* URLRequest+.swift */,
 				36FAD6522765FDA300A1E75C /* UINavigationController+.swift */,
 				6508B5232778488E00CF5ADC /* String+.swift */,
+				36B57AAC278036C200F770E0 /* UIApplication+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1692,6 +1695,7 @@
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
 				652BC1CE25E0D62A00DC8E90 /* FilmMainCollectionViewCell.swift in Sources */,
 				36FAD64C2763A40B00A1E75C /* AppleLoginController.swift in Sources */,
+				36B57AAD278036C200F770E0 /* UIApplication+.swift in Sources */,
 				9B5040DE269D6BB600809FC4 /* ProfileLeaveTableViewCell.swift in Sources */,
 				4C357AE225E1013B00B23E84 /* ScrollingHorizontalStackView.swift in Sources */,
 				65F888FF275B60ED006F29F8 /* AlbumEmptyCell.swift in Sources */,
