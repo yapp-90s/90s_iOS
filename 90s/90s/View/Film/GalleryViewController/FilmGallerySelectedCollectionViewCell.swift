@@ -38,8 +38,8 @@ final class FilmGallerySelectedCollectionViewCell: UICollectionViewCell {
     }
     
     func bindImageView(photo image: UIImage) {
-        DispatchQueue.main.async { [weak self] in
-            self?.imageView.image = image
+        DispatchQueue.main.async {
+            self.imageView.image = image
         }
     }
 }

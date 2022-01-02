@@ -106,11 +106,7 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
         
         self.completeButton.rx.tap
             .asDriver().drive(onNext: {
-//                self.requestUploadPhotos()
-//                var array : [Photo] = []
-//                photos.forEach { array.append()}
-//                film.photos.
-//                film.photos.append(contentsOf: photos)
+                // TODO: - 사진 추가 서비스 로직
             })
             .disposed(by: disposeBag)
     }
