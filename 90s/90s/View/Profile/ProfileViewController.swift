@@ -315,7 +315,7 @@ final class ProfileViewController: BaseViewController, UIScrollViewDelegate {
     
     private func setUpManageButton() {
         manageButton.rx.tap.bind {
-            let profileEditViewModel = ProfileEditViewModel()
+            let profileEditViewModel = ProfileEditViewModel(dependency: .init(profileService: ProfileService()))
             self.navigationController?.pushViewController(ProfileEditViewController(viewModel: profileEditViewModel), animated: true)
         }.disposed(by: disposeBag)
     }

@@ -20,7 +20,11 @@ final class ProfileEditViewModel: ViewModelType {
     private var profileImageStream = BehaviorRelay<Data>(value: Data())
     private var editCompletePublisher = PublishSubject<Void>()
     
-    required init(dependency: Dependency = .init()) {
+    private var profileService: ProfileService {
+        return self.dependency.profileService
+    }
+    
+    required init(dependency: Dependency) {
         self.dependency = dependency
         self.input = Input(
             nameStream: self.nameStream
@@ -32,14 +36,30 @@ final class ProfileEditViewModel: ViewModelType {
         )
         
         self.input.editPublisher
-            .bind(to: self.editCompletePublisher)
+            .subscribe(onNext: { [weak self] _ in
+                self?.updateProfile()
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func updateProfile() {
+        let uploadbleProfile = UploadbleProfile(
+            name: self.nameStream.value,
+            image: UploadableImage(data: self.profileImageStream.value)
+        )
+        self.profileService.updateProfile(uploadbleProfile)
+            .subscribe(onSuccess: { [weak self] response in
+                self?.editCompletePublisher.onNext(())
+            })
             .disposed(by: self.disposeBag)
     }
 }
 
 extension ProfileEditViewModel {
     
-    struct Dependency { }
+    struct Dependency {
+        var profileService: ProfileService
+    }
     
     struct Input {
         var nameStream: BehaviorRelay<String>
