@@ -16,12 +16,19 @@ struct Album {
     let isComplete: Bool
     let completedAt: String?
     let photos: [Photo]
-//    let createdAt: String
-//    var updatedAt: String
-    //    var user: [String]? = []
-//    let endAt: String
-//    let template: Template
-//    private(set) var photos: [Photo] = []
+    let pages: [Page]
+    
+    init(uid: Int, cover: Cover, template: Template, name: String, readCount: Int?, isComplete: Bool, completedAt: String?, photos: [Photo]) {
+        self.uid = uid
+        self.cover = cover
+        self.template = template
+        self.name = name
+        self.readCount = readCount
+        self.isComplete = isComplete
+        self.completedAt = completedAt
+        self.photos = photos
+        self.pages = Photo.convertToPages(from: photos, template: template)
+    }
 }
 
 extension Album {

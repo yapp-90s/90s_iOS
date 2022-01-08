@@ -99,25 +99,25 @@ final class AlbumListViewController: BaseViewController {
     private func setupUI() {
         view.backgroundColor = .black
         topBar.snp.makeConstraints {
-            $0.height.equalTo(52)
+            $0.height.equalTo(52 * layoutScale)
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
         }
         
         backButton.snp.makeConstraints {
-            $0.width.height.equalTo(34)
-            $0.leading.equalToSuperview().offset(9)
+            $0.width.height.equalTo(34 * layoutScale)
+            $0.leading.equalToSuperview().offset(9 * layoutScale)
             $0.centerY.equalToSuperview()
         }
 
         titleLabel.snp.makeConstraints {
-            $0.height.equalTo(24)
+            $0.height.equalTo(24 * layoutScale)
             $0.center.equalToSuperview()
         }
 
         editButton.snp.makeConstraints {
-            $0.width.height.equalTo(34)
-            $0.trailing.equalToSuperview().offset(-9)
+            $0.width.height.equalTo(34 * layoutScale)
+            $0.trailing.equalToSuperview().offset(-9 * layoutScale)
             $0.centerY.equalToSuperview()
         }
         
@@ -127,7 +127,7 @@ final class AlbumListViewController: BaseViewController {
         }
         
         deleteButton.snp.makeConstraints {
-            $0.height.equalTo(60)
+            $0.height.equalTo(60 * layoutScale)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.leading.trailing.equalToSuperview()
         }
