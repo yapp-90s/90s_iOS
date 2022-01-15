@@ -19,7 +19,6 @@ class AlbumCoverCollectionViewCell: UICollectionViewCell {
     lazy private(set) var imageView: UIImageView = {
         let imageView = UIImageView()
         self.addSubview(imageView)
-        imageView.backgroundColor = .blue
         return imageView
     }()
     

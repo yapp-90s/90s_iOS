@@ -161,6 +161,12 @@ class PhoneAuthenticationViewController: BaseViewController {
         self.viewModel.output.isHiddenAuthenticationTextField
             .bind(to: self.authNumberView.rx.isHidden)
             .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.signUpFailed
+            .subscribe(onNext: { message in
+                ToastController.shared.showToast(message: message, duration: 3, position: .top(offset: 0))
+            })
+            .disposed(by: self.disposeBag)
     }
     
     private func updateCompleButton(isEnabled: Bool) {

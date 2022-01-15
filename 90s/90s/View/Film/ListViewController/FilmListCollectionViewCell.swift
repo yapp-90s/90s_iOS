@@ -12,7 +12,8 @@ import SnapKit
 final class FilmListCollectionViewCell: UICollectionViewCell {
     private var imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
-        iv.contentMode = .scaleToFill
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
         return iv
     }()
     
@@ -35,10 +36,7 @@ final class FilmListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func bindViewModel(item: Photo, isScaleFill: Bool){
-        if isScaleFill {
-            imageView.contentMode = .scaleToFill
-        }
+    func bindViewModel(item: Photo){
         DispatchQueue.main.async { [weak self] in
             self?.imageView.image = UIImage(named: item.url)
         }

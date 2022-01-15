@@ -61,6 +61,7 @@ final class TemplatePortraBlack: UIView, TemplateView {
     }
     
     private func setLayout() {
+        backgroundColor = .black
         imageView1.snp.makeConstraints {
             $0.width.height.equalTo(144 * scale)
             $0.top.equalToSuperview().offset(30 * scale)

@@ -12,4 +12,5 @@ struct Template {
     let imageName: String
     let code: Int
     let page: Int
+    let imageMaxCount: Int
 }

@@ -20,6 +20,9 @@ extension UIColor {
     static let Warm_Gray = ColorType.Warm_Gray.create()
     static let Cool_Lightgray = ColorType.Cool_Lightgray.create()
     static let Cool_Gray = ColorType.Cool_Gray.create()
+    static let retroPink = ColorType.Retro_Pink.create()
+    static let actionSheet = ColorType.actionSheet.create()
+    static let lightGrey = ColorType.lightGrey.create()
 }
 
 enum ColorType {
@@ -27,10 +30,13 @@ enum ColorType {
     case Retro_Black
     case Retro_Lightgray
     case Retro_Gray
+    case Retro_Pink
     case Warm_Lightgray
     case Warm_Gray
     case Cool_Lightgray
     case Cool_Gray
+    case actionSheet
+    case lightGrey
     
     func create() -> UIColor {
         switch self {
@@ -42,6 +48,8 @@ enum ColorType {
             return UIColor.colorRGBHex(hex: 0xBEBEBE)
         case .Retro_Gray:
             return UIColor.colorRGBHex(hex: 0x9D9D9D)
+        case .Retro_Pink:
+            return UIColor.colorRGBHex(hex: 0xF64867)
         case .Warm_Lightgray:
             return UIColor.colorRGBHex(hex: 0x575252)
         case .Warm_Gray:
@@ -50,6 +58,10 @@ enum ColorType {
             return UIColor.colorRGBHex(hex: 0x43454D)
         case .Cool_Gray:
             return UIColor.colorRGBHex(hex: 0x2E2F33)
+        case .actionSheet:
+            return UIColor.colorRGBHex(hex: 0x000000, alpha: 0.5)
+        case .lightGrey:
+            return UIColor.colorRGBHex(hex: 0xE4E4E5)
         }
     }
 }

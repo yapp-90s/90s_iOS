@@ -102,7 +102,7 @@ final class AlbumSelectPhotoByFilmViewController: BaseViewController, UIScrollVi
         
         Observable.from(optional: viewModel.photos)
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.cellId, cellType: FilmListCollectionViewCell.self)) { index, element, cell in
-                cell.bindViewModel(item: element, isScaleFill: false)
+                cell.bindViewModel(item: element)
             }
             .disposed(by: disposeBag)
         
