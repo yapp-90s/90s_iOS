@@ -28,6 +28,9 @@
 		368F27EE27116D5D0082089A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27ED27116D5D0082089A /* LoginViewModel.swift */; };
 		368F27F127116F5C0082089A /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F027116F5C0082089A /* LoginService.swift */; };
 		368F27F4271170C20082089A /* LoginOAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368F27F3271170C20082089A /* LoginOAuth.swift */; };
+		36B57A9F2780007B00F770E0 /* ProfileEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57A9E2780007B00F770E0 /* ProfileEditViewModel.swift */; };
+		36B57AA227801C8F00F770E0 /* MultipartFormDataUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AA127801C8F00F770E0 /* MultipartFormDataUpload.swift */; };
+		36B57AA42780204E00F770E0 /* UploadbleProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AA32780204E00F770E0 /* UploadbleProfile.swift */; };
 		36B57AA92780312300F770E0 /* ToastController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AA82780312300F770E0 /* ToastController.swift */; };
 		36B57AAB2780318D00F770E0 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AAA2780318D00F770E0 /* ToastView.swift */; };
 		36B57AAD278036C200F770E0 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B57AAC278036C200F770E0 /* UIApplication+.swift */; };
@@ -268,6 +271,9 @@
 		368F27ED27116D5D0082089A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		368F27F027116F5C0082089A /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		368F27F3271170C20082089A /* LoginOAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuth.swift; sourceTree = "<group>"; };
+		36B57A9E2780007B00F770E0 /* ProfileEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewModel.swift; sourceTree = "<group>"; };
+		36B57AA127801C8F00F770E0 /* MultipartFormDataUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartFormDataUpload.swift; sourceTree = "<group>"; };
+		36B57AA32780204E00F770E0 /* UploadbleProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadbleProfile.swift; sourceTree = "<group>"; };
 		36B57AA82780312300F770E0 /* ToastController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastController.swift; sourceTree = "<group>"; };
 		36B57AAA2780318D00F770E0 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		36B57AAC278036C200F770E0 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
@@ -519,6 +525,7 @@
 			children = (
 				36188EF6276DC03F00C87188 /* ProfileViewModel.swift */,
 				3623370B276F0834002BC06D /* ProfileSettingViewModel.swift */,
+				36B57A9E2780007B00F770E0 /* ProfileEditViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -571,6 +578,13 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		36B57AA027801C8400F770E0 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				36B57AA127801C8F00F770E0 /* MultipartFormDataUpload.swift */,
+			);
+			path = Upload;
+        };
 		36B57AA72780311800F770E0 /* Toast */ = {
 			isa = PBXGroup;
 			children = (
@@ -785,6 +799,7 @@
 		6521BF7A25BC272200580EB5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				36B57AA027801C8400F770E0 /* Upload */,
 				36233715276F1FEA002BC06D /* Profile */,
 				368F27EF27116F470082089A /* Login */,
 				9B8EC892269EC4D60010BFA9 /* Common */,
@@ -796,8 +811,8 @@
 				65962602262C319000277B80 /* TemplateService.swift */,
 				4CDA3C62264FA39200EEE12C /* AlbumAPI.swift */,
 				4CDA3C66264FA94A00EEE12C /* AlbumResponse.swift */,
-				4C2319602674405E00FE0939 /* ImageService.swift */,
 				3662CFC2273FACC40066BFC4 /* UserManager.swift */,
+				4C2319602674405E00FE0939 /* ImageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1307,6 +1322,7 @@
 			isa = PBXGroup;
 			children = (
 				9B8EC865269EBA200010BFA9 /* Profile.swift */,
+				36B57AA32780204E00F770E0 /* UploadbleProfile.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1565,6 +1581,7 @@
 				6525007E264C4C3700C1524D /* AlbumRepository.swift in Sources */,
 				9B30C317268F017C007F3564 /* ProfileEditViewController.swift in Sources */,
 				9B75E28B26799B1E0067667D /* FilmRepository.swift in Sources */,
+				36B57AA227801C8F00F770E0 /* MultipartFormDataUpload.swift in Sources */,
 				4C2319572673593200FE0939 /* DecorateContainerViewModel.swift in Sources */,
 				9B878D5D25E0F4110024CFAA /* FilmListViewController.swift in Sources */,
 				9B878D6025E0F48A0024CFAA /* FilmInfoTableViewCell.swift in Sources */,
@@ -1648,6 +1665,7 @@
 				36233719276F1FEA002BC06D /* ProfileAPI.swift in Sources */,
 				36529073270823710060BEDE /* LoginViewController.swift in Sources */,
 				650D41EC273FA0DF001C4D85 /* AlbumsViewModel.swift in Sources */,
+				36B57A9F2780007B00F770E0 /* ProfileEditViewModel.swift in Sources */,
 				651AED58260EFEAB009135DB /* AlbumCoverCollectionViewCell.swift in Sources */,
 				9BC436B3267332910081D3E8 /* FilmMainSectionModel.swift in Sources */,
 				9BC39C9C2748D113002E7DC7 /* successResponse.swift in Sources */,
@@ -1757,6 +1775,7 @@
 				6508B52627785E6A00CF5ADC /* TemplateCell.swift in Sources */,
 				6579621C2748E5D8005780C0 /* FilmGallerySelectedCollectionViewCell.swift in Sources */,
 				9BF3E435273F7689002C8110 /* GalleryViewModel.swift in Sources */,
+				36B57AA42780204E00F770E0 /* UploadbleProfile.swift in Sources */,
 				6508B52B2778643600CF5ADC /* TemplateCellViewModel.swift in Sources */,
 				9B30C323268F01B0007F3564 /* ProfileFAQViewController.swift in Sources */,
 				659C9AFF2748A9BB00697167 /* AlbumListViewModel.swift in Sources */,

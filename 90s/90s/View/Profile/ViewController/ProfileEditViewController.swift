@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 
 final class ProfileEditViewController: BaseViewController {
+    
     private let profileImageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true
@@ -43,12 +44,21 @@ final class ProfileEditViewController: BaseViewController {
     }()
     
     private var name : String = ""
+    private let viewModel: ProfileEditViewModel
+    
+    init(viewModel: ProfileEditViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSubviews()
-        setUpTextField()
-        setUpEditButton()
+        bind()
     }
     
     private func setUpSubviews() {
@@ -88,31 +98,43 @@ final class ProfileEditViewController: BaseViewController {
         }
     }
 
-    private func setUpTextField() {
-        nameTextField.rx.controlEvent([.editingChanged])
-            .asObservable()
+    private func bind() {
+        // input
+        self.nameTextField.rx.value.orEmpty
+            .bind(to: self.viewModel.input.nameStream)
+            .disposed(by: self.disposeBag)
+        
+        self.editButton.rx.tap
+            .bind(to: self.viewModel.input.editPublisher)
+            .disposed(by: self.disposeBag)
+        
+        // output
+        self.viewModel.output.nameObservable
+            .map { $0.isEmpty == false }
+            .subscribe(onNext: { [weak self] isActivate in
+                self?.updateTextField(isActivated: isActivate)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.profileImageObservable
+            .map { UIImage(data: $0) }
+            .bind(to: profileImageView.rx.image)
+            .disposed(by: self.disposeBag)
+        
+        self.viewModel.output.editCompleteObservable
             .subscribe(onNext: { [weak self] _ in
-                guard let self = self,
-                      let trimmedText = self.nameTextField.text?.trimmingCharacters(in: .whitespaces)
-                else {
-                    return
-                }
-                
-                if trimmedText.isEmpty {
-                    self.editButton.backgroundColor = .warmGray
-                    self.editButton.isEnabled = false
-                } else {
-                    self.name = trimmedText
-                    self.editButton.backgroundColor = .retroOrange
-                    self.editButton.isEnabled = true
-                }
-            }).disposed(by: disposeBag)
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
     }
     
-    private func setUpEditButton() {
-        editButton.rx.tap.bind { [weak self] in
-            /// 이름 변경 네트워킹 코드 삽입
-            self?.navigationController?.popViewController(animated: true)
-        }.disposed(by: disposeBag)
+    private func updateTextField(isActivated: Bool) {
+        if isActivated {
+            self.editButton.backgroundColor = .retroOrange
+            self.editButton.isEnabled = true
+        } else {
+            self.editButton.backgroundColor = .warmGray
+            self.editButton.isEnabled = false
+        }
     }
 }

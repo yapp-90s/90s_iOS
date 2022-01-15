@@ -20,4 +20,8 @@ final class ProfileService {
     func updateReceivingEvent(isOn: Bool) -> Single<Response> {
         return self.provider.rx.request(.updateReceivingEventIsOn)
     }
+    
+    func updateProfile(_ profile: UploadbleProfile) -> Single<Response> {
+        return self.provider.rx.request(.updateProfile(profile))
+    }
 }

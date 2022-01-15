@@ -11,6 +11,7 @@ import Moya
 enum ProfileAPI {
     case getReceivingEventIsOn
     case updateReceivingEventIsOn
+    case updateProfile(UploadbleProfile)
 }
 
 extension ProfileAPI: BaseTarget {
@@ -20,10 +21,19 @@ extension ProfileAPI: BaseTarget {
     }
     
     var method: Moya.Method {
-        return .get
+        switch self {
+        case .updateProfile(let profile):
+            return .post
+        default: return .get
+        }
+        
     }
     
     var task: Task {
-        return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
+        switch self {
+        case .updateProfile(let profile):
+            return .uploadMultipart(profile.multipartFormDatas)
+        default: return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
+        }
     }
 }
