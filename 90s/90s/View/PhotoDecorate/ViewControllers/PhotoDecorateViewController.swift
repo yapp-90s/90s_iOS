@@ -7,26 +7,50 @@
 
 import UIKit
 
-class PhotoDecorateViewController: BaseViewController {
+class PhotoDecorateViewController: BaseViewController, UIScrollViewDelegate {
     
     private struct Constraints {
-        static let photoInset: UIEdgeInsets = .init(top: 40, left: 40, bottom: 40, right: 40)
+        static let photoInset: UIEdgeInsets = .init(top: 20, left: 20, bottom: 20, right: 20)
     }
     
     private var decorator = StickerDecorator()
     
     // MARK: - Views
     
-    private(set) var decoratingView: UIView = {
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.minimumZoomScale = self.minimumZoomScale
+        scrollView.maximumZoomScale = self.maximumZoomScale
+        scrollView.bouncesZoom = false
+        scrollView.delegate = self
+        return scrollView
+    }()
+    
+    private let contentView: UIView = {
         let view = UIView()
         
         return view
     }()
     
-    private(set) var decoratingBorderView: UIView = {
+    private let decoratingAreaView: UIView = {
         let view = UIView()
         view.layer.borderColor = UIColor.white.cgColor
         view.layer.borderWidth = 1
+        
+        return view
+    }()
+    
+    private let decoratingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
+    private let decoratingContentView: UIView = {
+        let view = UIView()
         
         return view
     }()
@@ -49,6 +73,8 @@ class PhotoDecorateViewController: BaseViewController {
     // MARK: - Properties
     
     unowned let viewModel: PhotoDecorateViewModel
+    var minimumZoomScale = 0.7
+    var maximumZoomScale = 1.0
     
     // MARK: - Initialize
     
@@ -108,68 +134,84 @@ class PhotoDecorateViewController: BaseViewController {
     }
     
     private func setupViews() {
-        view.addSubview(decoratingBorderView)
-        decoratingBorderView.addSubview(decoratingView)
-        decoratingView.addSubview(photoBackgroundView)
-        decoratingView.addSubview(photoView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(decoratingAreaView)
+        decoratingAreaView.addSubview(decoratingView)
+        decoratingView.addSubview(decoratingContentView)
+        decoratingContentView.addSubview(photoBackgroundView)
+        decoratingContentView.addSubview(photoView)
         
-        photoView.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.top.greaterThanOrEqualToSuperview()
-            $0.bottom.lessThanOrEqualToSuperview()
-            $0.leading.equalToSuperview().inset(Constraints.photoInset)
-            $0.trailing.equalToSuperview().inset(Constraints.photoInset)
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
-        photoBackgroundView.snp.makeConstraints {
-            $0.center.equalTo(photoView)
-            $0.top.edges.equalTo(photoView).inset(-20)
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
         }
         
-        decoratingBorderView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.bottom.equalTo(photoBackgroundView).inset(-20)
+        decoratingAreaView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         decoratingView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        decoratingContentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.center.equalTo(scrollView.frameLayoutGuide)
+        }
+        
+        photoBackgroundView.snp.makeConstraints {
+            $0.leading.trailing.greaterThanOrEqualToSuperview().inset(20)
+            $0.top.greaterThanOrEqualToSuperview().inset(20)
+            $0.bottom.lessThanOrEqualToSuperview().inset(20)
+            $0.center.equalToSuperview()
+        }
+        
+        photoView.snp.makeConstraints {
+            $0.edges.equalTo(photoBackgroundView).inset(Constraints.photoInset)
         }
     }
     
     // MARK: - Methods
     
     func attachStickerView(_ sticker: ResizableStickerView, at position: CGPoint? = nil) {
-        photoView.addSubview(sticker)
+        decoratingContentView.addSubview(sticker)
         sticker.center = position ?? photoView.center
         addMovingGesture(sticker)
         addResizingGesture(sticker)
     }
     
     func renderDecoratedImage() -> Data {
-        let renderer = UIGraphicsImageRenderer(size: decoratingView.bounds.size)
-        let image = renderer.pngData { context in
-            decoratingView.drawHierarchy(in: decoratingView.bounds, afterScreenUpdates: true)
-        }
-        
-        return image
+        return decorator.renderDecoratedView(self.decoratingView, in: self.decoratingView.bounds)
     }
     
     // MARK: Private
     
     private func addMovingGesture(_ sticker: ResizableStickerView) {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(moveSticker(_:)))
-        
         sticker.addGestureRecognizer(panGesture)
     }
     
     @objc private func moveSticker(_ gesture: UIPanGestureRecognizer) {
-        decorator.moveSticker(with: gesture, in: photoView)
+        decorator.moveSticker(with: gesture, in: self.decoratingContentView)
     }
     
     private func addResizingGesture(_ sticker: ResizableStickerView) {
         sticker.resizeHandler = { [weak self] gesture, sticker in
             guard let self = self else { return }
-            self.decorator.resizingSticker(sticker, with: gesture, in: self.photoView)
+            self.decorator.resizingSticker(sticker, with: gesture, in: self.decoratingContentView)
         }
+    }
+    
+    // MARK: - ScrollViewDelegate
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return self.decoratingContentView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        decoratingContentView.center = scrollView.center
     }
 }
