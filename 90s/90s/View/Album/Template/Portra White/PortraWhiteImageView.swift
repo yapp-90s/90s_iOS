@@ -6,21 +6,15 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class PortraWhiteTemplateImageView: UIView, TemplateImageView {
     
-    var image: UIImage? {
-        didSet {
-            imageView.image = self.image
-        }
-    }
-    
-    weak var delegate: TemplateImageViewDelegate?
-    
+    // MARK: - UI Component
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .Cool_Gray
         imageView.contentMode = .scaleAspectFill
         addSubview(imageView)
         return imageView
@@ -35,6 +29,22 @@ final class PortraWhiteTemplateImageView: UIView, TemplateImageView {
         return imageView
     }()
     
+    // MARK: - Property
+    var image: UIImage? {
+        didSet {
+            imageView.image = self.image
+        }
+    }
+    
+    var imageURL: URL? {
+        didSet {
+            imageView.kf.setImage(with: imageURL)
+        }
+    }
+    
+    weak var delegate: TemplateImageViewDelegate?
+    
+    // MARK: - Init
     init() {
         super.init(frame: .zero)
         
@@ -46,6 +56,7 @@ final class PortraWhiteTemplateImageView: UIView, TemplateImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup Method
     private func setAction() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
         caseImageView.addGestureRecognizer(tapGesture)
@@ -61,6 +72,7 @@ final class PortraWhiteTemplateImageView: UIView, TemplateImageView {
         }
     }
     
+    // MARK: - Action Method
     @objc func tap(_ sender: UITapGestureRecognizer) {
         delegate?.tapped(tag)
     }
