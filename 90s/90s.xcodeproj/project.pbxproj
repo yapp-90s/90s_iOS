@@ -1081,14 +1081,14 @@
 		65F73D6D2721D110001313B5 /* Template */ = {
 			isa = PBXGroup;
 			children = (
+				65F73D7D2721D133001313B5 /* TemplateImageView.swift */,
+				65AD480F27569E3200FE29C6 /* TemplateView.swift */,
 				65F73D7E2721D133001313B5 /* Gradient */,
 				65F73D6E2721D133001313B5 /* Grass */,
 				65F73D742721D133001313B5 /* Moody Paper */,
 				65F73D712721D133001313B5 /* Polaroid */,
 				65F73D772721D133001313B5 /* Portra Black */,
 				65F73D7A2721D133001313B5 /* Portra White */,
-				65F73D7D2721D133001313B5 /* TemplateImageView.swift */,
-				65AD480F27569E3200FE29C6 /* TemplateView.swift */,
 			);
 			path = Template;
 			sourceTree = "<group>";
