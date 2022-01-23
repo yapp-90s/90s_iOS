@@ -89,6 +89,8 @@
 		6508B5242778488E00CF5ADC /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508B5232778488E00CF5ADC /* String+.swift */; };
 		6508B52627785E6A00CF5ADC /* TemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508B52527785E6A00CF5ADC /* TemplateCell.swift */; };
 		6508B52B2778643600CF5ADC /* TemplateCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508B52A2778643600CF5ADC /* TemplateCellViewModel.swift */; };
+		650C936C279BE91000CF7D29 /* AlbumDetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650C936B279BE91000CF7D29 /* AlbumDetailCollectionViewController.swift */; };
+		650C936E279BE92C00CF7D29 /* AlbumDetailCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650C936D279BE92C00CF7D29 /* AlbumDetailCollectionViewModel.swift */; };
 		650D41EB273FA0DF001C4D85 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650D41E9273FA0DF001C4D85 /* AlbumsViewController.swift */; };
 		650D41EC273FA0DF001C4D85 /* AlbumsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650D41EA273FA0DF001C4D85 /* AlbumsViewModel.swift */; };
 		651AED58260EFEAB009135DB /* AlbumCoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651AED57260EFEAB009135DB /* AlbumCoverCollectionViewCell.swift */; };
@@ -328,6 +330,8 @@
 		6508B5232778488E00CF5ADC /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6508B52527785E6A00CF5ADC /* TemplateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCell.swift; sourceTree = "<group>"; };
 		6508B52A2778643600CF5ADC /* TemplateCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCellViewModel.swift; sourceTree = "<group>"; };
+		650C936B279BE91000CF7D29 /* AlbumDetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailCollectionViewController.swift; sourceTree = "<group>"; };
+		650C936D279BE92C00CF7D29 /* AlbumDetailCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailCollectionViewModel.swift; sourceTree = "<group>"; };
 		650D41E9273FA0DF001C4D85 /* AlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
 		650D41EA273FA0DF001C4D85 /* AlbumsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewModel.swift; sourceTree = "<group>"; };
 		651AED57260EFEAB009135DB /* AlbumCoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCoverCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -725,6 +729,15 @@
 			path = Template;
 			sourceTree = "<group>";
 		};
+		650C936A279BE8F100CF7D29 /* AlbumDetailCollection */ = {
+			isa = PBXGroup;
+			children = (
+				650C936B279BE91000CF7D29 /* AlbumDetailCollectionViewController.swift */,
+				650C936D279BE92C00CF7D29 /* AlbumDetailCollectionViewModel.swift */,
+			);
+			path = AlbumDetailCollection;
+			sourceTree = "<group>";
+		};
 		650D41E8273FA0DF001C4D85 /* Albums */ = {
 			isa = PBXGroup;
 			children = (
@@ -982,6 +995,7 @@
 			children = (
 				657962182748E49C005780C0 /* AlbumSelectPhotoViewController.swift */,
 				9B810FF5275B2A8F00A54CD8 /* AlbumSelectPhotoByFilmViewController.swift */,
+				650C936A279BE8F100CF7D29 /* AlbumDetailCollection */,
 				65AD480C27569D9B00FE29C6 /* AlbumDetail */,
 				650D41E8273FA0DF001C4D85 /* Albums */,
 				659C9AFB2748A97400697167 /* AlbumList */,
@@ -1579,6 +1593,8 @@
 				4CDA3C67264FA94A00EEE12C /* AlbumResponse.swift in Sources */,
 				4CBF1781260F0526005ED4F8 /* StickerDecorator.swift in Sources */,
 				6508B5242778488E00CF5ADC /* String+.swift in Sources */,
+				650C936E279BE92C00CF7D29 /* AlbumDetailCollectionViewModel.swift in Sources */,
+				652BC1D125E0D62A00DC8E90 /* FilmMainHeaderCollectionViewCell.swift in Sources */,
 				4C554FDE26219AE7001C90C3 /* RatioBasedImageView.swift in Sources */,
 				4CE649FA25E0DEC80093D238 /* DecorateContainerViewController.swift in Sources */,
 				65F73D842721D133001313B5 /* TemplatePolaroid.swift in Sources */,
@@ -1715,6 +1731,7 @@
 				9B9868EB2696F2450063A938 /* ProfileSettingTableViewCell.swift in Sources */,
 				6521BF8B25BC2A6900580EB5 /* Box.swift in Sources */,
 				6521BF8625BC293300580EB5 /* PhotoService.swift in Sources */,
+				650C936C279BE91000CF7D29 /* AlbumDetailCollectionViewController.swift in Sources */,
 				36D1088A273FAF9600E4F4B7 /* LoginAPI.swift in Sources */,
 				65EBDF7E26186A0200E51612 /* AlbumSection.swift in Sources */,
 				65EBDF8726186CD800E51612 /* AlbumCoverSection.swift in Sources */,
