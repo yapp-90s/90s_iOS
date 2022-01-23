@@ -35,17 +35,11 @@ final class AlbumRepository {
     
     // MARK: - Output
     let event = PublishSubject<AlbumEvent>()
-//    let albums: Observable<[AlbumViewModel]>
     let allAlbums: Observable<[Album]>
     let completeAlbums: Observable<[Album]>
     let makeingAlbums: Observable<[Album]>
     
     private init() {
-//        albums = albumsRelay // Legacy
-//            .asObservable()
-//            .map { $0.map { AlbumViewModel(album: $0)} }
-//            .subscribeOn(SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
-        
         allAlbums = albumsRelay
             .asObservable()
             .subscribe(on: SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: UUID().uuidString))
@@ -58,41 +52,6 @@ final class AlbumRepository {
         
         bindAction()
     }
-    
-//    private func bindActionDummy() {
-//        requestAll
-//            .flatMap(client.allAlbum(_:))
-//            .bind(to: albumsRelay)
-//            .disposed(by: disposeBag)
-//
-//        create
-//            .map(client.create(_:))
-//            .filter { $0 }
-//            .map { _ in () }
-//            .bind(to: requestAll)
-//            .disposed(by: disposeBag)
-//
-//        addPhoto
-//            .map(client.addPhoto(_:))
-//            .filter { $0 }
-//            .map { _ in () }
-//            .bind(to: requestAll)
-//            .disposed(by: disposeBag)
-//
-//        complete
-//            .map(client.complte(_:))
-//            .filter { $0 }
-//            .map { _ in () }
-//            .bind(to: requestAll)
-//            .disposed(by: disposeBag)
-//
-//        delete
-//            .map(client.delete(_:))
-//            .filter { $0 }
-//            .map { _ in () }
-//            .bind(to: requestAll)
-//            .disposed(by: disposeBag)
-//    }
     
     private func bindAction() {
         requestAll
@@ -161,18 +120,6 @@ final class AlbumRepository {
         }
     }
     
-    func add(albumCreate: AlbumCreate) -> Bool {
-        queue.sync {
-//            let album = Album(uid: <#T##Int#>, cover: <#T##Cover#>, template: <#T##Template#>, name: <#T##String#>, readCount: <#T##Int?#>, isComplete: <#T##Bool#>, completedAt: <#T##String?#>, photos: <#T##[Photo]#>)
-//            let album = Album(uid: UUID().uuidString, name: albumCreate.name.value, createdAt: albumCreate.date.value.dateToString(), updatedAt: albumCreate.date.value.dateToString(), totalPaper: 10, cover: albumCreate.cover.value)
-//            var albums = albumsRelay.value
-//            albums.insert(album, at: 0)
-//            albumsRelay.accept(albums)
-            event.onNext(.add)
-            return true
-        }
-    }
-    
     func update(id: Int, album: Album) -> Bool {
         queue.sync {
             var albums = albumsRelay.value
@@ -200,44 +147,7 @@ final class AlbumRepository {
     }
     
     
-//    private func fetchMockData() {
-//        queue.sync {
-//            var dummyAlbums: [Album] = [
-//                .init(uid: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .sweetLittleMemories, photos: [
-//                    .init(photoUid: 0, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 1, url: "", date: "2020.01.04"),
-//                    .init(photoUid: 2, url: "", date: "2020.01.05")
-//                ]),
-//                .init(uid: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .candy, photos: [
-//                    .init(photoUid: 3, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 4, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 5, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 6, url: "", date: "2020.01.03")
-//                ]),
-//                .init(uid: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .yic, photos: [
-//                    .init(photoUid: 7, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 8, url: "", date: "2020.01.03")
-//                ]),
-//                .init(uid: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .stickyBubble, photos: [
-//                    .init(photoUid: 9, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 10, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 11, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 12, url: "", date: "2020.01.03")
-//                ]),
-//                .init(uid: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .youMakeMeCloudy, photos: [
-//                    .init(photoUid: 13, url: "", date: "2020.01.03")
-//                ]),
-//                .init(uid: UUID().uuidString, user: ["A"], name: "앨범1", createdAt: "", updatedAt: "", completedAt: "", totalPaper: 0, cover: .sweetLittleMemories, photos: [
-//                    .init(photoUid: 14, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 15, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 16, url: "", date: "2020.01.03"),
-//                    .init(photoUid: 17, url: "", date: "2020.01.03")
-//                ])
-//            ]
-//            dummyAlbums.sort { (l, r) -> Bool in
-//                return l.createdAt < r.createdAt
-//            }
-//            albumsRelay.accept(dummyAlbums)
-//        }
-//    }
+    func updatePhoto(at albumUID: Int, page: Int, index: Int, photoUID: Int) {
+        
+    }
 }
