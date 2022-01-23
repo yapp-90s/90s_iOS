@@ -83,7 +83,7 @@ extension AlbumsViewModel {
             
             selectedAlbum = input.selectAlbum
                 .map { $0.item }
-                .map(dependency.albumRepository.pickAlbum)
+                .map(dependency.albumRepository.pickCompleteAlbum)
                 .asObservable()
         }
     }
