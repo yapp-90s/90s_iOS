@@ -152,15 +152,15 @@ class AlbumsViewController: BaseViewController {
     }
     
     private func showMakingAlbum(_ albumViewModel: AlbumViewModel) {
-        let vc = UIViewController()
-        
+        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(isEditing: true, albumViewModel: albumViewModel)))
+        vc.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(vc, animated: true)
         }
     }
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
-        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(albumViewModel: albumViewModel)))
+        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(isEditing: false, albumViewModel: albumViewModel)))
         vc.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
             self.present(vc, animated: true)

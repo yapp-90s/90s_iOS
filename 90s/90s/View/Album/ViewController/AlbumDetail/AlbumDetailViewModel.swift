@@ -32,6 +32,7 @@ final class AlbumDetailViewModel: ViewModelType {
 extension AlbumDetailViewModel {
     
     struct Dependency {
+        let isEditing: Bool
         let albumViewModel: AlbumViewModel
     }
     
@@ -54,7 +55,7 @@ extension AlbumDetailViewModel {
             dependency.albumViewModel.pages
                 .filter { $0 != nil }
                 .map { $0! }
-                .map { [.init(model: (), items: $0.map { .init(dependency: .init(page: $0, template: dependency.albumViewModel.album.template))})]}
+                .map { [.init(model: (), items: $0.map { .init(dependency: .init(isEditing: dependency.isEditing, page: $0, template: dependency.albumViewModel.album.template))})]}
                 .bind(to: pageSection)
                 .disposed(by: disposeBag)
             

@@ -28,6 +28,7 @@ final class TemplateCellViewModel: ViewModelType {
 extension TemplateCellViewModel {
     
     struct Dependency {
+        let isEditing: Bool
         let page: Page
         let template: Template
     }
@@ -37,10 +38,11 @@ extension TemplateCellViewModel {
     }
     
     struct Output {
+        let isEditing: Bool
         private let disposeBag = DisposeBag()
         
         init(input: Input, dependency: Dependency) {
-            
+            isEditing = dependency.isEditing
         }
     }
 }

@@ -50,7 +50,7 @@ class AlbumDetailViewController: UIViewController {
         layout.minimumInteritemSpacing = 0
         layout.scrollDirection = .horizontal
         let width = UIScreen.main.bounds.width
-        let height = width * 1.586666
+        let height = width * 1.662538
         layout.itemSize = .init(width: width, height: height)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
@@ -135,6 +135,7 @@ class AlbumDetailViewController: UIViewController {
         let dataSource = TemplateDataSource(configureCell: { (dataSource, collectionView, indexPath, item) in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateCell.identifier, for: indexPath) as! TemplateCell
             cell.bind(viewModel: item)
+            cell.delegate = self
             return cell
         })
         
@@ -187,3 +188,16 @@ extension AlbumDetailViewController: AlbumTitleHeaderCellDelegate {
         }
     }
 }
+
+extension AlbumDetailViewController: TemplateCellDelegate {
+    func didTapPhoto(page: Int, index: Int) {
+        print("Page: \(page), Index: \(index)")
+    }
+}
+
+/*
+extension AlbumDetailViewController: PhotoPickerDelegate {
+ func didSelected(photoUID: Int, page: Int, index:Int) {
+    AlbumRepository.shared.updatePhoto(at: viewModel.dependency.albumViewModel.id, page: page, index: index, photoUID: photoUID)
+}
+*/

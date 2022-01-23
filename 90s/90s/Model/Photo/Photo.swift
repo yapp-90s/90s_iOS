@@ -14,17 +14,12 @@ struct Photo : Codable {
     let url: String
     let filmUid : Int?
     
-//    let createdAt: String
-//    let updatedAt: String
-    
     init(photoUid : Int, paperNum : Int, sequence: Int, url : String, filmUid: Int?) {
         self.photoUid = photoUid
         self.paperNum = paperNum
         self.sequence = sequence
         self.url = url
         self.filmUid = filmUid
-//        self.createdAt = "\(Date())"
-//        self.updatedAt = "\(Date())"
     }
     
     static func convertToPages(from photos: [Photo], template: Template) -> [Page] {
@@ -43,7 +38,7 @@ struct Photo : Codable {
         }
         
         for number in 0..<sortedPhotos.count {
-            let page = Page(number: number, images: sortedPhotos[number].map { $0?.image })
+            let page = Page(number: number, imagesURL: sortedPhotos[number].map { $0?.url == nil ? nil : .init(string: $0!.url) })
             result.append(page)
         }
         
@@ -63,13 +58,9 @@ extension Photo: Equatable {
     func isEqual(id: Int) -> Bool {
         return self == id
     }
-    
-    var image: UIImage {
-        return UIImage(named: "test_pic\(Int.random(in: 1...4)).png")!
-    }
-    
+
     var height: CGFloat {
-        return image.size.height
+        return 100
     }
 }
 
