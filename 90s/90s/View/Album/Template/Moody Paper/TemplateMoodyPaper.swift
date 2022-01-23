@@ -11,10 +11,7 @@ import SnapKit
 
 final class TemplateMoodyPaper: UIView, TemplateView {
     
-    let scale = UIScreen.main.bounds.width / 323
-    
-    var currentIndex: Int = -1
-    
+    // MARK: - UI Component
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Templete_MoodyPaper_Background")
@@ -40,6 +37,18 @@ final class TemplateMoodyPaper: UIView, TemplateView {
         return imageView
     }()
     
+    // MARK: - Property
+    let scale = UIScreen.main.bounds.width / 323
+    
+    var isEditing: Bool = false {
+        didSet {
+            setEditing(isEditing)
+        }
+    }
+    var currentIndex: Int = -1
+    weak var delegate: TemplateViewDelegate?
+    
+    // MARK: - Init
     init() {
         super.init(frame: .zero)
         
@@ -50,6 +59,7 @@ final class TemplateMoodyPaper: UIView, TemplateView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup Method
     private func setLayout() {
         backgroundImageView.snp.makeConstraints {
             $0.top.left.bottom.right.equalToSuperview()
@@ -59,7 +69,7 @@ final class TemplateMoodyPaper: UIView, TemplateView {
             $0.width.equalTo(154 * scale)
             $0.height.equalTo(204 * scale)
             $0.top.equalToSuperview().offset(57 * scale)
-            $0.left.equalToSuperview().offset(50 * scale)
+            $0.left.equalToSuperview().offset(49 * scale)
         }
         
         imageView2.snp.makeConstraints {
@@ -69,48 +79,39 @@ final class TemplateMoodyPaper: UIView, TemplateView {
             $0.left.equalToSuperview().offset(118 * scale)
         }
     }
+    
+    private func setEditing(_ isEditing: Bool) {
+        imageView1.isUserInteractionEnabled = isEditing
+        imageView2.isUserInteractionEnabled = isEditing
+        
+        if isEditing {
+            if imageView1.imageURL == nil {
+                imageView1.image = .init(named: "Icon_Add_Photo")
+            }
+            if imageView2.imageURL == nil {
+                imageView2.image = .init(named: "Icon_Add_Photo")
+            }
+        } else {
+            imageView1.contentMode = .scaleAspectFit
+            imageView2.contentMode = .scaleAspectFit
+        }
+    }
+    
+    // MARK: - Interface
+    func bind(page: Page) {
+        for index in 0..<page.imagesURL.count {
+            if index == 0 {
+                imageView1.imageURL = page.imagesURL[index]
+            } else if index == 1 {
+                imageView2.imageURL = page.imagesURL[index]
+            }
+        }
+    }
 }
 
 extension TemplateMoodyPaper: TemplateImageViewDelegate {
     func tapped(_ index: Int) {
         currentIndex = index
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.allowsEditing = true
-        imagePicker.delegate = self
-        DispatchQueue.main.async {
-            UIApplication.shared.keyWindow?.rootViewController?.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-}
-
-extension TemplateMoodyPaper: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        var image: UIImage? = nil
-        
-        if let possibleImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-            image = possibleImage
-        } else if let possibleImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            image = possibleImage
-        }
-        if currentIndex == 0 {
-            imageView1.image = image
-        } else {
-            imageView2.image = image
-        }
-        
-//        addImageButton.snp.removeConstraints()
-//        addImageButton.snp.remakeConstraints {
-//            $0.width.height.equalTo(80 * AppService.shared.layoutScale)
-//            $0.top.equalTo(titleLabel.snp.bottom).offset(16 * AppService.shared.layoutScale)
-//            $0.left.equalToSuperview().offset(32 * AppService.shared.layoutScale)
-//        }
-//        addImageButton.setImage(image, for: .normal)
-//        if let image = image {
-//            imageView.image = image
-//        }
-        DispatchQueue.main.async {
-            picker.dismiss(animated: true, completion: nil)
-        }
+        delegate?.didTapPhoto(index: index)
     }
 }
