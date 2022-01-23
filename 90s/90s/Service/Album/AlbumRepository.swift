@@ -39,6 +39,7 @@ final class AlbumRepository {
     let completeAlbums: Observable<[Album]>
     let makeingAlbums: Observable<[Album]>
     
+    // MARK: - Init
     private init() {
         allAlbums = albumsRelay
             .asObservable()
@@ -53,6 +54,7 @@ final class AlbumRepository {
         bindAction()
     }
     
+    // MARK: - Private Method
     private func bindAction() {
         requestAll
             .flatMap(client.allAlbum(_:))
@@ -92,6 +94,7 @@ final class AlbumRepository {
         requestAll.accept(())
     }
     
+    // MARK: - Interface Method
     func all() -> [Album] {
         queue.sync {
             let albums = albumsRelay.value
