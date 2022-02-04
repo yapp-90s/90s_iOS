@@ -20,7 +20,7 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         cv.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
         cv.showsHorizontalScrollIndicator = false
         
-        cv.register(FilmMainCollectionViewCell.self, forCellWithReuseIdentifier: FilmMainCollectionViewCell.cellID)
+        cv.register(reusable: FilmMainCollectionViewCell.self)
         return cv
     }()
     
@@ -50,7 +50,6 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Property
     
-    static let cellID = "FilmMainHeaderCollectionViewCell"
     private let viewModel = FilmsViewModel(dependency: .init())
     private var disposeBag = DisposeBag()
     var delegate : FilmMainViewControllerDelegate?
@@ -111,7 +110,7 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
 
         /// set CollectionView DataSource
         viewModel.output.films
-            .bind(to: collectionView.rx.items(cellIdentifier: FilmMainCollectionViewCell.cellID, cellType: FilmMainCollectionViewCell.self)) { index, item, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: FilmMainCollectionViewCell.reuseIdentifier, cellType: FilmMainCollectionViewCell.self)) { index, item, cell in
                 cell.bindItem(film: item)
             }
             .disposed(by: disposeBag)

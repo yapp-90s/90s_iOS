@@ -1,5 +1,6 @@
 //
 //  FilmCreateDetailCollectionReusableView.swift
+//  -> FilmCreateDetailCollectionViewHeaderCell (2021.12.18)
 //  90s
 //
 //  Created by 성다연 on 2021/04/21.
@@ -8,7 +9,7 @@
 import UIKit
 import RxSwift
 
-final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
+final class FilmCreateDetailCollectionViewHeaderCell: UICollectionViewCell {
     private let imageView : UIImageView = {
         let iv = UIImageView(frame: .zero)
         iv.clipsToBounds = true
@@ -40,7 +41,6 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
         return button
     }()
     
-    static let cellID = "FilmCreateDetailCollectionReusableView"
     private var disposeBag = DisposeBag()
     
     var delegate : FilmCreateViewControllerDelegate?
@@ -63,10 +63,10 @@ final class FilmCreateDetailCollectionReusableView: UICollectionReusableView {
         isUserInteractionEnabled = true
         
         imageView.snp.makeConstraints {
-            $0.width.equalTo(100)
-            $0.height.equalTo(134)
-            $0.top.equalTo(20)
-            $0.left.equalTo(18)
+            $0.width.equalTo(105)
+            $0.height.equalTo(164)
+            $0.top.equalTo(10)
+            $0.left.equalTo(10)
         }
         
         nameLabel.snp.makeConstraints {

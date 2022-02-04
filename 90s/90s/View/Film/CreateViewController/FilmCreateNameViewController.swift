@@ -19,6 +19,7 @@ final class FilmCreateNameViewController: BaseViewController {
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 5
         iv.contentMode = .scaleToFill
+        
         return iv
     }()
     
@@ -49,14 +50,23 @@ final class FilmCreateNameViewController: BaseViewController {
         return button
     }()
 
-    var film: Film! {
+    var viewModel : Film {
         didSet {
-            imageView.image = UIImage(named: film.filmType.image)
+            imageView.image = UIImage(named: viewModel.filmType.image)
         }
     }
     
     var delegate : FilmCreateViewControllerDelegate?
     private var filmName : String = ""
+    
+    init(viewModel : Film) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,17 +141,17 @@ final class FilmCreateNameViewController: BaseViewController {
             }).disposed(by: disposeBag)
     }
     
-    private func setUpCompleteButton(){
+    private func setUpCompleteButton() {
         completeButton.rx.tap.bind {
-            guard var newFilm = self.film else { return }
-            newFilm.name = self.filmName
-            let nextVC = FilmCreateCompleteViewController(film: newFilm)
+            self.viewModel.name = self.filmName
+            
+            let nextVC = FilmCreateCompleteViewController(viewModel: self.viewModel)
             nextVC.delegate = self.delegate
             self.navigationController?.pushViewController(nextVC, animated: true)
         }.disposed(by: disposeBag)
     }
 
-    @objc private func handleNavigationRightButton(){
+    @objc private func handleNavigationRightButton() {
         delegate?.popupToFilmCreateVC()
     }
 }

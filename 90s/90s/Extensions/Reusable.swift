@@ -32,11 +32,17 @@ extension UICollectionView {
     func register<T: UICollectionViewCell>(reusable: T.Type) {
         self.register(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
+    
+    func registerHeader<T: UICollectionViewCell>(reusable: T.Type) {
+        self.register(T.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: T.reuseIdentifier)
+    }
 }
 
 // MARK: - UITableViewCell, UITableView
 
 extension UITableViewCell: Reusable { }
+
+extension UITableViewHeaderFooterView: Reusable { }
 
 extension UITableView {
     
@@ -49,5 +55,9 @@ extension UITableView {
     
     func register<T: UITableViewCell>(reusable: T.Type) {
         self.register(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+    }
+    
+    func registerHeader<T: UITableViewHeaderFooterView>(reusable: T.Type) {
+        self.register(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
     }
 }
