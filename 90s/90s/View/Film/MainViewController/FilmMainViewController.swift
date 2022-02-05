@@ -21,6 +21,7 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     private let collectionView : UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.showsVerticalScrollIndicator = false
+        
         cv.registerHeader(reusable: FilmMainHeaderCollectionViewCell.self)
         cv.register(reusable: PinterestCollectionViewCell.self)
         
@@ -29,21 +30,25 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
     
     // MARK: Property
     
-    private var viewModel = FilmsViewModel(dependency: .init())
+    private var viewModel : FilmsViewModel
     
     // MARK: Life Cycles
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init(viewModel : FilmsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
         setUpSubviews()
         setupCollectionViewDataSource()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
-        requestFilmList()
     }
     
     // MARK: Method
@@ -71,10 +76,9 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
             
             return header
         }
-        
          
-        viewModel.output.photos
-            .map { [FilmMainSectionModel(header: "", items: $0)] }
+        viewModel.output.films
+            .map { [FilmMainSectionModel(header: "", items: $0.map { $0.photos }.reduce([], +))] }
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
@@ -82,23 +86,12 @@ final class FilmMainViewController : BaseViewController, UIScrollViewDelegate {
         layout.delegate = self
         collectionView.collectionViewLayout = layout
     }
-    
-    private func requestFilmList() {
-        FilmService.shared.getFilm() { result in
-            switch result {
-            case let .success(response):
-                print("FilmMainVC - success request : getFilm, ", response)
-            case let .failure(error):
-                print("FilmMainVC - error : getFilm, ", error)
-            }
-        }
-    }
 }
 
 
 extension FilmMainViewController : FilmMainViewControllerDelegate {
     func presentListVC() {
-        navigationController?.pushViewController(FilmListViewController(viewModel: .init(dependency: .init())), animated: true)
+        navigationController?.pushViewController(FilmListViewController(viewModel: viewModel), animated: true)
     }
     
     func presentCreateVC() {
@@ -113,8 +106,13 @@ extension FilmMainViewController : FilmMainViewControllerDelegate {
 
 extension FilmMainViewController : PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let index = viewModel.output.photos.value[indexPath.row]
+        var height = 0.0
         
-        return index.height
+        viewModel.output.photos
+            .subscribe(onNext: { value in
+                height = value[indexPath.row].height
+            }).disposed(by: disposeBag)
+        
+        return height
     }
 }
