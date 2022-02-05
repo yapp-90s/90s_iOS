@@ -15,54 +15,135 @@ final class FilmsViewModel : ViewModelType {
     private(set) var input = Input()
     private(set) var output = Output()
     
-    var disposeBag = DisposeBag()
+    var filmService : FilmService {
+        return self.dependency.filmService
+    }
+    
+    let disposeBag = DisposeBag()
     
     init(dependency : Dependency) {
         self.dependency = dependency
         
-        // setMockData
-        output.films.accept(dependency.filmFactory)
-        
-        var photoArray : [Photo] = []
-        dependency.filmFactory.forEach { photoArray.append(contentsOf: $0.photos) }
-        output.photos.accept(photoArray)
+        requestGetFilmList()
     }
     
-    init(films : [Film]) {
-        self.dependency = Dependency(films: Observable.from(optional: films))
-        
-        output.films.accept(films)
-        
-        var photoArray : [Photo] = []
-        films.forEach { photoArray.append(contentsOf: $0.photos)}
-        output.photos.accept(photoArray)
+    func requestCreateFilm(filmCode: Int, filmName: String) {
+        self.filmService.create(filmCode: filmCode, filmName: filmName)
+            .subscribe({ [weak self] result in
+                switch result {
+                case .success(let film):
+                    self?.output.films.onNext([film.film])
+                case .failure(let error):
+                    print("❌ API Error - FilmsViewModel : \(error.localizedDescription)")
+                }
+            }).disposed(by: disposeBag)
     }
     
-     func getStateData(state : FilmStateType) -> [Film]{
-        var array : [Film] = []
+    func requestGetFilmList() {
+        let createFilm : Film = .init(filmUid: -1, name: "필름 만들기", filmCode: -1, photos: [])
         
-        output.films
-            .map { $0.filter { $0.filmState == state }}
-            .subscribe(onNext: {
-                array.append(contentsOf: $0)
-            })
-            .disposed(by: disposeBag)
+        self.filmService.getFilmList()
+            .subscribe({ [weak self] result in
+                switch result {
+                case .success(let list):
+                    var filmArray : [Film] = []
+                    var photoArray : [Photo] = []
+                    
+                    filmArray.append(createFilm)
+                    filmArray.append(contentsOf: list.map { $0.film })
+                    photoArray.append(contentsOf: list.map {$0.film.photos}.reduce([], +))
+                    
+                    self?.output.films.onNext(filmArray)
+                    self?.output.photos.onNext(photoArray)
+                    self?.bindFilmListSection(filmList: list.map { $0.film })
+                    
+                case .failure(let error):
+                    print("❌ API Error - FilmsViewModel : \(error.localizedDescription)")
+                }
+            }).disposed(by: disposeBag)
+    }
+    
+    func requestStartPrinting(filmUid: Int) {
+        self.filmService.startPrinting(filmUid: filmUid)
+            .subscribe({ result in
+                switch result {
+                case .success(let value):
+                    print("Film - request startPrinting : \(value)")
+                case .failure(let error):
+                    print("❌ API Error: - FilmsViewModel : \(error.localizedDescription)")
+                }
+            }).disposed(by: disposeBag)
+    }
+    
+    func requestDelete(filmUid: Int) {
+        self.filmService.delete(filmUid: filmUid)
+            .subscribe({ result in
+                switch result {
+                case .success(let value):
+                    print("Film - request delete : \(value)")
+                case .failure(let error):
+                    print("❌ API Error: - FilmsViewModel : \(error.localizedDescription)")
+                }
+            }).disposed(by: disposeBag)
+    }
+    
+    private func bindFilmListSection(filmList : [Film]) {
+        var filmSectionList : [FilmSectionModel] = []
+        var addArray = FilmSectionModel.init(items: [])
+        var timeArray = FilmSectionModel.init(items: [])
+        var printArray = FilmSectionModel.init(items: [])
+        var completeArray = FilmSectionModel.init(items: [])
         
-        return array
+        filmList.forEach { film in
+            var new : FilmSectionItem
+            
+            switch film.filmState {
+            case .create:
+                break
+            case .adding:
+                new = .statusAdding(film: film)
+                addArray.items.append(new)
+            case .timeprint:
+                new = .statusTimeToPrint(film: film)
+                timeArray.items.append(new)
+            case .printing:
+                new = .statusPrinting(film: film)
+                printArray.items.append(new)
+            case .complete:
+                new = .statusCompleted(film: film)
+                completeArray.items.append(new)
+            }
+        }
+        
+        if !timeArray.items.isEmpty {
+            filmSectionList.append(timeArray)
+        }
+        if !addArray.items.isEmpty {
+            filmSectionList.append(addArray)
+        }
+        if !printArray.items.isEmpty {
+            filmSectionList.append(printArray)
+        }
+        if !completeArray.items.isEmpty {
+            filmSectionList.append(completeArray)
+        }
+        
+        output.sectionArray.onNext(filmSectionList)
     }
 }
 
 
 extension FilmsViewModel {
     struct Dependency {
-        weak var films : Observable<[Film]>?
-        let filmFactory = FilmFactory().createDefaultUserData()
+        let filmService = FilmService()
+//        let filmFactory = FilmFactory().createDefaultUserData()
     }
     struct Input {
         var selectFilm = PublishSubject<Film>()
     }
     struct Output {
-        var films = BehaviorRelay<[Film]>(value: [])
-        var photos = BehaviorRelay<[Photo]>(value: [])
+        var sectionArray = PublishSubject<[FilmSectionModel]>()
+        var films = PublishSubject<[Film]>()
+        var photos = PublishSubject<[Photo]>()
     }
 }

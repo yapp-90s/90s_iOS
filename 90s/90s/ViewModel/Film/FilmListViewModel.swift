@@ -37,7 +37,7 @@ final class FilmListViewModel : ViewModelType {
             switch film.filmState {
             case .create: break
             case .adding:
-                new = .statusAdding(films: film)
+                new = .statusAdding(film: film)
                 addArray.items.append(new)
             case .timeprint:
                 new = .statusTimeToPrint(film: film)
@@ -46,7 +46,7 @@ final class FilmListViewModel : ViewModelType {
                 new = .statusTimeToPrint(film: film)
                 printArray.items.append(new)
             case .complete:
-                new = .statusCompleted(films: film)
+                new = .statusCompleted(film: film)
                 completeArray.items.append(new)
             }
         }
