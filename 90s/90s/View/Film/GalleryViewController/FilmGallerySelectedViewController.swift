@@ -106,7 +106,7 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
         
         self.completeButton.rx.tap
             .asDriver().drive(onNext: {
-                // TODO: - 사진 추가 서비스 로직
+                // TODO: - PhotoService upload 로직
             })
             .disposed(by: disposeBag)
     }
@@ -138,19 +138,6 @@ final class FilmGallerySelectedViewController: BaseViewController, UIScrollViewD
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
         
         infoLabel.attributedText = attributedString
-    }
-    
-    private func requestUploadPhotos() {
-        photos.forEach { photo in
-            PhotoService.shared.upload(photo: (image: photo, filmUid : film.uid)) { result in
-                switch result {
-                case let .success(response):
-                    print("FilmGallerySelectedVC - success request : uploadPhoto, ", response)
-                case let .failure(response):
-                    print("FilmGallerySelectedVC - error : uploadPhoto, ", response)
-                }
-            }
-        }
     }
 }
 
