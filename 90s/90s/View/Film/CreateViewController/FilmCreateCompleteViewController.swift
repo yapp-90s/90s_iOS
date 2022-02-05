@@ -14,13 +14,8 @@ final class FilmCreateCompleteViewController: BaseViewController {
         let label = UILabel.createSpacingLabel(text: "필름이\n완성되었습니다!")
         return label
     }()
-
-    private let filmView: UIView = {
-        let view = UIView(frame: .zero)
-        return view
-    }()
     
-    private let filmLabelView : UIView = {
+    private var filmView: UIView = {
         let view = UIView(frame: .zero)
         return view
     }()
@@ -37,6 +32,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
         let label = UILabel(frame: .zero)
         label.font = .Popup_Title
         return label
+    }()
+    
+    private var filmSeperateView : UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .white
+        return view
     }()
     
     private var filmTypeLabel : UILabel = {
@@ -74,7 +75,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         let view = UIView(frame: .zero)
         view.clipsToBounds = true
         view.layer.cornerRadius = 15
-        view.backgroundColor = .warmGray
         return view
     }()
     
@@ -100,7 +100,7 @@ final class FilmCreateCompleteViewController: BaseViewController {
         button.tintColor = .white
         button.titleLabel?.font = .boldSystemFont(ofSize: 14)
         return button
-
+        
     }()
     
     private let popUpAddButton : UIButton = {
@@ -134,24 +134,22 @@ final class FilmCreateCompleteViewController: BaseViewController {
         setUpPopUpSubViews()
         handleButton()
     }
-
+    
     private func setUpSubViews(){
         view.backgroundColor = .black
-        
         view.addSubview(infoLabel)
         view.addSubview(filmView)
         view.addSubview(completeButton)
         
+        setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
+        
         filmView.addSubview(filmImageView)
         filmView.addSubview(filmNameLabel)
-        filmView.addSubview(filmLabelView)
-        
-        filmLabelView.addSubview(filmTypeLabel)
-        filmLabelView.addSubview(filmPrintLabel)
-        filmLabelView.addSubview(filmCountLabel)
-        filmLabelView.addSubview(filmDateLabel)
-        
-        setBarButtonItem(type: .imgClose, position: .right, action: #selector(handleNavigationRightButton))
+        filmView.addSubview(filmSeperateView)
+        filmView.addSubview(filmTypeLabel)
+        filmView.addSubview(filmPrintLabel)
+        filmView.addSubview(filmCountLabel)
+        filmView.addSubview(filmDateLabel)
         
         let safe = view.safeAreaLayoutGuide
         
@@ -164,37 +162,38 @@ final class FilmCreateCompleteViewController: BaseViewController {
             $0.left.equalTo(64)
             $0.right.equalTo(-64)
             $0.top.equalTo(infoLabel.snp.bottom).offset(34)
-            $0.height.equalTo(369)
+            $0.height.equalTo(378)
         }
         
         completeButton.snp.makeConstraints {
             $0.left.equalTo(45)
             $0.right.equalTo(-45)
             $0.height.equalTo(57)
-            $0.top.equalTo(filmView.snp.bottom).offset(44)
+            $0.top.equalTo(filmView.snp.bottom).offset(30)
         }
         
         filmImageView.snp.makeConstraints {
-            $0.top.equalTo(filmView.snp.top).offset(26)
-            $0.centerX.equalTo(filmView.snp.centerX)
-            $0.width.equalTo(105)
-            $0.height.equalTo(164)
+            $0.top.equalTo(filmView.snp.top).offset(25)
+            $0.left.equalTo(filmView.snp.left).offset(61)
+            $0.right.equalTo(filmView.snp.right).offset(-61)
+            $0.height.equalTo(173)
         }
         
         filmNameLabel.snp.makeConstraints {
-            $0.top.equalTo(filmImageView.snp.bottom).offset(16)
+            $0.top.equalTo(filmImageView.snp.bottom).offset(17)
             $0.centerX.equalTo(filmImageView.snp.centerX)
         }
         
-        filmLabelView.snp.makeConstraints {
+        filmSeperateView.snp.makeConstraints {
             $0.top.equalTo(filmNameLabel.snp.bottom).offset(16)
-            $0.left.right.equalTo(filmView)
-            $0.bottom.equalTo(filmView.snp.bottom)
+            $0.left.equalTo(filmView.snp.left).offset(24)
+            $0.right.equalTo(filmView.snp.right).offset(-24)
+            $0.height.equalTo(1)
         }
         
         filmTypeLabel.snp.makeConstraints {
-            $0.left.equalTo(filmLabelView.snp.left).offset(24)
-            $0.top.equalTo(filmLabelView.snp.top).offset(17)
+            $0.left.equalTo(filmView.snp.left).offset(24)
+            $0.top.equalTo(filmSeperateView.snp.bottom).offset(17)
         }
         
         filmPrintLabel.snp.makeConstraints {
@@ -203,18 +202,19 @@ final class FilmCreateCompleteViewController: BaseViewController {
         }
         
         filmCountLabel.snp.makeConstraints {
-            $0.left.equalTo(filmLabelView.snp.left).offset(24)
+            $0.left.equalTo(filmView.snp.left).offset(24)
             $0.top.equalTo(filmPrintLabel.snp.bottom).offset(9)
         }
         
         filmDateLabel.snp.makeConstraints {
-            $0.left.equalTo(filmLabelView.snp.left).offset(24)
+            $0.left.equalTo(filmView.snp.left).offset(24)
             $0.top.equalTo(filmCountLabel.snp.bottom).offset(9)
         }
     }
     
     private func setUpPopUpSubViews(){
         view.addSubview(popUpView)
+        
         popUpView.addSubview(popUpImageView)
         popUpView.addSubview(popUpInfoLabel)
         popUpView.addSubview(popUpCancleButton)
@@ -256,8 +256,12 @@ final class FilmCreateCompleteViewController: BaseViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture(sender:)))
         view.addGestureRecognizer(tap)
         
-        completeButton.rx.tap.bind {
-            self.handleCompleteButton()
+        completeButton.rx.tap.bind { [weak self] in
+            guard let self = self else { return }
+            self.updatePopUpView()
+            print("Film - requested Create")
+            
+            FilmsViewModel(dependency: .init()).requestCreateFilm(filmCode: self.viewModel.filmType.uid, filmName: self.viewModel.name)
         }.disposed(by: disposeBag)
         
         popUpCancleButton.rx.tap.bind {
@@ -269,19 +273,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
             self.navigationController?.pushViewController(nextVC, animated: true)
             self.updatePopUpView()
         }.disposed(by: disposeBag)
-    }
-    
-    private func handleCompleteButton(){
-        updatePopUpView()
-        
-        FilmService.shared.create(film: (viewModel.filmType.uid, viewModel.name)) { result in
-            switch result {
-            case let .success(response) :
-                print("FilmCreateCompleteVC - success request : createFilm, ", response)
-            case let .failure(error) :
-                print("FilmCreateCompleteVC - error : createFilm, ", error)
-            }
-        }
     }
     
     private func updatePopUpView(){
@@ -310,9 +301,6 @@ final class FilmCreateCompleteViewController: BaseViewController {
         DispatchQueue.main.async { [weak self] in
             self?.filmImageView.image = UIImage(named: film.filmType.image)
         }
-        
-        filmView.backgroundColor = UIColor.colorRGBHex(hex: film.filmType.filmTypeInfoBackgroundColor)
-        filmLabelView.backgroundColor = UIColor.colorRGBHex(hex: film.filmType.filmTypeInfoLabelBackgroundColor)
         
         filmNameLabel.text = film.name
         filmTypeLabel = UILabel.createNormalBoldLabel(normal: "종류", bold: " " + film.filmType.name)
