@@ -7,14 +7,13 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 import RxDataSources
 
 enum FilmSectionItem {
     case statusTimeToPrint(film: Film)
-    case statusAdding(films: Film)
-    case statusPrinting(films: Film)
-    case statusCompleted(films: Film)
+    case statusAdding(film: Film)
+    case statusPrinting(film: Film)
+    case statusCompleted(film: Film)
     
     func sectionHeight() -> CGFloat {
         switch self {
@@ -47,7 +46,7 @@ enum FilmSectionItem {
         switch self {
         case .statusTimeToPrint(let film),
              .statusAdding(let film),
-             .statusPrinting(films: let film),
+             .statusPrinting(let film),
              .statusCompleted(let film):
             return film
         }

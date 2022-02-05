@@ -8,21 +8,31 @@
 import Foundation
 
 struct Film : Codable {
-    let uid: Int
+    let filmUid: Int
     var name: String
-    var filmType : FilmType
-    var user : User?
+    var filmCode : Int
     
     var createdAt = Date().toString
     var printStartAt : String?
-    var printEndAt: String?
+    var printEndAt : String?
+    var deletedAt : String?
     
     // - None Network Data
     private(set) var photos: [Photo]
-   
+    
+    var filmType : FilmType {
+        switch filmCode {
+        case 1001 : return .init(uid: 0, code: 1001, max: 10)
+        case 1002 : return .init(uid: 1, code: 1002, max: 20)
+        case 1003 : return .init(uid: 2, code: 1003, max: 15)
+        case 1004 : return .init(uid: 3, code: 1004, max: 25)
+        default : return .init(uid: -1, code: 0, max: 0)
+        }
+    }
+    
     var filmState : FilmStateType {
         get {
-            if filmType.max == -1 {
+            if filmType.max <= 0 {
                 return .create
             } else if photos.count >= filmType.max {
                 return printStartAt != nil ? .complete : .printing
@@ -40,7 +50,7 @@ struct Film : Codable {
     }
     
     static func ==(rhs: Film, lhs: Film) -> Bool {
-        return rhs.uid == lhs.uid && rhs.name == lhs.name
+        return rhs.filmUid == lhs.filmUid && rhs.name == lhs.name
     }
 }
 
