@@ -51,7 +51,7 @@ final class PinterestLayout: UICollectionViewLayout {
     }
     
     private func setUpPinterestLayout(){
-        guard cache.isEmpty, let collectionView = collectionView else { return }
+        guard cache.isEmpty, let collectionView = collectionView, collectionView.numberOfSections > 0 else { return }
     
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
         var xOffset : [CGFloat] = []
