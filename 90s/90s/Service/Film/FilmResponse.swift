@@ -8,14 +8,17 @@
 import Foundation
 
 struct FilmResponse: Codable {
-    var uid : Int
+    var filmUid : Int
     var name : String
-    var filmType : FilmType
+    var filmCode : Int
     var createdAt : String
-    var printStartAt : String
-    var printEndAt : String
+    var printStartedAt : String?
+    var printEndedAt : String?
+    var deletedAt : String?
     
     var film: Film {
-        return Film(uid: uid, name: name, filmType: .init(uid: 0, code: 0, max: 0),printStartAt: printStartAt, printEndAt: printEndAt, photos: [])
+        return Film(filmUid: filmUid, name: name, filmCode: filmCode, createdAt: createdAt, printStartAt: printStartedAt, printEndAt: printEndedAt, deletedAt: deletedAt, photos: [])
     }
 }
+
+

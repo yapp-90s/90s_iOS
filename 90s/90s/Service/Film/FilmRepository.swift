@@ -16,7 +16,7 @@ final class FilmRepository {
     
     private init() {
         films = filmsRelay.asObservable().map {
-            $0.map { FilmsViewModel(films: [$0]) }
+            $0.map { _ in FilmsViewModel(dependency: .init()) }
         }
         
         filmsRelay.accept(FilmFactory().createDefaultUserData())

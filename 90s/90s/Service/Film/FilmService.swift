@@ -9,61 +9,62 @@ import Moya
 import RxSwift
 
 final class FilmService {
+    private let networkLogger = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
+    private var provider = MoyaProvider<FilmAPI>()
     
-    static let shared = FilmService()
-    
-    let provider = MoyaProvider<FilmAPI>()
-    
-    var filmType : FilmType?
-    var user : User?
-    
-    private init() {}
-    
-    func create(film data: FilmAPI.FilmData, completionHandler : @escaping (Result<Film, Error>) -> Void) {
-        provider.request(.create(data: data)) { result in
-            do {
-                let response = try result.get()
-                let value = try response.map(FilmResponse.self)
-                completionHandler(.success(value.film))
-            } catch {
-                completionHandler(.failure(error))
-            }
-        }
+    init() {
+        
     }
     
-    func getFilm(completionHandler : @escaping (Result<[Film], Error>) -> Void) {
-        provider.request(.getFilms) { result in
-            do {
-                let response = try result.get()
-                let value = try response.map([FilmResponse].self)
-                completionHandler(.success(value.map { $0.film }))
-            } catch {
-                completionHandler(.failure(error))
-            }
-        }
+    func create(filmCode: Int, filmName: String) -> Single<FilmResponse> {
+        provider = MoyaProvider<FilmAPI>(plugins: [networkLogger])
+
+        return provider.rx.request(.create(filmCode: filmCode, filmName: filmName))
+            .flatMap({ response in
+                if let filmResponse = try? response.map(FilmResponse.self) {
+                    return .just(filmResponse)
+                } else {
+                    return .error(APIError.networkFail)
+                }
+            })
     }
     
-    func startPrinting(completionHandler : @escaping (Result<Film, Error>) -> Void) {
-        provider.request(.startPrinting) { result in
-            do {
-                let response = try result.get()
-                let value = try response.map(FilmResponse.self)
-                completionHandler(.success(value.film))
-            } catch {
-                completionHandler(.failure(error))
-            }
-        }
+    func getFilmList() -> Single<[FilmResponse]> {
+        //provider = MoyaProvider<FilmAPI>(plugins: [networkLogger])
+
+        return provider.rx.request(.getFilms)
+            .flatMap ({ response in
+                if let filmListResponse = try? response.map([FilmResponse].self) {
+                    return .just(filmListResponse)
+                } else {
+                    return .error(APIError.networkFail)
+                }
+            })
     }
     
-    func filmDelete(filmUid : String, film data: FilmAPI.FilmData, completionHandler : @escaping (Result<successResponse, Error>) -> Void) {
-        provider.request(.filmDelete(filmUid: filmUid, data: data)) { result in
-            do {
-                let response = try result.get()
-                let value = try response.map(successResponse.self)
-                completionHandler(.success(value))
-            } catch {
-                completionHandler(.failure(error))
-            }
-        }
+    func startPrinting(filmUid: Int) -> Single<successResponse> {
+        provider = MoyaProvider<FilmAPI>(plugins: [networkLogger])
+
+        return provider.rx.request(.startPrinting(filmUid: filmUid))
+            .flatMap ({ response in
+                if let printResponse = try? response.map(successResponse.self) {
+                    return .just(printResponse)
+                } else {
+                    return .error(APIError.networkFail)
+                }
+            })
+    }
+    
+    func delete(filmUid: Int) -> Single<successResponse> {
+        provider = MoyaProvider<FilmAPI>(plugins: [networkLogger])
+
+        return provider.rx.request(.delete(filmUid: filmUid))
+            .flatMap ({ response in
+                if let deleteResponse = try? response.map(successResponse.self) {
+                    return .just(deleteResponse)
+                } else {
+                    return .error(APIError.networkFail)
+                }
+            })
     }
 }
