@@ -16,18 +16,12 @@ class GalleryViewModel : ViewModelType {
     
     required init(dependency: Dependency) {
         self.dependency = dependency
-        
-        input.selectedFilm
-            .subscribe(onNext : { [weak self] index in
-                let film = dependency.filmViewModel
-            })
-            .disposed(by: disposeBag)
     }
 }
 
 extension GalleryViewModel {
     struct Dependency {
-        weak var filmViewModel : FilmViewModel?
+//        weak var filmViewModel : FilmViewModel?
     }
     
     struct Input {

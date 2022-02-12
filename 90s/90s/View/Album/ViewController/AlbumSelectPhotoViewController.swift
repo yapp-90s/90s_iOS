@@ -48,14 +48,12 @@ final class AlbumSelectPhotoViewController: BaseViewController {
     
     // MARK: - Property
     
-    private var photoViewModel = FilmsViewModel(dependency: .init())
-    private var filmViewModel = FilmListViewModel(dependency: .init())
+    private var viewModel = FilmsViewModel(dependency: .init())
     
     // MARK: - LifeCycle
 
-    init(photoViewModel : FilmsViewModel, filmViewModel: FilmListViewModel) {
-        self.photoViewModel = photoViewModel
-        self.filmViewModel = filmViewModel
+    init(viewModel : FilmsViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -143,7 +141,7 @@ extension AlbumSelectPhotoViewController : UICollectionViewDelegateFlowLayout, P
         
         photoCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        photoViewModel.output.photos
+        viewModel.output.photos
             .bind(to: photoCollectionView.rx.items(cellIdentifier: PinterestCollectionViewCell.cellID, cellType: PinterestCollectionViewCell.self)) { index, element, cell in
                 cell.bindViewModel(image: element.url)
             }
@@ -161,9 +159,14 @@ extension AlbumSelectPhotoViewController : UICollectionViewDelegateFlowLayout, P
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let index = photoViewModel.output.photos.value[indexPath.row]
+        var height = 0.0
         
-        return index.height
+        viewModel.output.photos
+            .subscribe(onNext: { value in
+                height = value[indexPath.row].height
+            }).disposed(by: disposeBag)
+        
+        return height
     }
 }
 
@@ -173,8 +176,7 @@ extension AlbumSelectPhotoViewController {
     private func setUpTableViewViewDataSource() {
         filmTableView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        Observable.from(optional: filmViewModel.dependency.filmFactory)
-        //filmViewModel.output.film_complete
+        viewModel.output.films
             .bind(to: filmTableView.rx.items(cellIdentifier: FilmInfoTableViewCell.cellId, cellType: FilmInfoTableViewCell.self)) {
                 index, element, cell in
                 cell.isEditStarted(value: false)

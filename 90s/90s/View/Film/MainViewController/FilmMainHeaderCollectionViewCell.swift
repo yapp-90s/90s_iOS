@@ -10,13 +10,10 @@ import SnapKit
 import RxSwift
 
 /// 필름 뷰 상단 - 헤더셀 입니다
-final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
+final class FilmMainHeaderCollectionViewCell: UICollectionViewCell, UIScrollViewDelegate {
     /// 필름을 보여주는 콜렉션 뷰입니다
     private var collectionView : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
         cv.showsHorizontalScrollIndicator = false
         
@@ -50,7 +47,7 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Property
     
-    private let viewModel = FilmsViewModel(dependency: .init())
+    private var viewModel = FilmsViewModel(dependency: .init())
     private var disposeBag = DisposeBag()
     var delegate : FilmMainViewControllerDelegate?
 
@@ -69,6 +66,14 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
     // MARK: - Method
 
     private func setUpSubviews(){
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = .init(width: 80, height: 163)
+        layout.minimumInteritemSpacing = 16
+        
+        collectionView.collectionViewLayout = layout
+        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
         contentView.isUserInteractionEnabled = true
         
         addSubview(collectionView)
@@ -76,15 +81,13 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         addSubview(filmCountButton)
         addSubview(printedTitleLabel)
         
-        collectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        
         filmTitleLabel.snp.makeConstraints {
             $0.left.equalTo(18)
             $0.top.equalTo(30)
         }
         
         filmCountButton.snp.makeConstraints {
-            $0.width.equalTo(54)
+            $0.width.equalTo(60)
             $0.height.equalTo(24)
             $0.right.equalTo(-35)
             $0.top.equalTo(31)
@@ -92,13 +95,13 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(filmTitleLabel.snp.bottom).offset(18)
-            $0.height.equalTo(140)
+            $0.height.equalTo(160)
             $0.left.right.equalTo(self)
         }
         
         printedTitleLabel.snp.makeConstraints {
             $0.left.equalTo(18)
-            $0.top.equalTo(collectionView.snp.bottom).offset(42)
+            $0.top.equalTo(collectionView.snp.bottom).offset(30)
         }
     }
     
@@ -116,34 +119,23 @@ final class FilmMainHeaderCollectionViewCell: UICollectionViewCell {
             .disposed(by: disposeBag)
         
         viewModel.output.films
-            .map { $0.map { $0.uid}}
+            .map { $0.map { $0.filmUid } }
             .map { "총 \($0.count - 1)개" }
             .asDriver(onErrorJustReturn: "")
             .drive(filmCountButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        collectionView.rx.itemSelected.subscribe(onNext: { indexPath in
-            if indexPath.row == 0 {
-                self.delegate?.presentCreateVC()
-            } else {
-                let film = self.viewModel.output.films.value[indexPath.row]
-                self.delegate?.presentDetailVC(viewModel: film)
-            }
-        }).disposed(by: disposeBag)
+        collectionView.rx.modelSelected(Film.self)
+            .subscribe(onNext: { film in
+                if film.filmState != .create {
+                    self.delegate?.presentDetailVC(viewModel: film)
+                } else {
+                    self.delegate?.presentCreateVC()
+                }
+            }).disposed(by: disposeBag)
         
         filmCountButton.rx.tap.bind { [weak self] in
             self?.delegate?.presentListVC()
         }.disposed(by: disposeBag)
-    }
-}
-
-
-extension FilmMainHeaderCollectionViewCell : UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 163)
     }
 }

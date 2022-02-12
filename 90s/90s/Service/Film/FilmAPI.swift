@@ -8,33 +8,37 @@
 import Moya
 
 enum FilmAPI {
-    typealias FilmData = (filmCode : Int, name : String)
     typealias JWT = (String)
-    typealias FilmArray = [Film]
     
-    case create(data: FilmData)
+    case create(filmCode: Int, filmName: String)
     case getFilms
-    case startPrinting
-    case filmDelete(filmUid : String, data: FilmData)
+    case startPrinting(filmUid: Int)
+    case delete(filmUid: Int)
 }
 
 
 extension FilmAPI : BaseTarget {
+    var testToken : String {
+        return "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInJvbGVzIjpbIlJPTEVfVFJZRVIiXSwiaWF0IjoxNjM5MjA5NTQ5LCJleHAiOjIyNjk5Mjk1NDl9.0og4uPl1vAID9UX3ASqVGGPrYgrIBoOxpDDAKuHCiKE"
+    }
+    
     var path: String {
         switch self {
         case .create: return "film/create"
         case .getFilms: return "film/getFilms"
-        case .startPrinting: return "film/startPrinting"
-        case .filmDelete(let filmUid, _): return "film/delete/\(filmUid)"
+        case .startPrinting(let filmUid): return "film/startPrinting/\(filmUid)"
+        case .delete(let filmUid): return "film/delete/\(filmUid)"
         }
     }
     
     var method: Method {
         switch self {
-        case .create, .filmDelete:
+        case .create:
             return .post
         case .getFilms, .startPrinting:
             return .get
+        case .delete:
+            return .delete
         }
     }
     
@@ -46,32 +50,27 @@ extension FilmAPI : BaseTarget {
     */
     var task: Task {
         switch self {
-        case .create(let filmData):
+        case .create(let filmCode, let filmName):
             return .requestParameters(parameters: [
-                "filmCode" : filmData.filmCode,
-                "name" : filmData.name
+                "filmCode" : filmCode,
+                "name" : filmName
             ], encoding: JSONEncoding.default)
-        case .getFilms, .startPrinting:
+        case .getFilms, .startPrinting, .delete:
             return .requestPlain
-        case .filmDelete(_ ,let film):
-            return .requestParameters(parameters: [
-                "filmCode" : film.filmCode,
-                "name" : film.name
-            ], encoding: JSONEncoding.default)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .create, .filmDelete:
+        case .create, .delete:
             return [
                 "Content-Type" : "application/json",
-                "X-AUTH-TOKEN" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbIlJPTEVfVEVTVEVSIl0sImlhdCI6MTYyNzk2NTE1NywiZXhwIjoyMjU4Njg1MTU3fQ._00DckJgm4nr22A8OE6AEdEx7JGozRkH4gqVrT4rJH0",
+                "X-AUTH-TOKEN" : testToken,
                 "Accept" : "application/json"
             ]
         case .getFilms, .startPrinting:
             return [
-                "X-AUTH-TOKEN" : "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNyIsInJvbGVzIjpbIlJPTEVfVEVTVEVSIl0sImlhdCI6MTYyNzk2NTE1NywiZXhwIjoyMjU4Njg1MTU3fQ._00DckJgm4nr22A8OE6AEdEx7JGozRkH4gqVrT4rJH0",
+                "X-AUTH-TOKEN" : testToken,
                 "Accept" : "application/json"
             ]
         }

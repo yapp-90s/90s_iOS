@@ -29,7 +29,7 @@ final class AlbumSelectPhotoByFilmViewController: BaseViewController, UIScrollVi
         let label = UILabel(frame: .zero)
         label.font = .Film_Sub_Title
         label.textColor = .gray
-        label.text = "2021.03.14"
+        label.text = "2022.02.05"
         return label
     }()
     
@@ -103,7 +103,7 @@ final class AlbumSelectPhotoByFilmViewController: BaseViewController, UIScrollVi
         
         Observable.from(optional: viewModel.photos)
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.reuseIdentifier, cellType: FilmListCollectionViewCell.self)) { index, element, cell in
-                cell.bindViewModel(item: element, isScaleFill: false)
+                cell.bindViewModel(item: element)
             }
             .disposed(by: disposeBag)
         

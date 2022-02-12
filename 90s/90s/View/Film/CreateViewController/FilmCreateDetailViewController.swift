@@ -10,12 +10,9 @@ import SnapKit
 import RxSwift
 import RxDataSources
 
-final class FilmCreateDetailViewController: BaseViewController {
+final class FilmCreateDetailViewController: BaseViewController, UIScrollViewDelegate {
     private var collectionView : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: .init())
         cv.register(reusable: FilmCreateDetailCollectionViewCell.self)
         cv.registerHeader(reusable: FilmCreateDetailCollectionViewHeaderCell.self)
     
@@ -50,6 +47,12 @@ final class FilmCreateDetailViewController: BaseViewController {
     }
     
     private func setUpCollectionView() {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = .init(width: view.bounds.width - 36, height: 340)
+        layout.headerReferenceSize = .init(width: view.bounds.width, height: 175)
+        
+        collectionView.collectionViewLayout = layout
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<FilmMainSectionModel>(configureCell: { dataSource, collectionView, indexPath, element in
@@ -72,13 +75,3 @@ final class FilmCreateDetailViewController: BaseViewController {
     }
 }
 
-
-extension FilmCreateDetailViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.width - 36, height: 340)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.bounds.width, height: 205)
-    }
-}

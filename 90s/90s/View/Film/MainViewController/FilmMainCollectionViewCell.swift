@@ -21,6 +21,8 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
     private var filmImageLabel : UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .Small_Text
+        label.numberOfLines = 2
+        label.textAlignment = .center
         label.textColor = .lightGray
         return label
     }()
@@ -40,11 +42,12 @@ final class FilmMainCollectionViewCell: UICollectionViewCell {
         
         filmImageView.snp.makeConstraints {
             $0.height.equalTo(133)
-            $0.top.left.right.equalTo(self)
+            $0.width.equalTo(88)
+            $0.top.equalTo(0)
         }
         
         filmImageLabel.snp.makeConstraints {
-            $0.centerX.equalTo(self)
+            $0.left.right.equalTo(0)
             $0.top.equalTo(filmImageView.snp.bottom)
         }
     }

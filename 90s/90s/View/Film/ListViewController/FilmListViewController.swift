@@ -50,14 +50,14 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
     
     // MARK: - Property
     
-    private var viewModel = FilmListViewModel(dependency: .init())
+    private var viewModel : FilmsViewModel
     private var isEditingMode = false                       // 편집 모드
     private var isTimeToPrintExist = false
     private var deleteFilmIndexPath : Set<IndexPath> = []   // 삭제할 필름 IndexPath 배열
 
     // MARK: - LifeCycle
     
-    init(viewModel: FilmListViewModel) {
+    init(viewModel: FilmsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -76,7 +76,12 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
     // MARK: - Methods
     
     private func setUpNavigationBar() {
-        setBarButtonItem(type: .textEdit, position: .right, action: #selector(handleNavigationRightButton))
+        viewModel.output.sectionArray.subscribe(onNext: { filmList in
+            if filmList.count > 0 {
+                self.setBarButtonItem(type: .textEdit, position: .right, action: #selector(self.handleNavigationRightButton))
+            }
+        }).disposed(by: disposeBag)
+        
         tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "내 필름"
@@ -122,7 +127,7 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
             return cell
         })
         
-        viewModel.output.filmSectionViewModel
+        viewModel.output.sectionArray
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
@@ -154,6 +159,8 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
                     
                     let text = checkSelf.deleteFilmIndexPath.count > 0 ? "\(checkSelf.deleteFilmIndexPath.count)개 필름 삭제" : "필름을 선택해주세요"
                     self?.selectedFilmDeleteButton.setTitle(text, for: .normal)
+                } else {
+                    // TODO: - 삭제할 필름 리스트 가져와 삭제하기
                 }
             }).disposed(by: disposeBag)
     }
@@ -199,21 +206,37 @@ final class FilmListViewController: BaseViewController, UIScrollViewDelegate {
 extension FilmListViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilmListSectionHeaderCell.reuseIdentifier) as? FilmListSectionHeaderCell else { return UIView() }
-        guard let sectionValue = viewModel.output.filmSectionViewModel.value[section].items.first else { return header }
-
+        
+        viewModel.output.sectionArray
+            .subscribe(onNext: { list in
+            guard let firstItem = list[section].items.first else { return }
+            header.bindViewModel(text: firstItem.sectionTitle())
+            header.bindBlackView(hidden: firstItem.sectionTitle() == "인화를 완료했어요" ? false : true)
+        }).disposed(by: disposeBag)
+        
         header.backgroundView = UIView(frame: header.bounds)
-        header.bindViewModel(text: sectionValue.sectionTitle())
-        header.bindBlackView(hidden:  sectionValue.sectionTitle() == "인화를 완료했어요" ? false : true)
 
         return header
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return viewModel.output.filmSectionViewModel.value[section].items[0].sectionHeight()
+        var height : CGFloat = 0.0
+        
+        viewModel.output.sectionArray.subscribe(onNext: { list in
+            height = list[section].items[0].sectionHeight()
+        }).disposed(by: disposeBag)
+        
+        return height
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.output.filmSectionViewModel.value[indexPath.section].items[0].rowHeight()
+        var height : CGFloat = 0.0
+        
+        viewModel.output.sectionArray.subscribe(onNext: {list in
+            height = list[indexPath.section].items[indexPath.row].rowHeight()
+        }).disposed(by: disposeBag)
+        
+        return height
         
     }
 }

@@ -20,7 +20,7 @@ class MainTabBarController: UITabBarController {
         let albumNaviVC = UINavigationController(rootViewController: albumVC)
         albumNaviVC.tabBarItem = UITabBarItem(title: "앨범", image: .init(named: "Gnb_Album_Inact"), tag: 0)
         
-        let filmVC = BaseNavigationControllerViewController(rootViewController: FilmMainViewController()) 
+        let filmVC = BaseNavigationControllerViewController(rootViewController: FilmMainViewController(viewModel: .init(dependency: .init()))) 
         filmVC.tabBarItem = UITabBarItem(title: "필름", image: .init(named: "Gnb_Film_Inact"), tag: 1)
         
         let profileViewModel = ProfileViewModel.init(

@@ -12,15 +12,17 @@ struct Photo : Codable {
     let paperNum: Int
     let sequence: Int
     let url: String
+    let filmUid : Int?
     
 //    let createdAt: String
 //    let updatedAt: String
     
-    init(photoUid : Int, paperNum : Int, sequence: Int, url : String) {
+    init(photoUid : Int, paperNum : Int, sequence: Int, url : String, filmUid: Int?) {
         self.photoUid = photoUid
         self.paperNum = paperNum
         self.sequence = sequence
         self.url = url
+        self.filmUid = filmUid
 //        self.createdAt = "\(Date())"
 //        self.updatedAt = "\(Date())"
     }

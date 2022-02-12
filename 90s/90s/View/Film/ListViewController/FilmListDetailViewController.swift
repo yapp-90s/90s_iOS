@@ -203,12 +203,14 @@ final class FilmListDetailViewController: BaseViewController, UIScrollViewDelega
         Observable.from(optional: viewModel.photos)
             .bind(to: collectionView.rx.items(cellIdentifier: FilmListCollectionViewCell.reuseIdentifier , cellType: FilmListCollectionViewCell.self)) { indexPath, element, cell in
                 cell.bindViewModel(item: element)
+            }.disposed(by: disposeBag)
+        
         collectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
-                guard let checkSelf = self else { return }
-                let film = checkSelf.viewModel
-                if indexPath.row == 0 && film.filmType.max > film.count {
-                    checkSelf.setPhPicker(photoMax: film.filmType.max, photoFill: film.count)
+                guard let self = self else { return }
+             
+                if indexPath.row == 0 && self.viewModel.filmType.max > self.viewModel.count {
+                    self.setPhPicker(photoMax: self.viewModel.filmType.max, photoFill: self.viewModel.count)
                 }
             }).disposed(by: disposeBag)
     }
@@ -284,7 +286,7 @@ final class FilmListDetailViewController: BaseViewController, UIScrollViewDelega
         
         
         if viewModel.filmType.max != photoCount && photoCount > 0 {    // 사진이 채워지는 중인 경우
-            let photo = Photo(photoUid: 0, paperNum: 0, sequence: 0, url: "film_add_photo")
+            let photo = Photo(photoUid: 0, paperNum: 0, sequence: 0, url: "film_add_photo", filmUid: 0)
             self.viewModel.addAtFirst(photo)
         } else if viewModel.count == 0 {     // 사진이 하나도 없는 경우
             emptyImageView.isHidden = false
@@ -294,36 +296,5 @@ final class FilmListDetailViewController: BaseViewController, UIScrollViewDelega
             printButton.isHidden = false
         }
         
-        collectionView.reloadData()
-    }
-}
-
-extension FilmListDetailViewController : UIImagePickerControllerDelegate {
-    @available(iOS 14, *)
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        selectPhotos = []
-        
-        for photo in results {
-            let provider = photo.itemProvider
-    
-            if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, error in
-                    DispatchQueue.main.async { [self] in
-                        self.selectPhotos.append(image as! UIImage)
-                    }
-                }
-            }
-        }
-        // TODO : 현재 필름의 사진 목록에 추가하기
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        selectPhotos = []
-        
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            selectPhotos.append(image)
-            dismiss(animated: true, completion: nil)
-        }
     }
 }
