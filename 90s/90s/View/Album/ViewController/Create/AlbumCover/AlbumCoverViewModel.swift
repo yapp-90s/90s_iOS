@@ -33,7 +33,7 @@ final class AlbumCoverViewModel: ViewModelType {
 }
 
 extension AlbumCoverViewModel {
-    typealias CoverSectionModel = SectionModel<String, CoverViewModel>
+    typealias CoverSectionModel = SectionModel<String, CoverImageCellViewModel>
     
     struct Dependency {
         let coverService: CoverService
@@ -60,7 +60,7 @@ extension AlbumCoverViewModel {
                 .map { dependency.coverService.pickCover($0.item) }
             
             coverSection = Observable.just(dependency.coverService.all())
-                .map { [.init(model: "", items: $0.map { .init(albumCover: $0) })] }
+                .map { [.init(model: "", items: $0.map { .init(dependency: .init(cover: $0)) })] }
             
             next = input.next
                 .asObservable()
