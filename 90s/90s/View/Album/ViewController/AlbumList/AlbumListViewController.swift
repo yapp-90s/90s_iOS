@@ -35,7 +35,7 @@ final class AlbumListViewController: BaseViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "내 앨범"
-        label.font = .Top_Title
+        label.font = .topTitle
         label.textColor = .white
         topBar.addSubview(label)
         return label
@@ -46,7 +46,7 @@ final class AlbumListViewController: BaseViewController {
         button.setTitle("편집", for: .normal)
         button.setTitle("완료", for: .selected)
         button.setTitleColor(.white, for: .normal)
-//        button.titleLabel?.font = .
+        button.titleLabel?.font = .buttonText
         topBar.addSubview(button)
         return button
     }()
@@ -72,7 +72,7 @@ final class AlbumListViewController: BaseViewController {
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .retroOrange
-        button.titleLabel?.font = .Btn_Text
+        button.titleLabel?.font = .buttonText
         button.setTitleColor(.white, for: .normal)
         view.addSubview(button)
         return button
@@ -80,7 +80,6 @@ final class AlbumListViewController: BaseViewController {
     
     // MARK: - Property
     private let viewModel: AlbumListViewModel
-//    private let disposeBag = DisposeBag()
     
     init(viewModel: AlbumListViewModel) {
         self.viewModel = viewModel
@@ -123,7 +122,8 @@ final class AlbumListViewController: BaseViewController {
         
         collectionView.snp.makeConstraints {
             $0.top.equalTo(topBar.snp.bottom)
-            $0.leading.bottom.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         deleteButton.snp.makeConstraints {
@@ -179,11 +179,37 @@ final class AlbumListViewController: BaseViewController {
         collectionView.rx.itemSelected
             .bind(to: viewModel.input.selectAlbum)
             .disposed(by: disposeBag)
+        
+        deleteButton.rx.tap
+            .bind { [weak self] _ in
+                self?.presentPopupVC()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func presentPopupVC() {
+        let vc = PopupViewController(viewModel: .init(dependency: .init(alertType: .delete)))
+        vc.delegate = self
+        vc.modalPresentationStyle = .overFullScreen
+        DispatchQueue.main.async {
+            self.present(vc, animated: false, completion: nil)
+        }
     }
     
     private func dismiss() {
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)
         }
+    }
+}
+
+extension AlbumListViewController: PopupViewControllerDelegate {
+    func conform() {
+        Observable.just(())
+            .bind(to: viewModel.input.delete)
+            .disposed(by: disposeBag)
+    }
+    
+    func reject() {
     }
 }
