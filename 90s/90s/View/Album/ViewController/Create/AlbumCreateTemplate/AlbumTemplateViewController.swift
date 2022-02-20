@@ -11,6 +11,9 @@ import RxCocoa
 import SnapKit
 import RxDataSources
 
+typealias TemplateThumbnailSectionModel = SectionModel<String, TemplateThumbnailCellViewModel>
+typealias TemplateThumbnailDataSource = RxCollectionViewSectionedReloadDataSource<TemplateThumbnailSectionModel>
+
 final class AlbumTemplateViewController: UIViewController {
     
     let SCREEN_WIDTH: CGFloat = UIScreen.main.bounds.width
@@ -67,7 +70,7 @@ final class AlbumTemplateViewController: UIViewController {
         layout.minimumLineSpacing = 18 * layoutScale
         layout.minimumInteritemSpacing = 11 * layoutScale
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(TemplateCollectionViewCell.self, forCellWithReuseIdentifier: TemplateCollectionViewCell.identifier)
+        collectionView.register(TemplateThumbnailViewCell.self, forCellWithReuseIdentifier: TemplateThumbnailViewCell.identifier)
         collectionView.showsVerticalScrollIndicator = false
         self.view.addSubview(collectionView)
         return collectionView
@@ -135,12 +138,10 @@ final class AlbumTemplateViewController: UIViewController {
         }
         
     }
-    typealias TemplateSectionModel = SectionModel<String, TemplateViewModel>
-    typealias TemplateDataSource = RxCollectionViewSectionedReloadDataSource<TemplateSectionModel>
     
     private func bindState() {
-        let dataSource = TemplateDataSource(configureCell: { (datasource, collectionView, indexPath, item) in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateCollectionViewCell.identifier, for: indexPath) as! TemplateCollectionViewCell
+        let dataSource = TemplateThumbnailDataSource(configureCell: { (datasource, collectionView, indexPath, item) in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateThumbnailViewCell.identifier, for: indexPath) as! TemplateThumbnailViewCell
             cell.bind(viewModel: item)
             return cell
         })
