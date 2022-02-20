@@ -15,15 +15,6 @@ final class AlbumCoverCell: UICollectionViewCell {
     
     static let identifier = "AlbumCoverCell"
     
-    var viewModel: AlbumCoverCellViewModel? {
-        didSet {
-            if let viewModel = viewModel {
-                bindState(viewModel)
-                bindAction(viewModel)
-            }
-        }
-    }
-    private var disposeBag = DisposeBag()
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -40,11 +31,21 @@ final class AlbumCoverCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .Medium_Text_Bold
+        label.font = .mediumTextBold
         label.textColor = .lightGray
         contentView.addSubview(label)
         return label
     }()
+    
+    var viewModel: AlbumCoverCellViewModel? {
+        didSet {
+            if let viewModel = viewModel {
+                bindState(viewModel)
+                bindAction(viewModel)
+            }
+        }
+    }
+    private var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,30 +80,18 @@ final class AlbumCoverCell: UICollectionViewCell {
     }
     
     private func bindState(_ viewModel: AlbumCoverCellViewModel) {
-        viewModel.output.albumViewModel.cover
-            .map { $0?.image }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
-        
-        viewModel.output.albumViewModel.name
-            .bind(to: titleLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.output.isEdit
-            .map { !$0 }
-            .bind(to: checkIcon.rx.isHidden)
-            .disposed(by: disposeBag)
-        
-        viewModel.output.isSelected
-            .map { $0 ? UIImage(named: "Checkbox_Edit_Act") : .init(named: "Checkbox_Edit_Inact") }
-            .bind(to: checkIcon.rx.image)
-            .disposed(by: disposeBag)
+        imageView.image = viewModel.output.albumViewModel.album.cover.image
+        titleLabel.text = viewModel.output.albumViewModel.album.name
+        checkIcon.isHidden = !viewModel.output.isEdit
+        checkIcon.image = viewModel.output.iconImage
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        disposeBag = DisposeBag()
+        imageView.image = nil
+        titleLabel.text = nil
+        viewModel = nil
     }
     
     private func bindAction(_ viewModel: AlbumCoverCellViewModel) {
