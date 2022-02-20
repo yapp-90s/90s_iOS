@@ -53,9 +53,10 @@ final class TemplateDetailCollectionViewCell: UICollectionViewCell {
     }
     
     func bind(viewModel: TemplateViewModel) {
-        viewModel.imageName
-            .map { UIImage(named: $0) }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+        imageView.image = .init(named: viewModel.imageName)
+//        viewModel.imageName
+//            .map { UIImage(named: $0) }
+//            .bind(to: imageView.rx.image)
+//            .disposed(by: disposeBag)
     }
 }
