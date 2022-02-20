@@ -52,14 +52,13 @@ class AlbumNameViewController: UIViewController {
     
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .green
         self.view.addSubview(imageView)
         return imageView
     }()
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.font = .LargeTextBold
+        textField.font = .largeTextBold
         textField.placeholder = "지은이의 앨범"
         textField.textAlignment = .center
         self.view.addSubview(textField)
@@ -141,7 +140,6 @@ class AlbumNameViewController: UIViewController {
         }
         
         textField.snp.makeConstraints {
-            $0.width.equalTo(118 * layoutScale)
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(24 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
             $0.right.equalToSuperview().offset(-18 * layoutScale)
@@ -169,8 +167,8 @@ class AlbumNameViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.output.next
-            .subscribe(onNext: { _ in
-                self.createAlbum()
+            .subscribe(onNext: { [weak self] _ in
+                self?.createAlbum()
             })
             .disposed(by: disposeBag)
     }
@@ -178,15 +176,16 @@ class AlbumNameViewController: UIViewController {
     private func bindAction() {
         textField.rx.text
             .orEmpty
-            .subscribe { text in
+            .subscribe { [weak self] text in
                 if !(text.element?.isEmpty ?? false) {
-                    self.button.backgroundColor = .retroOrange
-                    self.button.isEnabled = true
+                    self?.button.backgroundColor = .retroOrange
+                    self?.button.isEnabled = true
                 } else {
-                    self.button.backgroundColor = .Warm_Gray
-                    self.button.isEnabled = false
+                    self?.button.backgroundColor = .Warm_Gray
+                    self?.button.isEnabled = false
                 }
-            }.disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
         
         textField.rx.text
             .filter { $0 != nil }
@@ -195,14 +194,14 @@ class AlbumNameViewController: UIViewController {
             .disposed(by: disposeBag)
         
         backButton.rx.tap
-            .subscribe(onNext: { _ in
-                self.back()
+            .subscribe(onNext: { [weak self]_ in
+                self?.back()
             })
             .disposed(by: disposeBag)
         
         closeButton.rx.tap
-            .subscribe(onNext: { _ in
-                self.dismiss()
+            .subscribe(onNext: { [weak self] _ in
+                self?.dismiss()
             })
             .disposed(by: disposeBag)
         

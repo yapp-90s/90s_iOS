@@ -31,7 +31,7 @@ final class AlbumTemplatePreviewViewController: UIViewController {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .LargeTextBold
+        label.font = .largeTextBold
         label.textColor = .white
         self.view.addSubview(label)
         return label
@@ -59,14 +59,12 @@ final class AlbumTemplatePreviewViewController: UIViewController {
         layout.sectionInset = .init(top: 20 * layoutScale, left: 26 * layoutScale, bottom: 20 * layoutScale, right: 26 * layoutScale)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 12 * layoutScale
-//        let height = view.safeAreaLayoutGuide.
         let width = UIScreen.main.bounds.width - 52 * layoutScale
         layout.itemSize = .init(width: width, height: width * TEMPLATE_HEIGHT_SCALE)
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(TemplateDetailCollectionViewCell.self, forCellWithReuseIdentifier: TemplateDetailCollectionViewCell.identifier)
         collectionView.delegate = self
-//        collectionView.isPagingEnabled = true
         self.view.addSubview(collectionView)
         return collectionView
     }()
@@ -87,6 +85,16 @@ final class AlbumTemplatePreviewViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        let cellWidth = layout.itemSize.width + layout.minimumLineSpacing
+        let x: Double = Double(viewModel.dependency.albumCreate.selectedIndex) * cellWidth
+        collectionView.scrollRectToVisible(.init(x: x, y: 0, width: collectionView.visibleSize.width, height: collectionView.visibleSize.height), animated: true)
+        currentIndex = CGFloat(viewModel.dependency.albumCreate.selectedIndex)
     }
     
     private func setupUI() {
@@ -150,22 +158,22 @@ final class AlbumTemplatePreviewViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.output.next
-            .subscribe { _ in
-                self.createAlbum()
+            .subscribe { [weak self] _ in
+                self?.createAlbum()
             }
             .disposed(by: disposeBag)
     }
     
     private func bindAction() {
         button.rx.tap
-            .subscribe(onNext: { _ in
-                self.createAlbum()
+            .subscribe(onNext: { [weak self] _ in
+                self?.createAlbum()
             })
             .disposed(by: disposeBag)
         
         backButton.rx.tap
-            .subscribe(onNext: { _ in
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
     }
@@ -207,11 +215,13 @@ extension AlbumTemplatePreviewViewController: UICollectionViewDelegate {
                     currentIndex -= 1
                 }
             }
+            Observable.just(IndexPath(item: Int(currentIndex), section: 0))
+                .bind(to: viewModel.input.selectTemplate)
+                .disposed(by: disposeBag)
             
             offset = CGPoint(x: currentIndex * cellWidth - cv.contentInset.left, y: 0)
             
             targetContentOffset.pointee = offset
         }
-//        https://jintaewoo.tistory.com/33
     }
 }
