@@ -63,20 +63,20 @@ final class TemplatePolaroid: UIView, TemplateView {
             $0.top.left.bottom.right.equalToSuperview()
         }
         
-        imageView1.transform = imageView1.transform.rotated(by: -6 / 180.0 * CGFloat.pi)
+        imageView1.transform = imageView2.transform.rotated(by: 6 / 180.0 * CGFloat.pi)
         imageView1.snp.makeConstraints {
-            $0.width.equalTo(162 * scale)
-            $0.height.equalTo(230 * scale)
-            $0.top.equalToSuperview().offset(284 * scale)
-            $0.left.equalToSuperview().offset(149 * scale)
-        }
-        
-        imageView2.transform = imageView2.transform.rotated(by: 6 / 180.0 * CGFloat.pi)
-        imageView2.snp.makeConstraints {
             $0.width.equalTo(162 * scale)
             $0.height.equalTo(230 * scale)
             $0.top.equalToSuperview().offset(64 * scale)
             $0.left.equalToSuperview().offset(40 * scale)
+        }
+        
+        imageView2.transform = imageView1.transform.rotated(by: -6 / 180.0 * CGFloat.pi)
+        imageView2.snp.makeConstraints {
+            $0.width.equalTo(162 * scale)
+            $0.height.equalTo(230 * scale)
+            $0.top.equalToSuperview().offset(284 * scale)
+            $0.left.equalToSuperview().offset(149 * scale)
         }
         
     }

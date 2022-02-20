@@ -65,7 +65,7 @@ final class PolaroidImageView: UIView, TemplateImageView {
         imageView.snp.makeConstraints {
             $0.top.left.equalToSuperview().offset(10)
             $0.right.equalToSuperview().offset(-10)
-            $0.bottom.equalToSuperview().offset(-34)
+            $0.bottom.equalToSuperview().offset(-30)
         }
         
         caseImageView.snp.makeConstraints {
