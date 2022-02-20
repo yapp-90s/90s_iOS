@@ -9,6 +9,10 @@ import UIKit
 
 import RxSwift
 
+protocol ContentEmptyViewProtocol: AnyObject {
+    func selectedCreateAlbumButton()
+}
+
 final class ContentEmptyView: UIView {
     
     // MARK: - UI Component
@@ -47,6 +51,8 @@ final class ContentEmptyView: UIView {
     // MARK: - Property
     private let viewModel: ContentEmptyViewModel
     private let disposeBag = DisposeBag()
+    
+    weak var delegate: ContentEmptyViewProtocol?
     
     // MARK: - Init
     init(viewModel: ContentEmptyViewModel) {
@@ -102,21 +108,13 @@ final class ContentEmptyView: UIView {
     
     private func bindState() {
         viewModel.output.create
-            .bind { _ in
-                print("Create")
+            .bind { [weak self] _ in
+                self?.delegate?.selectedCreateAlbumButton()
             }
             .disposed(by: disposeBag)
         
-        viewModel.output.title
-            .bind(to: titleLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.output.buttonTitle
-            .bind(to: createButton.rx.title())
-            .disposed(by: disposeBag)
-        
-        viewModel.output.image
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+        titleLabel.text = viewModel.output.title
+        createButton.setTitle(viewModel.output.buttonTitle, for: .normal)
+        imageView.image = viewModel.output.image
     }
 }

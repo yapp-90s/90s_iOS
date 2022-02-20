@@ -67,18 +67,19 @@ extension ContentEmptyViewModel {
     }
     
     struct Output {
+        let title: String
+        let buttonTitle: String
+        let image: UIImage?
+        
         let create: Observable<Void>
-        let title: BehaviorSubject<String?>
-        let buttonTitle: BehaviorSubject<String?>
-        let image: BehaviorSubject<UIImage?>
         
         init(input: Input, dependency: Dependency) {
+            title = dependency.emptyType.title
+            buttonTitle = dependency.emptyType.buttonTitle
+            image = dependency.emptyType.image
+            
             create = input.create
                 .asObservable()
-            
-            title = .init(value: dependency.emptyType.title)
-            buttonTitle = .init(value: dependency.emptyType.buttonTitle)
-            image = .init(value: dependency.emptyType.image)
         }
     }
 }
