@@ -56,18 +56,16 @@ class AlbumCreateCollectionViewCell: UICollectionViewCell {
     private func setupUI() {
         titleLabel.snp.makeConstraints {
             $0.height.equalTo(46 * layoutScale)
-            $0.top.equalToSuperview().offset(21 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
-            $0.bottom.equalToSuperview().offset(-21 * layoutScale)
+            $0.centerY.equalToSuperview()
         }
         
         createButton.snp.makeConstraints {
             $0.width.equalTo(115 * layoutScale)
             $0.height.equalTo(48 * layoutScale)
-            $0.top.equalToSuperview().offset(20 * layoutScale)
             $0.right.equalToSuperview().offset(-18 * layoutScale)
             $0.left.equalTo(titleLabel.snp.right)
-            $0.bottom.equalToSuperview().offset(-20 * layoutScale)
+            $0.centerY.equalToSuperview()
         }
     }
     
