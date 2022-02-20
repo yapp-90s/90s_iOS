@@ -13,6 +13,7 @@ enum AlbumEvent {
     case update
     case delete
     case refresh
+    case complete
 }
 
 final class AlbumRepository {
@@ -32,6 +33,7 @@ final class AlbumRepository {
     let addPhoto: PublishRelay<Photo> = .init()
     let complete: PublishRelay<String> = .init()
     let delete: PublishRelay<String> = .init()
+    let deletes: PublishRelay<[String]> = .init()
     
     // MARK: - Output
     let event = PublishSubject<AlbumEvent>()
@@ -65,6 +67,9 @@ final class AlbumRepository {
             .flatMap(client.create(_:))
             .filter { $0 != nil }
             .map { _ in () }
+            .do(onNext: { [weak self] _ in
+                self?.event.onNext(.add)
+            })
             .bind(to: requestAll)
             .disposed(by: disposeBag)
         
@@ -76,15 +81,31 @@ final class AlbumRepository {
             .disposed(by: disposeBag)
         
         complete
-            .map(client.complte(_:))
+            .flatMap(client.complte(_:))
             .filter { $0 }
+            .do(onNext: { [weak self] _ in
+                self?.event.onNext(.complete)
+            })
             .map { _ in () }
             .bind(to: requestAll)
             .disposed(by: disposeBag)
         
         delete
-            .map(client.delete(_:))
+            .flatMap(client.delete(_:))
             .filter { $0 }
+            .do(onNext: { [weak self] _ in
+                self?.event.onNext(.delete)
+            })
+            .map { _ in () }
+            .bind(to: requestAll)
+            .disposed(by: disposeBag)
+        
+        deletes
+            .flatMap(client.deletes(_:))
+            .filter { $0 }
+            .do(onNext: { [weak self] _ in
+                self?.event.onNext(.delete)
+            })
             .map { _ in () }
             .bind(to: requestAll)
             .disposed(by: disposeBag)
@@ -113,6 +134,15 @@ final class AlbumRepository {
         queue.sync {
             let makingAlbums = albumsRelay.value.filter { $0.completedAt == nil }
             return .init(album: makingAlbums[index])
+        }
+    }
+    
+    func pickLastMakingAlbum() -> AlbumViewModel? {
+        queue.sync {
+            if let makingAlbum = albumsRelay.value.filter({ $0.completedAt == nil }).last {
+                return .init(album: makingAlbum)
+            }
+            return nil
         }
     }
     
