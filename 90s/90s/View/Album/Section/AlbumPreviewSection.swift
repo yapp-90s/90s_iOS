@@ -8,7 +8,7 @@
 import UIKit
 
 struct AlbumPreviewSection: AlbumSection {
-    let numberOfItems = 5
+    let numberOfItems = 4
     
     func layoutSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -23,10 +23,10 @@ struct AlbumPreviewSection: AlbumSection {
     }
     
     func configureCell(collectionView: UICollectionView, indexPath: IndexPath, item: AlbumSectionItem) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumPreviewCollectionViewCell.identifier, for: indexPath) as! AlbumPreviewCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumPreviewViewCell.identifier, for: indexPath) as! AlbumPreviewViewCell
         switch item {
         case .statusPreview(let viewModel):
-            cell.bind(viewModel: viewModel)
+            cell.bind(viewModel: .init(dependency: .init(album: viewModel.album)))
         default:
             break
         }
