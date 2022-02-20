@@ -16,6 +16,14 @@ let layoutScale = UIScreen.main.bounds.width / 375
 class AlbumsViewController: BaseViewController {
     
     // MARK: - UI Component
+    
+    private lazy var contentEmptyView: ContentEmptyView = {
+        let contentEmptyView = ContentEmptyView(viewModel: .init(dependency: .init(emptyType: .albumEmpty)))
+        contentEmptyView.delegate = self
+        view.addSubview(contentEmptyView)
+        return contentEmptyView
+    }()
+    
     private lazy var collectionViewLayout: UICollectionViewLayout = {
         var sections = self.sections
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
@@ -29,9 +37,9 @@ class AlbumsViewController: BaseViewController {
         
         collectionView.register(AlbumTitleHeaderCollectionViewCell.self, forCellWithReuseIdentifier: AlbumTitleHeaderCollectionViewCell.identifier)
         collectionView.register(AlbumCreateCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCreateCollectionViewCell.identifier)
-        collectionView.register(AlbumBannerCollectionViewCell.self, forCellWithReuseIdentifier: AlbumBannerCollectionViewCell.identifier)
+//        collectionView.register(AlbumBannerCollectionViewCell.self, forCellWithReuseIdentifier: AlbumBannerCollectionViewCell.identifier)
         collectionView.register(AlbumCoverCollectionViewCell.self, forCellWithReuseIdentifier: AlbumCoverCollectionViewCell.identifier)
-        collectionView.register(AlbumPreviewCollectionViewCell.self, forCellWithReuseIdentifier: AlbumPreviewCollectionViewCell.identifier)
+        collectionView.register(AlbumPreviewViewCell.self, forCellWithReuseIdentifier: AlbumPreviewViewCell.identifier)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -44,8 +52,8 @@ class AlbumsViewController: BaseViewController {
     private let viewModel: AlbumsViewModel
     lazy var sections: [AlbumSection] = [
         AlbumCreateSection(),
-        AlbumBannerSection(),
-        AlbumTitleHeaderSection(delegate: nil),
+//        AlbumBannerSection(),
+        AlbumTitleHeaderSection(delegate: self),
         AlbumCoverSection(),
         AlbumTitleHeaderSection(delegate: self),
         AlbumPreviewSection()
@@ -67,23 +75,23 @@ class AlbumsViewController: BaseViewController {
     }
     
     private func setupUI() {
+        contentEmptyView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        
         collectionView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20 * layoutScale)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
             $0.left.right.equalToSuperview()
         }
-        
-//        let view3 = ContentEmptyView(viewModel: .init(dependency: .init(emptyType: .albumEmpty)))
-//        view.addSubview(view3)
-//        view3.snp.makeConstraints {
-//            $0.top.leading.trailing.bottom.equalToSuperview()
-//        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let vc = PopupViewController(viewModel: .init(dependency: .init(alertType: .delete)))
+//        let vc = PopupViewController(viewModel: .init(dependency: .init(alertType: .addPhoto)))
 //        vc.modalPresentationStyle = .overFullScreen
 //        DispatchQueue.main.async {
 //            self.present(vc, animated: false, completion: nil)
@@ -116,6 +124,16 @@ class AlbumsViewController: BaseViewController {
         viewModel.output.selectedAlbum
             .bind { self.showAlbum($0) }
             .disposed(by: disposeBag)
+        
+        viewModel.output.isAlbumEmpty
+            .bind(to: collectionView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isPresentAddPhotoPopup
+            .bind { [weak self] in
+                self?.presentPopupVC()
+            }
+            .disposed(by: disposeBag)
     }
     
     private func bindAction() {
@@ -126,12 +144,12 @@ class AlbumsViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
-            .filter { $0.section == 3 }
+            .filter { $0.section == 2 }
             .bind(to: viewModel.input.selectMakingAlbum)
             .disposed(by: disposeBag)
         
         collectionView.rx.itemSelected
-            .filter { $0.section == 5 }
+            .filter { $0.section == 4 }
             .bind(to: viewModel.input.selectAlbum)
             .disposed(by: disposeBag)
         
@@ -147,32 +165,62 @@ class AlbumsViewController: BaseViewController {
         naviVC.navigationBar.isHidden = true
         
         DispatchQueue.main.async {
-            self.present(naviVC, animated: false)
+            self.present(naviVC, animated: true)
         }
     }
     
     private func showMakingAlbum(_ albumViewModel: AlbumViewModel) {
-        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(isEditing: true, albumViewModel: albumViewModel)))
-        vc.modalPresentationStyle = .fullScreen
+        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(isEditing: true, albumViewModel: albumViewModel, albumRepository: .shared)))
+        let naviVC = UINavigationController(rootViewController: vc)
+        naviVC.isNavigationBarHidden = true
+        naviVC.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.present(vc, animated: true)
+            self.present(naviVC, animated: true)
         }
     }
     
     private func showAlbum(_ albumViewModel: AlbumViewModel) {
-        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(isEditing: false, albumViewModel: albumViewModel)))
-        vc.modalPresentationStyle = .fullScreen
+        let vc = AlbumDetailViewController(viewModel: .init(dependency: .init(isEditing: false, albumViewModel: albumViewModel, albumRepository: .shared)))
+        let naviVC = UINavigationController(rootViewController: vc)
+        naviVC.modalPresentationStyle = .fullScreen
+        naviVC.isNavigationBarHidden = true
         DispatchQueue.main.async {
-            self.present(vc, animated: true)
+            self.present(naviVC, animated: true)
+        }
+    }
+    
+    private func presentPopupVC() {
+        let vc = PopupViewController(viewModel: .init(dependency: .init(alertType: .addPhoto)))
+        vc.delegate = self
+        vc.modalPresentationStyle = .overFullScreen
+        DispatchQueue.main.async {
+            self.present(vc, animated: false, completion: nil)
         }
     }
 }
 
 extension AlbumsViewController: AlbumTitleHeaderCellDelegate {
-    func touchButton() {
-        let vc = AlbumListViewController(viewModel: .init(dependency: .init(albumRepository: .shared)))
+    func seeAllAlbum(isComplete: Bool) {
+        let vc = AlbumListViewController(viewModel: .init(dependency: .init(isComplete: isComplete, albumRepository: .shared)))
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+}
+
+extension AlbumsViewController: ContentEmptyViewProtocol {
+    func selectedCreateAlbumButton() {
+        createAlbum(.init(dependency: .init(coverService: .shared, albumRepository: .shared)))
+    }
+}
+
+extension AlbumsViewController: PopupViewControllerDelegate {
+    func conform() {
+        if let viewModel = viewModel.dependency.albumRepository.pickLastMakingAlbum() {
+            showMakingAlbum(viewModel)
+        }
+    }
+    
+    func reject() {
     }
 }
