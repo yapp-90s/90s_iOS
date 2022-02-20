@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol AlbumTitleHeaderCellDelegate: AnyObject {
-    func touchButton()
+    func seeAllAlbum(isComplete: Bool)
 }
 
 class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
@@ -21,6 +21,15 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     var isButtton: Bool = false {
         didSet {
             button.isHidden = !isButtton
+        }
+    }
+    
+    var isComplete: Bool = false
+    var buttonTitle: String = "" {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.button.setTitle(self?.buttonTitle, for: .normal)
+            }
         }
     }
     
@@ -38,7 +47,6 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
         button.semanticContentAttribute = .forceRightToLeft
         button.imageEdgeInsets = .init(top: 0, left: 13 * layoutScale, bottom: 0, right: 0)
         button.setImage(.init(named: "show_arrow"), for: .normal)
-        button.setTitle("총 00개", for: .normal)
         button.setTitleColor(.gray, for: .normal)
         button.isHidden = true
         self.addSubview(button)
@@ -55,6 +63,11 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        isComplete = false
+        super.prepareForReuse()
+    }
+    
     private func commonInit() {
         setupUI()
         
@@ -63,11 +76,10 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         label.snp.makeConstraints {
-            $0.height.equalTo(24)
-            $0.top.equalToSuperview().offset(12 * layoutScale)
+            $0.height.equalTo(24 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
             $0.right.equalToSuperview().offset(-18 * layoutScale)
-            $0.bottom.equalToSuperview().offset(-12 * layoutScale)
+            $0.centerY.equalToSuperview()
         }
         
         button.snp.makeConstraints {
@@ -78,6 +90,6 @@ class AlbumTitleHeaderCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func buttonAction() {
-        delegate?.touchButton()
+        delegate?.seeAllAlbum(isComplete: isComplete)
     }
 }
