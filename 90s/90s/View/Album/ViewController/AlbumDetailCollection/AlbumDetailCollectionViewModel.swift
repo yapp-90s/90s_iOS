@@ -11,7 +11,7 @@ import RxSwift
 import RxRelay
 import RxDataSources
 
-typealias AlbumDetailCollectionSectionModel = SectionModel<Void, Template>
+typealias AlbumDetailCollectionSectionModel = SectionModel<Void, TemplateImageCellViewModel>
 typealias AlbumDetailCollectionDataSource = RxCollectionViewSectionedReloadDataSource<AlbumDetailCollectionSectionModel>
 
 final class AlbumDetailCollectionViewModel: ViewModelType {
@@ -39,13 +39,13 @@ extension AlbumDetailCollectionViewModel {
         let back = PublishRelay<Void>()
         let close = PublishRelay<Void>()
 //        let load = PublishRelay<Void>()
-        
-        let templatePhotoSection: BehaviorRelay<[AlbumDetailCollectionDataSource]> = .init(value: [])
     }
     
     struct Output {
         let back: Observable<Void>
         let close: Observable<Void>
+        let title: Observable<String?>
+        let templatePhotoSection: BehaviorRelay<[AlbumDetailCollectionSectionModel]>
         
         init(input: Input, dependency: Dependency) {
             back = input.back
@@ -54,6 +54,9 @@ extension AlbumDetailCollectionViewModel {
             close = input.close
                 .asObservable()
             
+            title = dependency.albumViewModel.name
+            
+            templatePhotoSection = .init(value: [.init(model: (), items: dependency.albumViewModel.album.photos.map { .init(dependency: .init(template: dependency.albumViewModel.album.template, photo: $0)) })])
             bindAction(input: input)
         }
         

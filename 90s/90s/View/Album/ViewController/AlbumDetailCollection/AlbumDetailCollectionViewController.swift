@@ -17,6 +17,7 @@ final class AlbumDetailCollectionViewController: UIViewController {
     // MARK: - UI Component
     private lazy var topBar: UIView = {
         let view = UIView()
+        view.backgroundColor = .black
         self.view.addSubview(view)
         return view
     }()
@@ -43,16 +44,23 @@ final class AlbumDetailCollectionViewController: UIViewController {
         return button
     }()
     
+    private lazy var dataSource = AlbumDetailCollectionDataSource { (_, collectionView, indexPath, viewModel) in
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateImageCell.identifier, for: indexPath) as! TemplateImageCell
+        cell.bind(viewModel: viewModel)
+        return cell
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = .init(top: 22 * layoutScale, left: 18 * layoutScale, bottom: 22 * layoutScale, right: 18 * layoutScale)
         layout.minimumLineSpacing = 11 * layoutScale
         layout.minimumInteritemSpacing = 11 * layoutScale
         layout.scrollDirection = .vertical
-        let width = UIScreen.main.bounds.width - 47 * layoutScale
-        layout.itemSize = .init(width: width, height: width)
+        let width = (UIScreen.main.bounds.width - 47 * layoutScale) / 2
+        
+        layout.itemSize = .init(width: width, height: width * viewModel.dependency.albumViewModel.album.template.ratio)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(TemplateCell.self, forCellWithReuseIdentifier: TemplateCell.identifier)
+        collectionView.register(TemplateImageCell.self, forCellWithReuseIdentifier: TemplateImageCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(collectionView)
@@ -111,10 +119,46 @@ final class AlbumDetailCollectionViewController: UIViewController {
     }
     
     private func bindState() {
+        viewModel.output.templatePhotoSection
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
         
+        viewModel.output.back
+            .bind { [weak self] in
+                self?.popView()
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.close
+            .bind { [weak self] in
+                self?.dismissView()
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.title
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     private func bindAction() {
+        closeButton.rx.tap
+            .bind(to: viewModel.input.close)
+            .disposed(by: disposeBag)
         
+        backButton.rx.tap
+            .bind(to: viewModel.input.back)
+            .disposed(by: disposeBag)
+    }
+    
+    private func popView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    private func dismissView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.dismiss(animated: true)
+        }
     }
 }
