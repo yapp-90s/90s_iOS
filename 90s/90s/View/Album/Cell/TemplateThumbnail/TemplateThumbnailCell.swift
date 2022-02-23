@@ -1,17 +1,17 @@
 //
-//  TemplateCollectionViewCell.swift
+//  TemplateThumbnailCell.swift
 //  90s
 //
-//  Created by 김진우 on 2021/05/04.
+//  Created by 김진우 on 2022/02/13.
 //
 
 import UIKit
 import RxSwift
 import RxCocoa
 
-class TemplateCollectionViewCell: UICollectionViewCell {
+class TemplateThumbnailViewCell: UICollectionViewCell {
     
-    static let identifier = "TemplateCollectionViewCell"
+    static let identifier = "TemplateThumbnailViewCell"
     
     let disposeBag = DisposeBag()
     
@@ -61,14 +61,9 @@ class TemplateCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func bind(viewModel: TemplateViewModel) {
-        viewModel.imageName
-            .map { UIImage(named: $0) }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+    func bind(viewModel: TemplateThumbnailCellViewModel) {
+        imageView.image = viewModel.output.image
         
-        viewModel.name
-            .bind(to: label.rx.text)
-            .disposed(by: disposeBag)
+        label.text = viewModel.output.name
     }
 }

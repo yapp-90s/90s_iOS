@@ -1,22 +1,21 @@
 //
-//  TemplateCellViewModel.swift
+//  TemplateImageCellViewModel.swift
 //  90s
 //
-//  Created by 김진우 on 2021/12/26.
+//  Created by 김진우 on 2022/02/05.
 //
 
 import Foundation
 
 import RxSwift
-import RxRelay
 
-final class TemplateCellViewModel: ViewModelType {
+final class TemplateImageCellViewModel: ViewModelType {
     
     private(set) var dependency: Dependency
     private(set) var input: Input
     private(set) var output: Output
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     init(dependency: Dependency) {
         self.dependency = dependency
@@ -25,24 +24,19 @@ final class TemplateCellViewModel: ViewModelType {
     }
 }
 
-extension TemplateCellViewModel {
+extension TemplateImageCellViewModel {
     
     struct Dependency {
-        let isEditing: Bool
-        let page: Page
         let template: Template
+        let photo: Photo
     }
     
     struct Input {
-        
     }
     
     struct Output {
-        let isEditing: Bool
-        private let disposeBag = DisposeBag()
-        
         init(input: Input, dependency: Dependency) {
-            isEditing = dependency.isEditing
+            
         }
     }
 }

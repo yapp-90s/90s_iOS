@@ -9,18 +9,11 @@ import UIKit
 
 final class PolaroidImageView: UIView, TemplateImageView {
     
-    var image: UIImage? {
-        didSet {
-            imageView.image = self.image
-        }
-    }
-    
-    weak var delegate: TemplateImageViewDelegate?
-    
+    // MARK: - UI Component
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .Cool_Gray
         imageView.contentMode = .scaleAspectFill
         addSubview(imageView)
         return imageView
@@ -35,6 +28,22 @@ final class PolaroidImageView: UIView, TemplateImageView {
         return imageView
     }()
     
+    // MARK: - Property
+    var image: UIImage? {
+        didSet {
+            imageView.image = self.image
+        }
+    }
+    
+    var imageURL: URL? {
+        didSet {
+            imageView.kf.setImage(with: imageURL)
+        }
+    }
+    
+    weak var delegate: TemplateImageViewDelegate?
+    
+    // MARK: - Init
     init() {
         super.init(frame: .zero)
         
@@ -46,6 +55,7 @@ final class PolaroidImageView: UIView, TemplateImageView {
         fatalError("init(coder:) has not been Frame_Polaroid")
     }
     
+    // MARK: - Setup Method
     private func setAction() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
         caseImageView.addGestureRecognizer(tapGesture)
@@ -55,7 +65,7 @@ final class PolaroidImageView: UIView, TemplateImageView {
         imageView.snp.makeConstraints {
             $0.top.left.equalToSuperview().offset(10)
             $0.right.equalToSuperview().offset(-10)
-            $0.bottom.equalToSuperview().offset(-34)
+            $0.bottom.equalToSuperview().offset(-30)
         }
         
         caseImageView.snp.makeConstraints {
@@ -63,7 +73,8 @@ final class PolaroidImageView: UIView, TemplateImageView {
         }
     }
     
-    @objc func tap(_ sender: UITapGestureRecognizer) {
+    // MARK: - Action Method
+    @objc private func tap(_ sender: UITapGestureRecognizer) {
         delegate?.tapped(tag)
     }
 }

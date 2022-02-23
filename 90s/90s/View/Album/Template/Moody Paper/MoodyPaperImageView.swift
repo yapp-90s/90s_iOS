@@ -6,21 +6,15 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class MoodyPaperTemplateImageView: UIView, TemplateImageView {
     
-    var image: UIImage? {
-        didSet {
-            imageView.image = self.image
-        }
-    }
-    
-    weak var delegate: TemplateImageViewDelegate?
-    
+    // MARK: - UI Component
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .gray
+        imageView.backgroundColor = .Cool_Gray
         imageView.contentMode = .scaleAspectFill
         addSubview(imageView)
         return imageView
@@ -28,13 +22,28 @@ final class MoodyPaperTemplateImageView: UIView, TemplateImageView {
     
     lazy var caseImageView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(named: "Frame_FilmW")
         imageView.isUserInteractionEnabled = true
         imageView.contentMode = .scaleToFill
         addSubview(imageView)
         return imageView
     }()
     
+    // MARK: - Property
+    var image: UIImage? {
+        didSet {
+            imageView.image = image
+        }
+    }
+    
+    var imageURL: URL? {
+        didSet {
+            imageView.kf.setImage(with: imageURL)
+        }
+    }
+    
+    weak var delegate: TemplateImageViewDelegate?
+    
+    // MARK: - Init
     init() {
         super.init(frame: .zero)
         
@@ -46,6 +55,7 @@ final class MoodyPaperTemplateImageView: UIView, TemplateImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Setup Method
     private func setAction() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tap(_:)))
         caseImageView.addGestureRecognizer(tapGesture)
@@ -61,7 +71,8 @@ final class MoodyPaperTemplateImageView: UIView, TemplateImageView {
         }
     }
     
-    @objc func tap(_ sender: UITapGestureRecognizer) {
+    // MARK: - Private Method
+    @objc private func tap(_ sender: UITapGestureRecognizer) {
         delegate?.tapped(tag)
     }
 }

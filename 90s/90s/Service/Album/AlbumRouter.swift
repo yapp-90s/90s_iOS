@@ -13,6 +13,7 @@ enum AlbumRouter: URLRequestConvertible {
     case addPhoto(photo: Photo)
     case complete(id: String)
     case delete(id: String)
+    case plusReadCount(id: String)
     
     private var baseURL: String {
         #if DEBUG
@@ -34,6 +35,8 @@ enum AlbumRouter: URLRequestConvertible {
             return .get
         case .delete:
             return .delete
+        case .plusReadCount:
+            return .get
         }
     }
     
@@ -49,6 +52,8 @@ enum AlbumRouter: URLRequestConvertible {
             return "/album/complete/\(id)"
         case .delete(let id):
             return "/album/delete/\(id)"
+        case .plusReadCount(let id):
+            return "/album/plusReadCnt/\(id)"
         }
     }
     
@@ -74,10 +79,10 @@ enum AlbumRouter: URLRequestConvertible {
     
     var header: [String: String] {
         switch self {
-        case .all, .create, .addPhoto, .complete, .delete:
+        case .all, .create, .addPhoto, .complete, .delete, .plusReadCount:
             return [
                 "Content-Type": "application/json",
-                "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNiIsInJvbGVzIjpbIlJPTEVfVFJZRVIiXSwiaWF0IjoxNjM4ODgyMDI1LCJleHAiOjIyNjk2MDIwMjV9.EmM5wQMBsgjMxk-3dukLooUbjSr_Kb3Sn4e8IuSnQBE"
+                "X-AUTH-TOKEN": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZXMiOlsiUk9MRV9URVNURVIiXSwiaWF0IjoxNjQ1MTEwNTkyLCJleHAiOjIyNzU4MzA1OTJ9.K8I2GCLrt30b41-7Pke9n0CLcDYATUbTpQgsc8W3-QM"
             ]
         }
     }

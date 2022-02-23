@@ -11,8 +11,14 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
+protocol PopupViewControllerDelegate: AnyObject {
+    func conform()
+    func reject()
+}
+
 final class PopupViewController: UIViewController {
     
+    // MARK: - UI Component
     private lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .Cool_Gray
@@ -59,7 +65,9 @@ final class PopupViewController: UIViewController {
     // MARK: - Property
     private let disposeBag = DisposeBag()
     private let viewModel: PopupViewModel
+    weak var delegate: PopupViewControllerDelegate?
     
+    // MARK: - Init
     init(viewModel: PopupViewModel) {
         self.viewModel = viewModel
         
@@ -74,6 +82,7 @@ final class PopupViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life Cycle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -83,6 +92,7 @@ final class PopupViewController: UIViewController {
         contentView.layer.mask = maskLayer
     }
     
+    // MARK: - Setup Method
     private func setupUI() {
         view.backgroundColor = .actionSheet
         
@@ -119,16 +129,6 @@ final class PopupViewController: UIViewController {
         }
     }
     
-    private func bindAction() {
-        cancelButton.rx.tap
-            .bind(to: viewModel.input.reject)
-            .disposed(by: disposeBag)
-        
-        okButton.rx.tap
-            .bind(to: viewModel.input.conform)
-            .disposed(by: disposeBag)
-    }
-    
     private func bindState() {
         viewModel.output.iconImage
             .bind(to: imageView.rx.image)
@@ -145,5 +145,33 @@ final class PopupViewController: UIViewController {
         viewModel.output.conformTitle
             .bind(to: okButton.rx.title())
             .disposed(by: disposeBag)
+        
+        viewModel.output.isDismiss
+            .bind { [weak self] isConform in
+                self?.dismiss(isConform: isConform)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindAction() {
+        cancelButton.rx.tap
+            .bind(to: viewModel.input.reject)
+            .disposed(by: disposeBag)
+        
+        okButton.rx.tap
+            .bind(to: viewModel.input.conform)
+            .disposed(by: disposeBag)
+    }
+    
+    private func dismiss(isConform: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.dismiss(animated: false, completion: { [weak self] in
+                if isConform {
+                    self?.delegate?.conform()
+                } else {
+                    self?.delegate?.reject()
+                }
+            })
+        }
     }
 }

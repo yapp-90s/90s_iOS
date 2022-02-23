@@ -9,5 +9,5 @@ import UIKit
 
 struct Page {
     let number: Int
-    let images: [UIImage?]
+    let imagesURL: [URL?]
 }

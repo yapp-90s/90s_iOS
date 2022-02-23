@@ -10,11 +10,24 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol TemplateCellDelegate: AnyObject {
+    func didTapPhoto(page: Int, index: Int)
+}
+
 final class TemplateCell: UICollectionViewCell {
     
     static let identifier = "TemplateCell"
     
     let disposeBag = DisposeBag()
+    var templateView: TemplateView?
+    private var viewModel: TemplateCellViewModel?
+    weak var delegate: TemplateCellDelegate?
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        templateView = nil
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,12 +48,25 @@ final class TemplateCell: UICollectionViewCell {
     }
     
     func bind(viewModel: TemplateCellViewModel) {
-        if let templateView = TemplateService.shared.getTemplateView(viewModel.dependency.template) {
-            addSubview(templateView)
-            templateView.snp.makeConstraints {
+        self.viewModel = viewModel
+        if let cellTemplateView = TemplateService.shared.getTemplateView(viewModel.dependency.template) {
+            cellTemplateView.delegate = self
+            templateView = cellTemplateView
+            templateView?.bind(page: viewModel.dependency.page)
+            templateView?.isEditing = viewModel.dependency.isEditing
+            addSubview(cellTemplateView)
+            cellTemplateView.snp.makeConstraints {
                 $0.top.leading.bottom.trailing.equalToSuperview()
             }
         }
         
+    }
+}
+
+extension TemplateCell: TemplateViewDelegate {
+    func didTapPhoto(index: Int) {
+        if let viewModel = viewModel {
+            delegate?.didTapPhoto(page: viewModel.dependency.page.number, index: index)
+        }
     }
 }

@@ -42,6 +42,8 @@ extension AlbumsViewModel {
         let createViewModel: Observable<AlbumCoverViewModel>
         let selectedMakingAlbum: Observable<AlbumViewModel>
         let selectedAlbum: Observable<AlbumViewModel>
+        let isAlbumEmpty: Observable<Bool>
+        let isPresentAddPhotoPopup: Observable<Void>
         
         private let albumRelay: PublishRelay<[AlbumSectionModel]> = .init()
         
@@ -60,7 +62,7 @@ extension AlbumsViewModel {
                 .map { (makingAlbums, completeAlbums) in
                     return [
                         AlbumSectionModel.sectionCreate(item: .statusCreate(viewModel: .init())),
-                        .sectionBanner,
+//                        .sectionBanner,
                         .sectionHeader(items: [.statusHeader(title: "")]),
                         .sectionCover(items: makingAlbums.map { AlbumSectionItem.statusCover(albums: .init(album: $0)) }),
                         .sectionHeader(items: [.statusHeader(title: "")]),
@@ -68,6 +70,11 @@ extension AlbumsViewModel {
                     ]
                 }
                 .bind(to: albumRelay)
+                .disposed(by: disposeBag)
+            
+            dependency.albumRepository.event
+                .map { _ in () }
+                .bind(to: input.refresh)
                 .disposed(by: disposeBag)
             
             albumSection = albumRelay.asObservable()
@@ -83,7 +90,19 @@ extension AlbumsViewModel {
             
             selectedAlbum = input.selectAlbum
                 .map { $0.item }
-                .map(dependency.albumRepository.pickAlbum)
+                .map(dependency.albumRepository.pickCompleteAlbum)
+                .asObservable()
+            
+            isAlbumEmpty = Observable.zip(dependency.albumRepository.makeingAlbums, dependency.albumRepository.completeAlbums)
+                .map { $0.0.isEmpty && $0.1.isEmpty }
+                .asObservable()
+            
+            isPresentAddPhotoPopup = dependency.albumRepository.event
+                .do(onNext: { _ in
+                    print("Good~~~~")
+                })
+                .filter { $0 == .add }
+                .map { _ in () }
                 .asObservable()
         }
     }

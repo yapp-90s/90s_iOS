@@ -7,6 +7,13 @@
 
 import UIKit
 
+import RxSwift
+
+protocol AlbumControlBarDelegate: AnyObject {
+    func didSelectListView()
+    func completeButtonAction()
+}
+
 final class AlbumControlBar: UIView {
     
     // MARK: - UI Component
@@ -36,6 +43,9 @@ final class AlbumControlBar: UIView {
         return button
     }()
     
+    weak var delegate: AlbumControlBarDelegate?
+    private let disposeBag = DisposeBag()
+    
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,6 +60,8 @@ final class AlbumControlBar: UIView {
     // MARK: - Private Method
     private func commonInit() {
         setupUI()
+        
+        setupAction()
     }
     
     private func setupUI() {
@@ -72,5 +84,19 @@ final class AlbumControlBar: UIView {
             $0.top.equalToSuperview().offset(19 * layoutScale)
             $0.trailing.equalToSuperview().offset(-18 * layoutScale)
         }
+    }
+    
+    private func setupAction() {
+        completeButton.rx.tap
+            .bind { [weak self] _ in
+                self?.delegate?.completeButtonAction()
+            }
+            .disposed(by: disposeBag)
+        
+        collectionButton.rx.tap
+            .bind { [weak self] _ in
+                self?.delegate?.didSelectListView()
+            }
+            .disposed(by: disposeBag)
     }
 }

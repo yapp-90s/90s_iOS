@@ -10,9 +10,9 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 
-class AlbumPreviewCollectionViewCell: UICollectionViewCell {
+class AlbumPreviewViewCell: UICollectionViewCell {
     
-    static let identifier = "AlbumPreviewCollectionViewCell"
+    static let identifier = "AlbumPreviewViewCell"
     
     let disposeBag = DisposeBag()
     
@@ -39,6 +39,7 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
     
     lazy var button: UIButton = {
         let button = UIButton()
+        button.isUserInteractionEnabled = false
         button.setImage(.init(named: "albumMore"), for: .normal)
         self.addSubview(button)
         return button
@@ -105,43 +106,30 @@ class AlbumPreviewCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func bind(viewModel: AlbumViewModel) {
-        viewModel.name
-            .bind(to: nameLabel.rx.text)
-            .disposed(by: disposeBag)
+    func bind(viewModel: AlbumPreviewCellViewModel) {
+        nameLabel.text = viewModel.output.name
         
-        viewModel.cover.map { $0?.image }
-            .bind(to: coverImageView.rx.image)
-            .disposed(by: disposeBag)
+        coverImageView.image = viewModel.output.image
         
-        viewModel.date
-            .map { $0?.dateString }
-            .bind(to: dateLabel.rx.text)
-            .disposed(by: disposeBag)
+        dateLabel.text = viewModel.output.dateString
         
-        viewModel.photos
-            .bind { photos in
-                if let photos = photos {
-                    DispatchQueue.main.async {
-                        var count = 0
-                        self.imageStackView.subviews.forEach { subView in
-                            self.imageStackView.removeArrangedSubview(subView)
-                            subView.removeFromSuperview()
-                        }
-                        for photo in photos {
-                            count += 1
-                            let imageView = UIImageView()
-                            imageView.clipsToBounds = true
-                            imageView.contentMode = .scaleAspectFill
-                            imageView.kf.setImage(with: URL(string: photo.url))
-                            self.imageStackView.addArrangedSubview(imageView)
-                            if count >= 5 {
-                                break
-                            }
-                        }
-                    }
+        DispatchQueue.main.async {
+            var count = 0
+            self.imageStackView.subviews.forEach { subView in
+                self.imageStackView.removeArrangedSubview(subView)
+                subView.removeFromSuperview()
+            }
+            for photo in viewModel.output.photos {
+                count += 1
+                let imageView = UIImageView()
+                imageView.clipsToBounds = true
+                imageView.contentMode = .scaleAspectFill
+                imageView.kf.setImage(with: URL(string: photo.url))
+                self.imageStackView.addArrangedSubview(imageView)
+                if count >= 5 {
+                    break
                 }
             }
-            .disposed(by: disposeBag)
+        }
     }
 }

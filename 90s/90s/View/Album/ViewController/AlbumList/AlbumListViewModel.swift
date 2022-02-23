@@ -31,6 +31,7 @@ extension AlbumListViewModel {
     typealias AlbumCoverDataSource = RxCollectionViewSectionedReloadDataSource<AlbumsCoverSectionModel>
     
     struct Dependency {
+        let isComplete: Bool
         let albumRepository: AlbumRepository
     }
     
@@ -38,20 +39,22 @@ extension AlbumListViewModel {
         let selectAlbum = PublishRelay<IndexPath>()
         let back = PublishRelay<Void>()
         let edit = PublishRelay<Void>()
+        let delete = PublishRelay<Void>()
     }
     
     struct Output {
         private let disposeBag = DisposeBag()
+        
         let isEdit: BehaviorRelay<Bool> = .init(value: false)
         let albumSection: BehaviorRelay<[AlbumsCoverSectionModel]> = .init(value: [])
         let back: Observable<Void>
         let selectedAlbumsID: BehaviorRelay<[Int]> = .init(value: [])
         
         init(input: Input, dependency: Dependency) {
-            Observable.combineLatest(dependency.albumRepository.completeAlbums, isEdit, selectedAlbumsID)
+            let albums = dependency.isComplete ? dependency.albumRepository.completeAlbums : dependency.albumRepository.makeingAlbums
+            Observable.combineLatest(albums, isEdit, selectedAlbumsID)
                 .map { (albums, isEdit, ids) in
                     [.init(model: "", items: albums.map { .init(dependency: .init(albumViewModel: .init(album: $0), isEdit: isEdit, isSelected: ids.contains($0.uid))) })]
-//                    [.init(model: "", items: albums.map { .init(dependency: .init(albumViewModel: AlbumViewModel(album: $0), isEdit: isEdit, isSelected: ids.contains($0.uid))) })]
                 }
                 .bind(to: albumSection)
                 .disposed(by: disposeBag)
@@ -65,6 +68,12 @@ extension AlbumListViewModel {
                 .bind(to: selectedAlbumsID)
                 .disposed(by: disposeBag)
             
+            dependency.albumRepository.event
+                .filter { $0 == .delete }
+                .map { _ in () }
+                .bind(to: input.edit)
+                .disposed(by: disposeBag)
+            
             bindAction(input, dependency)
         }
         
@@ -76,7 +85,7 @@ extension AlbumListViewModel {
             
             input.selectAlbum
                 .map { $0.item }
-                .map(dependency.albumRepository.pickCompleteAlbum(_:))
+                .map(dependency.isComplete ? dependency.albumRepository.pickCompleteAlbum(_:) : dependency.albumRepository.pickMakingAlbum(_:))
                 .map { viewModel in
                     var ids = selectedAlbumsID.value
                     if ids.contains(viewModel.id),
@@ -88,6 +97,11 @@ extension AlbumListViewModel {
                     return ids
                 }
                 .bind(to: selectedAlbumsID)
+                .disposed(by: disposeBag)
+            
+            input.delete
+                .map { _ in selectedAlbumsID.value.map { "\($0)" } }
+                .bind(to: dependency.albumRepository.deletes)
                 .disposed(by: disposeBag)
         }
     }

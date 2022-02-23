@@ -79,6 +79,9 @@ final class AlbumClient {
     func allAlbum(_ void: Void) -> Observable<[Album]> {
         return RxAlamofire.request(AlbumRouter.all)
             .data()
+            .do(onNext: { data in
+                print(String(data: data, encoding: .utf8) ?? "nil")
+            })
             .decode(type: [AlbumResponse].self, decoder: decoder)
             .map { $0.compactMap { $0.album } }
     }
@@ -90,8 +93,12 @@ final class AlbumClient {
     }
     
     func create(_ albumCreate: AlbumCreate) -> Observable<Album?> {
+        print(AlbumRouter.create(albumCreate: albumCreate).urlRequest?.curlString ?? "nil")
         return RxAlamofire.request(AlbumRouter.create(albumCreate: albumCreate))
             .data()
+            .do(onNext: { data in
+                print(String(data: data, encoding: .utf8) ?? "nil")
+            })
             .decode(type: AlbumResponse.self, decoder: decoder)
             .map { $0.album }
     }
@@ -100,39 +107,30 @@ final class AlbumClient {
         return true
     }
     
-    func complte(_ id: String) -> Bool {
-        return true
+    func complte(_ id: String) -> Observable<Bool> {
+        return RxAlamofire.request(AlbumRouter.complete(id: id))
+            .data()
+            .decode(type: ResultResponse.self, decoder: decoder)
+            .map { $0.result }
     }
     
-    func delete(_ id: String) -> Bool {
-        return true
+    func delete(_ id: String) -> Observable<Bool> {
+        return RxAlamofire.request(AlbumRouter.delete(id: id))
+            .data()
+            .decode(type: ResultResponse.self, decoder: decoder)
+            .map { $0.result }
     }
     
-//    func plant(danji: DanjiCreate) -> Observable<Danji> {
-//        return RxAlamofire.request(DanjiRouter.plant(danji: danji))
-//            .validate(statusCode: 200..<300)
-//            .data()
-//            .decode(type: NetworkResult<Danji>.self, decoder: decoder)
-//            .map { $0.data }
-//    }
-//
-//    func sort(ids: [String]) -> Observable<[Danji]> {
-//        return RxAlamofire.request(DanjiRouter.sort(ids: ids))
-//            .data()
-//            .decode(type: NetworkResult<[Danji]>.self, decoder: decoder)
-//            .map { $0.data }
-//    }
-//
-//    func mood(id: String, mood: Danji.Mood) -> Observable<Danji> {
-//        return RxAlamofire.request(DanjiRouter.mood(id: id, mood: mood))
-//            .data()
-//            .decode(type: Danji.self, decoder: decoder)
-//    }
-//
-//    func delete(danjiID: String) -> Observable<Int> {
-//        return RxAlamofire.request(DanjiRouter.delete(id: danjiID))
-//            .validate(statusCode: 200..<300)
-//            .data()
-//            .decode(type: Int.self, decoder: decoder)
-//    }
+    func deletes(_ ids: [String]) -> Observable<Bool> {
+        let a = Observable.merge(ids.map { id in
+            return RxAlamofire.request(AlbumRouter.delete(id: id))
+                .data()
+                .decode(type: ResultResponse.self, decoder: decoder)
+                .map { $0.result }
+        })
+            .reduce(false) { a, b in
+                return a || b
+            }
+        return a
+    }
 }

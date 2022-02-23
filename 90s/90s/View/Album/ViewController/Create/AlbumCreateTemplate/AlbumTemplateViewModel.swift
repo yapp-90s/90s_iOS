@@ -49,20 +49,26 @@ extension AlbumTemplateViewModel {
     }
     
     struct Output {
-        let templateSection: Observable<[TemplateSectionModel]>
-        let albumCreate: AlbumCreate
+        let templateSection: Observable<[TemplateThumbnailSectionModel]>
+        var albumCreate: AlbumCreate
         let next: Observable<Void>
         let disposeBag = DisposeBag()
         
         init(input: Input, dependency: Dependency) {
             templateSection = Observable.just(dependency.templateService.all())
-                .map { [.init(model: "", items: $0.map { .init(template: $0) })] }
+                .map { [.init(model: "", items: $0.map { .init(dependency: .init(template: $0)) })] }
             self.albumCreate = dependency.albumCreate
             self.next = input.selectTemplate
                 .map { _ in () }
             
+            bindAction(input: input, dependency: dependency)
+        }
+        
+        private func bindAction(input: Input, dependency: Dependency) {
             input.selectTemplate
-                .map { dependency.templateService.pickTemplate($0.item) }
+                .map { indexPath in
+                    self.albumCreate.selectedIndex = indexPath.item
+                    return dependency.templateService.pickTemplate(indexPath.item) }
                 .bind(to: albumCreate.template)
                 .disposed(by: disposeBag)
         }

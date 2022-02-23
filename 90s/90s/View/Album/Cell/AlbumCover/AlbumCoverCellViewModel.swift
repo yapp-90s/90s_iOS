@@ -42,14 +42,21 @@ extension AlbumCoverCellViewModel {
     struct Output {
         private let disposeBag = DisposeBag()
         let albumViewModel: AlbumViewModel
-        let isEdit: Observable<Bool>
-        let isSelected: BehaviorRelay<Bool>
-        
+//        let isEdit: Observable<Bool>
+//        let isSelected: BehaviorRelay<Bool>
+        let isEdit: Bool
+//        let isSelected: Bool
+        let iconImage: UIImage?
         init(input: Input, dependency: Dependency) {
             self.albumViewModel = dependency.albumViewModel
             
-            self.isEdit = Observable.just(dependency.isEdit)
-            isSelected = .init(value: dependency.isSelected)
+            self.isEdit = dependency.isEdit//Observable.just(dependency.isEdit)
+            if dependency.isSelected {
+                iconImage = .init(named: "Checkbox_Edit_Act")
+            } else {
+                iconImage = .init(named: "Checkbox_Edit_Inact")
+            }
+//            isSelected = dependency.isSelected//.init(value: dependency.isSelected)
 //            let selected = isSelected.value
 //            input.select
 //                .map { _ in !selected }

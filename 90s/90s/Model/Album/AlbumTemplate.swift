@@ -5,7 +5,7 @@
 //  Created by 김진우 on 2021/04/10.
 //
 
-import Foundation
+import UIKit
 
 struct Template {
     let name: String
@@ -13,4 +13,5 @@ struct Template {
     let code: Int
     let page: Int
     let imageMaxCount: Int
+    let ratio: CGFloat
 }

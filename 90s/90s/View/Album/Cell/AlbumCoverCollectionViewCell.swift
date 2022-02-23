@@ -25,7 +25,7 @@ class AlbumCoverCollectionViewCell: UICollectionViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = .Medium_Text
+        label.font = .mediumText
         label.text = "자취일기\n"
         label.numberOfLines = 2
         self.addSubview(label)
@@ -61,12 +61,7 @@ class AlbumCoverCollectionViewCell: UICollectionViewCell {
     }
     
     func bind(viewModel: AlbumViewModel) {
-        viewModel.name
-            .bind(to: nameLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.cover.map { $0?.image }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+        imageView.image = viewModel.album.cover.image
+        nameLabel.text = viewModel.album.name
     }
 }

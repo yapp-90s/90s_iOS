@@ -35,6 +35,21 @@ class AlbumCoverViewController: UIViewController {
         return button
     }()
     
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.font = .subHead
+        label.text = "앨범의 얼굴,\n커버를 선택해 주세요"
+        self.view.addSubview(label)
+        return label
+    }()
+    
+    private lazy var coverImageView: UIImageView = {
+        let imageView = UIImageView()
+        self.view.addSubview(imageView)
+        return imageView
+    }()
+    
     private lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
             let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -53,26 +68,10 @@ class AlbumCoverViewController: UIViewController {
         return layout
     }()
     
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.font = .subHead
-        label.text = "앨범의 얼굴,\n커버를 선택해 주세요"
-        self.view.addSubview(label)
-        return label
-    }()
-    
-    private lazy var coverImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = .green
-        self.view.addSubview(imageView)
-        return imageView
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         
-        collectionView.register(CoverCollectionViewCell.self, forCellWithReuseIdentifier: CoverCollectionViewCell.identifier)
+        collectionView.register(CoverImageCell.self, forCellWithReuseIdentifier: CoverImageCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(collectionView)
@@ -99,6 +98,7 @@ class AlbumCoverViewController: UIViewController {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
+        
         setupUI()
         bindState()
         bindAction()
@@ -150,18 +150,18 @@ class AlbumCoverViewController: UIViewController {
         button.snp.makeConstraints {
             $0.height.equalTo(57 * layoutScale)
             $0.top.equalTo(collectionView.snp.bottom).offset(21 * layoutScale)
-//            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-21 * layoutScale)
+            $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom).offset(-21 * layoutScale)
             $0.left.equalToSuperview().offset(18 * layoutScale)
             $0.right.equalToSuperview().offset(-18 * layoutScale)
         }
     }
     
-    typealias CoverSectionModel = SectionModel<String, CoverViewModel>
+    typealias CoverSectionModel = SectionModel<String, CoverImageCellViewModel>
     typealias CoverDataSource = RxCollectionViewSectionedReloadDataSource<CoverSectionModel>
     
     private func bindState() {
         let dataSource = CoverDataSource(configureCell: { (datasource, collectionView, indexPath, item) in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverCollectionViewCell.identifier, for: indexPath) as! CoverCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverImageCell.identifier, for: indexPath) as! CoverImageCell
             cell.bind(viewModel: item)
             return cell
         })
@@ -189,7 +189,6 @@ class AlbumCoverViewController: UIViewController {
     }
     
     private func bindAction() {
-        
         collectionView.rx
             .itemSelected
             .bind(to: viewModel.input.selectCover)

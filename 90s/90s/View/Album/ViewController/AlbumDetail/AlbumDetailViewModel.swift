@@ -32,13 +32,16 @@ final class AlbumDetailViewModel: ViewModelType {
 extension AlbumDetailViewModel {
     
     struct Dependency {
+        let isEditing: Bool
         let albumViewModel: AlbumViewModel
+        let albumRepository: AlbumRepository
     }
     
     struct Input {
         let controlBarToggle = PublishRelay<Void>()
         let back = PublishRelay<Void>()
         let close = PublishRelay<Void>()
+        let complete = PublishRelay<Void>()
     }
     
     struct Output {
@@ -48,13 +51,14 @@ extension AlbumDetailViewModel {
         let pageSection: BehaviorRelay<[TemplateSectionModel]> = .init(value: [])
         let back: Observable<Void>
         let close: Observable<Void>
+        let dismiss: Observable<Void>
         let controlBarIsHidden: BehaviorRelay<Bool> = .init(value: true)
         
         init(input: Input, dependency: Dependency) {
             dependency.albumViewModel.pages
                 .filter { $0 != nil }
                 .map { $0! }
-                .map { [.init(model: (), items: $0.map { .init(dependency: .init(page: $0, template: dependency.albumViewModel.album.template))})]}
+                .map { [.init(model: (), items: $0.map { .init(dependency: .init(isEditing: dependency.isEditing, page: $0, template: dependency.albumViewModel.album.template))})]}
                 .bind(to: pageSection)
                 .disposed(by: disposeBag)
             
@@ -66,15 +70,25 @@ extension AlbumDetailViewModel {
             close = input.close
                 .asObservable()
             
-            bindAction(input: input)
+            dismiss = dependency.albumRepository.event
+                .filter { $0 == .complete }
+                .map { _ in () }
+                .asObservable()
+            
+            bindAction(input: input, dependency: dependency)
         }
         
-        private func bindAction(input: Input) {
+        private func bindAction(input: Input, dependency: Dependency) {
             input.controlBarToggle
                 .map { _ in
                     !self.controlBarIsHidden.value
                 }
                 .bind(to: controlBarIsHidden)
+                .disposed(by: disposeBag)
+            
+            input.complete
+                .map { _ in "\(dependency.albumViewModel.id)" }
+                .bind(to: dependency.albumRepository.complete)
                 .disposed(by: disposeBag)
         }
     }

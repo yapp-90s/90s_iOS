@@ -9,9 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CoverCollectionViewCell: UICollectionViewCell {
+class CoverImageCell: UICollectionViewCell {
     
-    static let identifier = "CoverCollectionViewCell"
+    static let identifier = "CoverImageCell"
     
     let disposeBag = DisposeBag()
     
@@ -44,10 +44,7 @@ class CoverCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func bind(viewModel: CoverViewModel) {
-        viewModel.cover
-            .map { $0.image }
-            .bind(to: coverImageView.rx.image)
-            .disposed(by: disposeBag)
+    func bind(viewModel: CoverImageCellViewModel) {
+        coverImageView.image = viewModel.output.image
     }
 }

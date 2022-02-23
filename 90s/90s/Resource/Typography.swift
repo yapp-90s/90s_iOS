@@ -35,7 +35,7 @@ extension UIFont {
 extension UIFont {
     static var head = UIFont.boldSystemFont(ofSize: 21 * layoutScale)
     static let largeText = UIFont.systemFont(ofSize: 20 * layoutScale, weight: .regular)
-    static let LargeTextBold = UIFont.boldSystemFont(ofSize: 20 * layoutScale)
+    static let largeTextBold = UIFont.boldSystemFont(ofSize: 20 * layoutScale)
     
     static let subHead = UIFont.systemFont(ofSize: 17 * layoutScale, weight: .regular)
     static let popupTitle = UIFont.boldSystemFont(ofSize: 17 * layoutScale)

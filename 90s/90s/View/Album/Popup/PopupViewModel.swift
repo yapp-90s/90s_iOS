@@ -77,13 +77,15 @@ extension PopupViewModel {
     }
     
     struct Output {
-        
         let iconImage: BehaviorSubject<UIImage?>
         let title: BehaviorSubject<String?>
         let rejectTitle: BehaviorSubject<String?>
         let conformTitle: BehaviorSubject<String?>
+        let isDismiss: Observable<Bool>
         
         init(input: Input, dependency: Dependency) {
+            isDismiss = .merge(input.conform.map { _ in true }.asObservable(), input.reject.map { _ in false }.asObservable())
+            
             iconImage = .init(value: dependency.alertType.icon)
             title = .init(value: dependency.alertType.title)
             rejectTitle = .init(value: dependency.alertType.rejectTitle)

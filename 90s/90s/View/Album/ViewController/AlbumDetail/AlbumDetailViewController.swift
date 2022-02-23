@@ -45,12 +45,12 @@ class AlbumDetailViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+//        layout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         layout.scrollDirection = .horizontal
         let width = UIScreen.main.bounds.width
-        let height = width * 1.586666
+        let height = width * 1.662538
         layout.itemSize = .init(width: width, height: height)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isPagingEnabled = true
@@ -64,6 +64,7 @@ class AlbumDetailViewController: UIViewController {
     
     private lazy var contorlBar: AlbumControlBar = {
         let controlBar = AlbumControlBar()
+//        contorlBar.delegate = self
         view.addSubview(controlBar)
         return controlBar
     }()
@@ -114,7 +115,7 @@ class AlbumDetailViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints {
-            $0.height.equalTo(collectionView.snp.width).multipliedBy(1.586666)
+            $0.height.equalTo(collectionView.snp.width).multipliedBy(1.662538)
             $0.top.lessThanOrEqualTo(topBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide.snp.bottom)
@@ -135,6 +136,7 @@ class AlbumDetailViewController: UIViewController {
         let dataSource = TemplateDataSource(configureCell: { (dataSource, collectionView, indexPath, item) in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TemplateCell.identifier, for: indexPath) as! TemplateCell
             cell.bind(viewModel: item)
+            cell.delegate = self
             return cell
         })
         
@@ -161,6 +163,16 @@ class AlbumDetailViewController: UIViewController {
         viewModel.output.controlBarIsHidden
             .bind(to: contorlBar.rx.isHidden)
             .disposed(by: disposeBag)
+        
+        viewModel.output.dismiss
+            .bind { _ in
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        collectionView.allowsSelection = viewModel.dependency.isEditing
     }
     
     private func bindAction() {
@@ -176,14 +188,32 @@ class AlbumDetailViewController: UIViewController {
             .map { _ in () }
             .bind(to: viewModel.input.controlBarToggle)
             .disposed(by: disposeBag)
+        
+        contorlBar.delegate = self
     }
 }
 
-extension AlbumDetailViewController: AlbumTitleHeaderCellDelegate {
-    func touchButton() {
-        let vc = AlbumListViewController(viewModel: .init(dependency: .init(albumRepository: .shared)))
+extension AlbumDetailViewController: TemplateCellDelegate {
+    func didTapPhoto(page: Int, index: Int) {
+        print("Page: \(page), Index: \(index)")
+    }
+}
+
+/*
+extension AlbumDetailViewController: PhotoPickerDelegate {
+ func didSelected(photoUID: Int, page: Int, index:Int) {
+    AlbumRepository.shared.updatePhoto(at: viewModel.dependency.albumViewModel.id, page: page, index: index, photoUID: photoUID)
+}
+*/
+
+extension AlbumDetailViewController: AlbumControlBarDelegate {
+    func didSelectListView() {
+        let vc = AlbumDetailCollectionViewController(viewModel: .init(dependency: .init(albumViewModel: viewModel.dependency.albumViewModel)))
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    func completeButtonAction() {
+        viewModel.input.complete.accept(())
     }
 }
