@@ -49,6 +49,30 @@ class StickerDecorator {
         }
     }
     
+    func renderDecoratedView(_ decoratedView: UIView, in backgroundRect: CGRect) -> Data {
+        self.setStickers(rendering: true, on: decoratedView)
+        let renderer = UIGraphicsImageRenderer(size: decoratedView.bounds.size)
+        let image = renderer.pngData { context in
+            decoratedView.drawHierarchy(in: backgroundRect, afterScreenUpdates: true)
+        }
+        self.setStickers(rendering: false, on: decoratedView)
+        
+        return image
+    }
+    
+    private func setStickers(rendering: Bool, on decoratedView: UIView) {
+        func recursiveStickerRendering(in view: UIView) {
+            if let sticker = view as? ResizableStickerView {
+                sticker.isRendering = rendering
+            } else {
+                for subView in view.subviews {
+                    recursiveStickerRendering(in: subView)
+                }
+            }
+        }
+        recursiveStickerRendering(in: decoratedView)
+    }
+    
     private func resizeStickerAndButtons(sticker: ResizableStickerView, scale: CGFloat, angle: CGFloat) {
         let newTransform = CGAffineTransform(scaleX: scale, y: scale).concatenating(CGAffineTransform(rotationAngle: angle))
         

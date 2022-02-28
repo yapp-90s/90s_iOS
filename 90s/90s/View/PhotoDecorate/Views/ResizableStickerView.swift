@@ -51,6 +51,13 @@ class ResizableStickerView: UIView {
         }
     }
     
+    var isRendering: Bool = false {
+        willSet {
+            resizeButton.isHidden = newValue
+            removeButton.isHidden = newValue
+        }
+    }
+    
     // MARK: - Intialize
     
     init(image: UIImage?) {
